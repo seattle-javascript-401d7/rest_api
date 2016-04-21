@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const db = require(__dirname + '/../database');
 
 var slothSchema = new mongoose.Schema({
   name: { type: String, unique: true },
@@ -9,4 +8,4 @@ var slothSchema = new mongoose.Schema({
   offspring: [String]
 });
 
-module.exports = db.slothsDB.model('sloth', slothSchema);
+module.exports = mongoose.model('sloth', slothSchema);

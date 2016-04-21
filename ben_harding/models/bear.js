@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const db = require(__dirname + '/../database');
 
 var bearSchema = new mongoose.Schema({
   name: { type: String, unique: true },
@@ -9,4 +8,4 @@ var bearSchema = new mongoose.Schema({
   offspring: [String]
 });
 
-module.exports = db.bearsDB.model('Bear', bearSchema);
+module.exports = mongoose.model('Bear', bearSchema);
