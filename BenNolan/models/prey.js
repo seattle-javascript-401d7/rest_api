@@ -5,4 +5,4 @@ var preySchema = new mongoose.Schema({
   speed: { type: String, default: '60' }
 });
 
-module.exports = mongoose.model('Prey', preySchema);
+module.exports = mongoose.model('prey', preySchema);
