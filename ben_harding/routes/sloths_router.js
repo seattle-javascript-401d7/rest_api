@@ -19,3 +19,24 @@ slothsRouter.get('/sloths', (req, res) => {
     res.status(200).json(data);
   });
 });
+
+slothsRouter.get('/sloths/:name', (req, res) => {
+  Sloth.find({ name: req.params.name }, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
+
+slothsRouter.put('/sloths/:name', bodyParser, (req, res) => {
+  Sloth.update({ name: req.params.name }, req.body, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
+
+slothsRouter.delete('/sloths/:name', (req, res) => {
+  Sloth.findOneAndRemove({ name: req.params.name }, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});

@@ -19,3 +19,17 @@ bearsRouter.get('/bears', (req, res) => {
     res.status(200).json(data);
   });
 });
+
+bearsRouter.put('/bears/:name', bodyParser, (req, res) => {
+  Bear.update({ name: req.params.name }, req.body, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
+
+bearsRouter.delete('/bears/:name', (req, res) => {
+  Bear.findOneAndRemove({ name: req.params.name }, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
