@@ -14,14 +14,14 @@ slothsRouter.post('/sloths', bodyParser, (req, res) => {
 });
 
 slothsRouter.get('/sloths', (req, res) => {
-  Sloth.find({}, (err, data) => {
+  Sloth.find(null, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
 });
 
 slothsRouter.get('/sloths/:name', (req, res) => {
-  Sloth.find({ name: req.params.name }, (err, data) => {
+  Sloth.findOne({ name: req.params.name }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });

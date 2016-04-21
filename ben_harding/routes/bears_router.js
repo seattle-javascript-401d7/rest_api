@@ -14,7 +14,14 @@ bearsRouter.post('/bears', bodyParser, (req, res) => {
 });
 
 bearsRouter.get('/bears', (req, res) => {
-  Bear.find({}, (err, data) => {
+  Bear.find(null, (err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
+
+bearsRouter.get('/bears/:name', (req, res) => {
+  Bear.findOne({ name: req.params.name }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
