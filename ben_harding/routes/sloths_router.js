@@ -20,23 +20,23 @@ slothsRouter.get('/sloths', (req, res) => {
   });
 });
 
-slothsRouter.get('/sloths/:name', (req, res) => {
-  Sloth.findOne({ name: req.params.name }, (err, data) => {
+slothsRouter.get('/sloths/:id', (req, res) => {
+  Sloth.findOne({ _id: req.params.id }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
 });
 
-slothsRouter.put('/sloths/:name', bodyParser, (req, res) => {
-  Sloth.update({ name: req.params.name }, req.body, (err, data) => {
+slothsRouter.put('/sloths/:id', bodyParser, (req, res) => {
+  Sloth.update({ _id: req.params.id }, req.body, (err) => {
     if (err) return handleErr(err, res);
-    res.status(200).json(data);
+    res.status(200).json({ msg: 'sloth updated' });
   });
 });
 
-slothsRouter.delete('/sloths/:name', (req, res) => {
-  Sloth.findOneAndRemove({ name: req.params.name }, (err, data) => {
+slothsRouter.delete('/sloths/:id', (req, res) => {
+  Sloth.findOneAndRemove({ _id: req.params.id }, (err) => {
     if (err) return handleErr(err, res);
-    res.status(200).json(data);
+    res.status(200).json({ msg: 'sloth deleted' });
   });
 });

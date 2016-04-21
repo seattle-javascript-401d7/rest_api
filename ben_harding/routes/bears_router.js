@@ -20,23 +20,25 @@ bearsRouter.get('/bears', (req, res) => {
   });
 });
 
-bearsRouter.get('/bears/:name', (req, res) => {
-  Bear.findOne({ name: req.params.name }, (err, data) => {
+bearsRouter.get('/bears/:id', (req, res) => {
+  Bear.findOne({ _id: req.params.id }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
 });
 
-bearsRouter.put('/bears/:name', bodyParser, (req, res) => {
-  Bear.update({ name: req.params.name }, req.body, (err, data) => {
+bearsRouter.put('/bears/:id', bodyParser, (req, res) => {
+  var bearData = req.body;
+  delete bearData._id;
+  Bear.update({ _id: req.params.id }, bearData, (err) => {
     if (err) return handleErr(err, res);
-    res.status(200).json(data);
+    res.status(200).json({ msg: 'bear updated' });
   });
 });
 
-bearsRouter.delete('/bears/:name', (req, res) => {
-  Bear.findOneAndRemove({ name: req.params.name }, (err, data) => {
+bearsRouter.delete('/bears/:id', (req, res) => {
+  Bear.findOneAndRemove({ _id: req.params.name }, (err) => {
     if (err) return handleErr(err, res);
-    res.status(200).json(data);
+    res.status(200).json({ msg: 'bear deleted' });
   });
 });
