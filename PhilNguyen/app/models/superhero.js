@@ -1,8 +1,9 @@
+'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let SuperheroSchema = new Schema({
-  name: String,
+  name: { type: String, unique: true },
   powers: String,
   strength: Number,
   energy: Number,
