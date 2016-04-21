@@ -6,7 +6,6 @@ const bearsRouter = require(__dirname + '/routes/bears_router');
 const slothsRouter = require(__dirname + '/routes/sloths_router');
 
 require(__dirname + '/database');
-// mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/bearsDB');
 
 app.use('/api', bearsRouter);
 app.use('/api', slothsRouter);

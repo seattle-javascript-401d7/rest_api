@@ -6,9 +6,15 @@ const handleErr = require(__dirname + '/../lib/handle_err');
 var bearsRouter = module.exports = Router();
 
 bearsRouter.post('/bears', bodyParser, (req, res) => {
-  console.log('inside bear post');
   var newBear = new Bear(req.body);
   newBear.save((err, data) => {
+    if (err) return handleErr(err, res);
+    res.status(200).json(data);
+  });
+});
+
+bearsRouter.get('/bears', (req, res) => {
+  Bear.find({}, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
