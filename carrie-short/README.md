@@ -10,7 +10,7 @@ npm install
 npm test
 
 ```
-You need to use mongod to run this application. Please refer to documentation for installation and use [https://docs.mongodb.org/manual/reference/program/mongod/](mongod documentation)
+You need to use mongod to run this application. Please refer to documentation for installation and use [mongod documentation](https://docs.mongodb.org/manual/reference/program/mongod/)
 
 ```
 mongod --dbpath=./db
@@ -23,7 +23,7 @@ npm start
 ```
 
 ###Access API
-start making requests. You can use [https://github.com/jkbrzt/httpie](httpie)
+start making requests. You can use [httpie](https://github.com/jkbrzt/httpie)
 
 ####Politicians
 
