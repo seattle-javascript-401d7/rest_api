@@ -24,12 +24,12 @@ describe('POST method', () => {
     .post('/api/heroes')
     .send({ name:'Wonder Woman', archNemesis:'Cheetah', powerLevel: 8, superPower:['super strength','magic lasso','invisible jet']})
     .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res.body.name).to.eql('Wonder Woman');
-        expect(res.body.archNemesis).to.eql('Cheetah');
-        expect(res.body.powerLevel).to.eql(8);
-        expect(res.body.superPower.length).to.eql(3);
-        done();
+      expect(err).to.eql(null);
+      expect(res.body.name).to.eql('Wonder Woman');
+      expect(res.body.archNemesis).to.eql('Cheetah');
+      expect(res.body.powerLevel).to.eql(8);
+      expect(res.body.superPower.length).to.eql(3);
+      done();
     });
   });
 });
