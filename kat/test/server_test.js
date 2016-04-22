@@ -9,7 +9,7 @@ const port = process.env.PORT = 1234;
 process.env.MONGO_URI = 'mongodb://localhost/pet_test_db';
 
 require(__dirname + '/../server.js');
-const Pet = require(__dirname + '/../models/petModel.js');
+var Pet = require(__dirname + '/../models/petModel.js');
 
 describe('POST method', () => {
   after((done) => {
@@ -45,40 +45,45 @@ describe('GET method', () => {
 
 describe('Routes that need content to work', () => {
   beforeEach((done) => {
-    this.newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
+    var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
     newPet.save((err, data) => {
       if(err) {
         console.log(err);
         // return res.status(500).json(data);
       }
-      this.bear = data;
+      this.pet = data;
       done();
     });
   });
   afterEach((done) => {
-    this.bear.remove((err) => {
+    this.pet.remove((err) => {
       console.log(err);
       done();
     });
   });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+  });
+});
 
   it('should be able to PUT a pet', (done) => {
     request('localhost:' + port)
-    .put('/api/pet' + this.bear._id)
+    .put('/api/pet/' + this.pet._id)
     .send({ name: 'Noodle', nickName: 'Nunu', favoriteActivity: 'hissing' })
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Updated a pet entry with put.');
+      expect(res.body.msg).to.eql('Updated a pet entry with put');
       done();
     });
   });
 
   it('should be able to DELETE a pet entry', (done) => {
     request('localhost:' + port)
-    .delete('/api/pet' + this.bear._id)
+    .delete('/api/pet/' + this.pet._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).t0.eql('Deleted a pet entry.');
+      expect(res.body.msg).to.eql('Deleted a pet entry');
       done();
     });
   });
