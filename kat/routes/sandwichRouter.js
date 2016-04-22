@@ -5,9 +5,23 @@ const errorHandler = require(__dirname + '/../lib/errorHandle.js');
 
 var sandwichRouter = module.exports = new Router();
 
-sandwichRouter.get('/sandwich/value', bodyParser, (req, res) => {
-  Sandwich.find(yumFactor)
-})
+
+// NON-Crub endpoint
+
+// possibilities, you could include the highest rated yumFactor for a sandwich
+// or see if there are more pets than sandwiches, if yes then sandwiches
+sandwichRouter.get('/moose', (req, res) => {
+  // Sandwich.find(yumFactor)
+  Sandwich.where('name', 'tuna melt').count(function (err, count) {
+    if(err) errorHandler(err, res);
+    console.log('there are %d kittens', count);
+    res.status(200).send('There are ' + count + ' sandwiches');
+  });
+});
+  // Sandwich.find({}, (err, data) => {
+  //   if(err) errorHandler(err, res);
+  // });
+// });
 
 sandwichRouter.post('/sandwich', bodyParser, (req, res) => {
   var newSandwich = new Sandwich(req.body);
@@ -34,7 +48,7 @@ sandwichRouter.put('/sandwich/:id', bodyParser, (req, res) => {
 });
 
 sandwichRouter.delete('/sandwich/:id', bodyParser, (req, res) => {
-  Sandwich.findOneAndRemove({ _id: req.params.id }, (err) => {
+  Sandwich.remove({ _id: req.params.id }, (err) => {
     if(err) errorHandler(err, res);
     res.status(200).json({ msg: 'Ate a sandwich' });
   });
