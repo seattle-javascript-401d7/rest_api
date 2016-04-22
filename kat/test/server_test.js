@@ -121,6 +121,7 @@ describe('Sandwich Router', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.status).to.eql(200);
+        expect(res.body.length).to.eql(0);
         done();
       });
     });
@@ -129,7 +130,7 @@ describe('Sandwich Router', () => {
   describe('Sandwich Routes that need content to work', () => {
     beforeEach((done) => {
       var newSandwich = new Sandwich({ name: 'Testwich',
-      ingrediants: ['test', 'bread'], yumFactor: 2 });
+      ingrediants: ['test', 'bread'], yumFactor: 9 });
       newSandwich.save((err, data) => {
         if(err) {
           console.log(err);
@@ -146,6 +147,18 @@ describe('Sandwich Router', () => {
     });
     after((done) => {
       mongoose.connection.db.dropDatabase(() => {
+        done();
+      });
+    });
+
+    it('should be return yumFActor above 5', (done) => {
+      request('localhost:' + port)
+      .get('/api/sandwich/mostyum')
+      .end((err, res) => {
+        console.log('res.body.msg ' + res.body.msg);
+        console.log('res.body.length ' + res.body.length);
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('There are 1 sandwiches with a yumFactor above a 5/10');
         done();
       });
     });
