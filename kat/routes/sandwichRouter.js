@@ -10,18 +10,16 @@ var sandwichRouter = module.exports = new Router();
 
 // possibilities, you could include the highest rated yumFactor for a sandwich
 // or see if there are more pets than sandwiches, if yes then sandwiches
-sandwichRouter.get('/moose', (req, res) => {
-  // Sandwich.find(yumFactor)
-  Sandwich.where('name', 'tuna melt').count(function (err, count) {
+
+
+sandwichRouter.get('/sandwich/tunamelt', (req, res) => {
+  Sandwich.count({ type: 'Tuna Melt' }).count(function (err, count) {
     if(err) errorHandler(err, res);
-    console.log('there are %d kittens', count);
+    console.log('there is %d sandwich', count);
     res.status(200).send('There are ' + count + ' sandwiches');
   });
 });
-  // Sandwich.find({}, (err, data) => {
-  //   if(err) errorHandler(err, res);
-  // });
-// });
+
 
 sandwichRouter.post('/sandwich', bodyParser, (req, res) => {
   var newSandwich = new Sandwich(req.body);
