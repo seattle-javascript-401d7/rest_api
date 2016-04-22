@@ -14,3 +14,14 @@ politiciansRouter.post('/politicians', bodyParser, (req, res) => {
     res.status(200).json(data);
   });
 });
+
+politiciansRouter.get('/politicians', (req, res) => {
+  Politician.find({}, (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        msg: 'dude, your server errored'
+      });
+    }
+    res.status(200).json(data);
+  });
+});

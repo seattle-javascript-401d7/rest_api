@@ -63,5 +63,20 @@ describe('routes that need a politician in the DB', () => {
       done();
     });
   });
+  it('should get all the politicians on a get request', (done) => {
+    request('localhost:' + port)
+    .get('/api/politicians')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
+      expect(res.body.length).to.eql(1);
+      expect(res.body[0].name).to.eql('test politician');
+      expect(res.body[0].party).to.eql('evil');
+      expect(res.body[0].debateSkills).to.eql('4');
+      expect(res.body[0].attack).to.eql('4');
+      expect(res.body[0].specialPower).to.eql('unit tests');
+      done();
+    });
+  });
 
 });
