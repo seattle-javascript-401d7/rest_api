@@ -7,9 +7,15 @@ const mongoose = require('mongoose');
 const Dinosaur = require(__dirname + '/../models/dinosaur');
 const port = process.env.PORT = 5000;
 process.env.MONGO_URI = 'mongodb://localhost/test_political_dinos_db';
-require(__dirname + '/../server');
+const server = require(__dirname + '/../server');
 
 describe('Dinosaur POST method', () => {
+  before((done) => {
+    server.listen(port, () => {
+      console.log('server up on port ' + port);
+      done();
+    });
+  });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
@@ -59,6 +65,7 @@ describe('routes that need a dinosaur in the DB', () => {
     mongoose.connection.db.dropDatabase(() => {
       done();
     });
+    server.close();
   });
   it('should get all the dinosaurs on a get request', (done) => {
     request('localhost:' + port)
