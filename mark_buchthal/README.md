@@ -1,6 +1,6 @@
 # REST API
 
-## Two Rest Source API
+## Two Rest Resource API
 
 This is a simple two source api.  There is a database for both heroes and villains.
 
