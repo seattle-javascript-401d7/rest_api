@@ -24,19 +24,17 @@ function findSandwich(callback) {
     if (err) return errorHandler(err, res);
     sandwichTotal = data;
     lastSandwich = sandwichTotal[sandwichTotal.length - 1];
-    console.log(lastSandwich._id);
     callback(sandwichTotal, lastSandwich);
   });
 }
   function war() {
     findPet((petTotal) => {
       findSandwich((sandwichTotal, lastSandwich) => {
-        console.log(petTotal.length + 'pet');
-        console.log(sandwichTotal.length + 'sand');
         if (petTotal.length < sandwichTotal.length) res.status(200).json({ msg: 'your sandwich is safe' });
         else {
           Sandwich.findByIdAndUpdate(lastSandwich._id, { $set: { yumFactor: 0 }}, function (err, sandwich) {
             if (err) return errorHandler(err, res);
+            console.log(sandwich);
             res.send(sandwich);
           });
         }

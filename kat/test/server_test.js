@@ -155,8 +155,6 @@ describe('Sandwich Router', () => {
       request('localhost:' + port)
       .get('/api/sandwich/mostyum')
       .end((err, res) => {
-        console.log('res.body.msg ' + res.body.msg);
-        console.log('res.body.length ' + res.body.length);
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('There are 1 sandwiches with a yumFactor above a 5/10');
         done();
@@ -186,3 +184,51 @@ describe('Sandwich Router', () => {
     });
   });
 });
+
+// Test for combinedRouter
+describe('War of pets and sandwiches', () => {
+  beforeEach((done) => {
+    // add one sandwich
+    var newSandwich = new Sandwich({ name: 'Testwich',
+    ingrediants: ['test', 'bread'], yumFactor: 9 });
+    newSandwich.save((err, data) => {
+      if(err) {
+        console.log(err);
+      }
+      this.sandwich = data;
+    });
+
+    // two pets
+    var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
+    newPet.save((err) => {
+      if(err) {
+        console.log(err);
+      }
+    });
+    var newPet2 = new Pet({ name: 'TestCat2', nickName: 'muffin2' });
+    newPet2.save((err) => {
+      if(err) {
+        console.log(err);
+      }
+    });
+    done();
+  });
+
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  it('should have a yumfactor of zero', (done) => {
+    request('localhost:' + port)
+      .get('/api/war')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        console.log(res.body.yumFactor);
+        // expect(res.status).to.eql(200);
+        // expect(res.body.yumFactor).to.eql(9);
+        done();
+      });
+    });
+  });
