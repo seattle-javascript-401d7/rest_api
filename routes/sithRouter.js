@@ -11,3 +11,26 @@ sithRouter.post('/sith', bodyParser, (req, res) => {
     res.status(200).json(data);
   });
 });
+
+sithRouter.get('/sith', (req, res) => {
+  Sith.find(null, (err, data) => {
+    if (err) return errorHandler(err, res);
+    res.status(200).json(data);
+  });
+});
+
+sithRouter.put('/sith/:id', bodyParser, (req, res) => {
+  var sithData = req.body;
+  delete sithData._id;
+  Sith.update({ _id: req.params.id }, sithData, (err) => {
+    if (err) return errorHandler(err, res);
+    res.status(200).json({ msg: 'New Information, we have. Mmmm?' });
+  });
+});
+
+sithRouter.delete('/sith/:id', (req, res) => {
+  Sith.remove({ _id: req.params.id }, (err) => {
+    if (err) errorHandler(req, res);
+    res.status(200).json({ msg: 'I have felt a tremor in the force. The Dark Side calls' });
+  });
+});

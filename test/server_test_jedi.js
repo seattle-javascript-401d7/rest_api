@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const port = process.env.PORT = 4545;
 process.env.MONGODB_URI = 'mongodb://localhost/jedi_sith_test_db';
 require(__dirname + '/../server.js');
-const Jedi = require(__dirname + '/../models/jedi');
+var Jedi = require(__dirname + '/../models/jedi');
 
 describe('The POST requests', () => {
   after((done) => {
@@ -30,5 +30,58 @@ describe('The POST requests', () => {
       done();
     });
   });
+});
 
+describe('The Jedi GET request', () => {
+  it('should bring all the Jedi together', (done) => {
+    request('localhost:' + port)
+    .get('/api/jedi')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
+      expect(res.body.length).to.eql(0);
+      done();
+    });
+  });
+});
+
+describe('adding to the Jedi Council', () => {
+  beforeEach((done) => {
+    var newJedi = new Jedi({ name: 'Harry Potter', ranking: 'Force Wizard', weaponPreference: 'Stick thing', lightsaberColor: 'brown?', catchphrase: 'leviOsaaaa', handCount: '2' });
+    newJedi.save((err, data) => {
+      this.jedi = data;
+      done();
+    });
+  });
+  afterEach((done) => {
+    this.jedi.remove((err) => {
+    done();
+    });
+  });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  it('PUT, you shall', (done) => {
+    request('localhost:' + port)
+    .put('/api/jedi/' + this.jedi._id)
+    .send({ name: 'Gandalf', ranking: 'Higher Force Wizard', weaponPreference: 'EVEN BIGGER STICK', lightsaberColor: 'White..sometimes grey', catchphrase: 'You shall not pass!', handCount: '2' })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('New Information, we have. Mmmm?');
+      done();
+    });
+  });
+
+  it('should banish the Jedi from the Council with a DELETE', (done) => {
+    request('localhost:' + port)
+    .delete('/api/jedi/' + this.jedi._id)
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('I have felt a tremor in the force. The Dark Side calls');
+      done();
+    });
+  });
 });

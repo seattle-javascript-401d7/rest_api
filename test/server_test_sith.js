@@ -30,5 +30,58 @@ describe('The POST requests', () => {
       done();
     });
   });
+});
 
+describe('The Sith GET request', () => {
+  it('should bring all the Sith together', (done) => {
+    request('localhost:' + port)
+    .get('/api/sith')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
+      expect(res.body.length).to.eql(0);
+      done();
+    });
+  });
+});
+
+describe('adding to the Sith Council', () => {
+  beforeEach((done) => {
+    var newSith = new Sith({ name: 'Spock', ranking: 'Space Wizard', weaponPreference: 'The Enterprise', lightsaberColor: 'mind control', catchphrase: 'Live long and prosper', handCount: '2' });
+    newSith.save((err, data) => {
+      this.sith = data;
+      done();
+    });
+  });
+  afterEach((done) => {
+    this.sith.remove((err) => {
+    done();
+    });
+  });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  it('PUT, you shall', (done) => {
+    request('localhost:' + port)
+    .put('/api/sith/' + this.sith._id)
+    .send({ name: 'Sauromon', ranking: 'Evil Mythic Wizard', weaponPreference: 'Minions', lightsaberColor: 'A spooky orb', catchphrase: 'I do not have real power', handCount: '2' })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('New Information, we have. Mmmm?');
+      done();
+    });
+  });
+
+  it('should banish the Sith from the Council with a DELETE', (done) => {
+    request('localhost:' + port)
+    .delete('/api/sith/' + this.sith._id)
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('I have felt a tremor in the force. The Dark Side calls');
+      done();
+    });
+  });
 });
