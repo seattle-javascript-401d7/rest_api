@@ -46,11 +46,20 @@ mateRouter.get('/mate', (req, res) => {
       name: newSlothbearName,
       gender: newSlothbearGender,
       weight: newSlothbearWeight,
-      strength: newSlothbearStrength
+      strength: newSlothbearStrength,
+      parents: [randomSloth.name, randomBear.name]
     });
-    // TODO: update offspring of parent bear and sloth
+
     newSlothbear.save((err, data) => {
       if (err) return handleErr(err, res);
+      Sloth.findByIdAndUpdate(randomSloth._id,
+        { $push: { offspring: newSlothbear.name } }, (err) => {
+          if (err) return err;
+      });
+      Bear.findByIdAndUpdate(randomBear._id,
+        { $push: { offspring: newSlothbear.name } }, (err) => {
+          if (err) return err;
+      });
       res.status(200).json(data);
     });
   });
