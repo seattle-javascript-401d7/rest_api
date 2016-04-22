@@ -15,4 +15,4 @@ app.use('/api', slothsRouter);
 app.use('/api', slothbearsRouter);
 app.use('/api', mateRouter);
 
-app.listen(PORT, () => console.log('server up on port: ' + PORT));
+module.exports = exports = app.listen(PORT, () => console.log('server up on port: ' + PORT));
