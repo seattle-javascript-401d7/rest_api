@@ -7,7 +7,7 @@ missionRouter.get('/mission', (req, res) => {
   Mission.find(null, (err, data) => {
     if (err) {
       console.log(err);
-      res.status(500).json({ msg: 'Mission failed on the server!'});
+      res.status(500).json({ msg: 'Mission failed on the server!' });
     }
 
     res.status(200).json(data);
@@ -19,7 +19,7 @@ missionRouter.post('/mission', bodyParser, (req, res) => {
   newMission.save((err, data) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({msg: "Mission failed on the server!"});
+      return res.status(500).json({ msg: 'Mission failed on the server!' });
     }
 
     res.status(200).json(data);
@@ -29,21 +29,21 @@ missionRouter.post('/mission', bodyParser, (req, res) => {
 missionRouter.put('/mission/:id', bodyParser, (req, res) => {
   var missionData = req.body;
   delete missionData._id;
-  Mission.update({_id: req.params.id }, missionData, (err) => {
+  Mission.update({ _id: req.params.id }, missionData, (err) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({msg: 'Failed! You did not update the mission!'});
+      return res.status(500).json({ msg: 'Failed! You did not update the mission!' });
     }
-    res.status(200).json({msg: 'New Orders! You\'ve updated a mission!'});
+    res.status(200).json({ msg: 'New Orders! You\'ve updated a mission!' });
   });
 });
 
 missionRouter.delete('/mission/:id', (req, res) => {
-  Mission.remove({_id: req.params.id}, (err) => {
+  Mission.remove({ _id: req.params.id }, (err) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({msg: 'Failed! You did not update the mission!'});
+      return res.status(500).json({ msg: 'Failed! You did not update the mission!' });
     }
-    res.status(200).json({msg: 'Mission canceled'});
+    res.status(200).json({ msg: 'Mission canceled' });
   });
 });

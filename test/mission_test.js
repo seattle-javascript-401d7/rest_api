@@ -45,8 +45,11 @@ describe('get the mission information', () => {
 
 describe('here is the PUT/Delete block', () => {
   beforeEach((done) => {
-    var testMission = new Mission({missionName: "Trial Run", country: "USA", base: "Airbase"})
+    var testMission = new Mission({ missionName: 'Trial Run', country: 'USA', base: 'Airbase' });
     testMission.save((err, data) => {
+      if (err) {
+        console.log(err);
+      }
       this.mission = data;
       done();
     });
@@ -54,6 +57,9 @@ describe('here is the PUT/Delete block', () => {
 
   afterEach((done) => {
     this.mission.remove((err) => {
+    if (err) {
+      console.log(err);
+    }
     done();
     });
   });
@@ -67,9 +73,10 @@ describe('here is the PUT/Delete block', () => {
   it('should edit the mission', () => {
     request('localhost:' + PORT)
     .put('/api/mission/' + this.mission._id)
+    .send({ misionName: 'UpdatedRun', country: 'Canada', base: 'Airbase' })
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('New Orders! You\'ve updated a mission!')
+      expect(res.body.msg).to.eql('New Orders! You\'ve updated a mission!');
     });
   });
 
@@ -78,7 +85,7 @@ describe('here is the PUT/Delete block', () => {
     .delete('/api/mission/' + this.mission._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Mission canceled')
+      expect(res.body.msg).to.eql('Mission canceled');
     });
   });
 });

@@ -46,8 +46,11 @@ describe('get the pilot roster', () => {
 
 describe('here is the PUT/Delete block', () => {
   beforeEach((done) => {
-    var testPilot = new Pilot({name: "Pierre Mitchelle", country: "France", base: "Aircraft Carrier"})
+    var testPilot = new Pilot({ name: 'Pierre Mitchelle', country: 'France', base: 'Aircraft Carrier' });
     testPilot.save((err, data) => {
+      if (err) {
+        console.log(err);
+      }
       this.pilot = data;
       done();
     });
@@ -55,6 +58,9 @@ describe('here is the PUT/Delete block', () => {
 
   afterEach((done) => {
     this.pilot.remove((err) => {
+      if (err) {
+        console.log(err);
+      }
     done();
     });
   });
@@ -70,7 +76,7 @@ describe('here is the PUT/Delete block', () => {
     .put('/api/pilot/' + this.pilot._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Pilot updated...time for a new mission')
+      expect(res.body.msg).to.eql('Pilot updated...time for a new mission');
     });
   });
 
@@ -79,7 +85,7 @@ describe('here is the PUT/Delete block', () => {
     .delete('/api/pilot/' + this.pilot._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Pilot Honorably Discharged')
+      expect(res.body.msg).to.eql('Pilot Honorably Discharged');
     });
   });
 });

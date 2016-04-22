@@ -29,23 +29,23 @@ pilotRouter.post('/pilot', bodyParser, (req, res) => {
 pilotRouter.put('/pilot/:id', bodyParser, (req, res) => {
   var pilotData = req.body;
   delete pilotData._id;
-  Pilot.update({_id: req.params.id}, pilotData, (err) => {
+  Pilot.update({ _id: req.params.id }, pilotData, (err) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({msg: 'Pilot not updated.'});
+      return res.status(500).json({ msg: 'Pilot not updated.' });
     }
 
-    res.status(200).json({msg: 'Pilot updated...time for a new mission'})
+    res.status(200).json({ msg: 'Pilot updated...time for a new mission' });
   });
 });
 
 pilotRouter.delete('/pilot/:id', (req, res) => {
-  Pilot.remove({_id: req.params.id}, (err) => {
+  Pilot.remove({ _id: req.params.id }, (err) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({msg: 'Pilot not updated.'});
+      return res.status(500).json({ msg: 'Pilot not updated.' });
     }
 
-    res.status(200).json({msg: 'Pilot Honorably Discharged'});
+    res.status(200).json({ msg: 'Pilot Honorably Discharged' });
   });
 });

@@ -2,15 +2,10 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
-var files = ['server.js', 'gulpfile.js', './lib/**/*.js', './models/**/*.js', './routes/**/*.js'];
-
-gulp.task('mocha', () => {
-  return gulp.src('test/**/*test.js')
-  .pipe(mocha());
-});
+var files = ['server.js', 'gulpfile.js', './routes/**/*.js', './models/**/*.js'];
 
 gulp.task('watch-mocha', () => {
-  gulp.watch(['lib/**/*.js', 'test/**/*test.js'], ['mocha']);
+  gulp.watch(['routes/**/*.js', 'test/**/*.js'], ['mocha']);
 });
 
 gulp.task('lint', () => {
@@ -20,12 +15,17 @@ gulp.task('lint', () => {
 });
 
 gulp.task('lint:test', () => {
-  return gulp.src('./test/**/*test.js')
-  .pipe(mocha())
+  return gulp.src('./test/**/*.js')
   .pipe(eslint())
   .pipe(eslint.format());
 });
 
-gulp.task('default', ['lint', 'watch-mocha', 'lint:test']);
-gulp.watch(files, ['lint']);
-gulp.watch('test/**/*test.js', ['mocha']);
+gulp.task('mocha', () => {
+  return gulp.src('test/**/*.js')
+  .pipe(mocha())
+  .once('end', () => {
+    process.exit();
+  });
+});
+
+gulp.task('default', ['lint', 'lint:test', 'mocha']);
