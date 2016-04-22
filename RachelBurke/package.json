@@ -1,0 +1,23 @@
+{
+  "name": "wine-cellar",
+  "version": "1.0.0",
+  "description": "Wine Cellar Application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "eslint": "^2.8.0",
+    "gulp": "^3.9.1",
+    "gulp-install": "^0.6.0",
+    "mocha": "^2.4.5"
+  }
+}
