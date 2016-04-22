@@ -13,4 +13,4 @@ app.use('/characters', strongestRouter);
 app.use('/heroes', heroRouter);
 app.use('/villains', villainRouter);
 
-app.listen(PORT, () => console.log('server up on port: ' + PORT));
+module.exports = app.listen(PORT, () => console.log('server up on port: ' + PORT));
