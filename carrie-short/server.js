@@ -5,7 +5,7 @@ const dinosaursRouter = require(__dirname + '/routes/dinosaursrouter');
 const politiciansRouter = require(__dirname + '/routes/politiciansrouter');
 const versusRouter = require(__dirname + '/routes/versusrouter');
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/political_dinos_db');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/political_dinos_db');
 
 app.use('/api', dinosaursRouter);
 app.use('/api', politiciansRouter);

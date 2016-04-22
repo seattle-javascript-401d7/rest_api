@@ -6,7 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const Politician = require(__dirname + '/../models/politician');
 const port = process.env.PORT = 5000;
-process.env.MONGO_URI = 'mongodb://localhost/test_political_dinos_db';
+process.env.MONGODB_URI = 'mongodb://localhost/test_political_dinos_db';
 const server = require(__dirname + '/../server');
 
 describe('Politician POST method', () => {
@@ -28,7 +28,6 @@ describe('Politician POST method', () => {
         name: 'Cornelius Fudge',
         party: 'independent',
         debateSkills: '2',
-        attack: '4',
         specialPower: 'magic'
       })
       .end((err, res) => {
@@ -37,7 +36,6 @@ describe('Politician POST method', () => {
         expect(res.body.name).to.eql('Cornelius Fudge');
         expect(res.body.party).to.eql('independent');
         expect(res.body.debateSkills).to.eql('2');
-        expect(res.body.attack).to.eql('4');
         expect(res.body.specialPower).to.eql('magic');
         done();
       });
@@ -50,7 +48,6 @@ describe('routes that need a politician in the DB', () => {
       name: 'test politician',
       party: 'evil',
       debateSkills: '4',
-      attack: '4',
       specialPower: 'unit tests'
     });
     newPolitician.save((err, data) => {
@@ -84,7 +81,6 @@ describe('routes that need a politician in the DB', () => {
       expect(res.body[0].name).to.eql('test politician');
       expect(res.body[0].party).to.eql('evil');
       expect(res.body[0].debateSkills).to.eql('4');
-      expect(res.body[0].attack).to.eql('4');
       expect(res.body[0].specialPower).to.eql('unit tests');
       done();
     });
@@ -96,7 +92,6 @@ describe('routes that need a politician in the DB', () => {
       name: 'Laura Roslin',
       party: 'religious',
       debateSkills: '8',
-      attack: '5',
       specialPower: 'visions'
     })
     .end((err, res) => {

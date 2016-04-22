@@ -6,7 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const Dinosaur = require(__dirname + '/../models/dinosaur');
 const port = process.env.PORT = 5000;
-process.env.MONGO_URI = 'mongodb://localhost/test_political_dinos_db';
+process.env.MONGODB_URI = 'mongodb://localhost/test_political_dinos_db';
 const server = require(__dirname + '/../server');
 
 describe('Dinosaur POST method', () => {
@@ -65,6 +65,7 @@ describe('routes that need a dinosaur in the DB', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       server.close(() => {
+        console.log('server closes');
         done();
       });
     });
