@@ -78,5 +78,21 @@ describe('routes that need a politician in the DB', () => {
       done();
     });
   });
+  it('should change the politician on PUT', (done) => {
+    request('localhost:' + port)
+    .put('/api/politicians/' + this.politician._id)
+    .send({
+      name: 'Laura Roslin',
+      party: 'religious',
+      debateSkills: '8',
+      attack: '5',
+      specialPower: 'visions'
+    })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body).to.eql('you updated a politician');
+      done();
+    });
+  });
 
 });
