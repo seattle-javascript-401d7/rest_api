@@ -41,11 +41,11 @@ superheroRouter.route('/superhero/:superhero_id')
     if (err) {
       res.send(err);
     }
-    superhero.save((err, data) => {
+    superhero.save((err) => {
       if (err) {
         res.send(err);
       }
-      res.status(200).json({ data });
+      res.status(200).json({ message: 'Successfully updated!' });
     });
   });
 })
@@ -57,6 +57,6 @@ superheroRouter.route('/superhero/:superhero_id')
     if (err) {
       res.send(err);
     }
-    res.json({ message: 'Successfully deleted' });
+    res.json({ message: 'Successfully deleted!' });
   });
 });

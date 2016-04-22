@@ -25,3 +25,37 @@ villainRouter.route('/villain')
     res.status(200).json(villain);
   });
 });
+
+villainRouter.route('/villain/:villain_id')
+
+.get((req, res) => {
+  Villain.findById(req.params.villain_id, (err, villain) => {
+    if (err) {
+      res.send(err);
+    }
+    res.status(200).json(villain);
+  });
+})
+.put(bodyParser, (req, res) => {
+  Villain.findByIdAndUpdate(req.params.villain_id, req.body, (err, villain) => {
+    if (err) {
+      res.send(err);
+    }
+    villain.save((err) => {
+      if (err) {
+        res.send(err);
+      }
+      res.status(200).json({ message: 'Successfully updated!' });
+    });
+  });
+})
+.delete((req, res) => {
+  Villain.remove({
+    _id: req.params.villain_id
+  }, (err) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json( { message: 'Successfully deleted!' });
+  });
+});
