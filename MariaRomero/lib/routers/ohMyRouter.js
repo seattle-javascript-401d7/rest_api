@@ -2,7 +2,6 @@ const Router = require('express').Router;
 const Lion = require(__dirname + '/../models/lions');
 const Tiger = require(__dirname + '/../models/tigers');
 const Bear = require(__dirname + '/../models/bears');
-const bodyParser = require('body-parser');
 const errorHandler = require(__dirname + '/../errorHandler');
 var ohMyRouter = new Router();
 
@@ -13,10 +12,8 @@ var displayGreatest = function(array) {
   return displayString;
 };
 
-ohMyRouter.get('/ohMy', (err, res) => {
-  if (err) return errorHandler(err);
-
-  // [0] is name of largest, [1] is count of largest, [2] - [5] are the two
+ohMyRouter.get('/ohMy', (req, res) => {
+  // [0] is name of largest, [1] is count of largest, [2] - [5] are the other two
   var greatestArray = [0, ''];
   var lionCount = 0;
   var tigerCount = 0;
@@ -56,9 +53,34 @@ ohMyRouter.get('/ohMy', (err, res) => {
           greatestArray.push(bearCount);
         }
         var text = displayGreatest(greatestArray);
-        res.status(200).json({ msg: text });
+        res.status(200).send(text);
       });
     });
+  });
+});
+
+function displayFriends(location, array) {
+  var string = 'Lions, tigers, and bears are friends, but they can\'t cross oceans.  They ' +
+  'can only be friends with others on their continent.  The friends in ' + location + ' are:   ';
+  array.forEach( (current) => {
+    string += current.name + ' who lives in ' + current.location + ',  ';
+  });
+  return string;
+}
+
+ohMyRouter.get('/ohMy/:continent', (req, res) => {
+  var region = req.params.continent;
+  var collectionArray = [Lion, Tiger, Bear];
+  var friends = [];
+  var promiseArray = collectionArray.map( (collection) => {
+    return collection.find({ continent: region }).exec();
+  });
+  Promise.all(promiseArray).then( (resultsArray) => {
+    friends = resultsArray.reduce( (previous, current) => {
+      return previous.concat(current);
+    }, []);
+    var text = displayFriends(region, friends);
+    res.status(200).send(text);
   });
 });
 
