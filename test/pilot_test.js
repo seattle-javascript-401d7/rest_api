@@ -46,7 +46,11 @@ describe('get the pilot roster', () => {
 
 describe('here is the PUT/Delete block', () => {
   beforeEach((done) => {
-    var testPilot = new Pilot({ name: 'Pierre Mitchelle', country: 'France', base: 'Aircraft Carrier' });
+    var testPilot = new Pilot({
+      name: 'Pierre Mitchelle',
+      country: 'France',
+      base: 'Aircraft Carrier'
+    });
     testPilot.save((err, data) => {
       if (err) {
         console.log(err);
