@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
-
+const Politician = require(__dirname + '/../models/politician');
 const port = process.env.PORT = 5000;
 process.env.MONGO_URI = 'mongodb://localhost/test_political_bears_db';
 require(__dirname + '/../server');
@@ -35,4 +35,33 @@ describe('Politician POST method', () => {
         done();
       });
   });
+});
+
+describe('routes that need a politician in the DB', () => {
+  beforeEach((done) => {
+    var newPolitician = new Politician({
+      name: 'test politician',
+      party: 'evil',
+      debateSkills: '4',
+      attack: '4',
+      specialPower: 'unit tests'
+    });
+    newPolitician.save((err, data) => {
+      if (err) console.log(err);
+      this.politician = data;
+      done();
+    });
+  });
+  afterEach((done) => {
+    this.politician.remove((err) => {
+      if (err) console.log(err);
+      done();
+    });
+  });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
 });
