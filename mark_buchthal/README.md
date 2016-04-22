@@ -40,6 +40,7 @@ To make a PUT or DELETE, use the Mongo generated _id at then end of the path:
 ```
 localhost:3000/api/heroes/_id#
 localhost:3000/api/villains/_id#
+```
 
 ### BATTLE
 
