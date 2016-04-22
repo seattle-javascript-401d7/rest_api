@@ -5,7 +5,7 @@ const petRouter = require(__dirname + '/routes/petRouter.js');
 const sandwichRouter = require(__dirname + '/routes/sandwichRouter.js');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/kat_db');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/kat_db');
 
 app.use('/api', petRouter);
 app.use('/api', sandwichRouter);
