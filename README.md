@@ -38,12 +38,15 @@ To Create a Pilot
 if omitted the jet default is the F-14
 
 To Get the list of Pilots
+
 `$ http GET localhost:8888/api/pilot`
 
 To Update a Pilot
+
 `$ http PUT localhost:8888/api/pilot/:id name="Nick Bradshaw" callSign="Goose" jet="F-14"`
 
 To Delete a Pilot
+
 `$ http Delete localhost:8888/api/pilot/:id`
 
 ###Missions
@@ -54,12 +57,15 @@ To Create a mission
 if omitted the base default is 'Aircraft Carrier'
 
 To Get the list of Missions
+
 `$ http GET localhost:8888/api/mission`
 
 To Update a Mission
+
 `$ http PUT localhost:8888/api/mission/:id name="Screw the Pooch" country="USA" base="Field"`
 
 To Delete a Mission
+
 `$ http Delete localhost:8888/api/mission/:id`
 
 ###Mission Pairing
