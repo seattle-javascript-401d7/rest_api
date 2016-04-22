@@ -16,9 +16,5 @@ gulp.task('lint', () => {
   .pipe(eslint.format());
 });
 
-gulp.task('mocha', () => {
-  return gulp.src('./test**/*test.js')
-  .pipe(mocha());
-});
 
-gulp.task('default', ['lint', 'mocha']);
+gulp.task('default', ['lint']);

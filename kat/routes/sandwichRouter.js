@@ -10,7 +10,7 @@ var sandwichRouter = module.exports = new Router();
 
 // possibilities, you could include the highest rated yumFactor for a sandwich
 // or see if there are more pets than sandwiches, if yes then sandwiches
-
+// print a list (array) of all of the ingrediants in every sandwich
 
 sandwichRouter.get('/sandwich/tunamelt', (req, res) => {
   Sandwich.count({ type: 'Tuna Melt' }).count(function (err, count) {
