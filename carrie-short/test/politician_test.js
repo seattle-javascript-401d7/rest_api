@@ -6,7 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const Politician = require(__dirname + '/../models/politician');
 const port = process.env.PORT = 5000;
-process.env.MONGO_URI = 'mongodb://localhost/test_political_bears_db';
+process.env.MONGO_URI = 'mongodb://localhost/test_political_dinos_db';
 require(__dirname + '/../server');
 
 describe('Politician POST method', () => {
