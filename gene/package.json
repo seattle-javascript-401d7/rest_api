@@ -1,0 +1,27 @@
+{
+  "name": "gene",
+  "version": "1.0.0",
+  "description": "Two Resource CRUD API",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Gene Troy",
+  "license": "ISC",
+  "dependencies": {
+     "body-parser": "^1.14.2",
+     "express": "^4.13.4",
+     "mongoose": "^4.3.6"
+   },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0"
+  }
+}
