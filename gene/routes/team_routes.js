@@ -1,6 +1,6 @@
 const express = require('express');
 const dbErrorHandler = require(__dirname + '/../lib/db_error_handler');
-const jsonParser = require('body-parser');
+const jsonParser = require('body-parser').json();
 
 const Team = require(__dirname + '/../models/team');
 var teamsRouter = module.exports = exports = express.Router();
@@ -15,9 +15,9 @@ teamsRouter.get('/teams', (req, res) => {
 
 // PUT
 teamsRouter.put('/teams/:id', jsonParser, (req, res) => {
-  Team.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, data) => {
+  Team.update({ _id: req.params.id }, req.body, (err) => {
     if (err) return dbErrorHandler(err, res);
-    res.status(200).json(data);
+    res.status(200).json({ msg: 'put good' });
   });
 });
 

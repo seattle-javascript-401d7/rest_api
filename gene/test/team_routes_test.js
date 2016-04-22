@@ -62,9 +62,7 @@ describe('The Team API', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.status).to.eql(200);
-        expect(res.body.name).to.eql('Cows');
-        expect(res.body.mascot).to.eql('pig');
-        expect(res.body).to.have.property('_id');
+        expect(res.body.msg).to.eql('put good');
         done();
       });
     });
