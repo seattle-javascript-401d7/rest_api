@@ -8,4 +8,4 @@ var slothSchema = new mongoose.Schema({
   offspring: [String]
 });
 
-module.exports = mongoose.model('sloth', slothSchema);
+module.exports = mongoose.model('Sloth', slothSchema);
