@@ -1,10 +1,10 @@
 const Router = require('express').Router;
 const Tiger = require(__dirname + '/../models/tigers');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser').json();
 const errorHandler = require(__dirname + '/../errorHandler');
 var tigersRouter = new Router();
 
-tigersRouter.get('/tigers', bodyParser, (req, res) => {
+tigersRouter.get('/tigers', (req, res) => {
   Tiger.find(null, (err, data) => {
     if (err) return errorHandler(err);
     res.status(200).json(data);

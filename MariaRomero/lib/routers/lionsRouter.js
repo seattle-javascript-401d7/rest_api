@@ -1,10 +1,10 @@
 const Router = require('express').Router;
 const Lion = require(__dirname + '/../models/lions');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser').json();
 const errorHandler = require(__dirname + '/../errorHandler');
 var lionsRouter = new Router();
 
-lionsRouter.get('/lions', bodyParser, (req, res) => {
+lionsRouter.get('/lions', (req, res) => {
   Lion.find(null, (err, data) => {
     if (err) return errorHandler(err);
     res.status(200).json(data);
