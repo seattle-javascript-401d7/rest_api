@@ -1,0 +1,45 @@
+
+{
+  "name": "Superman",
+  "powerLevel": 10,
+  "archNemesis": "Lex Luthor",
+  "superPower": [
+    "laser vision",
+    "super-strength",
+    "flight",
+    "bullet-proof"
+  ]
+},
+{
+  "name": "Wolverine",
+  "powerLevel": 8,
+  "archNemesis": "Sabertooth",
+  "superPower": [
+    "regeneration",
+    "super senses",
+    "smokes cigars",
+    "bone claws"
+  ]
+},
+{
+  "name": "Spiderman",
+  "powerLevel": 7,
+  "archNemesis": "Green Goblin",
+  "superPower": [
+    "spider sense",
+    "super agility",
+    "shoots webs",
+    "great strength"
+  ]
+},
+{
+  "name": "Batman",
+  "powerLevel": 5,
+  "archNemesis": "The Joker",
+  "superPower": [
+    "Batman is dead",
+    "to me because",
+    "Ben Affleck",
+    "is the next Batman"
+  ]
+}
