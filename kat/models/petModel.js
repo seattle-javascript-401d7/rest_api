@@ -6,6 +6,5 @@ var petScheme = new mongoose.Schema({
   favoriteActivity: { type: String, default: 'cuddles' }
 });
 
-var db2 = mongoose.connect('mongodb://localhost/sandwich_db');
 
-module.exports = db2.model('Pet', petScheme);
+module.exports = mongoose.model('Pet', petScheme);
