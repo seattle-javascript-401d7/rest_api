@@ -1,18 +1,29 @@
 #REST API
 
-##To Submit this Assignment
-  * fork this repository
-  * write all of your code in a folder containing your name
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-
 ##Description
-Create a two rest resource rest API with Express that's backed by Mongo. I'm leaving this pretty open to interpretation. I want you to write this from scratch, don't just copy and paste code from class or previous projects. Also, implement a non CRUD endpoint.
+This is a two rest resource rest API with Express that's backed by Mongo. The two databases contain a collection of Sith and Jedi with stats about them. This rest API implements all of the following REST requests:
 
+* GET
+* POST
+* PUT
+* DELETE
 
-##Rubric
-Use of Express: 3pts
-Use of Mongo: 3pts
-Tests: 2pts
-Project Organization: 2pts
+*****IN ORDER TO USE MONGO PLEASE REFER TO THESE DOCS*****
+[https://www.mongodb.org/][MONGO HOMEPAGE]
+[http://openmymind.net/mongodb.pdf](MONGO)
+
+##Testing
+This assignment tests against GET request for a 'battle' between Jedi and Sith on the router_test file. It also tests to make sure that new Jedi/Sith are created and sent to the Mongo database.
+
+##Dependencies
+* EXPRESS
+* MONGO
+* BODY-PARSER
+
+##Dev-Dependencies
+* CHAI
+* CHAI-HTTP
+* GULP
+* GULP-ESLINT
+* GULP-MOCHA
+* MOCHA
