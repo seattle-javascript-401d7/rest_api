@@ -95,4 +95,13 @@ describe('routes that need a politician in the DB', () => {
     });
   });
 
+  it('should remove the politician on DELETE', (done) => {
+    request('localhost:' + port)
+    .delete('/api/politicians/' + this.politician._id)
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('politician has retired from office');
+      done();
+    });
+  });
 });

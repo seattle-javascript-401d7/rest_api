@@ -38,3 +38,16 @@ politiciansRouter.put('/politicians/:id', bodyParser, (req, res) => {
     res.status(200).json(data);
   });
 });
+
+politiciansRouter.delete('/politicians/:id', (req, res) => {
+  Politician.remove({ _id: req.params.id }, (err) => {
+    if (err) {
+      return res.status(500).json({
+        msg: 'dude, your server errored'
+      });
+    }
+    res.status(200).json({
+      msg: 'politician has retired from office'
+    });
+  });
+});
