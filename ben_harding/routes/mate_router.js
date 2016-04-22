@@ -1,6 +1,6 @@
 const Router = require('express').Router;
 const async = require('async');
-// const bodyParser = require('body-parser').json();
+
 const Sloth = require(__dirname + '/../models/sloth');
 const Bear = require(__dirname + '/../models/bear');
 const Slothbear = require(__dirname + '/../models/slothbear');
@@ -48,7 +48,7 @@ mateRouter.get('/mate', (req, res) => {
       weight: newSlothbearWeight,
       strength: newSlothbearStrength
     });
-    // TODO: update offspring of bear and sloth
+    // TODO: update offspring of parent bear and sloth
     newSlothbear.save((err, data) => {
       if (err) return handleErr(err, res);
       res.status(200).json(data);
