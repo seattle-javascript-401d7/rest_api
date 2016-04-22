@@ -1,5 +1,8 @@
 #Sandwich-Pet
 
-##Description:
-
 ##How to Use:
+Run node server.js to start the server.
+You can add sandwiches by posting to localhost:5555/api/sandwich
+You can add pets by posting to localhost:5555/api/pet
+
+If you want them to war go to localhost:5555/api/war
