@@ -1,6 +1,7 @@
 const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const mocha = require("gulp-mocha");
+const nodemon = require("gulp-nodemon");
 
 var lintFiles = ["lib/**/*.js", "models/**/*.js", "routes/**/*.js", "test/**/*.js",
                  "gulpfile.js", "index.js", "server.js"];
@@ -22,9 +23,20 @@ gulp.task("test", () => {
     }));
 });
 
+gulp.task("develop", () => {
+  nodemon({
+    script: "index.js",
+    ext: "js",
+    tasks: ["lint", "test"]
+  })
+  .on("restart", () => {
+    process.stdout.write("Server restarted!\n");
+  });
+});
+
 gulp.task("watch", () => {
   gulp.watch(lintFiles, ["lint"]);
   gulp.watch(testFiles, ["test"]);
 });
 
-gulp.task("default", ["lint", "test", "watch"]);
+gulp.task("default", ["develop"]);
