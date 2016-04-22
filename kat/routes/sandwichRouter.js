@@ -6,17 +6,8 @@ const errorHandler = require(__dirname + '/../lib/errorHandle.js');
 var sandwichRouter = module.exports = new Router();
 
 // NON-Crub endpoint
-// possibilities, you could include the highest rated yumFactor for a sandwich
+// Find any  you could include the highest rated yumFactor for a sandwich
 // or see if there are more pets than sandwiches, if yes then sandwiches delete one
-// print a list (array) of all of the ingrediants in every sandwich
-
-sandwichRouter.get('/sandwich/nine', (req, res) => {
-  Sandwich.count({ yumFactor: 9 }).count(function(err, count) {
-    if(err) errorHandler(err, res);
-    console.log('there is %d sandwich', count);
-    res.status(200).send('There are ' + count + ' sandwiches');
-  });
-});
 
 sandwichRouter.get('/sandwich/mostyum', (req, res) => {
   Sandwich.find( { yumFactor: { $gt: 5 } } ).count((err, count) => {
