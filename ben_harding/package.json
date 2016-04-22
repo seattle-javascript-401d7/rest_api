@@ -2,6 +2,10 @@
   "name": "ben_harding",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "4.2.3",
+    "npm": "2.14.7"
+  },
   "main": "index.js",
   "directories": {
     "test": "test"
