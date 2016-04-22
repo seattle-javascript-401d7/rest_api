@@ -13,7 +13,7 @@ var sandwichRouter = module.exports = new Router();
 // print a list (array) of all of the ingrediants in every sandwich
 
 sandwichRouter.get('/sandwich/tunamelt', (req, res) => {
-  Sandwich.count({ type: 'Tuna Melt' }).count(function (err, count) {
+  Sandwich.count({ type: 'Tuna Melt' }).count(function(err, count) {
     if(err) errorHandler(err, res);
     console.log('there is %d sandwich', count);
     res.status(200).send('There are ' + count + ' sandwiches');

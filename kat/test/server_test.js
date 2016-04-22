@@ -22,7 +22,8 @@ describe('POST method', () => {
   it('should create a new pet instance', (done) => {
     request('localhost:' + port)
     .post('/api/pet')
-    .send({name: 'Shebabeba the Boss Bebasheba', nickName: 'Beebee', favoriteActivity: 'looking down on others'})
+    .send({ name: 'Shebabeba the Boss Bebasheba', nickName: 'Beebee',
+    favoriteActivity: 'looking down on others' })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
@@ -126,7 +127,8 @@ describe('Sandwich Router', () => {
 
   describe('Sandwich Routes that need content to work', () => {
     beforeEach((done) => {
-      var newSandwich = new Sandwich({ name: 'Testwich', ingrediants: ['test', 'bread'], yumFactor: 2 });
+      var newSandwich = new Sandwich({ name: 'Testwich',
+      ingrediants: ['test', 'bread'], yumFactor: 2 });
       newSandwich.save((err, data) => {
         if(err) {
           console.log(err);
@@ -150,7 +152,8 @@ describe('Sandwich Router', () => {
     it('should be able to PUT a sandwich', (done) => {
       request('localhost:' + port)
       .put('/api/sandwich/' + this.sandwich._id)
-      .send({ name: 'Club', ingrediants: ['bacon', 'lettuce', 'tomato', 'turkey', 'mayo'], yumFactor: 4 })
+      .send({ name: 'Club', ingrediants: ['bacon', 'lettuce',
+      'tomato', 'turkey', 'mayo'], yumFactor: 4 })
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('Updated a sandwich');
