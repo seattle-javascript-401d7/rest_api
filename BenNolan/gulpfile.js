@@ -27,7 +27,10 @@ gulp.task('lint:nontest', () => {
 
 gulp.task('mocha', () => {
   return gulp.src('./test**/*test.js')
-  .pipe(mocha());
+  .pipe(mocha())
+  .once('end', () => {
+    process.exit();
+  });
 });
 
 gulp.task('default', ['lint:test', 'lint:nontest', 'mocha']);

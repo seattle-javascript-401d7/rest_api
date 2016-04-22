@@ -93,5 +93,17 @@ describe('routes that need prey in the DB', () => {
       done();
     });
   });
+
+describe('server error', () => {
+  it('should errr on a bad route', (done) => {
+    request('localhost:' + port)
+    .get('/badroute')
+    .end((err, res) => {
+      expect(err).to.not.eql(null);
+      expect(res.text).to.eql('Error 404 File not found');
+      done();
+    });
+  });
+});
 });
 });
