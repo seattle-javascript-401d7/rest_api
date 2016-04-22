@@ -67,6 +67,7 @@ describe('routes that need a politician in the DB', () => {
     .get('/api/versus')
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(res.body.politicians).to.eql(1);
       expect(res.body.dinosaurs).to.eql(1);
       done();

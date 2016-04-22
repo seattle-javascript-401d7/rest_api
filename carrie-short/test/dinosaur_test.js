@@ -32,6 +32,7 @@ describe('Dinosaur POST method', () => {
       })
       .end((err, res) => {
         expect(err).to.eql(null);
+        expect(res).to.have.status(200);
         expect(res.body.name).to.eql('Stabbasaurus');
         expect(res.body.diet).to.eql('children');
         expect(res.body.attack).to.eql('4');
@@ -72,6 +73,7 @@ describe('routes that need a dinosaur in the DB', () => {
     .get('/api/dinosaurs')
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(Array.isArray(res.body)).to.eql(true);
       expect(res.body.length).to.eql(1);
       expect(res.body[0].name).to.eql('test dinosaur');
@@ -93,6 +95,7 @@ describe('routes that need a dinosaur in the DB', () => {
     })
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(res.body.nModified).to.eql(1);
       done();
     });
@@ -103,6 +106,7 @@ describe('routes that need a dinosaur in the DB', () => {
     .delete('/api/dinosaurs/' + this.dinosaur._id)
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(res.body.msg).to.eql('dinosaur has gone extinct');
       done();
     });

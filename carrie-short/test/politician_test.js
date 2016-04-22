@@ -33,6 +33,7 @@ describe('Politician POST method', () => {
       })
       .end((err, res) => {
         expect(err).to.eql(null);
+        expect(res).to.have.status(200);
         expect(res.body.name).to.eql('Cornelius Fudge');
         expect(res.body.party).to.eql('independent');
         expect(res.body.debateSkills).to.eql('2');
@@ -75,6 +76,7 @@ describe('routes that need a politician in the DB', () => {
     .get('/api/politicians')
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(Array.isArray(res.body)).to.eql(true);
       expect(res.body.length).to.eql(1);
       expect(res.body[0].name).to.eql('test politician');
@@ -97,6 +99,7 @@ describe('routes that need a politician in the DB', () => {
     })
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(res.body.nModified).to.eql(1);
       done();
     });
@@ -107,6 +110,7 @@ describe('routes that need a politician in the DB', () => {
     .delete('/api/politicians/' + this.politician._id)
     .end((err, res) => {
       expect(err).to.eql(null);
+      expect(res).to.have.status(200);
       expect(res.body.msg).to.eql('politician has retired from office');
       done();
     });
