@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var politicianSchma = new mongoose.Schema({
+var politicianSchema = new mongoose.Schema({
   name: { type: String, unique: true },
   party: String,
   debateSkills: { type: String, default: '5' },
@@ -8,4 +8,4 @@ var politicianSchma = new mongoose.Schema({
   specialPower: { type: String, default: 'politics' }
 });
 
-module.exports = mongoose.model('Politician', politicianSchma);
+module.exports = mongoose.model('Politician', politicianSchema);
