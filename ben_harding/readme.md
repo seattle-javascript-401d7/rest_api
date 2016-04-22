@@ -44,6 +44,6 @@ http POST localhost:3000/api/bears name='Bamboo'
 http POST localhost:3000/api/bears name='Gentle Ben'
 ```
 ```
-http POST localhost:3000/api/bears name='Mr Growlypants'
+http POST localhost:3000/api/bears name=Fluffy
 ```
 * Mate away!  The mate route uses a get request, so you can hit `localhost:3000/api/mate` from just about anywhere (browser, curl, httpie, etc) and it will create and return a new slothbear.  Have fun!
