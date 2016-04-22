@@ -47,7 +47,7 @@ To Update a Pilot
 
 To Delete a Pilot
 
-`$ http Delete localhost:8888/api/pilot/:id`
+`$ http DELETE localhost:8888/api/pilot/:id`
 
 ###Missions
 To Create a mission
@@ -66,7 +66,7 @@ To Update a Mission
 
 To Delete a Mission
 
-`$ http Delete localhost:8888/api/mission/:id`
+`$ http DELETE localhost:8888/api/mission/:id`
 
 ###Mission Pairing
 To see if there is enough Pilots or Missions the user can query using the command line tool of their choice by sending a GET request
