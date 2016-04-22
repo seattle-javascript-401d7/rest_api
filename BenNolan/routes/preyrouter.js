@@ -11,3 +11,11 @@ preyRouter.post('/preys', bodyParser, (req, res) => {
     res.status(200).json(data);
   });
 });
+
+preyRouter.get('/preys', (req, res) => {
+  Prey.find(null, (err, data) => {
+    if (err) return serverErrorHandler(err, res);
+
+    res.status(200).json(data);
+  });
+});
