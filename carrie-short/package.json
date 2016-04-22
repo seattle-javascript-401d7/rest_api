@@ -4,7 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "create-db-dir": "node lib/make-directory.js",
+    "start-server": "node server.js",
+    "start": "npm start-server",
+    "test": "npm run create-db-dir && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbuchthal/Create-a-Framework.git"
   },
   "keywords": [],
   "author": "",
