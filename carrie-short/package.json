@@ -6,7 +6,7 @@
   "scripts": {
     "create-db-dir": "node lib/make-directory.js",
     "start-server": "node server.js",
-    "start": "npm start-server",
+    "start": "npm run start-server",
     "test": "npm run create-db-dir && mocha"
   },
   "repository": {
