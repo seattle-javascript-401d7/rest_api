@@ -1,6 +1,6 @@
 'use strict';
 const Router = require('express').Router;
-
+const Superhero = require(__dirname + '/../models/superhero');
 
 let strongestRouter = module.exports = Router();
 
@@ -17,3 +17,4 @@ strongestRouter.route('/strongestCharacter')
     res.json(result);
   });
 })
+;
