@@ -29,7 +29,7 @@ describe('the battle router', () => {
   });
 
   beforeEach((done) => {
-    var testVillain = new Villain({name: 'testvillain', powerLevel: 10, superPower: ['Strongtesting'], archNemesis: 'bugs'});
+    var testVillain = new Villain({name: 'testvillain', powerLevel: 10, superPower: ['Strongtesting'], dastardlyDoGooder: 'bugs'});
     testVillain.save((err, data) => {
       this.villain = data;
       done();
