@@ -90,7 +90,7 @@ describe('routes that need a politician in the DB', () => {
     })
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body).to.eql('you updated a politician');
+      expect(res.body.nModified).to.eql(1);
       done();
     });
   });

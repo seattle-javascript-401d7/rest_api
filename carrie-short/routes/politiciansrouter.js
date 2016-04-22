@@ -25,3 +25,16 @@ politiciansRouter.get('/politicians', (req, res) => {
     res.status(200).json(data);
   });
 });
+
+politiciansRouter.put('/politicians/:id', bodyParser, (req, res) => {
+  var politicianData = req.body;
+  delete politicianData._id;
+  Politician.update({ _id: req.params.id }, politicianData, (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        msg: 'dude, your server errored'
+      });
+    }
+    res.status(200).json(data);
+  });
+});
