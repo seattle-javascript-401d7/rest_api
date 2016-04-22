@@ -67,9 +67,11 @@ describe('routes that need a politician in the DB', () => {
   });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
+      server.close(() => {
+        console.log('server closes');
+        done();
+      });
     });
-    server.close();
   });
   it('should get all the politicians on a get request', (done) => {
     request('localhost:' + port)

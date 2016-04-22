@@ -64,9 +64,10 @@ describe('routes that need a dinosaur in the DB', () => {
   });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
+      server.close(() => {
+        done();
+      });
     });
-    server.close();
   });
   it('should get all the dinosaurs on a get request', (done) => {
     request('localhost:' + port)

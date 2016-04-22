@@ -16,9 +16,11 @@ describe('bad routes', () => {
   });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
+      server.close(() => {
+        console.log('server closes');
+        done();
+      });
     });
-    server.close();
   });
   it('should return 404 message on bad routes', (done) => {
     request('localhost:' + port)

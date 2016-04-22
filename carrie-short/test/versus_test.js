@@ -58,9 +58,11 @@ describe('routes that need a politician in the DB', () => {
   });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
+      server.close(() => {
+        console.log('server closes');
+        done();
+      });
     });
-    server.close();
   });
   it('should count all the politicians and dinosaurs on a get request to /versus', (done) => {
     request('localhost:' + port)

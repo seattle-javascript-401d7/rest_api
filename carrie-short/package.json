@@ -1,8 +1,8 @@
 {
-  "name": "carrie-short",
+  "name": "dinos-vs-politicos",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha"
   },
@@ -11,6 +11,14 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-http": "^2.0.1"
+    "chai-http": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.13"
   }
 }
