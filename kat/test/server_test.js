@@ -6,11 +6,12 @@ const request = chai.request;
 const mongoose = require('mongoose');
 
 const port = process.env.PORT = 1234;
-process.env.MONGO_URI = 'mongodb://localhost/kat_test_db';
+process.env.MONGODB_URI = 'mongodb://localhost/kat_test_db';
 
 require(__dirname + '/../server.js');
 var Pet = require(__dirname + '/../models/petModel.js');
 var Sandwich = require(__dirname + '/../models/sandwichModel.js');
+
 // Testing Pet CRUD Methods
 describe('POST method', () => {
   after((done) => {

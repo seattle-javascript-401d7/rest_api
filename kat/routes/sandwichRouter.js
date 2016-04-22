@@ -19,6 +19,37 @@ sandwichRouter.get('/sandwich/tunamelt', (req, res) => {
     res.status(200).send('There are ' + count + ' sandwiches');
   });
 });
+//
+// sandwichRouter.get('/sandwich/mostyum', (req, res) => {
+//   Sandwich.count('sandwiches', (sandwich) => {
+//     sandwich.where('yumFactor').gte(5);
+//     res.status(200).send(sandwich);
+//   });
+// });
+
+
+// function findBear(callback) {
+//   Bear.find(null, (err, data) => {
+//     if (err) return handleErr(err, res);
+//     allBears = data;
+//     randomBear = allBears[Math.floor(Math.random() * allBears.length)];
+//     callback(null);
+//   });
+// }
+sandwichRouter.get('/sandwich/mostyum', (req, res) => {
+  Sandwich.find({}, (err, data) => {
+    if(err) errorHandler(err, res);
+
+    res.status(200).json(data);
+  });
+});
+
+// query.elemMatch('comment', function (elem) {
+//   elem.where('author').equals('autobot');
+//   elem.where('votes').gte(5);
+// })
+//
+// query.where('comment').elemMatch({ author: 'autobot', votes: {$gte: 5}})
 
 
 sandwichRouter.post('/sandwich', bodyParser, (req, res) => {
@@ -30,11 +61,15 @@ sandwichRouter.post('/sandwich', bodyParser, (req, res) => {
 });
 
 sandwichRouter.get('/sandwich', (req, res) => {
-  Sandwich.find({}, (err, data) => {
+  Sandwich.find(null, (err, data) => {
     if(err) errorHandler(err, res);
     res.status(200).json(data);
   });
 });
+
+
+
+
 
 sandwichRouter.put('/sandwich/:id', bodyParser, (req, res) => {
   var sandwichData = req.body;
