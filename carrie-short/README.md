@@ -104,3 +104,9 @@ http GET localhost:5555/api/battle
 * express
 * mongoose
 * body-parser
+
+##To test
+gulp will lint and run mocha tests
+```
+gulp
+```
