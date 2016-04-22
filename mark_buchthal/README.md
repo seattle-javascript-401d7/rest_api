@@ -22,11 +22,11 @@ A GET request will return all data in the appropriate collection.
 A POST request will allow users to add a hero or villain to their collection.
 Use the following format:
 
-Hero:
+Hero Schema:
 ```
 {name:'string', powerLevel: <number 1-10>, superPower: [array of strings], archNemesis: 'string'}
 ```
-Villain:
+Villain Schema:
 ```
 {name:'string', powerLevel: <number 1-10>, superPower: [array of strings], dastardlyDoGooder: 'string'}
 ```
