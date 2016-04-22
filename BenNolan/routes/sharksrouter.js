@@ -21,13 +21,13 @@ sharksRouter.get('/sharks', (req, res) => {
 });
 
 sharksRouter.put('/sharks/:id', bodyParser, (req, res) => {
-  var sharkData = req.body;
-  delete sharkData._id;
-  Shark.update({ _id: req.params.id }, sharkData, (err) => {
-    if (err) return serverErrorHandler(err, res);
-    res.status(200).json({ msg: 'update made!' });
+    var sharkData = req.body;
+    delete sharkData._id;
+    Shark.update({ _id: req.params.id }, sharkData, (err) => {
+      if (err) return serverErrorHandler(err, res);
+      res.status(200).json({ msg: 'update made!' });
+    });
   });
-});
 
 
 sharksRouter.delete('/sharks/:id', (req, res) => {

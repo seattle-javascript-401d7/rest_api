@@ -19,3 +19,20 @@ preyRouter.get('/preys', (req, res) => {
     res.status(200).json(data);
   });
 });
+
+preyRouter.put('/preys/:id', bodyParser, (req, res) => {
+  var preyData = req.body;
+  delete preyData._id;
+  Prey.update({ _id: req.params.id }, preyData, (err) => {
+    if (err) return serverErrorHandler(err, res);
+    res.status(200).json({ msg: 'update made!' });
+  });
+});
+
+preyRouter.delete('/preys/:id', (req, res) => {
+  Prey.remove({ _id: req.params.id }, (err) => {
+    if (err) serverErrorHandler(err, res);
+
+    res.status(200).json({ msg: 'prey has been killed!' });
+  });
+});

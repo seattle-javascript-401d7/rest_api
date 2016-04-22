@@ -5,11 +5,21 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 1234;
-process.env.MONGODB_URI = 'mongodb://localhost/sharksprey_test_db';
-require(__dirname + '/../server');
+process.env.MONGODB_URI = 'mongodb://localhost/sharks_test_db';
+const server = require(__dirname + '/../server');
 const Shark = require(__dirname + '/../models/shark');
 
-
+describe('the server', () => {
+  before((done) => {
+    server.listen(port, () => {
+      done();
+    });
+  });
+  after((done) => {
+    server.close(() => {
+      done();
+    });
+  });
 describe('the POST methods', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
@@ -46,12 +56,14 @@ describe('routes that need a shark in the DB', () => {
   beforeEach((done) => {
     var newShark = new Shark({ name: 'testshark', preyPreference: 'tests' });
     newShark.save((err, data) => {
+      console.log(err);
       this.shark = data;
       done();
     });
   });
   afterEach((done) => {
     this.shark.remove((err) => {
+      console.log(err);
       done();
     });
   });
@@ -61,10 +73,10 @@ describe('routes that need a shark in the DB', () => {
     });
   });
 
-  it('should change the shark\'s indentity on a PUT request', (done) => {
+  it('should change the shark\'s identity on a PUT request', (done) => {
     request('localhost:' + port)
-    .put('/api/sharks/' + this.shark_id)
-    .send({ name: 'Tiger Shark', preyPreference: 'human' })
+    .put('/api/sharks/' + this.shark._id)
+    .send({ name: 'Tiger shark', preyPreference: 'fish' })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('update made!');
@@ -72,13 +84,14 @@ describe('routes that need a shark in the DB', () => {
     });
   });
 
-  it('should kill the shark on a DELETE Request', (done) => {
+  it('should turn the shark into a nice rug on a DELETE request', (done) => {
     request('localhost:' + port)
-    .delete('/api/sharks/' + this.shark_id)
+    .delete('/api/sharks/' + this.shark._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Shark has been destroyed');
+      expect(res.body.msg).to.eql('shark has been destroyed!');
       done();
     });
   });
+});
 });

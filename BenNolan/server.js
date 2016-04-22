@@ -8,4 +8,4 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/sharksprey_db')
 
 app.use('/api', sharkRouter);
 app.use('/api', preyRouter);
-app.listen(PORT, () => console.log('server up on port:' + PORT));
+module.exports = app.listen(PORT, () => console.log('server up on port:' + PORT));

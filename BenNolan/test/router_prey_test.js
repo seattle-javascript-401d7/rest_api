@@ -6,9 +6,20 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/prey_test_db';
-require(__dirname + '/../server');
+const server = require(__dirname + '/../server');
 const Prey = require(__dirname + '/../models/prey');
 
+describe('the server', () => {
+  before((done) => {
+    server.listen(port, () => {
+      done();
+    });
+  });
+  after((done) => {
+    server.close(() => {
+      done();
+    });
+  });
 describe('the POST methods', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
@@ -43,14 +54,16 @@ describe('The Get method', () => {
 
 describe('routes that need prey in the DB', () => {
   beforeEach((done) => {
-    var newPrey = new Prey({ name: 'human', speed: 20 });
+    var newPrey = new Prey({ name: 'human', speed: '20' });
     newPrey.save((err, data) => {
+      console.log(err);
       this.prey = data;
       done();
     });
   });
   afterEach((done) => {
     this.prey.remove((err) => {
+      console.log(err);
       done();
     });
   });
@@ -76,8 +89,9 @@ describe('routes that need prey in the DB', () => {
     .delete('/api/preys/' + this.prey._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Prey has died!');
+      expect(res.body.msg).to.eql('prey has been killed!');
       done();
     });
   });
+});
 });
