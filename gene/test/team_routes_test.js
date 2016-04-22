@@ -5,7 +5,7 @@ const expect = chai.expect;
 const request = chai.request;
 
 const mongoose = require('mongoose');
-process.env.MONGOLAB_URI = 'mongodb://localhost:3005/';
+process.env.MONGOLAB_URI = 'mongodb://localhost:27017/';
 
 const server = require(__dirname + '/../lib/server');
 

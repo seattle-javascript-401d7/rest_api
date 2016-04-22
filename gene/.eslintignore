@@ -1,0 +1,4 @@
+eslintrc.json
+README.md
+package.json
+node_modules/**/*.js

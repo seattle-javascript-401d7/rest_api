@@ -1,5 +1,5 @@
 const express = require('express');
-const dbErrorHandler = require('db_error_handler');
+const dbErrorHandler = require(__dirname + '/../lib/db_error_handler');
 const jsonParser = require('body-parser');
 
 const Team = require(__dirname + '/../models/team');
