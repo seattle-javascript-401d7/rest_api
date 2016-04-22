@@ -1,5 +1,4 @@
 const Router = require('express').Router;
-const bodyParser = require('body-parser').json();
 const Pet = require(__dirname + '/../models/petModel.js');
 const Sandwich = require(__dirname + '/../models/sandwichModel.js');
 const errorHandler = require(__dirname + '/../lib/errorHandle.js');
@@ -32,7 +31,8 @@ function findSandwich(callback) {
       findSandwich((sandwichTotal, lastSandwich) => {
         if (petTotal.length < sandwichTotal.length) res.status(200).json({ msg: 'your sandwich is safe' });
         else {
-          Sandwich.findByIdAndUpdate(lastSandwich._id, { $set: { yumFactor: 0 }}, function (err, sandwich) {
+          Sandwich.findByIdAndUpdate(lastSandwich._id, { $set: { yumFactor: 0 } },
+            function(err, sandwich) {
             if (err) return errorHandler(err, res);
             console.log(sandwich);
             res.send(sandwich);

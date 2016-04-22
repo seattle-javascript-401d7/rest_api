@@ -226,8 +226,6 @@ describe('War of pets and sandwiches', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         console.log(res.body.yumFactor);
-        // expect(res.status).to.eql(200);
-        // expect(res.body.yumFactor).to.eql(9);
         done();
       });
     });
