@@ -18,7 +18,13 @@ describe('The POST requests', () => {
   it('should add a Jedi to the DB', (done) => {
     request('localhost:' + port)
     .post('/api/jedi')
-    .send({ name: 'Brandon Parker', ranking: 'Jedi EMPEROR', weaponPreference: 'Two lightsabers', lightsaberColor: 'white', catchphrase: 'I win' })
+    .send({
+      name: 'Brandon Parker',
+      ranking: 'Jedi EMPEROR',
+      weaponPreference: 'Two lightsabers',
+      lightsaberColor: 'white',
+      catchphrase: 'I win'
+    })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.name).to.eql('Brandon Parker');
@@ -47,14 +53,23 @@ describe('The Jedi GET request', () => {
 
 describe('adding to the Jedi Council', () => {
   beforeEach((done) => {
-    var newJedi = new Jedi({ name: 'Harry Potter', ranking: 'Force Wizard', weaponPreference: 'Stick thing', lightsaberColor: 'brown?', catchphrase: 'leviOsaaaa', handCount: '2' });
+    var newJedi = new Jedi({
+      name: 'Harry Potter',
+      ranking: 'Force Wizard',
+      weaponPreference: 'Stick thing',
+      lightsaberColor: 'brown?',
+      catchphrase: 'leviOsaaaa',
+      handCount: '2'
+    });
     newJedi.save((err, data) => {
+        if (err) console.log(err);
       this.jedi = data;
       done();
     });
   });
   afterEach((done) => {
     this.jedi.remove((err) => {
+      if (err) console.log(err);
     done();
     });
   });
@@ -67,7 +82,14 @@ describe('adding to the Jedi Council', () => {
   it('PUT, you shall', (done) => {
     request('localhost:' + port)
     .put('/api/jedi/' + this.jedi._id)
-    .send({ name: 'Gandalf', ranking: 'Higher Force Wizard', weaponPreference: 'EVEN BIGGER STICK', lightsaberColor: 'White..sometimes grey', catchphrase: 'You shall not pass!', handCount: '2' })
+    .send({
+      name: 'Gandalf',
+      ranking: 'Higher Force Wizard',
+      weaponPreference: 'EVEN BIGGER STICK',
+      lightsaberColor: 'White..sometimes grey',
+      catchphrase: 'You shall not pass!',
+      handCount: '2'
+    })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('New Information, we have. Mmmm?');

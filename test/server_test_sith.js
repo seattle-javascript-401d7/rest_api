@@ -18,7 +18,13 @@ describe('The POST requests', () => {
   it('should add a Sith to the DB', (done) => {
     request('localhost:' + port)
     .post('/api/jedi')
-    .send({ name: 'Darth Bandon', ranking: 'Sith Lord', weaponPreference: 'Double Bladed', lightsaberColor: 'gold', catchphrase: 'Bow before me' })
+    .send({
+      name: 'Darth Bandon',
+      ranking: 'Sith Lord',
+      weaponPreference: 'Double Bladed',
+      lightsaberColor: 'gold',
+      catchphrase: 'Bow before me'
+    })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.name).to.eql('Darth Bandon');
@@ -47,14 +53,23 @@ describe('The Sith GET request', () => {
 
 describe('adding to the Sith Council', () => {
   beforeEach((done) => {
-    var newSith = new Sith({ name: 'Spock', ranking: 'Space Wizard', weaponPreference: 'The Enterprise', lightsaberColor: 'mind control', catchphrase: 'Live long and prosper', handCount: '2' });
+    var newSith = new Sith({
+      name: 'Spock',
+      ranking: 'Space Wizard',
+      weaponPreference: 'The Enterprise',
+      lightsaberColor: 'mind control',
+      catchphrase: 'Live long and prosper',
+      handCount: '2'
+    });
     newSith.save((err, data) => {
+      if (err) console.log(err);
       this.sith = data;
       done();
     });
   });
   afterEach((done) => {
     this.sith.remove((err) => {
+      if (err) console.log(err);
     done();
     });
   });
@@ -67,7 +82,14 @@ describe('adding to the Sith Council', () => {
   it('PUT, you shall', (done) => {
     request('localhost:' + port)
     .put('/api/sith/' + this.sith._id)
-    .send({ name: 'Sauromon', ranking: 'Evil Mythic Wizard', weaponPreference: 'Minions', lightsaberColor: 'A spooky orb', catchphrase: 'I do not have real power', handCount: '2' })
+    .send({
+      name: 'Sauromon',
+      ranking: 'Evil Mythic Wizard',
+      weaponPreference: 'Minions',
+      lightsaberColor: 'A spooky orb',
+      catchphrase: 'I do not have real power',
+      handCount: '2'
+    })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('New Information, we have. Mmmm?');
