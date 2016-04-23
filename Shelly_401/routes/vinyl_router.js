@@ -20,7 +20,7 @@ vinylRouter.get('/vinyl', (req, res)=>{
 });
 
 
-vinylRouter.put('/vinyl/:id', bodyParer, (req, res)=>{
+vinylRouter.put('/vinyl/:id', bodyParser, (req, res)=>{
   var vinylData = req.body;
   delete vinylData._id;
   Vinyl.updatae({_id: req.params.id}, vinylData, (err)=>{

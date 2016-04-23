@@ -5,6 +5,8 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose =require('mongoose');
 const port = process.env.PORT = 1234;
+require(__dirname + '/../models/mug');
+require(__dirname + '/../models/vinyls');
 process.env.MONG_URI = 'mongodb://localhost/thursday_db';
 require(__dirname + '/../server');
 
@@ -30,7 +32,7 @@ describe('the mugs POST', ()=>{
     });
   });
 
-  it('should list mugs', (done)=>{
+  it('should list vinyl', (done)=>{
     request('localhost:' + port)
     .post('/api/vinyl')
     .send({album:'Surfing with the Alien', artist: 'Joe Satriani', purchasedAt:'Spin Cycle'})
@@ -78,11 +80,13 @@ describe('additional', ()=>{
     var newVinyl = new Vinyl({album: 'testAlbum', artist: 'testArtist', purchasedAt: 'testStore'});
     newMug.save((err, data) =>{
       this.mug = data;
-    })
-
     newVinyl.save((err, data)=>{
       this.vinyl = data;
       done();
+
+    })
+
+
     })
   })
 
@@ -110,7 +114,7 @@ it('should change mug identity on PUT', (done)=>{
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Mugs updated');
     done();
-}):
+});
 });
 
 it('should change vinyl identity on PUT', (done)=>{
@@ -121,7 +125,7 @@ it('should change vinyl identity on PUT', (done)=>{
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Vinyl updated');
     done();
-}):
+});
 });
 
 

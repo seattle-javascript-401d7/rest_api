@@ -20,7 +20,7 @@ mugRouter.get('/mugs', (req, res)=>{
 });
 
 
- mugRouter.put('/mugs/:id', bodyParer, (req, res)=>{
+ mugRouter.put('/mugs/:id', bodyParser, (req, res)=>{
   var muglData = req.body;
   delete muglData._id;
   Mug.update({_id: req.params.id}, mugData, (err)=>{
