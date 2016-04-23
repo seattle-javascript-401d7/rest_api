@@ -5,8 +5,8 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose =require('mongoose');
 const port = process.env.PORT = 1234;
-require(__dirname + '/../models/mug');
-require(__dirname + '/../models/vinyls');
+const Mug = require(__dirname + '/../models/mug');
+const Vinyl = require(__dirname + '/../models/vinyls');
 process.env.MONG_URI = 'mongodb://localhost/thursday_db';
 require(__dirname + '/../server');
 
@@ -80,6 +80,8 @@ describe('additional', ()=>{
     var newVinyl = new Vinyl({album: 'testAlbum', artist: 'testArtist', purchasedAt: 'testStore'});
     newMug.save((err, data) =>{
       this.mug = data;
+})
+
     newVinyl.save((err, data)=>{
       this.vinyl = data;
       done();
@@ -87,7 +89,6 @@ describe('additional', ()=>{
     })
 
 
-    })
   })
 
   afterEach((done)=>{
@@ -97,6 +98,8 @@ describe('additional', ()=>{
     this.vinyl.remove((err)=>{
 
     });
+
+    done();
   });
 
     after((done)=>{
@@ -108,18 +111,21 @@ describe('additional', ()=>{
 
 it('should change mug identity on PUT', (done)=>{
   request('localhost:' + port)
-  .put('/api/mug' + this.mug._id)
+  .put('/api/mugs/' + this.mug._id)
   .send({place:'The Quan\'s', city: 'Valencia', drinkPref:'scotch'})
   .end((err,res)=>{
+      console.log('a' + err);
+          console.log(res.body.msg);
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Mugs updated');
+
     done();
 });
 });
 
 it('should change vinyl identity on PUT', (done)=>{
   request('localhost:' + port)
-  .put('/api/vinyl' + this.mug._id)
+  .put('/api/vinyl/' + this.vinyl._id)
   .send({album:'World without Tears', artist: 'Lucinda Williams', purchasedAt:'Music Emporium'})
   .end((err,res)=>{
     expect(err).to.eql(null);
@@ -131,8 +137,9 @@ it('should change vinyl identity on PUT', (done)=>{
 
 it('should remove mugs on DELETE', (done)=>{
   request('localhost:' + port)
-  .delete('/api/mugs' + this.mugs._id)
+  .delete('/api/mugs/' + this.mug._id)
   .end((err,res)=>{
+    console.log('s' + err);
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Mugs record deleted');
     done();
@@ -141,8 +148,9 @@ it('should remove mugs on DELETE', (done)=>{
 
 it('should remove vinyl on DELETE', (done)=>{
   request('localhost:' + port)
-  .delete('/api/vinyl' + this.vinyl._id)
+  .delete('/api/vinyl/' + this.vinyl._id)
   .end((err,res)=>{
+      console.log(err);
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Vinyl record deleted');
     done();

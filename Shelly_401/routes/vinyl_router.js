@@ -23,7 +23,7 @@ vinylRouter.get('/vinyl', (req, res)=>{
 vinylRouter.put('/vinyl/:id', bodyParser, (req, res)=>{
   var vinylData = req.body;
   delete vinylData._id;
-  Vinyl.updatae({_id: req.params.id}, vinylData, (err)=>{
+  Vinyl.update({_id: req.params.id}, vinylData, (err)=>{
     if(err) return eH(err, res);
     res.status(200).json({msg:'Vinyl updated'});
   });
@@ -34,6 +34,6 @@ vinylRouter.put('/vinyl/:id', bodyParser, (req, res)=>{
 vinylRouter.delete('/vinyl/:id', (req, res)=>{
   Vinyl.remove({_id: req.params.id}, (err)=>{
     if(err) return eH(err, res);
-    res.status(200).json({msg:"Vinyl record deleted"});
+    res.status(200).json({msg:'Vinyl record deleted'});
   });
 });

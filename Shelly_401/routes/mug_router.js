@@ -21,10 +21,11 @@ mugRouter.get('/mugs', (req, res)=>{
 
 
  mugRouter.put('/mugs/:id', bodyParser, (req, res)=>{
-  var muglData = req.body;
-  delete muglData._id;
+  var mugData = req.body;
+  delete mugData._id;
   Mug.update({_id: req.params.id}, mugData, (err)=>{
     if(err) return eH(err, res);
+    
     res.status(200).json({msg:'Mugs updated'});
   });
 });
@@ -32,7 +33,7 @@ mugRouter.get('/mugs', (req, res)=>{
 
 
 mugRouter.delete('/mugs/:id', (req, res)=>{
-  Mugs.remove({_id: req.params.id}, (err)=>{
+  Mug.remove({_id: req.params.id}, (err)=>{
     if(err) return eH(err, res);
     res.status(200).json({msg:"Mugs record deleted"});
   });
