@@ -22,3 +22,22 @@ starWarsCharsRouter.get("/starwarschars", (req, res) => {
     res.status(200).json(data);
   });
 });
+
+starWarsCharsRouter.put("/starwarschars/:id", bodyParser, (req, res) => {
+  var starWarsCharData = req.body;
+
+  delete starWarsCharData._id;
+  StarWarsChar.update({ _id: req.params.id }, starWarsCharData, (err) => {
+    if (err) return serverErrorHandler(err, res);
+
+    res.status(200).json({ msg: "Star Wars character updated!" });
+  });
+});
+
+starWarsCharsRouter.delete("/starwarschars/:id", (req, res) => {
+  StarWarsChar.remove({ _id: req.params.id }, (err) => {
+    if (err) return serverErrorHandler(err, res);
+
+    res.status(200).json({ msg: "Star Wars character deleted!" });
+  });
+});

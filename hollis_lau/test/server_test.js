@@ -102,7 +102,7 @@ describe("SciFi server", () => {
       });
 
       newStarTrekChar.save((err, data) => {
-        if (err) return process.stderr.write(err);
+        if (err) return process.stderr.write(err + "\n");
 
         this.starTrekChar = data;
         done();
@@ -130,6 +130,50 @@ describe("SciFi server", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.body.msg).to.eql("Star Trek character deleted!");
+          done();
+        });
+    });
+  });
+
+  describe("POST and DELETE methods for Star Wars resource", () => {
+    before((done) => {
+      var newStarWarsChar = new StarWarsChar({
+        name: "Han Solo",
+        gender: "M",
+        weapon: "Heavy blaster pistol",
+        planet: "Corellia"
+      });
+
+      newStarWarsChar.save((err, data) => {
+        if (err) return process.stderr.write(err + "\n");
+
+        this.starWarsChar = data;
+        done();
+      });
+    });
+
+    it("updates the Star Wars character on a PUT request", (done) => {
+      request("localhost:" + this.port)
+        .put("/api/starwarschars/" + this.starWarsChar._id)
+        .send({
+          name: "Chewbacca",
+          gender: "M",
+          weapon: "Bowcaster",
+          planet: "Kashyyyk"
+        })
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.msg).to.eql("Star Wars character updated!");
+          done();
+        });
+    });
+
+    it("deletes the Star Wars character on a DELETE request", (done) => {
+      request("localhost:" + this.port)
+        .delete("/api/starwarschars/" + this.starWarsChar._id)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.msg).to.eql("Star Wars character deleted!");
           done();
         });
     });
