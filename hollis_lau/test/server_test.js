@@ -34,19 +34,26 @@ describe("SciFi server", () => {
   });
 
   describe("POST method", () => {
+    after((done) => {
+      mongoose.connection.db.dropDatabase(() => done());
+    });
+
     it("creates a new Star Trek character", (done) => {
       request("localhost:" + this.port)
         .post("/api/startrekchars")
         .send({
           name: "Jean-Luc Picard",
           gender: "M",
-          rank: "Captain"
+          rank: "Captain",
+          power: 8
         })
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.body.name).to.eql("Jean-Luc Picard");
           expect(res.body.gender).to.eql("M");
           expect(res.body.rank).to.eql("Captain");
+          expect(res.body.weapon).to.eql("Phaser");
+          expect(res.body.power).to.eql(8);
           expect(res.body.ship).to.eql("Enterprise");
           done();
         });
@@ -59,6 +66,7 @@ describe("SciFi server", () => {
           name: "Luke Skywalker",
           gender: "M",
           weapon: "Lightsaber",
+          power: 10,
           planet: "Tatooine"
         })
         .end((err, res) => {
@@ -66,6 +74,7 @@ describe("SciFi server", () => {
           expect(res.body.name).to.eql("Luke Skywalker");
           expect(res.body.gender).to.eql("M");
           expect(res.body.weapon).to.eql("Lightsaber");
+          expect(res.body.power).to.eql(10);
           expect(res.body.planet).to.eql("Tatooine");
           done();
         });
@@ -79,6 +88,7 @@ describe("SciFi server", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(Array.isArray(res.body)).to.eql(true);
+          expect(res.body.length).to.eql(0);
           done();
         });
     });
@@ -89,6 +99,7 @@ describe("SciFi server", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(Array.isArray(res.body)).to.eql(true);
+          expect(res.body.length).to.eql(0);
           done();
         });
     });
@@ -98,7 +109,8 @@ describe("SciFi server", () => {
     before((done) => {
       var newStarTrekChar = new StarTrekChar({
         name: "Data",
-        rank: "Lieutenant Commander"
+        rank: "Lieutenant Commander",
+        power: 9
       });
 
       newStarTrekChar.save((err, data) => {
@@ -115,7 +127,8 @@ describe("SciFi server", () => {
         .send({
           name: "William T. Riker",
           gender: "M",
-          rank: "Commander"
+          rank: "Commander",
+          power: 7
         })
         .end((err, res) => {
           expect(err).to.eql(null);
@@ -141,6 +154,7 @@ describe("SciFi server", () => {
         name: "Han Solo",
         gender: "M",
         weapon: "Heavy blaster pistol",
+        power: 7,
         planet: "Corellia"
       });
 
@@ -159,6 +173,7 @@ describe("SciFi server", () => {
           name: "Chewbacca",
           gender: "M",
           weapon: "Bowcaster",
+          power: 8,
           planet: "Kashyyyk"
         })
         .end((err, res) => {
@@ -174,6 +189,60 @@ describe("SciFi server", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.body.msg).to.eql("Star Wars character deleted!");
+          done();
+        });
+    });
+  });
+
+  describe("battle endpoint with empty collection", () => {
+    it("instructs user to add characters", (done) => {
+      request("localhost:" + this.port)
+        .get("/api/battle")
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.msg).to.eql("Please add at least one Star Trek and Star Wars character!");
+          done();
+        });
+    });
+  });
+
+  describe("battle endpoint with random characters", () => {
+    before((done) => {
+      var picard = new StarTrekChar({ name: "Jean-Luc Picard", power: 8 });
+      var laforge = new StarTrekChar({ name: "Geordi La Forge", power: 6 });
+      var skywalker = new StarWarsChar({ name: "Luke Skywalker", weapon: "Lightsaber", power: 10 });
+      var binks = new StarWarsChar({ name: "Jar Jar Binks", weapon: "Booma", power: 4 });
+
+      picard.save((err, data) => {
+        if (err) return process.stderr.write(err + "\n");
+
+        this.picard = data;
+        laforge.save((err, data) => {
+          if (err) return process.stderr.write(err + "\n");
+
+          this.laforge = data;
+          skywalker.save((err, data) => {
+            if (err) return process.stderr.write(err + "\n");
+
+            this.skywalker = data;
+            binks.save((err, data) => {
+              if (err) return process.stderr.write(err + "\n");
+
+              this.binks = data;
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    it("compares power levels of two characters and returns a victor", (done) => {
+      request("localhost:" + this.port)
+        .get("/api/battle")
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.msg).to.eql(res.body.winner + " defeats " + res.body.loser + " with a " +
+                                      res.body.weapon + "!");
           done();
         });
     });
