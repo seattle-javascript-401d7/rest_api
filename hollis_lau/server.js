@@ -8,8 +8,8 @@ app.use("/api", starTrekCharsRouter);
 app.use("/api", starWarsCharsRouter);
 
 module.exports = function (port, cb) {
-  cb = cb || function () {};
-  mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/scifi_db");
+  cb = cb || (() => {});
+  mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/scifi");
   return app.listen(port, () => {
     process.stdout.write("Server up on port " + port + "\n");
     cb();

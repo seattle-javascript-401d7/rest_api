@@ -14,3 +14,11 @@ starWarsCharsRouter.post("/starwarschars", bodyParser, (req, res) => {
     res.status(200).json(data);
   });
 });
+
+starWarsCharsRouter.get("/starwarschars", (req, res) => {
+  StarWarsChar.find(null, (err, data) => {
+    if (err) return serverErrorHandler(err);
+
+    res.status(200).json(data);
+  });
+});
