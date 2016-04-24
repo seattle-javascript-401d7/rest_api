@@ -17,7 +17,7 @@ starWarsCharsRouter.post("/starwarschars", bodyParser, (req, res) => {
 
 starWarsCharsRouter.get("/starwarschars", (req, res) => {
   StarWarsChar.find(null, (err, data) => {
-    if (err) return serverErrorHandler(err);
+    if (err) return serverErrorHandler(err, res);
 
     res.status(200).json(data);
   });

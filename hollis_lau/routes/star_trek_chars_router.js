@@ -17,8 +17,27 @@ starTrekCharRouter.post("/startrekchars", bodyParser, (req, res) => {
 
 starTrekCharRouter.get("/startrekchars", (req, res) => {
   StarTrekChar.find(null, (err, data) => {
-    if (err) return serverErrorHandler();
+    if (err) return serverErrorHandler(err, res);
 
     res.status(200).json(data);
+  });
+});
+
+starTrekCharRouter.put("/startrekchars/:id", bodyParser, (req, res) => {
+  var starTrekCharData = req.body;
+
+  delete starTrekCharData._id;
+  StarTrekChar.update({ _id: req.params.id }, starTrekCharData, (err) => {
+    if (err) return serverErrorHandler(err, res);
+
+    res.status(200).json({ msg: "Star Trek character updated!" });
+  });
+});
+
+starTrekCharRouter.delete("/startrekchars/:id", (req, res) => {
+  StarTrekChar.remove({ _id: req.params.id }, (err) => {
+    if (err) return serverErrorHandler(err, res);
+
+    res.status(200).json({ msg: "Star Trek character deleted!" });
   });
 });
