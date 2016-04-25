@@ -70,7 +70,7 @@ describe('the server', () => {
       expect(res.body.sharks).to.eql(1);
       expect(res.body.prey).to.eql(1);
       done();
+      });
     });
   });
-});
 });

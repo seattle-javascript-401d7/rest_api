@@ -102,8 +102,8 @@ describe('routes that need a shark in the DB', () => {
         expect(err).to.not.eql(null);
         expect(res.text).to.eql('Error 404 File not found');
         done();
+        });
       });
     });
   });
-});
 });
