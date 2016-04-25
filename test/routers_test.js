@@ -8,7 +8,6 @@ process.env.MONGODB_URI = 'mongodb://localhost/jedi_sith_test_db';
 const server = require(__dirname + '/../server.js');
 var Jedi = require(__dirname + '/../models/jedi');
 var Sith = require(__dirname + '/../models/sith');
-// const battleRouter = require(__dirname + '/../routes/battleRouter');
 
 
 describe('the GET request for versusRouter', () => {
