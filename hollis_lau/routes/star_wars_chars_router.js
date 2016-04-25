@@ -27,17 +27,17 @@ starWarsCharsRouter.put("/starwarschars/:id", bodyParser, (req, res) => {
   var starWarsCharData = req.body;
 
   delete starWarsCharData._id;
-  StarWarsChar.update({ _id: req.params.id }, starWarsCharData, (err) => {
+  StarWarsChar.update({ _id: req.params.id }, starWarsCharData, (err, raw) => {
     if (err) return serverErrorHandler(err, res);
 
-    res.status(200).json({ msg: "Star Wars character updated!" });
+    res.status(200).json({ msg: "Star Wars character updated!", raw: raw });
   });
 });
 
 starWarsCharsRouter.delete("/starwarschars/:id", (req, res) => {
-  StarWarsChar.remove({ _id: req.params.id }, (err) => {
+  StarWarsChar.remove({ _id: req.params.id }, (err, product) => {
     if (err) return serverErrorHandler(err, res);
 
-    res.status(200).json({ msg: "Star Wars character deleted!" });
+    res.status(200).json({ msg: "Star Wars character deleted!", product: product });
   });
 });
