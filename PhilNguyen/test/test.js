@@ -6,6 +6,7 @@ chai.use(chaiHTTP);
 const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 8080;
+process.env.MONGODB_URI = 'mongodb://localhost/superhero_test_db';
 const server = require(__dirname + '/../server');
 const Superhero = require(__dirname + '/../app/models/superhero');
 
@@ -18,7 +19,7 @@ describe('the POST method', () => {
   });
   it('should create a Superhero', (done) => {
     request('localhost:' + port)
-    .post('/heroes/superhero')
+    .post('/api/superhero')
     .send({ name: 'Captain America', powerlevel: 10000 })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -32,7 +33,7 @@ describe('the POST method', () => {
 describe('the GET method', () => {
   it('should get all superheroes', (done) => {
     request('localhost:' + port)
-    .get('/heroes/superhero')
+    .get('/api/superhero')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(Array.isArray(res.body)).to.eql(true);
@@ -43,12 +44,18 @@ describe('the GET method', () => {
 });
 
 describe('GET method to retrieve strongest hero', () => {
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
   it('should get the strongest hero above 9000', (done) => {
     request('localhost:' + port)
-    .get('/characters/strongestCharacter')
+    .get('/api/strongestCharacter')
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.length).to.eql(0);
+      expect(res.body).to.exist;
       expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
@@ -87,7 +94,7 @@ describe('how to manipulate superheroes or villains in db', () => {
 
   it('should update the existing Superhero power level', (done) => {
     request('localhost:' + port)
-    .put('/heroes/superhero/' + this.superhero._id)
+    .put('/api/superhero/' + this.superhero._id)
     .send({ name: 'Iron Man', powerlevel: 200000 })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -98,7 +105,7 @@ describe('how to manipulate superheroes or villains in db', () => {
 
   it('should be able to remove a superhero', (done) => {
     request('localhost:' + port)
-    .delete('/heroes/superhero/' + this.superhero._id)
+    .delete('/api/superhero/' + this.superhero._id)
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.message).to.eql('Successfully deleted!');

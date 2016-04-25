@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 8080;
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/superhero_db');
 
-app.use('/characters', strongestRouter);
-app.use('/heroes', heroRouter);
-app.use('/villains', villainRouter);
+app.use('/api', strongestRouter);
+app.use('/api', heroRouter);
+app.use('/api', villainRouter);
 
 module.exports = app.listen(PORT, () => console.log('server up on port: ' + PORT));
