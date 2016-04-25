@@ -22,6 +22,17 @@ battleRouter.get("/battle", (req, res) => {
         return Math.floor(Math.random() * arr.length);
       }
 
+      function output(winner, loser) {
+        res.status(200).json({
+          winnerName: winner.name,
+          winnerPower: winner.power,
+          loserName: loser.name,
+          loserPower: loser.power,
+          winnerWeapon: winner.weapon,
+          msg: winner.name + " defeats " + loser.name + " with a " + winner.weapon + "!"
+        });
+      }
+
       if (err) return serverErrorHandler(err, res);
 
       starWarsChars = data;
@@ -36,24 +47,20 @@ battleRouter.get("/battle", (req, res) => {
       starWarsChar = starWarsChars[randomIndex(starWarsChars)]._doc;
 
       if (starTrekChar.power > starWarsChar.power) {
-        return res.status(200).json({
-          winner: starTrekChar.name,
-          loser: starWarsChar.name,
-          weapon: starTrekChar.weapon,
-          msg: starTrekChar.name + " defeats " + starWarsChar.name + " with a " +
-               starTrekChar.weapon + "!"
-        });
+        return output(starTrekChar, starWarsChar);
       }
 
       if (starWarsChar.power > starTrekChar.power) {
-        return res.status(200).json({
-          winner: starWarsChar.name,
-          loser: starTrekChar.name,
-          weapon: starWarsChar.weapon,
-          msg: starWarsChar.name + " defeats " + starTrekChar.name + " with a " +
-               starWarsChar.weapon + "!"
-        });
+        return output(starWarsChar, starTrekChar);
       }
+
+      res.status(200).json({
+        starTrekName: starTrekChar.name,
+        starTrekPower: starTrekChar.power,
+        starWarsName: starWarsChar.name,
+        starWarsPower: starWarsChar.power,
+        msg: starTrekChar.name + " and " + starWarsChar.name + " battle to a draw!"
+      });
     });
   });
 });

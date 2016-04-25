@@ -236,13 +236,52 @@ describe("SciFi server", () => {
       });
     });
 
+    after((done) => {
+      mongoose.connection.db.dropDatabase(() => done());
+    });
+
     it("compares power levels of two characters and returns a victor", (done) => {
       request("localhost:" + this.port)
         .get("/api/battle")
         .end((err, res) => {
           expect(err).to.eql(null);
-          expect(res.body.msg).to.eql(res.body.winner + " defeats " + res.body.loser + " with a " +
-                                      res.body.weapon + "!");
+          expect(res.body.winnerPower).to.be.above(res.body.loserPower);
+          expect(res.body.msg).to.eql(
+            res.body.winnerName + " defeats " + res.body.loserName + " with a " +
+            res.body.winnerWeapon + "!"
+          );
+          done();
+        });
+    });
+  });
+
+  describe("battle endpoint with equal power levels", () => {
+    before((done) => {
+      var tribble = new StarTrekChar({ name: "Tribble", power: 1, weapon: "Fur" });
+      var jawa = new StarWarsChar({ name: "Jawa", power: 1, weapon: "Tools" });
+
+      tribble.save((err, data) => {
+        if (err) return process.stderr.write(err + "\n");
+
+        this.tribble = data;
+        jawa.save((err, data) => {
+          if (err) return process.stderr.write(err + "\n");
+
+          this.jawa = data;
+          done();
+        });
+      });
+    });
+
+    it("resolves a tie with a message", (done) => {
+      request("localhost:" + this.port)
+        .get("/api/battle")
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.starTrekPower).to.eql(res.body.starWarsPower);
+          expect(res.body.msg).to.eql(
+            res.body.starTrekName + " and " + res.body.starWarsName + " battle to a draw!"
+          );
           done();
         });
     });
