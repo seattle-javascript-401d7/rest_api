@@ -50,7 +50,7 @@ describe('Pet routes that need content to work', () => {
   beforeEach((done) => {
     var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
     newPet.save((err, data) => {
-      if(err) {
+      if (err) {
         console.log(err);
       }
       this.pet = data;
@@ -66,8 +66,8 @@ describe('Pet routes that need content to work', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
+    });
   });
-});
 
   it('should be able to PUT a pet', (done) => {
     request('localhost:' + port)
@@ -132,7 +132,7 @@ describe('Sandwich Router', () => {
       var newSandwich = new Sandwich({ name: 'Testwich',
       ingrediants: ['test', 'bread'], yumFactor: 9 });
       newSandwich.save((err, data) => {
-        if(err) {
+        if (err) {
           console.log(err);
         }
         this.sandwich = data;
@@ -192,7 +192,7 @@ describe('War of pets and sandwiches', () => {
     var newSandwich = new Sandwich({ name: 'Testwich',
     ingrediants: ['test', 'bread'], yumFactor: 9 });
     newSandwich.save((err, data) => {
-      if(err) {
+      if (err) {
         console.log(err);
       }
       this.sandwich = data;
@@ -201,13 +201,13 @@ describe('War of pets and sandwiches', () => {
     // two pets
     var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
     newPet.save((err) => {
-      if(err) {
+      if (err) {
         console.log(err);
       }
     });
     var newPet2 = new Pet({ name: 'TestCat2', nickName: 'muffin2' });
     newPet2.save((err) => {
-      if(err) {
+      if (err) {
         console.log(err);
       }
     });
@@ -228,5 +228,5 @@ describe('War of pets and sandwiches', () => {
         console.log(res.body.yumFactor);
         done();
       });
-    });
   });
+});
