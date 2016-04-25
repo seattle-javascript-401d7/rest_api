@@ -49,6 +49,7 @@ describe("SciFi server", () => {
         })
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.name).to.eql("Jean-Luc Picard");
           expect(res.body.gender).to.eql("M");
           expect(res.body.rank).to.eql("Captain");
@@ -71,6 +72,7 @@ describe("SciFi server", () => {
         })
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.name).to.eql("Luke Skywalker");
           expect(res.body.gender).to.eql("M");
           expect(res.body.weapon).to.eql("Lightsaber");
@@ -87,6 +89,7 @@ describe("SciFi server", () => {
         .get("/api/startrekchars")
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(Array.isArray(res.body)).to.eql(true);
           expect(res.body.length).to.eql(0);
           done();
@@ -98,6 +101,7 @@ describe("SciFi server", () => {
         .get("/api/starwarschars")
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(Array.isArray(res.body)).to.eql(true);
           expect(res.body.length).to.eql(0);
           done();
@@ -132,6 +136,7 @@ describe("SciFi server", () => {
         })
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.msg).to.eql("Star Trek character updated!");
           done();
         });
@@ -142,6 +147,7 @@ describe("SciFi server", () => {
         .delete("/api/startrekchars/" + this.starTrekChar._id)
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.msg).to.eql("Star Trek character deleted!");
           done();
         });
@@ -178,6 +184,7 @@ describe("SciFi server", () => {
         })
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.msg).to.eql("Star Wars character updated!");
           done();
         });
@@ -188,6 +195,7 @@ describe("SciFi server", () => {
         .delete("/api/starwarschars/" + this.starWarsChar._id)
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.msg).to.eql("Star Wars character deleted!");
           done();
         });
@@ -200,7 +208,10 @@ describe("SciFi server", () => {
         .get("/api/battle")
         .end((err, res) => {
           expect(err).to.eql(null);
-          expect(res.body.msg).to.eql("Please add at least one Star Trek and Star Wars character!");
+          expect(res).to.have.status(200);
+          expect(res.body.msg).to.eql(
+            "Please add at least one Star Trek and one Star Wars character!"
+          );
           done();
         });
     });
@@ -245,6 +256,7 @@ describe("SciFi server", () => {
         .get("/api/battle")
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.winnerPower).to.be.above(res.body.loserPower);
           expect(res.body.msg).to.eql(
             res.body.winnerName + " defeats " + res.body.loserName + " with a " +
@@ -278,6 +290,7 @@ describe("SciFi server", () => {
         .get("/api/battle")
         .end((err, res) => {
           expect(err).to.eql(null);
+          expect(res).to.have.status(200);
           expect(res.body.starTrekPower).to.eql(res.body.starWarsPower);
           expect(res.body.msg).to.eql(
             res.body.starTrekName + " and " + res.body.starWarsName + " battle to a draw!"
