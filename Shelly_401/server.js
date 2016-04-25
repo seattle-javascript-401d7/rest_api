@@ -11,10 +11,8 @@ mongoose.connect(mongoURI);
 
 app.use('/api', authenticat.router);
 
-const mugRouter = require(__dirname  + '/routes/mug_router');
-const vinylRouter = require(__dirname  + '/routes/vinyl_router');
-
-
+const mugRouter = require(__dirname + '/routes/mug_router');
+const vinylRouter = require(__dirname + '/routes/vinyl_router');
 
 app.use('/api', mugRouter);
 app.use('/api', vinylRouter);
