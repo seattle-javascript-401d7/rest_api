@@ -27,17 +27,17 @@ starTrekCharsRouter.put("/startrekchars/:id", bodyParser, (req, res) => {
   var starTrekCharData = req.body;
 
   delete starTrekCharData._id;
-  StarTrekChar.update({ _id: req.params.id }, starTrekCharData, (err) => {
+  StarTrekChar.update({ _id: req.params.id }, starTrekCharData, (err, raw) => {
     if (err) return serverErrorHandler(err, res);
 
-    res.status(200).json({ msg: "Star Trek character updated!" });
+    res.status(200).json({ msg: "Star Trek character updated!", raw: raw });
   });
 });
 
 starTrekCharsRouter.delete("/startrekchars/:id", (req, res) => {
-  StarTrekChar.remove({ _id: req.params.id }, (err) => {
+  StarTrekChar.remove({ _id: req.params.id }, (err, product) => {
     if (err) return serverErrorHandler(err, res);
 
-    res.status(200).json({ msg: "Star Trek character deleted!" });
+    res.status(200).json({ msg: "Star Trek character deleted!", product: product });
   });
 });

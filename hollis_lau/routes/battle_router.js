@@ -39,7 +39,7 @@ battleRouter.get("/battle", (req, res) => {
 
       if (!starTrekChars.length || !starWarsChars.length) {
         return res.status(200).json({
-          msg: "Please add at least one Star Trek and Star Wars character!"
+          msg: "Please add at least one Star Trek and one Star Wars character!"
         });
       }
 
