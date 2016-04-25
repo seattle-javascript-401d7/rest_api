@@ -1,6 +1,6 @@
 # Two-Resource REST API Assignment
 
-Store your favorite Star Trek and Star Wars characters in a database and randomly pit them against one another in battle. Install using `npm install` and verify the tests with `npm test`. Start up your local install of MongoDB, then run `npm start` to get your server going. The port defaults to `3000` unless you have a PORT environment variable set up. Assuming a default port, POST your favorite Star Trek characters to http://localhost:3000/api/startrekchars and your favorite Star Wars heroes to http://localhost:3000/api/starwarschars.
+Store your favorite Star Trek and Star Wars characters in a database and randomly pit them against one another in battle. Install using `npm install` and verify the tests with `npm test`. Start up your local install of MongoDB, then run `npm start` to get your server going. The port defaults to `3000` unless you have a PORT environment variable set up. Assuming a default port, POST your favorite Star Trek characters to <http://localhost:3000/api/startrekchars> and your favorite Star Wars heroes to <http://localhost:3000/api/starwarschars>.
 
 The schema for Star Trek characters is as follows:
 ```
@@ -30,4 +30,4 @@ After creating your characters, you can return a list of all characters in your 
 UPDATE http://localhost:3000/api/startrekchars/:id
 DELETE http://localhost:3000/api/starwarschars/:id
 ```
-Once your collection is complete, send your heroes into battle by submitting a GET request to http://localhost:3000/api/battle. The server will randomly select one Star Trek and one Star Wars character to fight against each other, and return an outcome depending on the power levels of the respective characters.
+Once your collection is complete, send your heroes into battle by submitting a GET request to <http://localhost:3000/api/battle>. The server will randomly select one Star Trek and one Star Wars character to fight against each other, and return an outcome depending on the power levels of the respective characters.
