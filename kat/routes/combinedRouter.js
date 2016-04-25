@@ -10,7 +10,7 @@ warsRouter.get('/war', (req, res) => {
   var sandwichTotal = [];
   var lastSandwich = {};
 
-function findPet(callback) {
+  function findPet(callback) {
     Pet.find(null, (err, data) => {
       if (err) return errorHandler(err, res);
       petTotal = data;
@@ -18,25 +18,26 @@ function findPet(callback) {
     });
   }
 
-function findSandwich(callback) {
-  Sandwich.find(null, (err, data) => {
-    if (err) return errorHandler(err, res);
-    sandwichTotal = data;
-    lastSandwich = sandwichTotal[sandwichTotal.length - 1];
-    callback(sandwichTotal, lastSandwich);
-  });
-}
+  function findSandwich(callback) {
+    Sandwich.find(null, (err, data) => {
+      if (err) return errorHandler(err, res);
+      sandwichTotal = data;
+      lastSandwich = sandwichTotal[sandwichTotal.length - 1];
+      callback(sandwichTotal, lastSandwich);
+    });
+  }
   function war() {
     findPet((petTotal) => {
       findSandwich((sandwichTotal, lastSandwich) => {
-        if (petTotal.length < sandwichTotal.length) res.status(200).json({ msg: 'your sandwich is safe' });
-        else {
+        if (petTotal.length < sandwichTotal.length) {
+          res.status(200).json({ msg: 'your sandwich is safe' });
+        } else {
           Sandwich.findByIdAndUpdate(lastSandwich._id, { $set: { yumFactor: 0 } },
-            function(err, sandwich) {
-            if (err) return errorHandler(err, res);
-            console.log(sandwich);
-            res.send(sandwich);
-          });
+            (err, sandwich) => {
+              if (err) return errorHandler(err, res);
+              console.log(sandwich);
+              res.send(sandwich);
+            });
         }
       });
     });
