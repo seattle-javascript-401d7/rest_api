@@ -6,4 +6,5 @@ var vinylSchema = new mongoose.Schema({
   purchasedAt: { type: String, default: 'Amoeba' }
 });
 
+
 module.exports = mongoose.model('Vinyl', vinylSchema);

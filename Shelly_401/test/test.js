@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
-const port = process.env.PORT = 1234;
+const port = process.env.PORT = 1235;
 const Mug = require(__dirname + '/../models/mug');
 const Vinyl = require(__dirname + '/../models/vinyls');
 process.env.MONG_URI = 'mongodb://localhost/thursday_db';

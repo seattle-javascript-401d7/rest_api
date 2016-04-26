@@ -3,7 +3,12 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const gutil = require('gulp-util');
 
-var files = ['lib/**/*.js', 'test/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'gulpfile.js', 'server.js'];
+var files = ['lib/**/*.js',
+ 'test/**/*.js',
+  'models/**/*.js',
+  'routes/**/*.js',
+  'gulpfile.js',
+  'server.js'];
 
 gulp.task('mocha', () => {
   return gulp.src(['./test/**/*test.js'], { read: false })
@@ -26,11 +31,6 @@ gulp.task('lint:nontest', () => {
   .pipe(eslint( {
     useEslintrc: false,
     warnFileIgnored: true,
-    // rules: {
-    //   'semi': 1,
-    //   'indent': ['error', 2],
-    //   'quotes': [1, 'single']
-    // },
     env: {
       'browser': true,
       'jquery': true,
@@ -42,10 +42,9 @@ gulp.task('lint:nontest', () => {
 });
 
 gulp.task('watch-files', ['mocha'], () => {
-  gulp.watch(['lib/**', 'test/**'], ['mocha']);
-  gulp.watch(['lib/**', 'test/**'], ['lint:test']);
-  gulp.watch(['lib/**', 'test/**'], ['lint:nontest']);
+  gulp.watch(files, ['mocha']);
+  gulp.watch(files, ['lint:test']);
+  gulp.watch(files, ['lint:nontest']);
 });
-
-gulp.task('gulpfile.js', ['watch-files']);
+gulp.task('server', ['watch-files']);
 gulp.task('default', ['server']);
