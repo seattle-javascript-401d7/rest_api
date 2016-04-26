@@ -21,13 +21,13 @@ winesRouter.get('/wines', (req, res) => {
   });
 });
 
-winesRouter.put('/wines/:wine_id', function(req, res) {
-  Wine.findById(req.params.wine_id, function(err, wine) {
+winesRouter.put('/wines/:wine_id', (req, res) => {
+  Wine.findById(req.params.wine_id, (err, wine) => {
     if (err) res.send(err);
 
     wine.quantity = req.body.quantity;
-    wine.save(function(err) {
-      if (err) res.send(err);
+    wine.save((err) => {
+      if (err) return res.send(err);
 
       res.json(wine);
     });
@@ -35,9 +35,9 @@ winesRouter.put('/wines/:wine_id', function(req, res) {
 });
 
 
-winesRouter.delete('/wines/:wine_id', function(req, res) {
-  Wine.findByIdAndRemove(req.params.wine_id, function(err) {
-    if (err) res.send(err);
+winesRouter.delete('/wines/:wine_id', (req, res) => {
+  Wine.findByIdAndRemove(req.params.wine_id, (err) => {
+    if (err) return res.send(err);
 
     res.json({ message: 'Wine is all gone!' });
   });

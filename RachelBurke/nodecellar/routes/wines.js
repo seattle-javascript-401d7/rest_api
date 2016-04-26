@@ -1,4 +1,4 @@
-var mongo = require('mongodb');
+var mongodb = require('mongodb');
 
 var Server = mongo.Server,
   Db = mongo.Db,

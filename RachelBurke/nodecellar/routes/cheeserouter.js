@@ -23,11 +23,11 @@ cheeseRouter.get('/cheese', (req, res) => {
 
 cheeseRouter.put('/cheese/:cheese_id', (req, res) => {
   Cheese.findById(req.params.cheese_id, (err, cheese) => {
-    if (err) res.send(err);
+    if (err) return res.send(err);
 
     cheese.quantity = req.body.quantity;
-    cheese.save((err) => {
-      if (err) res.send(err);
+    cheese.save((err, cheese) => {
+      if (err) return res.send(err);
 
       res.json(cheese);
     });
@@ -37,7 +37,7 @@ cheeseRouter.put('/cheese/:cheese_id', (req, res) => {
 
 cheeseRouter.delete('/cheese/:cheese_id', (req, res) => {
   Cheese.findByIdAndRemove(req.params.wine_id, (err) => {
-    if (err) res.send(err);
+    if (err) return res.send(err);
 
     res.json({ message: 'Cheese is all gone!' });
   });
