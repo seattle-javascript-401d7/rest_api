@@ -21,8 +21,7 @@ moviesRouter.get('/movies', (req, res) => {
 });
 moviesRouter.put('/movies/:id', bodyParser, (req, res) => {
   var movieData = req.body;
-  delete movieData._id;
-  Movie.update({_id: req.params.id}, movieData, (err) => {
+  Movie.update({name: req.params.id}, movieData, (err) => {
     if(err) return serverError(err, res);
     res.status(200).json({msg:'you have updated movies'});
   });
@@ -50,7 +49,7 @@ moviesRouter.route('/moviessadmadglad')
           } else if(movies[i].emotion === 'glad') {
             gladArrayMovies.push(movies[i])
           }
-        }7
+        }
         console.log('\nMovies Array: \n');
         console.log(moviesArray);
         console.log('\nSad Array:\n' + sadArrayMovies + '\n');

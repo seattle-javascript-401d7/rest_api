@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 7777;
 const moviesRouter = require(__dirname + '/routes/moviesrouter');
 const songsRouter = require(__dirname + '/routes/songsrouter');
 const mongoose = require('mongoose');
