@@ -5,7 +5,7 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 2000;
-process.env.MONGO_URI = 'mongodb://localhost/db';
+process.env.MONGO_URI = 'mongodb://localhost/db_test';
 require(__dirname + '/../app');
 const Droid = require(__dirname + '/../models/droid');
 const Jawa = require(__dirname + '/../models/jawa');
