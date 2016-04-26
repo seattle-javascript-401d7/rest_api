@@ -24,7 +24,7 @@ GET all song titles
 PUT a new song title and band name under the same ID
 DELETE a song title and band name under a specific ID
 
-example using Httpie: http POST localhost:3000/api/song title=Rapture bandName=Blondie
+example using Httpie: http POST localhost:3000/api/songs title=Rapture bandName=Blondie
                       http GET localhost:3000/api/songs
 
 ## /bandName route (non-CRUD)
