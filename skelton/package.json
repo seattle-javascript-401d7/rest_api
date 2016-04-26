@@ -1,0 +1,33 @@
+{
+  "name": "skelton-simple-shoe-selector",
+  "version": "1.0.0",
+  "description": "select shoes to go with your outfit",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "start": "node index"
+  },
+  "keywords": [
+    "shoes",
+    "pants",
+    "wardrobe",
+    "outfit",
+    "mongoose"
+  ],
+  "author": "Kristopher Skelton <kristopher@kmskelton.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongodb": "^2.1.16",
+    "mongoose": "^4.4.12"
+  },
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "chai-http": "^2.0.1",
+    "gulp": "~3.9.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "~2.4.5"
+  }
+}
