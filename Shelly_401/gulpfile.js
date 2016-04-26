@@ -3,7 +3,7 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const gutil = require('gulp-util');
 
-var files = ['lib/**/*.js', 'test/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'gulpfile.js'];
+var files = ['lib/**/*.js', 'test/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'gulpfile.js', 'server.js'];
 
 gulp.task('mocha', () => {
   return gulp.src(['./test/**/*test.js'], { read: false })
@@ -26,11 +26,11 @@ gulp.task('lint:nontest', () => {
   .pipe(eslint( {
     useEslintrc: false,
     warnFileIgnored: true,
-    rules: {
-      'semi': 1,
-      'indent': ['error', 2],
-      'quotes': [1, 'single']
-    },
+    // rules: {
+    //   'semi': 1,
+    //   'indent': ['error', 2],
+    //   'quotes': [1, 'single']
+    // },
     env: {
       'browser': true,
       'jquery': true,
@@ -48,4 +48,4 @@ gulp.task('watch-files', ['mocha'], () => {
 });
 
 gulp.task('gulpfile.js', ['watch-files']);
-gulp.task('default', ['index']);
+gulp.task('default', ['server']);

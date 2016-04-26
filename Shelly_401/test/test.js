@@ -10,14 +10,14 @@ const Vinyl = require(__dirname + '/../models/vinyls');
 process.env.MONG_URI = 'mongodb://localhost/thursday_db';
 require(__dirname + '/../server');
 
-describe('the mugs POST', () => {
+describe('the POST', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
     });
   });
 
-  it('should list mugs', (done) => {
+  it('should post mugs', (done) => {
     request('localhost:' + port)
     .post('/api/mugs')
     .send({ place: 'Algonquin Hotel', city: 'NYC', drinkPref: 'bathtub gin' })
@@ -30,7 +30,7 @@ describe('the mugs POST', () => {
     });
   });
 
-  it('should list vinyl', (done) => {
+  it('should post vinyl', (done) => {
     request('localhost:' + port)
     .post('/api/vinyl')
     .send({ album: 'Surfing with the Alien', artist: 'Joe Satriani', purchasedAt: 'Spin Cycle' })
@@ -42,8 +42,6 @@ describe('the mugs POST', () => {
       done();
     });
   });
-
-
 });
 
 
@@ -58,6 +56,7 @@ describe('the mugs GET', () => {
       done();
     });
   });
+
 
   it('should get the vinyls', (done) => {
     request('localhost:' + port)
@@ -75,26 +74,29 @@ describe('the mugs GET', () => {
 describe('additional', () => {
   beforeEach((done) => {
     var newMug = new Mug({ place: 'testPlace', city: 'testCity', drinkPref: 'testDrink' });
-    var newVinyl = new Vinyl({ album: 'testAlbum', artist: 'testArtist', purchasedAt: 'testStore' });
+    var newVinyl = new Vinyl({ album: 'testAlbum',
+    artist: 'testArtist',
+    purchasedAt: 'testStore' });
     newMug.save((err, data) => {
       expect(err).to.eql(null);
       this.mug = data;
-});
+      newVinyl.save((err, data) => {
+        expect(err).to.eql(null);
+        this.vinyl = data;
+        done();
+      });
 
-    newVinyl.save((err, data) => {
-      expect(err).to.eql(null);
-      this.vinyl = data;
-      done();
-    });
-  });
+});
 
   afterEach((done) => {
     this.mug.remove((err) => {
       expect(err).to.eql(null);
+    done();
     });
 
     this.vinyl.remove((err) => {
       expect(err).to.eql(null);
+      done();
     });
     done();
   });
@@ -111,11 +113,8 @@ it('should change mug identity on PUT', (done) => {
   .put('/api/mugs/' + this.mug._id)
   .send({ place: 'The Quan\'s', city: 'Valencia', drinkPref: 'scotch' })
   .end((err, res) => {
-      console.log('a' + err);
-          console.log(res.body.msg);
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Mugs updated');
-
     done();
 });
 });
@@ -131,12 +130,10 @@ it('should change vinyl identity on PUT', (done) => {
 });
 });
 
-
 it('should remove mugs on DELETE', (done) => {
   request('localhost:' + port)
   .delete('/api/mugs/' + this.mug._id)
   .end((err, res) => {
-    console.log('s' + err);
     expect(err).to.eql(null);
     expect(res.body.msg).to.eql('Mugs record deleted');
     done();
@@ -153,3 +150,4 @@ it('should remove vinyl on DELETE', (done) => {
   });
     });
       });
+});
