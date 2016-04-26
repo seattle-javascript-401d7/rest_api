@@ -1,9 +1,9 @@
-const Router = require("express").Router;
+const router = require("express").Router();
 const StarTrekChar = require(__dirname + "/../models/star_trek_char");
 const StarWarsChar = require(__dirname + "/../models/star_wars_char");
 const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
 
-var battleRouter = module.exports = Router();
+var battleRouter = module.exports = router;
 
 battleRouter.get("/battle", (req, res) => {
 
