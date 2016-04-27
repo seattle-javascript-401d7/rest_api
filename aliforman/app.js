@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/db');
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/db');
 
 var port = process.env.PORT || 3000;
 
