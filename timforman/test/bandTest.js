@@ -7,7 +7,7 @@ const serverErrorHandler = require(__dirname + '/../lib/error_handler');
 const mongoose = require('mongoose');
 const port = process.env.PORT = 5555;
 
-process.env.MONGO_URI = 'mongod://localhost/bands_test_db';
+process.env.MONGODB_URI = 'mongodb://localhost/bands_test_db';
 require(__dirname + '/../server');
 const Band = require(__dirname + '/../models/band');
 
