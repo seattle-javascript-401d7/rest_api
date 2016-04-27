@@ -6,7 +6,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bcrypt": "latest"
+  },
   "devDependencies": {
     "chai-http": "^2.0.1",
     "express": "^4.13.4",
