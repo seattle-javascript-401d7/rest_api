@@ -3,64 +3,64 @@ const StarTrekChar = require(__dirname + "/../models/star_trek_char");
 const StarWarsChar = require(__dirname + "/../models/star_wars_char");
 const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
 
-var battleRouter = module.exports = router;
+module.exports = exports = router;
 
-battleRouter.get("/battle", (req, res) => {
+router.get("/battle", (req, res) => {
+  function getRandomIndex(arr) {
+    return Math.floor(Math.random() * arr.length);
+  }
+
+  function sendAddChars(name1, name2) {
+    res.status(200).json({
+      msg: "Please add at least one " + name1 + " and one " + name2 + " character!"
+    });
+  }
+
+  function sendWinner(winner, loser) {
+    res.status(200).json({
+      winner: winner,
+      loser: loser,
+      msg: winner.name + " defeats " + loser.name + " with a " + winner.weapon + "!"
+    });
+  }
+
+  function sendTie(char1, char2) {
+    res.status(200).json({
+      char1: char1,
+      char2: char2,
+      msg: char1.name + " and " + char2.name + " battle to a draw!"
+    });
+  }
 
   StarTrekChar.find(null, (err, data) => {
-    var starTrekChars;
+    var charCollections = [];
+    var randomChars = [];
 
     if (err) return serverErrorHandler(err, res);
 
-    starTrekChars = data;
+    charCollections[0] = data;
+
     StarWarsChar.find(null, (err, data) => {
-      var starWarsChars;
-      var starTrekChar;
-      var starWarsChar;
-
-      function randomIndex(arr) {
-        return Math.floor(Math.random() * arr.length);
-      }
-
-      function output(winner, loser) {
-        res.status(200).json({
-          winnerName: winner.name,
-          winnerPower: winner.power,
-          loserName: loser.name,
-          loserPower: loser.power,
-          winnerWeapon: winner.weapon,
-          msg: winner.name + " defeats " + loser.name + " with a " + winner.weapon + "!"
-        });
-      }
-
       if (err) return serverErrorHandler(err, res);
 
-      starWarsChars = data;
+      charCollections[1] = data;
 
-      if (!starTrekChars.length || !starWarsChars.length) {
-        return res.status(200).json({
-          msg: "Please add at least one Star Trek and one Star Wars character!"
-        });
+      if (!charCollections[0].length || !charCollections[1].length) {
+        return sendAddChars("Star Trek", "Star Wars");
       }
 
-      starTrekChar = starTrekChars[randomIndex(starTrekChars)]._doc;
-      starWarsChar = starWarsChars[randomIndex(starWarsChars)]._doc;
+      randomChars[0] = charCollections[0][getRandomIndex(charCollections[0])]._doc;
+      randomChars[1] = charCollections[1][getRandomIndex(charCollections[1])]._doc;
 
-      if (starTrekChar.power > starWarsChar.power) {
-        return output(starTrekChar, starWarsChar);
+      if (randomChars[0].power > randomChars[1].power) {
+        return sendWinner(randomChars[0], randomChars[1]);
       }
 
-      if (starWarsChar.power > starTrekChar.power) {
-        return output(starWarsChar, starTrekChar);
+      if (randomChars[1].power > randomChars[0].power) {
+        return sendWinner(randomChars[1], randomChars[0]);
       }
 
-      res.status(200).json({
-        starTrekName: starTrekChar.name,
-        starTrekPower: starTrekChar.power,
-        starWarsName: starWarsChar.name,
-        starWarsPower: starWarsChar.power,
-        msg: starTrekChar.name + " and " + starWarsChar.name + " battle to a draw!"
-      });
+      sendTie(randomChars[0], randomChars[1]);
     });
   });
 });

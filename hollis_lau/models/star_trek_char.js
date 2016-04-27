@@ -9,4 +9,4 @@ var starTrekCharSchema = new mongoose.Schema({
   ship: { type: String, default: "Enterprise" }
 });
 
-module.exports = mongoose.model("starTrekChar", starTrekCharSchema);
+module.exports = exports = mongoose.model("starTrekChar", starTrekCharSchema);

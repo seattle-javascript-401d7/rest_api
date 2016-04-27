@@ -3,9 +3,9 @@ const bodyParser = require("body-parser").json();
 const StarTrekChar = require(__dirname + "/../models/star_trek_char");
 const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
 
-var starTrekCharsRouter = module.exports = router;
+module.exports = exports = router;
 
-starTrekCharsRouter.post("/startrekchars", bodyParser, (req, res) => {
+router.post("/startrekchars", bodyParser, (req, res) => {
   var newStarTrekChar = new StarTrekChar(req.body);
 
   newStarTrekChar.save((err, data) => {
@@ -15,7 +15,7 @@ starTrekCharsRouter.post("/startrekchars", bodyParser, (req, res) => {
   });
 });
 
-starTrekCharsRouter.get("/startrekchars", (req, res) => {
+router.get("/startrekchars", (req, res) => {
   StarTrekChar.find(null, (err, data) => {
     if (err) return serverErrorHandler(err, res);
 
@@ -23,7 +23,7 @@ starTrekCharsRouter.get("/startrekchars", (req, res) => {
   });
 });
 
-starTrekCharsRouter.put("/startrekchars/:id", bodyParser, (req, res) => {
+router.put("/startrekchars/:id", bodyParser, (req, res) => {
   var starTrekCharData = req.body;
 
   delete starTrekCharData._id;
@@ -34,7 +34,7 @@ starTrekCharsRouter.put("/startrekchars/:id", bodyParser, (req, res) => {
   });
 });
 
-starTrekCharsRouter.delete("/startrekchars/:id", (req, res) => {
+router.delete("/startrekchars/:id", (req, res) => {
   StarTrekChar.remove({ _id: req.params.id }, (err, product) => {
     if (err) return serverErrorHandler(err, res);
 

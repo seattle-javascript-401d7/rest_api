@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/**/*.js",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "author": {
     "name": "Hollis Lau",

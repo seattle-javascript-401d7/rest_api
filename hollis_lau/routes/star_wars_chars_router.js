@@ -3,9 +3,9 @@ const bodyParser = require("body-parser").json();
 const StarWarsChar = require(__dirname + "/../models/star_wars_char");
 const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
 
-var starWarsCharsRouter = module.exports = router;
+module.exports = exports = router;
 
-starWarsCharsRouter.post("/starwarschars", bodyParser, (req, res) => {
+router.post("/starwarschars", bodyParser, (req, res) => {
   var newStarWarsChar = new StarWarsChar(req.body);
 
   newStarWarsChar.save((err, data) => {
@@ -15,7 +15,7 @@ starWarsCharsRouter.post("/starwarschars", bodyParser, (req, res) => {
   });
 });
 
-starWarsCharsRouter.get("/starwarschars", (req, res) => {
+router.get("/starwarschars", (req, res) => {
   StarWarsChar.find(null, (err, data) => {
     if (err) return serverErrorHandler(err, res);
 
@@ -23,7 +23,7 @@ starWarsCharsRouter.get("/starwarschars", (req, res) => {
   });
 });
 
-starWarsCharsRouter.put("/starwarschars/:id", bodyParser, (req, res) => {
+router.put("/starwarschars/:id", bodyParser, (req, res) => {
   var starWarsCharData = req.body;
 
   delete starWarsCharData._id;
@@ -34,7 +34,7 @@ starWarsCharsRouter.put("/starwarschars/:id", bodyParser, (req, res) => {
   });
 });
 
-starWarsCharsRouter.delete("/starwarschars/:id", (req, res) => {
+router.delete("/starwarschars/:id", (req, res) => {
   StarWarsChar.remove({ _id: req.params.id }, (err, product) => {
     if (err) return serverErrorHandler(err, res);
 

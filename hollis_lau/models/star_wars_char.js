@@ -8,4 +8,4 @@ var starWarsCharSchema = new mongoose.Schema({
   planet: String
 });
 
-module.exports = mongoose.model("starWarsChar", starWarsCharSchema);
+module.exports = exports = mongoose.model("starWarsChar", starWarsCharSchema);

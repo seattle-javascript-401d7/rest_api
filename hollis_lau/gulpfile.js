@@ -4,9 +4,9 @@ const mocha = require("gulp-mocha");
 const nodemon = require("gulp-nodemon");
 
 var lintFiles = ["lib/**/*.js", "models/**/*.js", "routes/**/*.js", "test/**/*.js",
-                 "gulpfile.js", "index.js", "server.js"];
+                 "_server.js", "gulpfile.js", "index.js", "server.js"];
 var testFiles = ["lib/**/*.js", "models/**/*.js", "routes/**/*.js", "test/**/*.js",
-                 "server.js"];
+                 "_server.js", "server.js"];
 
 gulp.task("lint", () => {
   return gulp.src(lintFiles)
@@ -17,7 +17,7 @@ gulp.task("lint", () => {
 });
 
 gulp.task("test", () => {
-  return gulp.src("./test/server_test.js")
+  return gulp.src("test/**/*.js")
     .pipe(mocha({
       reporter: "spec"
     }));
@@ -25,7 +25,7 @@ gulp.task("test", () => {
 
 gulp.task("develop", () => {
   nodemon({
-    script: "index.js",
+    script: "server.js",
     ext: "js",
     tasks: ["lint", "test"]
   })
