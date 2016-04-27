@@ -1,1 +1,1 @@
-module.eports = require(__dirname + '/lib/server');
+module.eports = require(__dirname + '/server/server');

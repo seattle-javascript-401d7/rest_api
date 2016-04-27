@@ -9,19 +9,19 @@ var port = process.env.PORT = 5555;
 const app = require(__dirname + '/../server/_server');
 var server;
 
-var Bear = require(__dirname + '/../models/bears');
+var Lion = require(__dirname + '/../models/lions');
 const errorHandler = require(__dirname + '/../lib/errorHandler');
 
-describe('the requests at /bears', () => {
+describe('the routes at /lions', () => {
   before( (done) => {
     server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/animals_testDB', console.log('server up on ' + port) );
-    var newBear = new Bear({ name: 'testBear', variety: 'testing', location: 'testLand', continent: 'South_Test' });
-    newBear.save( (err, data) => {
+    var newLion = new Lion({ name: 'testLion', variety: 'testing', location: 'testPlain', continent: 'Africa' });
+    newLion.save( (err, data) => {
       if (err) return errorHandler(err);
-      this.bear = data;
+      this.lion = data;
     });
-    var newBear2 = new Bear({ name: 'Testy McTest', variety: 'testing', location: 'testTown', continent: 'North_Test' });
-    newBear2.save( (err) => {
+    var newLion2 = new Lion({ name: 'testSimba', variety: 'testing', location: 'testSavanah', continent: 'Africa' });
+    newLion2.save( (err) => {
       if (err) return errorHandler(err);
       done();
     });
@@ -29,15 +29,15 @@ describe('the requests at /bears', () => {
   after( (done) => {
     mongoose.connection.db.dropDatabase( () => {
       mongoose.disconnect( () => {
-      server.close( () => {
-        done();
+        server.close( () => {
+          done();
         });
       });
     });
   });
-  it('should get a list of all the bears on a GET request', (done) => {
+  it('should get a list of all the lions on a GET request', (done) => {
     request('localhost:' + port)
-    .get('/api/bears')
+    .get('/api/lions')
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
@@ -46,38 +46,38 @@ describe('the requests at /bears', () => {
       done();
     });
   });
-  it('should add add a new bear to the db on a POST request', (done) => {
+  it('should add a new lion to the db on a POST request', (done) => {
     request('localhost:' + port)
-    .post('/api/bears')
-    .send({ name: 'BooBoo', variety: 'brown', location: 'Jellystone', continent: 'North_America' })
+    .post('/api/lions')
+    .send({ name: 'Nala', variety: 'African', location: 'Pride_Lands', continent: 'Africa' })
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
-      expect(res.body.name).to.eql('BooBoo');
-      expect(res.body.variety).to.eql('brown');
-      expect(res.body.location).to.eql('Jellystone');
-      expect(res.body.continent).to.eql('North_America');
+      expect(res.body.name).to.eql('Nala');
+      expect(res.body.variety).to.eql('African');
+      expect(res.body.location).to.eql('Pride_Lands');
+      expect(res.body.continent).to.eql('Africa');
       done();
     });
   });
-  it('should update the bear\'s information on a PUT request', (done) => {
+  it('should update the lion\'s information on a PUT request', (done) => {
     request('localhost:' + port)
-    .put('/api/bears/' + this.bear._id)
-    .send({ name: 'testBear2', variety: 'grizzly', location: 'testLand', continent: 'South_Test' })
+    .put('/api/lions/' + this.lion._id)
+    .send({ name: 'Nala', variety: 'African', location: 'Bronx zoo', continent: 'Africa' })
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
-      expect(res.body.msg).to.eql('bears db updated');
+      expect(res.body.msg).to.eql('lions db updated');
       done();
     });
   });
-  it('should remove a bear from the db on a DELETE request', (done) => {
+  it('should remove a lion from the db on a DELETE request', (done) => {
     request('localhost:' + port)
-    .delete('/api/bears/' + this.bear._id)
+    .delete('/api/lions/' + this.lion._id)
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
-      expect(res.body.msg).to.eql('bear removed from db');
+      expect(res.body.msg).to.eql('lion removed from db');
       done();
     });
   });

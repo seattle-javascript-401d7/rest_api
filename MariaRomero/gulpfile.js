@@ -3,7 +3,7 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
-var allFiles = ['bin/**/*, lib/**/*.js, test/**/*.js, gulpfile.js, index.js'];
+var allFiles = ['bin/**/*, lib/**/*.js, server/**/*.js, test/**/*_test.js, gulpfile.js, index.js'];
 var testFiles = ['test/**/*test.js'];
 
 gulp.task('lint', () => {
@@ -14,7 +14,7 @@ gulp.task('lint', () => {
 
 gulp.task('mocha', () => {
   return gulp.src(testFiles)
-  .pipe(mocha);
+  .pipe(mocha());
 });
 
 gulp.task('default', ['lint', 'mocha']);

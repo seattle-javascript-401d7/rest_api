@@ -1,8 +1,8 @@
 const Router = require('express').Router;
-const Lion = require(__dirname + '/../models/lions');
-const Tiger = require(__dirname + '/../models/tigers');
-const Bear = require(__dirname + '/../models/bears');
-const errorHandler = require(__dirname + '/../errorHandler');
+const Lion = require(__dirname + '/../../models/lions');
+const Tiger = require(__dirname + '/../../models/tigers');
+const Bear = require(__dirname + '/../../models/bears');
+const errorHandler = require(__dirname + '/../../lib/errorHandler');
 var ohMyRouter = new Router();
 
 var displayGreatest = function(array) {
