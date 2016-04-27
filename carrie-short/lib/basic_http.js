@@ -15,7 +15,7 @@ module.exports = exports = function(req, res, next) {
     }
   } catch (e) {
     console.log(e);
-    return res.status(418).json({ msg: 'unable to create account' });
+    return res.status(418).json({ msg: 'format error' });
   }
   next();
 };
