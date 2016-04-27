@@ -5,7 +5,7 @@ const bodyParser = require('body-parser').json();
 
 let villainRouter = module.exports = Router();
 
-villainRouter.route('/villain')
+villainRouter.route('/villains')
 
 .post(bodyParser, (req, res) => {
   let newVillain = new Villain(req.body);
@@ -26,7 +26,7 @@ villainRouter.route('/villain')
   });
 });
 
-villainRouter.route('/villain/:villain_id')
+villainRouter.route('/villains/:villain_id')
 
 .get((req, res) => {
   Villain.findById(req.params.villain_id, (err, villain) => {

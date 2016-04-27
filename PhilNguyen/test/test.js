@@ -9,6 +9,7 @@ const port = process.env.PORT = 8080;
 process.env.MONGODB_URI = 'mongodb://localhost/superhero_test_db';
 const server = require(__dirname + '/../server');
 const Superhero = require(__dirname + '/../app/models/superhero');
+const Villain = require(__dirname + '/../app/models/villain');
 
 
 describe('the POST method', () => {
@@ -19,7 +20,7 @@ describe('the POST method', () => {
   });
   it('should create a Superhero', (done) => {
     request('localhost:' + port)
-    .post('/api/superhero')
+    .post('/api/superheroes')
     .send({ name: 'Captain America', powerlevel: 10000 })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -28,12 +29,24 @@ describe('the POST method', () => {
       done();
     });
   });
+
+  it('should create a Villain', (done) => {
+    request('localhost:' + port)
+    .post('/api/villains')
+    .send({ name: 'Ultron', powerlevel: 90000 })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.name).to.eql('Ultron');
+      expect(res.body.powerlevel).to.eql(90000);
+      done();
+    });
+  });
 });
 
 describe('the GET method', () => {
   it('should get all superheroes', (done) => {
     request('localhost:' + port)
-    .get('/api/superhero')
+    .get('/api/superheroes')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(Array.isArray(res.body)).to.eql(true);
@@ -64,6 +77,16 @@ describe('GET method to retrieve strongest hero', () => {
 
 describe('how to manipulate superheroes or villains in db', () => {
   beforeEach((done) => {
+    let newVillain = new Villain({ name: 'Ultron', powerlevel: 9000 });
+    newVillain.save((err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      this.villain = data;
+      done();
+    });
+  });
+  beforeEach((done) => {
     let newSuperhero = new Superhero({ name: 'Iron Man', powerlevel: 9999 });
     newSuperhero.save((err, data) => {
       if (err) {
@@ -92,9 +115,20 @@ describe('how to manipulate superheroes or villains in db', () => {
     });
   });
 
+  it('should update the existing Villain power level', (done) => {
+    request('localhost:' + port)
+    .put('/api/villains/' + this.villain._id)
+    .send({ name: 'Ultron', powerlevel: 5 })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.message).to.eql('Successfully updated!');
+      done();
+    });
+  });
+
   it('should update the existing Superhero power level', (done) => {
     request('localhost:' + port)
-    .put('/api/superhero/' + this.superhero._id)
+    .put('/api/superheroes/' + this.superhero._id)
     .send({ name: 'Iron Man', powerlevel: 200000 })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -105,7 +139,7 @@ describe('how to manipulate superheroes or villains in db', () => {
 
   it('should be able to remove a superhero', (done) => {
     request('localhost:' + port)
-    .delete('/api/superhero/' + this.superhero._id)
+    .delete('/api/superheroes/' + this.superhero._id)
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.message).to.eql('Successfully deleted!');

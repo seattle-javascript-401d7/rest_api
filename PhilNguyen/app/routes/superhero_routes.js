@@ -5,7 +5,7 @@ const bodyParser = require('body-parser').json();
 
 let superheroRouter = module.exports = Router();
 
-superheroRouter.route('/superhero')
+superheroRouter.route('/superheroes')
 
 .post(bodyParser, (req, res) => {
   let newSuperhero = new Superhero(req.body);
@@ -26,7 +26,7 @@ superheroRouter.route('/superhero')
   });
 });
 
-superheroRouter.route('/superhero/:superhero_id')
+superheroRouter.route('/superheroes/:superhero_id')
 
 .get((req, res) => {
   Superhero.findById(req.params.superhero_id, (err, superhero) => {
