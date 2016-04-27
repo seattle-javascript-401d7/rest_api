@@ -39,7 +39,7 @@ pairingRouter.get('/pairing', (req, res) => {
             });
           }
         });
-      });
-    }
-    pairing();
+    };
+  }
+  pairing();
 });

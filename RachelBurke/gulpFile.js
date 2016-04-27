@@ -4,7 +4,7 @@ const eslint = require('gulp-eslint');
 var files = ['/nodecellar/**', '/models/**', '/routes/**', '/test_api/**', '/winecellar'];
 console.log(__dirname);
 
-gulp.task('lint', () => {
+gulp.task('eslint', () => {
   return gulp.src(files)
   .pipe(eslint())
   .pipe(eslint.format());
