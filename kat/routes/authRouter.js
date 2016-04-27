@@ -1,17 +1,34 @@
 const express = require('express');
 const User = require(__dirname + '/../models/user.js');
 const bodyParser = require('body-parser').json();
+const basicHTTP = require(__dirname + '/../lib/basic_http.js');
 
 var router = module.exports = exports = express.Router();
 
 router.post('/signup', bodyParser, (req, res) => {
   var password = req.body.password;
   req.body.password = null;
+  if (!password.length) return res.status(500).json({ msg: 'Please include a password' });
   var newUser = new User(req.body);
   newUser.generateHash(password);
   password = null;
   newUser.save((err, data) => {
-    if (err) return res.ststaus(500).json({ msg: 'Invalid username'});
-    res.json({ msg: 'User Successfully Created!'});
+    if (err) return res.ststaus(500).json({ msg: 'Invalid username' });
+    res.json({ msg: 'User Successfully Created!' });
+  });
+});
+
+router.get('/signin', basicHTTP, (req, res) => {
+  User.findOne({ username: req.auth.username }, (err, user) => {
+    if (err) res.status(500).json({ msg: 'could not authenticate' });
+
+    if (!user) return res.status(500).json({ msg: 'could not authenticate' });
+
+    if (!user.compareHash(req.auth.password)) {
+      return res.status(500)
+      .json({ msg: 'could not authenticate' });
+    }
+
+    res.json({ msg: 'authenticate says yes' });
   });
 });
