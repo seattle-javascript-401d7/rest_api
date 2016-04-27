@@ -56,14 +56,14 @@ describe('routes that need a shark in the DB', () => {
   beforeEach((done) => {
     var newShark = new Shark({ name: 'testshark', preyPreference: 'tests' });
     newShark.save((err, data) => {
-      console.log(err);
+      if (err) throw err;
       this.shark = data;
       done();
     });
   });
   afterEach((done) => {
     this.shark.remove((err) => {
-      console.log(err);
+      if (err) throw err;
       done();
     });
   });
