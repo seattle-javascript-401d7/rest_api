@@ -1,4 +1,4 @@
-var mongodb = require('mongodb');
+var mongo = require('mongodb');
 
 var Server = mongo.Server,
   Db = mongo.Db,
@@ -8,17 +8,17 @@ var server = new Server('localhost', 27017, { auto_reconnect: true });
 Db = new Db('wineDb', server);
 
 
-Db.open(function(err, Db) {
+Db.open((err, Db) => {
   if (!err) {
     console.log("Connected to 'winedb' database");
-    db.collection('wines', { strict:true}, function(err, collection) {
+    Db.collection('wines', { strict: true }, ((err, collection) => {
       if (err) {
         console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
         populateDB();
       }
-    });
-  }
-});
+    })
+
+);
 
 exports.findById = function(req, res) {
   var id = req.params.id;
@@ -51,7 +51,7 @@ exports.addWine = function(req, res) {
       }
     });
   });
-
+};
 
 exports.updateWine = function(req, res) {
   var id = req.params.id;
@@ -86,7 +86,7 @@ exports.deleteWine = function(req, res) {
   })
 }
 
-var populateDB = function() {
+var populateDd = () => {
 
   var wines = [
     {
@@ -104,7 +104,8 @@ var populateDB = function() {
       description: "Intoxicating"
   }];
 
-  dB.collection('wines', function(err, collection) {
-    collection.insert(wines, {safe:true}, function(err, result) {});
+  dB.collection('wines',(err, collection) => {
+    collection.insert(wines, {safe:true}, (err, result) => {
+    });
   });
-};
+});
