@@ -1,3 +1,6 @@
+if (!process.env.APP_SECRET) {
+  throw new Error('You need to set the APP_SECRET environment variable');
+}
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;

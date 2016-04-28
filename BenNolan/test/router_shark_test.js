@@ -8,6 +8,7 @@ const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/sharks_test_db';
 const server = require(__dirname + '/../server');
 const Shark = require(__dirname + '/../models/shark');
+const User = require(__dirname + '/../models/privateModels/user');
 
 describe('the server', () => {
   before((done) => {
@@ -21,6 +22,16 @@ describe('the server', () => {
     });
   });
 describe('the POST methods', () => {
+  before((done) => {
+      request('localhost:' + port)
+      .post('/api/signup')
+      .send({ username: 'test', password: 'test' })
+      .end((err, res) => {
+        if (err) throw err;
+        this.newToken = res.body.token;
+        done();
+      });
+  });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
@@ -29,6 +40,7 @@ describe('the POST methods', () => {
   it('should create a shark', (done) => {
     request('localhost:' + port)
     .post('/api/sharks')
+    .set({ 'token': this.newToken })
     .send({ name: 'Sand Shark' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -54,6 +66,17 @@ describe('The Get method', () => {
 
 describe('routes that need a shark in the DB', () => {
   beforeEach((done) => {
+    request('localhost:' + port)
+    .post('/api/signup')
+    .send({ username: 'test', password: 'test' })
+    .end((err, res) => {
+      if (err) throw err;
+      this.newToken = res.body.token;
+      console.log(this.token);
+      done();
+    });
+  });
+  beforeEach((done) => {
     var newShark = new Shark({ name: 'testshark', preyPreference: 'tests' });
     newShark.save((err, data) => {
       if (err) throw err;
@@ -76,6 +99,7 @@ describe('routes that need a shark in the DB', () => {
   it('should change the shark\'s identity on a PUT request', (done) => {
     request('localhost:' + port)
     .put('/api/sharks/' + this.shark._id)
+    .set({ 'token': this.newToken })
     .send({ name: 'Tiger shark', preyPreference: 'fish' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -87,6 +111,7 @@ describe('routes that need a shark in the DB', () => {
   it('should turn the shark into a nice rug on a DELETE request', (done) => {
     request('localhost:' + port)
     .delete('/api/sharks/' + this.shark._id)
+    .set({ 'token': this.newToken })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('shark has been destroyed!');

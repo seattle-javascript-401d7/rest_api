@@ -21,6 +21,16 @@ describe('the server', () => {
     });
   });
 describe('the POST methods', () => {
+  before((done) => {
+    request('localhost:' + port)
+    .post('/api/signup')
+    .send({ username: 'test', password: 'test' })
+    .end((err, res) => {
+      if (err) throw err;
+      this.newToken = res.body.token;
+      done();
+    });
+  });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
@@ -29,6 +39,7 @@ describe('the POST methods', () => {
   it('should create a prey', (done) => {
     request('localhost:' + port)
     .post('/api/preys')
+    .set({ 'token': this.newToken })
     .send({ name: 'seal', speed: '20' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -54,6 +65,16 @@ describe('The Get method', () => {
 
 describe('routes that need prey in the DB', () => {
   beforeEach((done) => {
+    request('localhost:' + port)
+    .post('/api/signup')
+    .send({ username: 'test', password: 'test' })
+    .end((err, res) => {
+      if (err) throw err;
+      this.newToken = res.body.token;
+      done();
+    });
+  });
+  beforeEach((done) => {
     var newPrey = new Prey({ name: 'human', speed: '20' });
     newPrey.save((err, data) => {
       if (err) throw err;
@@ -76,6 +97,7 @@ describe('routes that need prey in the DB', () => {
   it('should change the prey\'s identity on a PUT request', (done) => {
     request('localhost:' + port)
     .put('/api/preys/' + this.prey._id)
+    .set({ 'token': this.newToken })
     .send({ name: 'seal', speed: '40' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -87,6 +109,7 @@ describe('routes that need prey in the DB', () => {
   it('Should kill the human on a DELETE request', (done) => {
     request('localhost:' + port)
     .delete('/api/preys/' + this.prey._id)
+    .set({ 'token': this.newToken })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('prey has been killed!');

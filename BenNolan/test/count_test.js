@@ -26,14 +26,14 @@ describe('the server', () => {
   beforeEach((done) => {
     var newPrey = new Prey({ name: 'human', speed: '20' });
     newPrey.save((err, data) => {
-      console.log(err);
+      if (err) throw err;
       this.prey = data;
       done();
     });
   });
   afterEach((done) => {
     this.prey.remove((err) => {
-      console.log(err);
+      if (err) throw err;
       done();
     });
   });
@@ -45,14 +45,14 @@ describe('the server', () => {
   beforeEach((done) => {
     var newShark = new Shark({ name: 'human', speed: '20' });
     newShark.save((err, data) => {
-      console.log(err);
+      if (err) throw err;
       this.shark = data;
       done();
     });
   });
   afterEach((done) => {
     this.shark.remove((err) => {
-      console.log(err);
+      if (err) throw err;
       done();
     });
   });

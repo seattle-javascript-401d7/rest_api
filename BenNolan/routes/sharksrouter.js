@@ -2,9 +2,10 @@ const Router = require('express').Router;
 const Shark = require(__dirname + '/../models/shark');
 const bodyParser = require('body-parser').json();
 const serverErrorHandler = require(__dirname + '/../lib/error_handler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 var sharksRouter = module.exports = Router();
 
-sharksRouter.post('/sharks', bodyParser, (req, res) => {
+sharksRouter.post('/sharks', jwtAuth, bodyParser, (req, res) => {
   var newShark = new Shark(req.body);
   newShark.save((err, data) => {
     if (err) return serverErrorHandler(err, res);
@@ -20,7 +21,7 @@ sharksRouter.get('/sharks', (req, res) => {
   });
 });
 
-sharksRouter.put('/sharks/:id', bodyParser, (req, res) => {
+sharksRouter.put('/sharks/:id', jwtAuth, bodyParser, (req, res) => {
     var sharkData = req.body;
     delete sharkData._id;
     Shark.update({ _id: req.params.id }, sharkData, (err) => {
@@ -30,7 +31,7 @@ sharksRouter.put('/sharks/:id', bodyParser, (req, res) => {
   });
 
 
-sharksRouter.delete('/sharks/:id', (req, res) => {
+sharksRouter.delete('/sharks/:id', jwtAuth, (req, res) => {
   Shark.remove({ _id: req.params.id }, (err) => {
     if (err) serverErrorHandler(req, res);
 
