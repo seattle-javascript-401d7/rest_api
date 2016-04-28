@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const bearRouter = require(__dirname + '/routes/bearrouter');
-const Bear = require(__dirname + '/models/bear');
+const rabbitRouter = require(__dirname + '/routers/rabbitRouter');
+const slugRouter = require(__dirname + '/routers/slugRouter');
 const mongoose = require('mongoose');
-//it's possible the error is in 'mongodb: //localhose/bear_test_db'
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/bear_db');
 
-app.use('/api', bearRouter);
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/slug_rabbit_db');
 
-app.listen(PORT, () => {console.log('server up on ' + PORT)});
+app.use('/api', rabbitRouter);
+app.use('/api', slugRouter);
+
+app.listen(PORT, () => {console.log('server up on ' + PORT);});
