@@ -68,7 +68,6 @@ describe('User authentication signin', () => {
     });
   });
   it('should allow users to signin', (done) => {
-    console.log('user info', this.user.username, this.user.password);
     request('localhost:' + port)
     .get('/api/signin')
     .auth('testSignin', 'awesomesauce')
@@ -76,6 +75,28 @@ describe('User authentication signin', () => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
       expect(res.body.token.length).to.not.eql(0);
+      done();
+    });
+  });
+  it('should fail to signin on bad username', (done) => {
+    request('localhost:' + port)
+    .get('/api/signin')
+    .auth('idonotexist', 'awesomesauce')
+    .end((err, res) => {
+      expect(err.toString()).to.eql('Error: Internal Server Error');
+      expect(res).to.have.status(500);
+      expect(res.body.msg).to.eql('no such username found');
+      done();
+    });
+  });
+  it('should fail to signin on bad password', (done) => {
+    request('localhost:' + port)
+    .get('/api/signin')
+    .auth('testSignin', 'iambadpass')
+    .end((err, res) => {
+      expect(err.toString()).to.eql('Error: Internal Server Error');
+      expect(res).to.have.status(500);
+      expect(res.body.msg).to.eql('incorrect password');
       done();
     });
   });
