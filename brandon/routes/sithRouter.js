@@ -2,9 +2,10 @@ const Router = require('express').Router;
 const Sith = require(__dirname + '/../models/sith');
 const bodyParser = require('body-parser').json();
 const errorHandler = require(__dirname + '/../lib/errorHandler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 var sithRouter = module.exports = Router();
 
-sithRouter.post('/sith', bodyParser, (req, res) => {
+sithRouter.post('/sith', bodyParser, jwtAuth, (req, res) => {
   var newSith = new Sith(req.body);
   newSith.save((err, data) => {
     if (err) return errorHandler(err, res);
