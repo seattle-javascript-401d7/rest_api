@@ -14,7 +14,7 @@ authRouter.post('/signup', bodyParser, (req, res) => {
   var newUser = new User(req.body);
   newUser.generateHash(password);
   password = null;
-
+  
   newUser.save((err, user) => {
     if (err) return res.status(500).json({ msg: 'could not create user' });
 
@@ -27,10 +27,10 @@ authRouter.post('/signup', bodyParser, (req, res) => {
 
 authRouter.get('/signin', basicHTTP, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
-    if (err) return res.status(500).json({ msg: 'the slothbear is unimpressed' });
-    if (!user) return res.status(500).json({ msg: 'the slothbear is unimpressed' });
+    if (err) return res.status(500).json({ msg: 'database error' });
+    if (!user) return res.status(500).json({ msg: 'user not found' });
     if (!user.compareHash(req.auth.password)) {
-      return res.status(500).json({ msg: 'the slothbear is unimpressed' });
+      return res.status(500).json({ msg: 'password error' });
     }
 
     user.generateToken(function(err, token) {

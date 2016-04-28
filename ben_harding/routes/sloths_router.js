@@ -2,10 +2,11 @@ const Router = require('express').Router;
 const bodyParser = require('body-parser').json();
 const Sloth = require(__dirname + '/../models/sloth');
 const handleErr = require(__dirname + '/../lib/handle_err');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var slothsRouter = module.exports = Router();
 
-slothsRouter.post('/sloths', bodyParser, (req, res) => {
+slothsRouter.post('/sloths', jwtAuth, bodyParser, (req, res) => {
   var newSloth = new Sloth(req.body);
   newSloth.wranglerId = req.user._id;
   newSloth.save((err, data) => {
@@ -14,7 +15,7 @@ slothsRouter.post('/sloths', bodyParser, (req, res) => {
   });
 });
 
-slothsRouter.get('/sloths', (req, res) => {
+slothsRouter.get('/sloths', jwtAuth, (req, res) => {
   Sloth.find({ wranglerId: req.user._id }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
