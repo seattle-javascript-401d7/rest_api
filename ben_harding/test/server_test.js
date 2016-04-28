@@ -36,9 +36,7 @@ describe('sloths plus bears server', () => {
 
     describe('POST method', () => {
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should POST a new sloth', (done) => {
@@ -71,7 +69,6 @@ describe('sloths plus bears server', () => {
 
     describe('routes that need a sloth', () => {
       var userToken = '';
-
       beforeEach((done) => {
         var newSloth = new Sloth({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
         newSloth.save((err, data) => {
@@ -99,9 +96,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should get a sloth', (done) => {
@@ -157,9 +152,7 @@ describe('sloths plus bears server', () => {
 
     describe('POST method', () => {
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should POST a new bear', (done) => {
@@ -219,9 +212,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should get a bear', (done) => {
@@ -289,9 +280,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should make a new slothbear', (done) => {
@@ -352,9 +341,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should get a slothbear', (done) => {
@@ -387,6 +374,51 @@ describe('sloths plus bears server', () => {
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('slothbear deleted');
+            done();
+          });
+      });
+    });
+  });
+
+  describe('user routes', () => {
+    after((done) => {
+      mongoose.connection.db.dropDatabase(done);
+    });
+
+    describe('user signup', () => {
+      it('should create a new user', (done) => {
+        request('localhost:' + port)
+          .post('/api/signup')
+          .send({ username: 'test', password: 'test' })
+          .end((err, res) => {
+            expect(err).to.eql(null);
+            expect(res.body.token.length).to.not.eql(0);
+            done();
+          });
+      });
+    });
+
+    describe('user login', () => {
+      var userToken = '';
+      before(function(done) {
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
+        });
+      });
+
+      it('should login and get a new token', (done) => {
+        request('test:test@localhost:' + port)
+          .get('/api/signin')
+          .end((err, res) => {
+            expect(err).to.eql(null);
+            expect(res.body.token).to.not.eql(userToken);
             done();
           });
       });

@@ -1,5 +1,3 @@
-// TODO test user signup and login routes
-
 const chai = require('chai');
 const expect = chai.expect;
 const mongoose = require('mongoose');
