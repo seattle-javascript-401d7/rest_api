@@ -22,7 +22,7 @@ describe('Dinosaur POST method', () => {
       done();
     });
   });
-  beforeEach((done) => {
+  before((done) => {
     var newUser = new User({
       username: 'test',
       password: 'test'
@@ -35,12 +35,6 @@ describe('Dinosaur POST method', () => {
         this.user = user;
         done();
       });
-    });
-  });
-  afterEach((done) => {
-    this.user.remove((err) => {
-      if (err) console.log(err);
-        done();
     });
   });
   it('should create a dinosaur', (done) => {
@@ -66,7 +60,7 @@ describe('Dinosaur POST method', () => {
 });
 
 describe('routes that need a dinosaur in the DB', () => {
-  beforeEach((done) => {
+  before((done) => {
     var newUser = new User({
       username: 'test',
       password: 'test'
@@ -101,12 +95,6 @@ describe('routes that need a dinosaur in the DB', () => {
       done();
     });
   });
-  afterEach((done) => {
-    this.user.remove((err) => {
-      if (err) console.log(err);
-        done();
-    });
-  });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       server.close(() => {
@@ -116,7 +104,6 @@ describe('routes that need a dinosaur in the DB', () => {
     });
   });
   it('should get all the dinosaurs on a get request', (done) => {
-    console.log('get request', this.token, this.user);
     request('localhost:' + port)
     .get('/api/dinosaurs')
     .end((err, res) => {
