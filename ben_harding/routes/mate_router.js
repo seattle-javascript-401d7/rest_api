@@ -15,7 +15,7 @@ mateRouter.get('/mate', (req, res) => {
   var randomBear = {};
 
   function findSloth(callback) {
-    Sloth.find(null, (err, data) => {
+    Sloth.find({ wranglerId: req.user._id }, (err, data) => {
       if (err) return handleErr(err, res);
       allSloths = data;
       randomSloth = allSloths[Math.floor(Math.random() * allSloths.length)];
@@ -24,7 +24,7 @@ mateRouter.get('/mate', (req, res) => {
   }
 
   function findBear(callback) {
-    Bear.find(null, (err, data) => {
+    Bear.find({ wranglerId: req.user._id }, (err, data) => {
       if (err) return handleErr(err, res);
       allBears = data;
       randomBear = allBears[Math.floor(Math.random() * allBears.length)];
@@ -47,7 +47,8 @@ mateRouter.get('/mate', (req, res) => {
       gender: newSlothbearGender,
       weight: newSlothbearWeight,
       strength: newSlothbearStrength,
-      parents: [randomSloth.name, randomBear.name]
+      parents: [randomSloth.name, randomBear.name],
+      wranglerId: req.user._id
     });
 
     newSlothbear.save((err, data) => {

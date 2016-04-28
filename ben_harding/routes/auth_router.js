@@ -8,15 +8,20 @@ var authRouter = module.exports = exports = Router();
 authRouter.post('/signup', bodyParser, (req, res) => {
   var password = req.body.password;
   req.body.password = null;
+
   if (!password) return res.status(500).json({ msg: 'no blank passwords' });
+
   var newUser = new User(req.body);
   newUser.generateHash(password);
   password = null;
-  newUser.save((err, data) => {
+
+  newUser.save((err, user) => {
     if (err) return res.status(500).json({ msg: 'could not create user' });
 
-    // TODO send a jwt on sucessful user creation
-    res.json({ msg: 'user created' });
+    user.generateToken(function(err, token) {
+      if (err) return res.status(500).json({ msg: 'could not generate token ' });
+      res.json({ token });
+    });
   });
 });
 
@@ -28,6 +33,9 @@ authRouter.get('/signin', basicHTTP, (req, res) => {
       return res.status(500).json({ msg: 'the slothbear is unimpressed' });
     }
 
-    res.json({ msg: 'delicious ants found!' });
+    user.generateToken(function(err, token) {
+      if (err) return res.status(500).json({ msg: 'could not generate token ' });
+      res.json({ token });
+    });
   });
 });

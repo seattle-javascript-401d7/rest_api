@@ -6,7 +6,7 @@ const handleErr = require(__dirname + '/../lib/handle_err');
 var slothbearsRouter = module.exports = Router();
 
 slothbearsRouter.get('/slothbears', (req, res) => {
-  Slothbear.find(null, (err, data) => {
+  Slothbear.find({ wranglerId: req.user._id }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });

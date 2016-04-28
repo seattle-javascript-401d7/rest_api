@@ -42,7 +42,7 @@ userSchema.methods.generateFindHash = function(cb) {
 };
 
 userSchema.methods.generateToken = function(cb) {
-  this.generateFindHash(function(err, hash) {
+  this.generateFindHash(function(err, hash) {  // eslint-disable-line prefer-arrow-callback
     if (err) return cb(err);
     cb(null, jwt.sign({ idd: hash }, process.env.APP_SECRET));
   });

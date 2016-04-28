@@ -1,3 +1,5 @@
+if (!process.env.APP_SECRET) throw new Error('you need an APP_SECRET env variable');
+
 const express = require('express');
 const mongoose = require('mongoose');
 

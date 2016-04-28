@@ -7,6 +7,7 @@ var bearsRouter = module.exports = Router();
 
 bearsRouter.post('/bears', bodyParser, (req, res) => {
   var newBear = new Bear(req.body);
+  newBear.wranglerId = req.user._id;
   newBear.save((err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
@@ -14,7 +15,7 @@ bearsRouter.post('/bears', bodyParser, (req, res) => {
 });
 
 bearsRouter.get('/bears', (req, res) => {
-  Bear.find(null, (err, data) => {
+  Bear.find({ wranglerId: req.user._id }, (err, data) => {
     if (err) return handleErr(err, res);
     res.status(200).json(data);
   });
