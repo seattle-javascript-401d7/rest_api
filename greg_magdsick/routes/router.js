@@ -28,62 +28,62 @@ myRouter.post('/pedal', bodyParser, (req, res) => {
 
 myRouter.post('/motor', bodyParser, (req, res) => {
   var newMotor = new Motor(req.body);
-  newMotor.save((err. data) => {
+  newMotor.save((err, data) => {
     if (err) return res.status(500).send('Server Error');
     res.status(200).json(data);
-  })
+  });
 });
 
-myRouter.put('/pedal/:id', bodyParser, (req, res) => {
+myRouter.put('/pedal/:model', bodyParser, (req, res) => {
   var pedalUpdate = req.body;
-  delete pedalUpdate._id;
-  Pedal.update({id: req.params.id}, pedalUpdate, (err) => {
+  // delete pedalUpdate._id;
+  Pedal.update({ model: req.params.model }, pedalUpdate, (err) => {
     if (err) return res.status(500).send('Server Error');
     res.status(200).send('Update Successful');
-  })
+  });
 });
 
-myRouter.put('/motor/:id', bodyParser, (req, res) => {
+myRouter.put('/motor/:model', bodyParser, (req, res) => {
   var motorUpdate = req.body;
-  delete motorUpdate._id;
-  Motor.update({id: req.params.id}, motorUpdate, (err) => {
+  // delete motorUpdate._id;
+  Motor.update({ model: req.params.model }, motorUpdate, (err) => {
     if (err) return res.status(500).send('Server Error');
     res.status(200).send('Update Successful');
-  })
+  });
 });
 
-myRouter.delete('/pedal/:id', (req, res) => {
-  Pedal.remove({id: req.params.id}, (err) => {
+myRouter.delete('/pedal/:model', (req, res) => {
+  Pedal.remove({ model: req.params.model }, (err) => {
     if (err) return res.status(500).send('Server Error');
     res.status(200).send('Deletion Successful');
   });
 });
 
-myRouter.delete('/motor/:id', (req, res) => {
-  Motor.remove({id: req.params.id}, (err) => {
+myRouter.delete('/motor/:model', (req, res) => {
+  Motor.remove({ model: req.params.model }, (err) => {
     if (err) return res.status(500).send('Server Error');
     res.status(200).send('Deletion Successful');
   });
 });
 
-myRouter.get('/fast', (req, res) => {
-  function fastPedal(value) {
-    return value > 30;
-  }
-  function fastMotor(value, speed) {
-    return value > 150;
-  }
-  var pedalBikes;
-  Pedal.find(null, (err, data) => {
-    if (err) return res.status(500).send('Server Error');
-    res.status(200).send(
-      data.filter(fastPedal);
-    );
-  });
-  Motor.find(null, (err, data) => {
-    if (err) return res.status(500).send('Server Error');
-    res.status(200).send(
-      data.filter(fastMotor);
-    );
-  });
-});
+// myRouter.get('/fast', (req, res) => {
+//   function fastPedal(value) {
+//     return value > 30;
+//   }
+//   function fastMotor(value, speed) {
+//     return value > 150;
+//   }
+//   var pedalBikes;
+//   Pedal.find(null, (err, data) => {
+//     if (err) return res.status(500).send('Server Error');
+//     res.status(200).send(
+//       data.filter(fastPedal);
+//     );
+//   });
+//   Motor.find(null, (err, data) => {
+//     if (err) return res.status(500).send('Server Error');
+//     res.status(200).send(
+//       data.filter(fastMotor);
+//     );
+//   });
+// });
