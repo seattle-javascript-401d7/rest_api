@@ -18,6 +18,7 @@ describe('the POST method', () => {
       done();
     });
   });
+
   it('should be good wine', (done) => {
     request('localhost:' + port)
     .post('/api/wines')
@@ -35,7 +36,7 @@ describe('the POST method', () => {
   });
 
   describe('the GET method', () => {
-    it('should get all the bears', (done) => {
+    it('should get all the wines', (done) => {
       request('localhost:' + port)
       .get('/api/wines')
       .end((err, res) => {
@@ -49,4 +50,47 @@ describe('the POST method', () => {
       });
     });
   });
+
+  describe('routes that need wine in the DB: ', () => {
+    beforeEach((done) => {
+      const newWine = Wine({name: 'Fancy Spanish Vineyard', year: '2006', grapes: 'Tempranillo', country: 'Spain', description: 'Intoxicating'});
+      newWine.save((err, data) => {
+        this.wine = data;
+        done();
+      });
+    });
+
+    afterEach((done) => {
+      this.wine.remove((err) => {
+        done();
+      })
+    });
+
+    after((done) => {
+      mongoose.connection.db.dropDatabase(() => {
+        done();
+      });
+    });
+
+  it('should change the wine\'s identity on a PUT request', (done) => {
+    request('localhost:' + port)
+    .put('/api/wines/' + this.wine._id)
+    .send({name: 'Fancy Wine', year: '2016', grapes: 'Malbec', country: 'Australia', description: 'young'})
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('such good wine data');
+      done();
+    });
+  });
+
+  it('should turn water into wine or wine into water with a DELETE request', (done) => {
+    request('localhost:' + port)
+    .delete('/api/wines/' + this.bear._id)
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body.msg).to.eql('even better than the real thing');
+      done();
+    });
+  });
+
 });
