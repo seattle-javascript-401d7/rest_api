@@ -20,7 +20,7 @@ sithRouter.get('/sith', (req, res) => {
   });
 });
 
-sithRouter.put('/sith/:id', bodyParser, (req, res) => {
+sithRouter.put('/sith/:id', bodyParser, jwtAuth, (req, res) => {
   var sithData = req.body;
   delete sithData._id;
   Sith.update({ _id: req.params.id }, sithData, (err) => {
@@ -29,7 +29,7 @@ sithRouter.put('/sith/:id', bodyParser, (req, res) => {
   });
 });
 
-sithRouter.delete('/sith/:id', (req, res) => {
+sithRouter.delete('/sith/:id', jwtAuth, (req, res) => {
   Sith.remove({ _id: req.params.id }, (err) => {
     if (err) errorHandler(req, res);
     res.status(200).json({ msg: 'I have felt a tremor in the force. The Dark Side calls' });
