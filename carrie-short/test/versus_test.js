@@ -3,12 +3,12 @@ const expect = chai.expect;
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const request = chai.request;
-const mongoose = require('mongoose');
 const Dinosaur = require(__dirname + '/../models/dinosaur');
 const Politician = require(__dirname + '/../models/politician');
 const port = process.env.PORT = 5000;
 process.env.MONGODB_URI = 'mongodb://localhost/test_political_dinos_db';
-const server = require(__dirname + '/../server');
+const setup = require(__dirname + '/test_setup');
+const teardown = require(__dirname + '/test_teardown');
 
 describe('routes that need a politician in the DB', () => {
   beforeEach((done) => {
@@ -50,18 +50,10 @@ describe('routes that need a politician in the DB', () => {
     });
   });
   before((done) => {
-    server.listen(port, () => {
-      console.log('server up on port ' + port);
-      done();
-    });
+    setup(done);
   });
   after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      server.close(() => {
-        console.log('server closes');
-        done();
-      });
-    });
+    teardown(done);
   });
   it('should count all the politicians and dinosaurs on a get request to /versus', (done) => {
     request('localhost:' + port)
