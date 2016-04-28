@@ -1,3 +1,4 @@
+'use strict';
 const Router = require('express').Router;
 const Pedal = require(__dirname + '/../models/pedal');
 const Motor = require(__dirname + '/../models/motor');
@@ -20,17 +21,17 @@ myRouter.get('/motor', (req, res) => {
 
 myRouter.post('/pedal', bodyParser, (req, res) => {
   var newPedal = new Pedal(req.body);
-  newPedal.save((err, data) => {
+  newPedal.save((err) => {
     if (err) return res.status(500).send('Server Error');
-    res.status(200).json(data);
+    res.status(200).send('POST to pedal successful');
   });
 });
 
 myRouter.post('/motor', bodyParser, (req, res) => {
   var newMotor = new Motor(req.body);
-  newMotor.save((err, data) => {
+  newMotor.save((err) => {
     if (err) return res.status(500).send('Server Error');
-    res.status(200).json(data);
+    res.status(200).send('POST to motor successful');
   });
 });
 
@@ -66,24 +67,21 @@ myRouter.delete('/motor/:model', (req, res) => {
   });
 });
 
-// myRouter.get('/fast', (req, res) => {
-//   function fastPedal(value) {
-//     return value > 30;
-//   }
-//   function fastMotor(value, speed) {
-//     return value > 150;
-//   }
-//   var pedalBikes;
-//   Pedal.find(null, (err, data) => {
-//     if (err) return res.status(500).send('Server Error');
-//     res.status(200).send(
-//       data.filter(fastPedal);
-//     );
-//   });
-//   Motor.find(null, (err, data) => {
-//     if (err) return res.status(500).send('Server Error');
-//     res.status(200).send(
-//       data.filter(fastMotor);
-//     );
-//   });
-// });
+myRouter.get('/fast', (req, res) => {
+  function fastPedal(value) {
+    return value.maxSpeed >= 30;
+  }
+  function fastMotor(value) {
+    return value.maxSpeed >= 150;
+  }
+  var pedalBikes = [];
+  Pedal.find(null, (err, data) => {
+    if (err) return res.status(500).send('Server Error');
+    pedalBikes = data.filter(fastPedal);
+    Motor.find(null, (err, data) => {
+      if (err) return res.status(500).send('Server Error');
+      res.status(200).send('Fast Motorbikes: \n' + data.filter(fastMotor) + '\n' +
+      'FastPedalbikes: \n' + pedalBikes + '\n');
+    });
+  });
+});
