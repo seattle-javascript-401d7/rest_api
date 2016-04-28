@@ -25,8 +25,9 @@ describe("Star Trek resource", () => {
     process.env.PORT = this.portBackup;
     process.env.MONGODB_URI = this.mongoDbUriBackup;
     mongoose.connection.db.dropDatabase(() => {
-      this.server.close();
-      mongoose.disconnect(done);
+      mongoose.disconnect(() => {
+        this.server.close(done);
+      });
     });
   });
 

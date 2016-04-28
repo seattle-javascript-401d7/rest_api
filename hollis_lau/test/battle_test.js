@@ -26,8 +26,9 @@ describe("Battle resource", () => {
     process.env.PORT = this.portBackup;
     process.env.MONGODB_URI = this.mongoDbUriBackup;
     mongoose.connection.db.dropDatabase(() => {
-      this.server.close();
-      mongoose.disconnect(done);
+      mongoose.disconnect(() => {
+        this.server.close(done);
+      });
     });
   });
 
@@ -53,27 +54,22 @@ describe("Battle resource", () => {
       var skywalker = new StarWarsChar({ name: "Luke Skywalker", weapon: "Lightsaber", power: 10 });
       var binks = new StarWarsChar({ name: "Jar Jar Binks", weapon: "Booma", power: 4 });
 
-      picard.save((err, data) => {
-        if (err) return process.stderr.write(err + "\n");
-
-        this.picard = data;
-        laforge.save((err, data) => {
-          if (err) return process.stderr.write(err + "\n");
-
-          this.laforge = data;
-          skywalker.save((err, data) => {
-            if (err) return process.stderr.write(err + "\n");
-
-            this.skywalker = data;
-            binks.save((err, data) => {
-              if (err) return process.stderr.write(err + "\n");
-
-              this.binks = data;
-              done();
-            });
-          });
+      picard.save()
+        .then(() => {
+          return laforge.save();
+        })
+        .then(() => {
+          return skywalker.save();
+        })
+        .then(() => {
+          return binks.save();
+        })
+        .catch((e) => {
+          if (e) return process.stderr.write(e + "\n");
+        })
+        .then(() => {
+          done();
         });
-      });
     });
 
     after((done) => {
@@ -101,17 +97,16 @@ describe("Battle resource", () => {
       var tribble = new StarTrekChar({ name: "Tribble", power: 1, weapon: "Fur" });
       var jawa = new StarWarsChar({ name: "Jawa", power: 1, weapon: "Tools" });
 
-      tribble.save((err, data) => {
-        if (err) return process.stderr.write(err + "\n");
-
-        this.tribble = data;
-        jawa.save((err, data) => {
-          if (err) return process.stderr.write(err + "\n");
-
-          this.jawa = data;
+      tribble.save()
+        .then(() => {
+          return jawa.save();
+        })
+        .catch((e) => {
+          if (e) return process.stderr.write(e + "\n");
+        })
+        .then(() => {
           done();
         });
-      });
     });
 
     it("resolves a tie with a message", (done) => {
