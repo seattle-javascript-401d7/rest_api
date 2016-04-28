@@ -5,9 +5,14 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const files = ['**/*.js', '!node_modules/**'];
 
+gulp.task('mocha:authtest', () => {
+  return gulp.src('./test/user_auth_test.js')
+    .pipe(mocha());
+});
+
 gulp.task('mocha:test', () => {
   return gulp.src('./test/*.js')
-  .pipe(mocha());
+    .pipe(mocha());
 });
 
 gulp.task('lint:test', () => {
@@ -22,6 +27,7 @@ gulp.task('lint:nontest', () => {
   .pipe(eslint.format());
 });
 
+gulp.task('authtest', ['mocha:authtest']);
 gulp.task('lint', ['lint:test', 'lint:nontest']);
 gulp.task('mochaTest', ['mocha:test']);
 gulp.task('default', ['lint', 'mochaTest']);

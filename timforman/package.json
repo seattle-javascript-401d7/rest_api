@@ -12,8 +12,10 @@
   "author": "timforman <timothywforman@gmail.com> (https://salty-brook-43242.herokuapp.com/)",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "latest",
     "body-parser": "1.15.0",
     "express": "4.13.4",
+    "jsonwebtoken": "6.1.0",
     "mongoose": "4.4.12"
   },
   "devDependencies": {

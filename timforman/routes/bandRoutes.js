@@ -4,17 +4,19 @@ const Router = require('express').Router;
 const Band = require(__dirname + '/../models/band');
 const bodyParser = require('body-parser').json();
 const serverErrorHandler = require(__dirname + '/../lib/error_handler');
+const jwtAuth = require(__dirname + '/../lib/token_auth');
 var bandRouter = module.exports = Router();
 
-bandRouter.get('/bands', (req, res) => {
-  Band.find(null, (err, data) => {
+bandRouter.get('/bands', jwtAuth, (req, res) => {
+  Band.find({ userId: req.user._id }, (err, data) => {
     if (err) return serverErrorHandler(err, res);
     res.status(200).json(data);
   });
 });
 
-bandRouter.post('/bands', bodyParser, (req, res) => {
+bandRouter.post('/bands', jwtAuth, bodyParser, (req, res) => {
   var newBand = new Band(req.body);
+  newBand.userId = req.user._id;
   newBand.save((err, data) => {
     if (err) return serverErrorHandler(err, res);
     res.status(200).json(data);
