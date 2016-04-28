@@ -32,9 +32,11 @@ versusRouter.get('/battle', (req, res) => {
       if (err) return serverErrorHandler(err, res);
       var message;
       if (dinosaurData[0].attack >= politicianData[0].debateSkills) {
-        message = dinosaurData[0].name + ' wins using ' + dinosaurData[0].specialPower + ' on ' + politicianData[0].name;
+        message = dinosaurData[0].name + ' wins using '
+        + dinosaurData[0].specialPower + ' on ' + politicianData[0].name;
       } else {
-        message = dinosaurData[0].name + ' cowers before the power of ' + politicianData[0].name + '\'s ' + politicianData[0].specialPower;
+        message = dinosaurData[0].name + ' cowers before the power of '
+        + politicianData[0].name + '\'s ' + politicianData[0].specialPower;
       }
       res.status(200).json({
         msg: message

@@ -41,5 +41,42 @@ describe('User authentication signup', () => {
 });
 
 describe('User authentication signin', () => {
-  it('should allow users to signin');
+  before((done) => {
+    server.listen(port, () => {
+      console.log('server up on port ' + port);
+      done();
+    });
+  });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      server.close(() => {
+        console.log('server closes');
+        done();
+      });
+    });
+  });
+  before((done) => {
+    var newUser = new User({
+      username: 'testSignin',
+      password: 'awesomesauce'
+    });
+    newUser.generateHash(newUser.password);
+    newUser.save((err, user) => {
+      if (err) console.log(err);
+      this.user = user;
+      done();
+    });
+  });
+  it('should allow users to signin', (done) => {
+    console.log('user info', this.user.username, this.user.password);
+    request('localhost:' + port)
+    .get('/api/signin')
+    .auth('testSignin', 'awesomesauce')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.body.token.length).to.not.eql(0);
+      done();
+    });
+  });
 });
