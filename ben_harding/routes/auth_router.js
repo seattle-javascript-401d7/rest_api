@@ -14,11 +14,11 @@ authRouter.post('/signup', bodyParser, (req, res) => {
   var newUser = new User(req.body);
   newUser.generateHash(password);
   password = null;
-  
+
   newUser.save((err, user) => {
     if (err) return res.status(500).json({ msg: 'could not create user' });
 
-    user.generateToken(function(err, token) {
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate token ' });
       res.json({ token });
     });
@@ -33,7 +33,7 @@ authRouter.get('/signin', basicHTTP, (req, res) => {
       return res.status(500).json({ msg: 'password error' });
     }
 
-    user.generateToken(function(err, token) {
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate token ' });
       res.json({ token });
     });

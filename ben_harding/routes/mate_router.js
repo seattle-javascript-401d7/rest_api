@@ -16,7 +16,7 @@ mateRouter.get('/mate', jwtAuth, (req, res) => {
   var randomBear = {};
 
   function findSloth(callback) {
-    Sloth.find({ wranglerId: req.user._id }, (err, data) => {
+    Sloth.find(null, (err, data) => {
       if (err) return handleErr(err, res);
       allSloths = data;
       randomSloth = allSloths[Math.floor(Math.random() * allSloths.length)];
@@ -25,7 +25,7 @@ mateRouter.get('/mate', jwtAuth, (req, res) => {
   }
 
   function findBear(callback) {
-    Bear.find({ wranglerId: req.user._id }, (err, data) => {
+    Bear.find(null, (err, data) => {
       if (err) return handleErr(err, res);
       allBears = data;
       randomBear = allBears[Math.floor(Math.random() * allBears.length)];
