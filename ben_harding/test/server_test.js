@@ -70,13 +70,24 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a sloth', () => {
+      var userToken = '';
+
       beforeEach((done) => {
         var newSloth = new Sloth({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
-
         newSloth.save((err, data) => {
           if (err) return console.log('error');
           this.sloth = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -107,6 +118,7 @@ describe('sloths plus bears server', () => {
       it('should update a sloth', (done) => {
         request('localhost:' + port)
           .put('/api/sloths/' + this.sloth._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -118,6 +130,7 @@ describe('sloths plus bears server', () => {
       it('should delete the sloth', (done) => {
         request('localhost:' + port)
           .delete('/api/sloths/' + this.sloth._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('sloth deleted');
@@ -178,13 +191,23 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a bear', () => {
+      var userToken = '';
       beforeEach((done) => {
         var newBear = new Bear({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
-
         newBear.save((err, data) => {
           if (err) return console.log('error');
           this.bear = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -215,6 +238,7 @@ describe('sloths plus bears server', () => {
       it('should update a bear', (done) => {
         request('localhost:' + port)
           .put('/api/bears/' + this.bear._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -226,6 +250,7 @@ describe('sloths plus bears server', () => {
       it('should delete the bear', (done) => {
         request('localhost:' + port)
           .delete('/api/bears/' + this.bear._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('bear deleted');
@@ -299,13 +324,23 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a slothbear', () => {
+      var userToken = '';
       beforeEach((done) => {
         var newSlothbear = new Slothbear({ name: 'Rick', gender: 'm', weight: 150, strength: 80 });
-
         newSlothbear.save((err, data) => {
           if (err) return console.log('error');
           this.slothbear = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -322,7 +357,7 @@ describe('sloths plus bears server', () => {
         });
       });
 
-      it('should get a slothbeaer', (done) => {
+      it('should get a slothbear', (done) => {
         request('localhost:' + port)
           .get('/api/slothbears/' + this.slothbear._id)
           .end((err, res) => {
@@ -336,6 +371,7 @@ describe('sloths plus bears server', () => {
       it('should update a slothear', (done) => {
         request('localhost:' + port)
           .put('/api/slothbears/' + this.slothbear._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -347,6 +383,7 @@ describe('sloths plus bears server', () => {
       it('should delete the slothbear', (done) => {
         request('localhost:' + port)
           .delete('/api/slothbears/' + this.slothbear._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('slothbear deleted');

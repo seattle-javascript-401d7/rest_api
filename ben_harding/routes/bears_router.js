@@ -29,17 +29,17 @@ bearsRouter.get('/bears/:id', (req, res) => {
   });
 });
 
-bearsRouter.put('/bears/:id', bodyParser, (req, res) => {
+bearsRouter.put('/bears/:id', jwtAuth, bodyParser, (req, res) => {
   var bearData = req.body;
   delete bearData._id;
-  Bear.update({ _id: req.params.id }, bearData, (err) => {
+  Bear.update({ _id: req.params.id, wranglerId: req.user._id }, bearData, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'bear updated' });
   });
 });
 
-bearsRouter.delete('/bears/:id', (req, res) => {
-  Bear.findOneAndRemove({ _id: req.params.name }, (err) => {
+bearsRouter.delete('/bears/:id', jwtAuth, (req, res) => {
+  Bear.findOneAndRemove({ _id: req.params.name, wranglerId: req.user._id }, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'bear deleted' });
   });

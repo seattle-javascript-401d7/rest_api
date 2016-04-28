@@ -20,15 +20,17 @@ slothbearsRouter.get('/slothbears/:id', (req, res) => {
   });
 });
 
-slothbearsRouter.put('/slothbears/:id', bodyParser, (req, res) => {
-  Slothbear.update({ _id: req.params.id }, req.body, (err) => {
+slothbearsRouter.put('/slothbears/:id', jwtAuth, bodyParser, (req, res) => {
+  var slothbearData = req.body;
+  delete slothbearData._id;
+  Slothbear.update({ _id: req.params.id, wranglerId: req.user._id }, req.body, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'slothbear updated' });
   });
 });
 
-slothbearsRouter.delete('/slothbears/:id', (req, res) => {
-  Slothbear.findOneAndRemove({ _id: req.params.id }, (err) => {
+slothbearsRouter.delete('/slothbears/:id', jwtAuth, (req, res) => {
+  Slothbear.findOneAndRemove({ _id: req.params.id, wranglerId: req.user._id }, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'slothbear deleted' });
   });

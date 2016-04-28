@@ -29,15 +29,17 @@ slothsRouter.get('/sloths/:id', (req, res) => {
   });
 });
 
-slothsRouter.put('/sloths/:id', bodyParser, (req, res) => {
-  Sloth.update({ _id: req.params.id }, req.body, (err) => {
+slothsRouter.put('/sloths/:id', jwtAuth, bodyParser, (req, res) => {
+  var slothData = req.body;
+  delete slothData._id;
+  Sloth.update({ _id: req.params.id, wranglerId: req.user._id }, req.body, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'sloth updated' });
   });
 });
 
-slothsRouter.delete('/sloths/:id', (req, res) => {
-  Sloth.findOneAndRemove({ _id: req.params.id }, (err) => {
+slothsRouter.delete('/sloths/:id', jwtAuth, (req, res) => {
+  Sloth.findOneAndRemove({ _id: req.params.id, wranglerId: req.user._id }, (err) => {
     if (err) return handleErr(err, res);
     res.status(200).json({ msg: 'sloth deleted' });
   });
