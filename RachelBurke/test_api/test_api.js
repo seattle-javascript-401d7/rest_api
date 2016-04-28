@@ -1,12 +1,16 @@
-var chai = require('chai');
-var expect = chai.expect;
-// var chaiHttp = require('chai-http');
-// chai.use(chaihttp);
-var request = chai.request;
-var mongoose = require('mongoose');
-var port = process.env.PORT = 1234;
+const chai = require('chai');
+const expect = chai.expect;
+const chaiHttp = require('chai-http');
+chai.use(chaihttp);
+const request = chai.request;
+const mongoose = require('mongoose');
+
+const port = process.env.PORT = 1234;
 process.env.MONGO_URI = 'mongodb://localhost/wines_test_db';
-require(__dirname + '/server.js');
+require(__dirname + '/../server.js');
+const Wine = require(__dirname + '/../models/wines_model.js');
+const Cheese = require(__dirname + '/..models/cheese_model.js');
+
 
 describe('the POST method', () => {
   after((done) => {
