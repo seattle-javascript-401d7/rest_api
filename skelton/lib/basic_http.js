@@ -19,5 +19,3 @@ module.exports = exports = function(req, res, next) {
   }
   next();
 };
-
-// "Authorization": "Basic" + Base64.encode(username:password); <- spoof req.header.auth from Tuesday. 

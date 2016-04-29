@@ -30,7 +30,7 @@ router.post('/signup', bodyParser, (req, res) => {
 });
 
 router.get('/signin', basicHTTP, (req, res) => {
-  User.findOne({username: req.auth.username}, (err, res) => {
+  User.findOne({username: req.auth.username}, (err, user) => {
     if (err) return res.status(412).json({
       msg: 'required condition not met'
     });
