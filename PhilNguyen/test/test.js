@@ -26,6 +26,34 @@ describe('the heroes versus villains server', () => {
       });
     });
   });
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  it('should create a signup authentication', (done) => {
+    request('localhost:' + port)
+    .post('/api/signup')
+    .send({ username: 'Blah', password: 'yay' })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body instanceof Object).to.eql(true);
+      expect(res.body).to.have.property('token');
+      done();
+    });
+  });
+
+  it('should sign in with basic authentication', (done) => {
+    request('localhost:' + port)
+    .get('/api/signin')
+    .auth('Blah', 'yay')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res.body).to.have.property('token');
+      done();
+    });
+  });
 
   it('should create a Superhero', (done) => {
     request('localhost:' + port)
@@ -47,6 +75,7 @@ describe('the heroes versus villains server', () => {
     .send({ name: 'Ultron', powerlevel: 90000 })
     .end((err, res) => {
       expect(err).to.eql(null);
+      console.log(res);
       expect(res.body.name).to.eql('Ultron');
       expect(res.body.powerlevel).to.eql(90000);
       done();
@@ -164,7 +193,7 @@ describe('the heroes versus villains server', () => {
 
     it('should be able to remove a villain', (done) => {
       request('localhost:' + port)
-      .delete('/api/superheroes/' + this.villain._id)
+      .delete('/api/villains/' + this.villain._id)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.body.message).to.eql('Successfully deleted!');
