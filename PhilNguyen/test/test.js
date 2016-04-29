@@ -12,8 +12,6 @@ const server = require(__dirname + '/../server');
 const Superhero = require(__dirname + '/../app/models/superhero');
 const Villain = require(__dirname + '/../app/models/villain');
 const User = require(__dirname + '/../app/models/user');
-process.env.APP_SECRET = 'secret';
-
 
 describe('the heroes versus villains server', () => {
   before((done) => {
@@ -21,7 +19,7 @@ describe('the heroes versus villains server', () => {
     user.save((err, data) => {
       if (err) throw err;
       this.user = data;
-      data.generateToken((err, token) => {
+      this.user.generateToken((err, token) => {
         if (err) throw err;
         this.token = token;
         done();
@@ -29,11 +27,6 @@ describe('the heroes versus villains server', () => {
     });
   });
 
-  after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      done();
-    });
-  });
   it('should create a Superhero', (done) => {
     request('localhost:' + port)
     .post('/api/superheroes')
