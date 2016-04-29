@@ -1,2 +1,4 @@
 #REST_API
 this is a two resource api that uses mongodb and has access to different songs and movies and has interaction between the two creating a soundtrack suited for that movie based on sad, mad and glad values to the emotions properties on both movies and songs. It is not yet done with the interactions, but the set up is there all i have to do now is create a router for the soundtrack and than apply the interaction. Also, tests will be done tonight hopefully as well.
+#AUTHENTICATION
+I have a user model set up with a mongoose schema. It has a username and password as well as a property for the hash that takes the place of the password.
