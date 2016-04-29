@@ -10,7 +10,7 @@ module.exports = exports = function(req, res, next) {
       username: namePassArr[0],
       password: namePassArr[1]
     };
-    if (req.auth.username.length < 1 || req.auth.password.length < 1) throw new Error('No user name or password');
+    if (req.auth.username.length < 1 || req.auth.password.length < 1) throw new Error('No user name or password'); // eslint-disable-line
   } catch (err) {
     console.log(err);
     return res.status(403).json({ msg: 'Not authenticated' });

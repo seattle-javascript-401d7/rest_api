@@ -32,13 +32,12 @@ router.get('/signin', basicHTTP, (req, res) => {
 
     if (!user) return res.status(500).json({ msg: 'Authentication failed: User not found' });
 
-    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'Authentication failed: Incorrect password' });
+    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'Authentication failed: Incorrect password' });// eslint-disable-line
 
     user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'Unable to create token. Try again later' });
 
       res.json({ token });
-      res.json({ msg: 'Authorization completed.' });
     });
   });
 });

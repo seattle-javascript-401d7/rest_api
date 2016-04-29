@@ -4,6 +4,11 @@ MongoDB is required.
 Mongoose is required.
 Body-Parser is required
 ExpressJS is required
+Bcrypt is required
+jsonwebtoken is required
+
+## secret key is required to launch the server
+## must authenticate by signup and signin with a token
 
 ## open a mongod connection in a terminal window
 ## launch node server.js in a separate terminal window

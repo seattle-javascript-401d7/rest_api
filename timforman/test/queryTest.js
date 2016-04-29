@@ -5,14 +5,47 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 5555;
+const server = require(__dirname + '/../_server');
+const User = require(__dirname + '/../models/user');
 
-process.env.MONGODB_URI = 'mongodb://localhost/query_test_db';
-require(__dirname + '/../server');
+process.env.APP_SECRET = 'testsecret';
 
-describe('the POST method', () => {
+process.on('exit', () => {
+  if (mongoose.connection.db) {
+    mongoose.connection.db.dropDatabase();
+  }
+});
+
+describe('the query', () => {
+  before((done) => {
+    server.listen(port, 'mongodb://localhost/query_test_db', done);
+  });
+
+  before((done) => {
+    var user = new User({ username: 'test', password: 'test' });
+    user.save((err, data) => {
+      if (err) throw err;
+      this.user = data;
+      data.generateToken((err, token) => {
+        if (err) throw err;
+        this.token = token;
+        done();
+      });
+    });
+  });
+
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.disconnect(() => {
+        server.close(done);
+      });
+    });
+  });
+
   it('should add a band', (done) => {
     request('localhost:' + port)
     .post('/api/bands')
+    .set('token', this.token)
     .send({ bandName: 'Husker Du', genre: 'Alternative' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -22,12 +55,11 @@ describe('the POST method', () => {
       done();
     });
   });
-});
 
-describe('the POST method', () => {
   it('should add a song', (done) => {
     request('localhost:' + port)
     .post('/api/songs')
+    .set('token', this.token)
     .send({ title: 'Diane', bandName: 'Husker Du' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -37,14 +69,7 @@ describe('the POST method', () => {
       done();
     });
   });
-});
 
-describe('the query', () => {
-  after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      done();
-    });
-  });
   it('should return the band name with song title(s)', (done) => {
     request('localhost:' + port)
     .get('/api/bandName/Husker Du')

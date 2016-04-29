@@ -14,7 +14,9 @@ describe('random user find hash', function() { // eslint-disable-line
   });
 
   after((done) => {
-    mongoose.connection.db.dropDatabase(done);
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.disconnect(done);
+    });
   });
 
   it('should be able to create a random hash', function(done) {
