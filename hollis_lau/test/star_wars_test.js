@@ -84,7 +84,9 @@ describe("Star Wars resource", () => {
       });
 
       newStarWarsChar.save((err, data) => {
-        if (err) return process.stderr.write(err + "\n");
+        if (err) {
+          throw new Error("Could not save character!");
+        }
 
         this.starWarsChar = data;
         done();

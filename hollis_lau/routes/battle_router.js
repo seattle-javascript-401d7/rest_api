@@ -30,7 +30,9 @@ router.get("/battle", (req, res) => {
 
   function getChars(model1, model2, cb) {
     model1.aggregate().sample(1).exec((err, char1) => {
-      if (err) return serverErrorHandler(err, res);
+      if (err) {
+        return serverErrorHandler(err, res, "Could not retrieve a random character!");
+      }
 
       cb(model2, char1);
     });
@@ -38,13 +40,21 @@ router.get("/battle", (req, res) => {
 
   function battle(model2, char1) {
     model2.aggregate().sample(1).exec((err, char2) => {
-      if (err) return serverErrorHandler(err, res);
+      if (err) {
+        return serverErrorHandler(err, res, "Could not retrieve a random character!");
+      }
 
-      if (!char1.length || !char2.length) return sendAddChars("Star Trek", "Star Wars");
+      if (!char1.length || !char2.length) {
+        return sendAddChars("Star Trek", "Star Wars");
+      }
 
-      if (char1[0].power > char2[0].power) return sendWinner(char1[0], char2[0]);
+      if (char1[0].power > char2[0].power) {
+        return sendWinner(char1[0], char2[0]);
+      }
 
-      if (char2[0].power > char1[0].power) return sendWinner(char2[0], char1[0]);
+      if (char1[0].power < char2[0].power) {
+        return sendWinner(char2[0], char1[0]);
+      }
 
       sendTie(char1[0], char2[0]);
     });
