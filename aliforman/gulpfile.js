@@ -28,7 +28,7 @@ gulp.task('lint:nontest', () => {
 });
 
 gulp.task('mocha:test', () => {
-  gulp.src('./test/**/*test.js')
+  gulp.src('./test/**/*.js')
    .pipe(mocha());
 });
 
