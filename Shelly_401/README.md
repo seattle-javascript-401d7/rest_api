@@ -1,4 +1,4 @@
-This is a REST API that utilizes MongoDB with two Mongoose schemas.
+This is a REST API that utilizes MongoDB with two Mongoose schemas and requires authentication.
 
 Usage:
 
