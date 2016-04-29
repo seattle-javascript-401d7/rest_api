@@ -4,20 +4,22 @@ const Router = require('express').Router;
 const Jawa = require('../models/jawa');
 const bodyParser = require('body-parser').json();
 const serverErrHandler = require(__dirname + '/../lib/serverErrHandler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var jawaRouter = module.exports = Router();
 
-jawaRouter.get('/jawas', (req, res) => {
+jawaRouter.get('/jawas', jwtAuth, (req, res) => {
   console.log('/jawas GET routes work!');
-  Jawa.find({}, (err, data) => {
+  Jawa.find({ userId: req.user._id }, (err, data) => {
     if (err) return serverErrHandler(err, res);
     res.status(200).json(data);
   });
 });
 
-jawaRouter.post('/jawas', bodyParser, (req, res) => {
+jawaRouter.post('/jawas', jwtAuth, bodyParser, (req, res) => {
   console.log('/jawas POST route work!');
   var newJawa = new Jawa(req.body);
+  newJawa.userId = req.user._id;
   newJawa.save((err, data) => {
     if (err) return serverErrHandler(err, res);
     res.status(200).json(data);

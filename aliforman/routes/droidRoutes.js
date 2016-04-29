@@ -4,20 +4,22 @@ const Router = require('express').Router;
 const Droid = require('../models/droid');
 const bodyParser = require('body-parser').json();
 const serverErrHandler = require(__dirname + '/../lib/serverErrHandler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var droidRouter = module.exports = Router();
 
-droidRouter.get('/droids', (req, res) => {
+droidRouter.get('/droids', jwtAuth, (req, res) => {
   console.log('/droids GET routes work!');
-  Droid.find(null, (err, data) => {
+  Droid.find({ userId: req.user._id }, (err, data) => {
     if (err) return serverErrHandler(err, res);
     res.status(200).json(data);
   });
 });
 
-droidRouter.post('/droids', bodyParser, (req, res) => {
+droidRouter.post('/droids', jwtAuth, bodyParser, (req, res) => {
   console.log('/droids POST route works!');
   var newDroid = new Droid(req.body);
+  newDroid.userId = req.user._id;
   newDroid.save((err, data) => {
     if (err) return serverErrHandler(err, res);
     res.status(200).json(data);
