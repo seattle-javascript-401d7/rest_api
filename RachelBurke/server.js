@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 app.use('/api', winesRouter);
 app.use('/api', cheeseRouter);
 app.use('/api', pairingRouter);
-// app.use('/api', authRouter);
+app.use('/api', authRouter);
 
 app.listen(port);
 console.log('Good things happen at http://localhost:' + port);
