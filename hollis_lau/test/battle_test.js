@@ -75,7 +75,7 @@ describe("Battle resource", () => {
     });
 
     after((done) => {
-      mongoose.connection.db.dropDatabase(() => done());
+      mongoose.connection.db.dropDatabase(done);
     });
 
     it("compares power levels of two characters and returns a victor", (done) => {

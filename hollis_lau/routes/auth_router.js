@@ -9,8 +9,12 @@ module.exports = exports = router;
 router.post("/signup", bodyParser, (req, res) => {
   var newUser;
 
+  if (!req.body.username) {
+    return serverErrorHandler(null, res, "Create a new username!");
+  }
+
   if (!req.body.password) {
-    return res.status(500).json({ msg: "Create a password!" });
+    return serverErrorHandler(null, res, "Create a new password!");
   }
 
   newUser = new User(req.body);
@@ -33,11 +37,11 @@ router.get("/signin", basicHttp, (req, res) => {
     }
 
     if (!user) {
-      return serverErrorHandler(err, res, "Username not found!");
+      return serverErrorHandler(null, res, "User not found!");
     }
 
     if (!user.compareHash(req.auth.password)) {
-      return serverErrorHandler(err, res, "Incorrect password!");
+      return serverErrorHandler(null, res, "Incorrect password!");
     }
 
     res.status(200).json({ msg: "Login successful!" });

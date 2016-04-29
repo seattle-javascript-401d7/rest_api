@@ -33,7 +33,7 @@ describe("Star Trek resource", () => {
 
   describe("POST method", () => {
     after((done) => {
-      mongoose.connection.db.dropDatabase(() => done());
+      mongoose.connection.db.dropDatabase(done);
     });
 
     it("creates a new Star Trek character", (done) => {
