@@ -68,9 +68,7 @@ describe('routes that need to be a shoe in the DB', () => {
     });
   });
   after((done) => {
-    console.log('\n\n\n\n\n');
-    mongoose.connection.db.dropDatabase();
-    process.exit(() => {
+    mongoose.connection.db.dropDatabase(() => {
       done();
     });
   });
