@@ -13,7 +13,8 @@ var droidSchema = new Schema({
   },
   email: {
     type: String
-  }
+  },
+  userId: String
 });
 
-module.exports = mongoose.model('Droid', droidSchema);
+module.exports = exports = mongoose.model('Droid', droidSchema);

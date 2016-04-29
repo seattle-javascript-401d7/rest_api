@@ -13,7 +13,8 @@ var jawaSchema = new Schema({
   },
   email: {
     type: String
-  }
+  },
+  userId: String
 });
 
-module.exports = mongoose.model('Jawa', jawaSchema);
+module.exports = exports = mongoose.model('Jawa', jawaSchema);
