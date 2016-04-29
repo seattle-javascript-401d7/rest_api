@@ -8,21 +8,39 @@ const mongoose = require('mongoose');
 const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/kat_test_db';
 
-require(__dirname + '/../_server.js');
+var server = require(__dirname + '/../_server.js');
 var Pet = require(__dirname + '/../models/petModel.js');
 var Sandwich = require(__dirname + '/../models/sandwichModel.js');
+var User = require(__dirname + '/../models/user.js');
+process.env.APP_SECRET = 'moooooose';
 
-// Testing Pet CRUD Methods
-describe('POST method', () => {
+describe('Total server', () => {
+  before((done) => {
+    server.listen(port, 'mongodb://localhost/kat_test_db', done);
+  });
+  before((done) => {
+    var user = new User({ username: 'test', password: 'test' });
+    user.save((err, data) => {
+      if (err) throw err;
+      data.generateToken((err, token) => {
+        if (err) throw err;
+        this.token = token;
+        done();
+      });
+    });
+  });
+
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
+      mongoose.disconnect(done);
+      server.close();
     });
   });
 
   it('should create a new pet instance', (done) => {
     request('localhost:' + port)
     .post('/api/pet')
+    .set('token', this.token)
     .send({ name: 'Shebabeba the Boss Bebasheba', nickName: 'Beebee',
     favoriteActivity: 'looking down on others' })
     .end((err, res) => {
@@ -32,19 +50,18 @@ describe('POST method', () => {
       done();
     });
   });
-});
 
-describe('GET method', () => {
+// describe('GET method', () => {
   it('should get "/pet"', (done) => {
     request('localhost:' + port)
     .get('/api/pet')
+    .set('token', this.token)
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
       done();
     });
   });
-});
 
 describe('Pet routes that need content to work', () => {
   beforeEach((done) => {
@@ -60,11 +77,6 @@ describe('Pet routes that need content to work', () => {
   afterEach((done) => {
     this.pet.remove((err) => {
       console.log(err);
-      done();
-    });
-  });
-  after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
       done();
     });
   });
@@ -89,45 +101,34 @@ describe('Pet routes that need content to work', () => {
       done();
     });
   });
-});
-
-// Testing Sandwich CRUD Methods
-describe('Sandwich Router', () => {
-
-  describe('POST method', () => {
-    after((done) => {
-      mongoose.connection.db.dropDatabase(() => {
-        done();
-      });
-    });
 
     it('should create a new sandwich instance', (done) => {
       request('localhost:' + port)
       .post('/api/sandwich')
-      .send({ name: 'Grilled Cheese', ingrediants: ['bread', 'cheese'], yumFactor: 6 })
+      .set('token', this.token)
+      .send({ name: 'Grilled Cheese', ingrediants: ['bread', 'cheese'], yumFactor: 2 })
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.status).to.eql(200);
-        expect(res.body.yumFactor).to.eql(6);
+        expect(res.body.yumFactor).to.eql(2);
         done();
       });
     });
-  });
 
-  describe('GET method', () => {
     it('should get me a sandwich', (done) => {
       request('localhost:' + port)
       .get('/api/sandwich')
+      .set('token', this.token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.status).to.eql(200);
-        expect(res.body.length).to.eql(0);
+        expect(res.body.length).to.eql(1);
         done();
       });
     });
-  });
-
+});
   describe('Sandwich Routes that need content to work', () => {
+
     beforeEach((done) => {
       var newSandwich = new Sandwich({ name: 'Testwich',
       ingrediants: ['test', 'bread'], yumFactor: 9 });
@@ -142,11 +143,6 @@ describe('Sandwich Router', () => {
     afterEach((done) => {
       this.sandwich.remove((err) => {
         console.log(err);
-        done();
-      });
-    });
-    after((done) => {
-      mongoose.connection.db.dropDatabase(() => {
         done();
       });
     });
@@ -183,7 +179,6 @@ describe('Sandwich Router', () => {
       });
     });
   });
-});
 
 // Test for combinedRouter
 describe('War of pets and sandwiches', () => {
@@ -214,19 +209,14 @@ describe('War of pets and sandwiches', () => {
     done();
   });
 
-  after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      done();
-    });
-  });
-
   it('should have a yumfactor of zero', (done) => {
     request('localhost:' + port)
       .get('/api/war')
       .end((err, res) => {
         expect(err).to.eql(null);
-        console.log(res.body.yumFactor);
         done();
       });
   });
+});
+
 });

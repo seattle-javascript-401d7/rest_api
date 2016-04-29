@@ -11,8 +11,13 @@ app.use('/api', sandwichRouter);
 app.use('/api', warsRouter);
 app.use('/api', authRouter);
 module.exports = exports = {
+  server: {close: function() {throw new Error('server not started')}},
   listen: function(port, mongoString, cb) {
     mongoose.connect(mongoString);
-    return app.listen(port, cb);
+    return this.server = app.listen(port, cb);
+  },
+  close: function(cb) {
+    this.server.close();
+    if (cb) cb();
   }
 };

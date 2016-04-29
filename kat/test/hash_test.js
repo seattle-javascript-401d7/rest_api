@@ -14,7 +14,9 @@ describe('Find hash', function() {
   });
 
   after(function(done) {
-    mongoose.connection.db.dropDatabase(done);
+    mongoose.connection.db.dropDatabase(() => {
+      mongoose.disconnect(done);
+    });
   });
 
   it('should create a hash', function(done) {
