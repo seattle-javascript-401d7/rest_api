@@ -6,8 +6,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect = chai.expect;
 const request = chai.request;
-const Motor = require(__dirname + '/../models/motor');
-const Pedal = require(__dirname + '/../models/pedal');
+
 
 process.env.PORT = 5050;
 process.env.MONGOLAB_LOC = 'mongodb://localhost/db_test';
@@ -85,7 +84,17 @@ describe('Two Resource Test', () => {
       done();
     });
   });
-  it('motor PUT route works');
+  it('motor PUT route works', (done) => {
+    request('localhost:5050')
+    .put('/api/motor/Buell_Lightning')
+    .send({ model: 'Buell_Lightning', displacement: 1200, cylinders: 2, maxSpeed: 138 })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.text).to.contain('Update Successful');
+      done();
+    });
+  });
   it('fast GET route works', (done) => {
     request('localhost:5050')
     .get('/api/fast')
@@ -99,6 +108,24 @@ describe('Two Resource Test', () => {
       done();
     });
   });
-  it('pedal DELETE route works');
-  it('motor DELETE route works');
+  it('pedal DELETE route works', (done) => {
+    request('localhost:5050')
+    .delete('/api/pedal/Sears_Free_Spirit')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.text).to.eql('Deletion Successful');
+      done();
+    });
+  });
+  it('motor DELETE route works', (done) => {
+    request('localhost:5050')
+    .delete('/api/motor/Buell_Lightning')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.text).to.eql('Deletion Successful');
+      done();
+    });
+  });
 });
