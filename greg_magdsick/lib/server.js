@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 if (!process.env.APP_SECRET) {
   throw new Error('APP_SECRET environment variable not set.');
 }
