@@ -10,4 +10,4 @@ gulp.task('eslint', () => {
   .pipe(eslint.format());
 });
 
-gulp.task('default', []);
+gulp.task('default', ['eslint']);

@@ -1,7 +1,7 @@
 const Router = require('express').Router;
 const Wine = require(__dirname + '/../models/wines_model');
 const Cheese = require(__dirname + '/../models/cheese_model');
-const errorHandler = require(__dirname + '/../lib/errorHandler');
+const errorHandler = require(__dirname + '/../lib/error_handler');
 
 
 var pairingRouter = module.exports = new Router();
