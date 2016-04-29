@@ -2,13 +2,13 @@
   "name": "heidilaursen",
   "version": "1.0.0",
   "description": "Express api with REST and two Mongo databases. ",
-  "main": "node server.js",
+  "main": "node index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": " ./node_modules/mocha/bin/mocha test",
-    "start": "node server.js"
+    "start": "node '*test.js'"
   },
   "repository": {
     "type": "git",
