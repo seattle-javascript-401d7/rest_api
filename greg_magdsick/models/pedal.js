@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var pedalSchema = new mongoose.Schema({
-  model: { type: String, unique: true },
+  model: { type: String, require: true, unique: true },
   gears: Number,
   frameType: String,
   maxSpeed: Number

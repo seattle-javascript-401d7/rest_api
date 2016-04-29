@@ -16,7 +16,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/gregmagdsick/two_resource_REST_API/issues"
   },
@@ -29,6 +29,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
     "mocha": "^2.4.5"
   }
 }
