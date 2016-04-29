@@ -1,4 +1,4 @@
-// if (!process.env.APP_SECRET) throw new Error('Please set the APP_SECRET');
+if (!process.env.APP_SECRET) throw new Error('Please set the APP_SECRET');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;

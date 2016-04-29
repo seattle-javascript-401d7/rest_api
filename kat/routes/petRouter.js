@@ -2,18 +2,20 @@ const Router = require('express').Router;
 const Pet = require(__dirname + '/../models/petModel.js');
 const bodyParser = require('body-parser').json();
 const errorHandler = require(__dirname + '/../lib/errorHandle.js');
+const jwtAuth = require(__dirname + '/../lib/jwtAuth.js');
 var petRouter = module.exports = new Router();
 
-petRouter.get('/pet', (req, res) => {
-  Pet.find({}, (err, data) => {
+petRouter.get('/pet', jwtAuth, (req, res) => {
+  Pet.find({ petID: req.user._id }, (err, data) => {
     if (err) errorHandler(err, res);
     res.status(200).json(data);
   });
 });
 
 
-petRouter.post('/pet', bodyParser, (req, res) => {
+petRouter.post('/pet', jwtAuth, bodyParser, (req, res) => {
   var newPet = new Pet(req.body);
+  newPet.petID = req.user._id;
   newPet.save((err, data) => {
     if (err) errorHandler(err, res);
     res.status(200).json(data);

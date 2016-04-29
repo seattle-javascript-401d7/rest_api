@@ -9,14 +9,16 @@ router.post('/signup', bodyParser, (req, res) => {
   var password = req.body.password;
   req.body.password = null;
 
-  if (!password.length) return res.status(500).json({ msg: 'Please include a password' });
+  if (!password) return res.status(500).json({ msg: 'Please include a password' });
 
   var newUser = new User(req.body);
   newUser.generateHash(password);
   password = null;
 
   newUser.save((err, user) => {
-    if (err) return res.ststaus(500).json({ msg: 'Invalid username' });
+    console.log(err);
+    if (err) return res.status(500).json({ msg: 'Invalid username' });
+
     user.generateToken(function(err, token) {
       if (err) return res.status(500).json({ msg: 'could not generate token' });
       res.json({ token });
@@ -36,7 +38,7 @@ router.get('/signin', basicHTTP, (req, res) => {
     }
     user.generateToken(function(err, token) {
       if (err) return res.status(500).json({ msg: 'could not generate token' });
-      res.json({ msg: 'authenticate says yes' });
+      res.json({ token });
     });
   });
 });

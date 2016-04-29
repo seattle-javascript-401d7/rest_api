@@ -21,8 +21,8 @@ userSchema.methods.generateFindHash = function(cb) {
   var tries = 0;
   var timeout;
   var _generateFindHash = () => {
-    var hash = crypto.randomBytes(32); // have created a random hash with crypto
-    this.findHash = hash.toString('hex'); // stringed that hash
+    var hash = crypto.randomBytes(32);
+    this.findHash = hash.toString('hex');
     this.save((err, data) => {
       if (err) {
         if (tries > 9) {
@@ -33,7 +33,7 @@ userSchema.methods.generateFindHash = function(cb) {
           tries++;
         }, 1000);
       }
-      if (timeout) clearTimeout(timeout); // see if the timeout set, and make sureit doesnt start again
+      if (timeout) clearTimeout(timeout);
 
       cb(null, hash.toString('hex'));
     });
