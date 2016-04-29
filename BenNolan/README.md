@@ -1,18 +1,32 @@
-#REST API
-
-##To Submit this Assignment
-  * fork this repository
-  * write all of your code in a folder containing your name
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-
-##Description
-Create a two rest resource rest API with Express that's backed by Mongo. I'm leaving this pretty open to interpretation. I want you to write this from scratch, don't just copy and paste code from class or previous projects. Also, implement a non CRUD endpoint.
+# REST API
 
 
-##Rubric
-Use of Express: 3pts
-Use of Mongo: 3pts
-Tests: 2pts
-Project Organization: 2pts
+## HOW TO USE
+
+This app requires `mongod` to be run as well as `node server.js`
+
+### SIGNUP
+
+Using `HTTPIE` sign up with a username and password:
+
+      http POST (localhost):(port)/api/signup username=(username) password=(password)
+
+From here you should be able to sign in
+
+### SIGNIN
+
+Again using  `HTTPIE` sign in with the same username and password:
+
+      http -a (username):(password) (localhost):(port)/api/signin
+
+### Creating a shark/prey
+
+using `HTTPIE` you can create either a shark or prey
+
+      http POST (localhost):(port)/api/(sharks/preys) token:"(token from signin)"  name='(something here)' speed='(something here)' (sharks only- fishPreference('something here'))
+
+
+## Browser
+
+Now you should be able to go to `localhost:(port)/api/sharks(prey)`
+and view your results
