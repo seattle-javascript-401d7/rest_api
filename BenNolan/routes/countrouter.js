@@ -13,7 +13,7 @@ versusRouter.get('/count', (req, res) => {
     res.status(200).json({
       sharks: sharkData.length,
       prey: preyData.length
+      });
     });
   });
-});
 });
