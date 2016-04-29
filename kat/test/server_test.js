@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/kat_test_db';
 
-require(__dirname + '/../server.js');
+require(__dirname + '/../_server.js');
 var Pet = require(__dirname + '/../models/petModel.js');
 var Sandwich = require(__dirname + '/../models/sandwichModel.js');
 
