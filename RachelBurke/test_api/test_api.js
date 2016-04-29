@@ -6,12 +6,13 @@ const request = chai.request;
 const mongoose = require('mongoose');
 
 const port = process.env.PORT = 1234;
-process.env.MONGO_URI = 'mongodb://localhost/wines_test_db';
+process.env.MONGODB_URI = 'mongodb://localhost/wines_test_db';
+
 require(__dirname + '/../server.js');
 const Wine = require(__dirname + '/../models/wines_model.js');
 const Cheese = require(__dirname + '/..models/cheese_model.js');
 
-
+//testing CRUD on wine method
 describe('the POST method', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
@@ -19,7 +20,7 @@ describe('the POST method', () => {
     });
   });
 
-  it('should be good wine', (done) => {
+  it('should create a new wine', (done) => {
     request('localhost:' + port)
     .post('/api/wines')
     .send({ name: 'Fancy French Vineyard', year: '1800', grapes: 'Grenache / Syrah',
@@ -36,7 +37,7 @@ describe('the POST method', () => {
   });
 
   describe('the GET method', () => {
-    it('should get all the wines', (done) => {
+    it('should get "/wines"', (done) => {
       request('localhost:' + port)
       .get('/api/wines')
       .end((err, res) => {
@@ -53,19 +54,21 @@ describe('the POST method', () => {
 
   describe('routes that need wine in the DB: ', () => {
     beforeEach((done) => {
-      const newWine = Wine({name: 'Fancy Spanish Vineyard', year: '2006', grapes: 'Tempranillo', country: 'Spain', description: 'Intoxicating'});
+      var newWine = Wine({name: 'Fancy Spanish Vineyard', year: '2006', grapes: 'Tempranillo', country: 'Spain', description: 'Intoxicating'});
       newWine.save((err, data) => {
+        if (err) {
+          console.log(err);
+        }
         this.wine = data;
         done();
       });
     });
-
     afterEach((done) => {
       this.wine.remove((err) => {
+        console.log(err);
         done();
-      })
+      });
     });
-
     after((done) => {
       mongoose.connection.db.dropDatabase(() => {
         done();
@@ -74,23 +77,153 @@ describe('the POST method', () => {
 
   it('should change the wine\'s identity on a PUT request', (done) => {
     request('localhost:' + port)
-    .put('/api/wines/' + this.wine._id)
+    .put('/api/wine/' + this.wine._id)
     .send({name: 'Fancy Wine', year: '2016', grapes: 'Malbec', country: 'Australia', description: 'young'})
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('such good wine data');
+      expect(res.body.msg).to.eql('such good wine data with put');
       done();
     });
   });
 
   it('should turn water into wine or wine into water with a DELETE request', (done) => {
     request('localhost:' + port)
-    .delete('/api/wines/' + this.bear._id)
+    .delete('/api/wines/' + this.wine._id)
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('even better than the real thing');
+      expect(res.body.msg).to.eql('Deleted the wine!');
+      done();
+    });
+  });
+});
+
+//testing CRUD on cheese method
+describe('Cheese Router', () => {
+
+  describe('POST method', () => {
+    after((done) => {
+      mongoose.connection.db.dropDatabase(() => {
+        done();
+      });
+    });
+
+    it('should create a new cheese', (done) => {
+      request('localhost:' + port)
+      .post('/api/cheese')
+      .send({ name: 'Gruyere', country: 'Switzerland', source: 'Cow' })
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(200);
+        expect(res.body.msg).to.eql('From the cow.');
+        done();
+      });
+    });
+  });
+
+  describe('GET method', () => {
+    it('should taste good', (done) => {
+      request('localhost:' + port)
+      .get('/api/cheese')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.status).to.eql(200);
+        expect(res.body.length).to.eql(0);
+        done();
+      });
+    });
+  });
+
+  describe('routes that need cheese in the DB', () => {
+    beforeEach((done) => {
+      var newCheese = new Cheese({ name: 'Goat Cheese', country: 'All', source: 'Goat' })
+      newCheese.save((err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        this.cheese = data;
+        done();
+      });
+    });
+    afterEach((done) => {
+      mongoose.connection.db.dropDatabase(() => {
+        done();
+      });
+    });
+
+    it('should be from a goat', (done) => {
+      request('localhost:' + port)
+      .get('/api/cheese/goaty')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('This cheese is from a goat');
+        done();
+      });
+    });
+
+    it('should be able to PUT a cheese', (done) => {
+      request('localhost:' + port)
+      .put('/api/cheese/' + this.cheese._id)
+      .send({ name: 'Parmesan', country: 'Italy', source: 'Cows'})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('More cheese!');
+        done();
+      });
+    });
+
+    it('should be able to DELETE some cheese', (done) => {
+      request('localhost:' + port)
+      .delete('/api/cheese/' + this.cheese._id)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('Enjoyed some cheese');
+        done();
+      });
+    });
+  });
+});
+
+//Test for pairingRouter
+describe('Wine and Cheese Pairings', () => {
+  beforeEach((done) => {
+    //add a cheese
+    var newCheese = new Cheese({ name: 'Raclette', country: 'Switzerland', source: 'Cow' });
+    newCheese.save((err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      this.cheese = data;
+    });
+
+    //add a wine
+    var newWine = new Wine({ name: 'Fendant', year: '1999', country: 'Switzerland', description: 'Honeyed' });
+    newWine.save((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    var newWines = new Wine({ name: 'Pinot Noir', year: '1988', country: 'France', description: 'dry'});
+    newWines.save((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    done();
+  });
+
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
       done();
     });
   });
 
+  it('should taste good in any scenario', (done) => {
+    request('localhost:' + port)
+    .get('/api/pairing')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      console.log(res.body);
+      done();
+    });
+  });
 });
