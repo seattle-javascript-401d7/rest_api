@@ -1,4 +1,4 @@
-eslintrc.json
+eslintrc
 README.md
 package.json
 node_modules/**/*.js
