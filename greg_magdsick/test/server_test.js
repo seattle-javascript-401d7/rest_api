@@ -17,11 +17,11 @@ describe('Two Resource Test', () => {
   before((done) => {
     request('localhost:5050')
     .post('/api/motor')
-    .send({ model: 'Buell Lightning', displacement: 1200, cylinders: 2, maxSpeed: 140 })
+    .send({ model: 'Buell_Lightning', displacement: 1200, cylinders: 2, maxSpeed: 140 })
     .end();
     request('localhost:5050')
     .post('/api/pedal')
-    .send({ model: 'Sears Free Spirit', gears: 10, frameType: 'Steel', maxSpeed: 29.95 })
+    .send({ model: 'Sears_Free_Spirit', gears: 10, frameType: 'Steel', maxSpeed: 29.95 })
     .end();
     done();
   });
@@ -55,7 +55,7 @@ describe('Two Resource Test', () => {
   it('pedal POST route works', (done) => {
     request('localhost:5050')
     .post('/api/pedal')
-    .send({ model: 'Cervello S2', gears: 12, frameType: 'Carbon Fiber', maxSpeed: 35.6 })
+    .send({ model: 'Cervello_S2', gears: 12, frameType: 'Carbon Fiber', maxSpeed: 35.6 })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
@@ -66,7 +66,7 @@ describe('Two Resource Test', () => {
   it('motor POST route works', (done) => {
     request('localhost:5050')
     .post('/api/motor')
-    .send({ model: 'Suzuki GSXR 750', displacement: 750, cylinders: 3, maxSpeed: 173.5 })
+    .send({ model: 'Suzuki_GSXR_750', displacement: 750, cylinders: 3, maxSpeed: 173.5 })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
@@ -74,9 +74,31 @@ describe('Two Resource Test', () => {
       done();
     });
   });
-  it('pedal PUT route works');
+  it('pedal PUT route works', (done) => {
+    request('localhost:5050')
+    .put('/api/pedal/Sears_Free_Spirit')
+    .send({ model: 'Sears_Free_Spirit', gears: 10, frameType: 'Steel', maxSpeed: 27 })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.text).to.contain('Update Successful');
+      done();
+    });
+  });
   it('motor PUT route works');
-  it('fast GET route works');
+  it('fast GET route works', (done) => {
+    request('localhost:5050')
+    .get('/api/fast')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.text).to.contain('Suzuki_GSXR_750');
+      expect(res.text).to.contain('Cervello_S2');
+      expect(res.text).to.not.contain('Buell_Lightning');
+      expect(res.text).to.not.contain('Sears_Free_Spirit');
+      done();
+    });
+  });
   it('pedal DELETE route works');
   it('motor DELETE route works');
 });
