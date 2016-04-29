@@ -12,9 +12,20 @@ var server;
 var Tiger = require(__dirname + '/../models/tigers');
 const errorHandler = require(__dirname + '/../lib/errorHandler');
 
+var User = require(__dirname + '/../models/user');
+process.env.APP_SECRET = 'testingSecret';
+
 describe('the routes at /tigers', () => {
   before( (done) => {
-    server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/animals_testDB', console.log('server up on ' + port) );
+    server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/animals_testDB', console.log('server up on ' + port));
+
+    var newUser = new User({ username: 'McTest', password: 'sandwich' });
+    newUser.save( (err, data) => {
+      if (err) throw err;
+      this.user = data;
+      this.token = data.generateToken();
+    });
+
     var newTiger = new Tiger({ name: 'testTiger', variety: 'testing', location: 'jungle', continent: 'Asia' });
     newTiger.save( (err, data) => {
       if (err) return errorHandler(err);
@@ -49,6 +60,7 @@ describe('the routes at /tigers', () => {
   it('should add a new tiger to the db on a POST request', (done) => {
     request('localhost:' + port)
     .post('/api/tigers')
+    .set('token', this.token)
     .send({ name: 'Hobbes', variety: 'cartoon', location: 'newspaper', continent: 'North_America' })
     .end( (err, res) => {
       expect(err).to.eql(null);
@@ -63,6 +75,7 @@ describe('the routes at /tigers', () => {
   it('should update the tiger\'s information on a PUT request', (done) => {
     request('localhost:' + port)
     .put('/api/tigers/' + this.tiger._id)
+    .set('token', this.token)
     .send({ name: 'Hobbes', variety: 'cartoon', location: 'Calvin\'s house', continent: 'North_America' })
     .end( (err, res) => {
       expect(err).to.eql(null);
@@ -74,6 +87,7 @@ describe('the routes at /tigers', () => {
   it('should remove a tiger from the db on a DELETE request', (done) => {
     request('localhost:' + port)
     .delete('/api/tigers/' + this.tiger._id)
+    .set('token', this.token)
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);

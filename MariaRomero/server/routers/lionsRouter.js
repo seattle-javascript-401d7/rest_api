@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const Router = require('express').Router;
 const Lion = require(__dirname + '/../../models/lions');
 const bodyParser = require('body-parser').json();
@@ -35,4 +36,4 @@ lionsRouter.delete('/lions/:id', (req, res) => {
   });
 });
 
-module.exports = lionsRouter;
+module.exports = exports = lionsRouter;

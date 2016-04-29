@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const Router = require('express').Router;
 const Lion = require(__dirname + '/../../models/lions');
 const Tiger = require(__dirname + '/../../models/tigers');
@@ -84,4 +85,4 @@ ohMyRouter.get('/ohMy/:continent', (req, res) => {
   });
 });
 
-module.exports = ohMyRouter;
+module.exports = exports = ohMyRouter;

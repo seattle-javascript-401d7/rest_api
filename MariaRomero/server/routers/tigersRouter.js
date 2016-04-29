@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const Router = require('express').Router;
 const Tiger = require(__dirname + '/../../models/tigers');
 const bodyParser = require('body-parser').json();
@@ -35,4 +36,4 @@ tigersRouter.delete('/tigers/:id', (req, res) => {
   });
 });
 
-module.exports = tigersRouter;
+module.exports = exports = tigersRouter;

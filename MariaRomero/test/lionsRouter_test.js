@@ -12,9 +12,20 @@ var server;
 var Lion = require(__dirname + '/../models/lions');
 const errorHandler = require(__dirname + '/../lib/errorHandler');
 
+var User = require(__dirname + '/../models/user');
+process.env.APP_SECRET = 'testingSecret';
+
 describe('the routes at /lions', () => {
   before( (done) => {
-    server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/animals_testDB', console.log('server up on ' + port) );
+    server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/animals_testDB', console.log('server up on ' + port));
+
+    var newUser = new User({ username: 'testy', password: 'fido123' });
+    newUser.save( (err, data) => {
+      if (err) return errorHandler(err);
+      this.user = data;
+      this.token = data.generateToken();
+    });
+
     var newLion = new Lion({ name: 'testLion', variety: 'testing', location: 'testPlain', continent: 'Africa' });
     newLion.save( (err, data) => {
       if (err) return errorHandler(err);
@@ -49,6 +60,7 @@ describe('the routes at /lions', () => {
   it('should add a new lion to the db on a POST request', (done) => {
     request('localhost:' + port)
     .post('/api/lions')
+    .set('token', this.token)
     .send({ name: 'Nala', variety: 'African', location: 'Pride_Lands', continent: 'Africa' })
     .end( (err, res) => {
       expect(err).to.eql(null);
@@ -63,6 +75,7 @@ describe('the routes at /lions', () => {
   it('should update the lion\'s information on a PUT request', (done) => {
     request('localhost:' + port)
     .put('/api/lions/' + this.lion._id)
+    .set('token', this.token)
     .send({ name: 'Nala', variety: 'African', location: 'Bronx zoo', continent: 'Africa' })
     .end( (err, res) => {
       expect(err).to.eql(null);
@@ -74,6 +87,7 @@ describe('the routes at /lions', () => {
   it('should remove a lion from the db on a DELETE request', (done) => {
     request('localhost:' + port)
     .delete('/api/lions/' + this.lion._id)
+    .set('token', this.token)
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
