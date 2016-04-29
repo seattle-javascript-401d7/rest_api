@@ -63,46 +63,46 @@ describe('Total server', () => {
     });
   });
 
-describe('Pet routes that need content to work', () => {
-  beforeEach((done) => {
-    var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
-    newPet.save((err, data) => {
-      if (err) {
+  describe('Pet routes that need content to work', () => {
+    beforeEach((done) => {
+      var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
+      newPet.save((err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        this.pet = data;
+        done();
+      });
+    });
+    afterEach((done) => {
+      this.pet.remove((err) => {
         console.log(err);
-      }
-      this.pet = data;
-      done();
+        done();
+      });
     });
-  });
-  afterEach((done) => {
-    this.pet.remove((err) => {
-      console.log(err);
-      done();
-    });
-  });
 
-  it('should be able to PUT a pet', (done) => {
-    request('localhost:' + port)
-    .put('/api/pet/' + this.pet._id)
-    .set('token', this.token)
-    .send({ name: 'Noodle', nickName: 'Nunu', favoriteActivity: 'hissing' })
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Updated a pet entry with put');
-      done();
+    it('should be able to PUT a pet', (done) => {
+      request('localhost:' + port)
+      .put('/api/pet/' + this.pet._id)
+      .set('token', this.token)
+      .send({ name: 'Noodle', nickName: 'Nunu', favoriteActivity: 'hissing' })
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('Updated a pet entry with put');
+        done();
+      });
     });
-  });
 
-  it('should be able to DELETE a pet entry', (done) => {
-    request('localhost:' + port)
-    .delete('/api/pet/' + this.pet._id)
-    .set('token', this.token)
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect(res.body.msg).to.eql('Deleted a pet entry');
-      done();
+    it('should be able to DELETE a pet entry', (done) => {
+      request('localhost:' + port)
+      .delete('/api/pet/' + this.pet._id)
+      .set('token', this.token)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('Deleted a pet entry');
+        done();
+      });
     });
-  });
 
     it('should create a new sandwich instance', (done) => {
       request('localhost:' + port)
@@ -119,16 +119,16 @@ describe('Pet routes that need content to work', () => {
 
     it('should get me a sandwich', (done) => {
       request('localhost:' + port)
-      .get('/api/sandwich')
-      .set('token', this.token)
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res.status).to.eql(200);
-        expect(res.body.length).to.eql(1);
-        done();
-      });
+        .get('/api/sandwich')
+        .set('token', this.token)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.status).to.eql(200);
+          expect(res.body.length).to.eql(1);
+          done();
+        });
     });
-});
+  });
   describe('Sandwich Routes that need content to work', () => {
 
     beforeEach((done) => {
@@ -185,42 +185,41 @@ describe('Pet routes that need content to work', () => {
   });
 
 // Test for combinedRouter
-describe('War of pets and sandwiches', () => {
-  beforeEach((done) => {
+  describe('War of pets and sandwiches', () => {
+    beforeEach((done) => {
     // add one sandwich
-    var newSandwich = new Sandwich({ name: 'Testwich',
+      var newSandwich = new Sandwich({ name: 'Testwich',
     ingrediants: ['test', 'bread'], yumFactor: 9 });
-    newSandwich.save((err, data) => {
-      if (err) {
-        console.log(err);
-      }
-      this.sandwich = data;
-    });
+      newSandwich.save((err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        this.sandwich = data;
+      });
 
     // two pets
-    var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
-    newPet.save((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    var newPet2 = new Pet({ name: 'TestCat2', nickName: 'muffin2' });
-    newPet2.save((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    done();
-  });
-
-  it('should have a yumfactor of zero', (done) => {
-    request('localhost:' + port)
-      .get('/api/war')
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        done();
+      var newPet = new Pet({ name: 'TestCat', nickName: 'muffin', favoriteActivity: 'feather tag' });
+      newPet.save((err) => {
+        if (err) {
+          console.log(err);
+        }
       });
-  });
-});
+      var newPet2 = new Pet({ name: 'TestCat2', nickName: 'muffin2' });
+      newPet2.save((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+      done();
+    });
 
+    it('should have a yumfactor of zero', (done) => {
+      request('localhost:' + port)
+        .get('/api/war')
+        .end((err) => {
+          expect(err).to.eql(null);
+          done();
+        });
+    });
+  });
 });

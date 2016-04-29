@@ -18,23 +18,13 @@ userSchema.methods.compareHash = function(password) {
 };
 
 userSchema.methods.generateFindHash = function(cb) {
-  var tries = 0;
-  var timeout;
   var _generateFindHash = () => {
     var hash = crypto.randomBytes(32);
     this.findHash = hash.toString('hex');
-    this.save((err, data) => {
+    this.save((err) => {
       if (err) {
-        if (tries > 9) {
-          return cb(new Error('could not generate hash'));
-        }
-        return timeout = setTimeout(() => {
-          _generateFindHash();
-          tries++;
-        }, 1000);
+        return cb(new Error('could not generate hash'));
       }
-      if (timeout) clearTimeout(timeout);
-
       cb(null, hash.toString('hex'));
     });
   };
@@ -42,7 +32,7 @@ userSchema.methods.generateFindHash = function(cb) {
 };
 
 userSchema.methods.generateToken = function(cb) {
-  this.generateFindHash(function(err, hash) {
+  this.generateFindHash((err, hash) => {
     if (err) return cb(err);
     cb(null, jwt.sign({ idd: hash }, process.env.APP_SECRET));
   });
