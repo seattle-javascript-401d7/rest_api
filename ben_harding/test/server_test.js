@@ -12,6 +12,7 @@ var server = require(__dirname + '/../server');
 var Sloth = require(__dirname + '/../models/sloth');
 var Bear = require(__dirname + '/../models/bear');
 var Slothbear = require(__dirname + '/../models/slothbear');
+var User = require(__dirname + '/../models/user');
 
 describe('sloths plus bears server', () => {
   after(() => {
@@ -19,16 +20,29 @@ describe('sloths plus bears server', () => {
   });
 
   describe('Sloth methods', () => {
-    describe('POST method', () => {
-      after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
+    var userToken = '';
+    beforeEach(function(done) {
+      var newUser = new User({ username: 'test', password: 'test' });
+      newUser.save((err, user) => {
+        if (err) console.log(err);
+        user.generateToken((err, token) => {
+          if (err) console.log(err);
+          userToken = token;
+          this.user = user;
           done();
         });
+      });
+    });
+
+    describe('POST method', () => {
+      after((done) => {
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should POST a new sloth', (done) => {
         request('localhost:' + port)
           .post('/api/sloths')
+          .set('token', userToken)
           .send({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -43,6 +57,7 @@ describe('sloths plus bears server', () => {
       it('should get all the sloths', (done) => {
         request('localhost:' + port)
           .get('/api/sloths')
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(Array.isArray(res.body)).to.eql(true);
@@ -53,13 +68,23 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a sloth', () => {
+      var userToken = '';
       beforeEach((done) => {
         var newSloth = new Sloth({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
-
         newSloth.save((err, data) => {
           if (err) return console.log('error');
           this.sloth = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -71,9 +96,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should get a sloth', (done) => {
@@ -90,6 +113,7 @@ describe('sloths plus bears server', () => {
       it('should update a sloth', (done) => {
         request('localhost:' + port)
           .put('/api/sloths/' + this.sloth._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -101,6 +125,7 @@ describe('sloths plus bears server', () => {
       it('should delete the sloth', (done) => {
         request('localhost:' + port)
           .delete('/api/sloths/' + this.sloth._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('sloth deleted');
@@ -111,16 +136,29 @@ describe('sloths plus bears server', () => {
   });
 
   describe('Bear methods', () => {
-    describe('POST method', () => {
-      after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
+    var userToken = '';
+    beforeEach(function(done) {
+      var newUser = new User({ username: 'test', password: 'test' });
+      newUser.save((err, user) => {
+        if (err) console.log(err);
+        user.generateToken((err, token) => {
+          if (err) console.log(err);
+          userToken = token;
+          this.user = user;
           done();
         });
+      });
+    });
+
+    describe('POST method', () => {
+      after((done) => {
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should POST a new bear', (done) => {
         request('localhost:' + port)
           .post('/api/bears')
+          .set('token', userToken)
           .send({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -135,6 +173,7 @@ describe('sloths plus bears server', () => {
       it('should get all the bears', (done) => {
         request('localhost:' + port)
           .get('/api/bears')
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(Array.isArray(res.body)).to.eql(true);
@@ -145,13 +184,23 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a bear', () => {
+      var userToken = '';
       beforeEach((done) => {
         var newBear = new Bear({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
-
         newBear.save((err, data) => {
           if (err) return console.log('error');
           this.bear = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -163,9 +212,7 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should get a bear', (done) => {
@@ -182,6 +229,7 @@ describe('sloths plus bears server', () => {
       it('should update a bear', (done) => {
         request('localhost:' + port)
           .put('/api/bears/' + this.bear._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -193,6 +241,7 @@ describe('sloths plus bears server', () => {
       it('should delete the bear', (done) => {
         request('localhost:' + port)
           .delete('/api/bears/' + this.bear._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('bear deleted');
@@ -203,6 +252,20 @@ describe('sloths plus bears server', () => {
   });
 
   describe('Slothbear methods', () => {
+    var userToken = '';
+    beforeEach(function(done) {
+      var newUser = new User({ username: 'test', password: 'test' });
+      newUser.save((err, user) => {
+        if (err) console.log(err);
+        user.generateToken((err, token) => {
+          if (err) console.log(err);
+          userToken = token;
+          this.user = user;
+          done();
+        });
+      });
+    });
+
     describe('Mating method', () => {
       before((done) => {
         var newSloth = new Sloth({ name: 'Rick', gender: 'm', weight: 150, strength: 8000 });
@@ -217,14 +280,13 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
       it('should make a new slothbear', (done) => {
         request('localhost:' + port)
           .get('/api/mate')
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.hasOwnProperty('name')).to.eql(true);
@@ -240,6 +302,7 @@ describe('sloths plus bears server', () => {
       it('should get all the slothbears', (done) => {
         request('localhost:' + port)
           .get('/api/slothbears')
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(Array.isArray(res.body)).to.eql(true);
@@ -250,13 +313,23 @@ describe('sloths plus bears server', () => {
     });
 
     describe('routes that need a slothbear', () => {
+      var userToken = '';
       beforeEach((done) => {
         var newSlothbear = new Slothbear({ name: 'Rick', gender: 'm', weight: 150, strength: 80 });
-
         newSlothbear.save((err, data) => {
           if (err) return console.log('error');
           this.slothbear = data;
-          done();
+        });
+
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
         });
       });
 
@@ -268,12 +341,10 @@ describe('sloths plus bears server', () => {
       });
 
       after((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-          done();
-        });
+        mongoose.connection.db.dropDatabase(done);
       });
 
-      it('should get a slothbeaer', (done) => {
+      it('should get a slothbear', (done) => {
         request('localhost:' + port)
           .get('/api/slothbears/' + this.slothbear._id)
           .end((err, res) => {
@@ -287,6 +358,7 @@ describe('sloths plus bears server', () => {
       it('should update a slothear', (done) => {
         request('localhost:' + port)
           .put('/api/slothbears/' + this.slothbear._id)
+          .set('token', userToken)
           .send({ name: 'John Cena', gender: 'm', weight: 270, strength: 7000 })
           .end((err, res) => {
             expect(err).to.eql(null);
@@ -298,9 +370,55 @@ describe('sloths plus bears server', () => {
       it('should delete the slothbear', (done) => {
         request('localhost:' + port)
           .delete('/api/slothbears/' + this.slothbear._id)
+          .set('token', userToken)
           .end((err, res) => {
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql('slothbear deleted');
+            done();
+          });
+      });
+    });
+  });
+
+  describe('user routes', () => {
+    after((done) => {
+      mongoose.connection.db.dropDatabase(done);
+    });
+
+    describe('user signup', () => {
+      it('should create a new user', (done) => {
+        request('localhost:' + port)
+          .post('/api/signup')
+          .send({ username: 'test', password: 'test' })
+          .end((err, res) => {
+            expect(err).to.eql(null);
+            expect(res.body.token.length).to.not.eql(0);
+            done();
+          });
+      });
+    });
+
+    describe('user login', () => {
+      var userToken = '';
+      before(function(done) {
+        var newUser = new User({ username: 'test', password: 'test' });
+        newUser.save((err, user) => {
+          if (err) console.log(err);
+          user.generateToken((err, token) => {
+            if (err) console.log(err);
+            userToken = token;
+            this.user = user;
+            done();
+          });
+        });
+      });
+
+      it('should login and get a new token', (done) => {
+        request('test:test@localhost:' + port)
+          .get('/api/signin')
+          .end((err, res) => {
+            expect(err).to.eql(null);
+            expect(res.body.token).to.not.eql(userToken);
             done();
           });
       });
