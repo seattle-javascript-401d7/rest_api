@@ -1,4 +1,4 @@
-# Two resource REST API with wine and cheese objects. 4/22/16
+# Two resource REST API with wine and cheese party. 4/22/16
 
 ## How to use:
   * Run server by entering node server.js into the terminal.
