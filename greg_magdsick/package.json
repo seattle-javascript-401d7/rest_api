@@ -22,8 +22,11 @@
   },
   "homepage": "https://github.com/gregmagdsick/two_resource_REST_API#readme",
   "dependencies": {
+    "bcrypt": "^0.8.6",
     "body-parser": "^1.15.0",
+    "crypto": "0.0.3",
     "express": "^4.13.4",
+    "jsonwebtoken": "^6.1.2",
     "mongoose": "^4.4.13"
   },
   "devDependencies": {
