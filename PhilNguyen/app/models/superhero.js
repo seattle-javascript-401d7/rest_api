@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 let SuperheroSchema = new Schema({
   name: { type: String, unique: true },
-  powerlevel: Number
+  powerlevel: Number,
+  superheroId: String
 });
 
 module.exports = mongoose.model('Superhero', SuperheroSchema);

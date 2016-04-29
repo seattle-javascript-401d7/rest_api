@@ -2,13 +2,15 @@
 const Router = require('express').Router;
 const Villain = require(__dirname + '/../models/villain');
 const bodyParser = require('body-parser').json();
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 let villainRouter = module.exports = Router();
 
 villainRouter.route('/villains')
 
-.post(bodyParser, (req, res) => {
+.post(jwtAuth, bodyParser, (req, res) => {
   let newVillain = new Villain(req.body);
+  newVillain.villianId = req.user._id;
   newVillain.save((err, data) => {
     if (err) {
       res.send(err);
@@ -17,7 +19,7 @@ villainRouter.route('/villains')
   });
 })
 
-.get((req, res) => {
+.get(jwtAuth, (req, res) => {
   Villain.find((err, villain) => {
     if (err) {
       res.send(err);
@@ -28,7 +30,7 @@ villainRouter.route('/villains')
 
 villainRouter.route('/villains/:villain_id')
 
-.get((req, res) => {
+.get(jwtAuth, (req, res) => {
   Villain.findById(req.params.villain_id, (err, villain) => {
     if (err) {
       res.send(err);

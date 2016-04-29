@@ -2,13 +2,15 @@
 const Router = require('express').Router;
 const Superhero = require(__dirname + '/../models/superhero');
 const bodyParser = require('body-parser').json();
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 let superheroRouter = module.exports = Router();
 
 superheroRouter.route('/superheroes')
 
-.post(bodyParser, (req, res) => {
+.post(jwtAuth, bodyParser, (req, res) => {
   let newSuperhero = new Superhero(req.body);
+  newSuperhero.superheroId = req.user._id;
   newSuperhero.save((err, data) => {
     if (err) {
       res.send(err);
@@ -17,7 +19,7 @@ superheroRouter.route('/superheroes')
   });
 })
 
-.get((req, res) => {
+.get(jwtAuth, (req, res) => {
   Superhero.find((err, superhero) => {
     if (err) {
       res.send(err);
@@ -28,7 +30,7 @@ superheroRouter.route('/superheroes')
 
 superheroRouter.route('/superheroes/:superhero_id')
 
-.get((req, res) => {
+.get(jwtAuth, (req, res) => {
   Superhero.findById(req.params.superhero_id, (err, superhero) => {
     if (err) {
       res.send(err);
