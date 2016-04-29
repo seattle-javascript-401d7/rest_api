@@ -131,13 +131,9 @@ describe('the heroes versus villains server', () => {
 
     after((done) => {
       mongoose.connection.db.dropDatabase(() => {
-        done();
-      });
-    });
-
-    after((done) => {
-      server.close(() => {
-        done();
+        mongoose.disconnect(() => {
+          server.close(done);
+        });
       });
     });
 
