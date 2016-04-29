@@ -17,6 +17,13 @@ describe('the routes at /signUp and /signIn', () => {
   before( (done) => {
     server = app(port, process.env.MONGODB_URI || 'mongodb://localhost/user_testDB', () => {
       console.log('server up on ' + port);
+      var newUser = new User({ username: 'TestyTest', password: 'drowssap321' });
+      newUser.generateHash('drowssap321');
+      newUser.save( (err, data) => {
+        if (err) throw err;
+        this.user = data;
+        this.token = data.generateToken();
+      });
       done();
     });
   });
@@ -39,18 +46,18 @@ describe('the routes at /signUp and /signIn', () => {
       User.findOne({ username: 'testUser' }, (err, data) => {
         expect(err).to.eql(null);
         expect(data).to.not.eql(null);
-        var token = data.generateToken();
-          expect(res.body.token).to.eql(token);
-          done();
+        expect(res.body.token).to.not.eql(null);
+        done();
         });
       });
     });
   it('should login a user and generate a token for them on a GET request at /api/signIn', (done) => {
     request('localhost:' + port)
     .get('/api/signIn')
-    // .auth('testUser', 'newPassword')
+    .auth('TestyTest', 'drowssap321')
     .end( (err, res) => {
       expect(err).to.eql(null);
+      expect(res.status).to.eql(200);
       expect(res.body.token).to.not.eql(null);
       done();
     });

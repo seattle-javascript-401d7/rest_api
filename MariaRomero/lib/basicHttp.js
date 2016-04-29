@@ -1,11 +1,11 @@
 module.exports = exports = function(req, res, next) {
   try {
-    var authHeader = req.header.authorization;
+    var authHeader = req.headers.authorization;
     var nameAndPassword = authHeader.split(' ')[1];
     var nameAndPasswordBuffer = new Buffer(nameAndPassword, 'base64');
     var nameAndPasswordString = nameAndPasswordBuffer.toString();
     // clear out buffer
-    nameAndPasswordBuffer.fil(0);
+    nameAndPasswordBuffer.fill(0);
     var nameAndPasswordArray = nameAndPasswordString.split(':');
     req.auth = {
       username: nameAndPasswordArray[0],
