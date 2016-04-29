@@ -10,7 +10,7 @@ const request = chai.request;
 
 process.env.PORT = 5050;
 process.env.MONGOLAB_LOC = 'mongodb://localhost/db_test';
-const server = require(__dirname + '/../lib/server');
+const server = require(__dirname + '/../lib/_server');
 
 describe('Two Resource Test', () => {
   before((done) => {
