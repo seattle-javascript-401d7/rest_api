@@ -32,6 +32,15 @@ motor
 > npm install
 ```
 
+### Set your app secret
+Run the following commands in your terminal
+
+```bash
+> npm i secretkey
+> secretkey
+```
+Copy the output of secretkey into a new file in the base of your project titled, .env. See the example file: .env-example.
+
 ### Start mongodb
 
 ```bash
@@ -49,7 +58,7 @@ Open another terminal window and navigate to your project's home directory
 > npm start
 ```
 
-### How to use
+### How to use (not finished)
 Now you can use a HTTP client with standard REST commands to interact with your bike database. Using a GET command on the endpoint below will yield all the bikes in the database of the type listed in the route. Using a POST command on the endpoint below will allow you to add a bike to the database, following the models defined above.
 ```
 http://localhost:5000/api/pedal
