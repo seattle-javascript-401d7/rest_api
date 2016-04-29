@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  findhash: { type: String, unique: true }
+  password: { type: String, required: true }
 });
 
 userSchema.methods.generateHash = function(password) {
