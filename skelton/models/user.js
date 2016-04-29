@@ -33,7 +33,7 @@ userSchema.methods.generateFindHash = function(cb) {
   var _generateFindHash = () => {
     var hash = crypto.randomBytes(64);
     this.findHash = hash.toString('hex');
-    this.save((err, data) => {
+    this.save((err) => {
       if (err) {
         if (tries > 9) {
           return cb(new Error('could not generate security hash'));
@@ -50,8 +50,8 @@ userSchema.methods.generateFindHash = function(cb) {
   _generateFindHash();
 };
 
-userSchema.methods.generateToken = function(cb){
-  this.generateFindHash(function(err, hash) {
+userSchema.methods.generateToken = function(cb) {
+  this.generateFindHash((err, hash) => {
     if (err) return cb(err);
     cb(null, jwt.sign({idd: hash}, process.env.APP_SECRET));
   });

@@ -16,7 +16,8 @@ describe('the POST method', () => {
       done();
     });
   });
-  it('should add a shoe', (done) => {
+  it('should add a shoe', function(done) {
+    this.timeout(3000);
     request('localhost:' + port)
       .post('/api/shoes')
       .send({
@@ -67,7 +68,9 @@ describe('routes that need to be a shoe in the DB', () => {
     });
   });
   after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
+    console.log('\n\n\n\n\n');
+    mongoose.connection.db.dropDatabase();
+    process.exit(() => {
       done();
     });
   });
