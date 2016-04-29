@@ -25,7 +25,7 @@ userSchema.methods.findCompareHash = function(cb) {
     this.findHash = hash.toString('hex');
     this.save((err) => {
       if (err) {
-        if (attempts > 9) {
+        if (attempts > 4) {
           return cb(new Error('could not generate hash'));
         }
         return timeout = setTimeout(() => {
