@@ -2,7 +2,7 @@ const Router = require('express').Router;
 const bodyParser = require('body-parser').json();
 const Sandwich = require(__dirname + '/../models/sandwichModel.js');
 const errorHandler = require(__dirname + '/../lib/errorHandle.js');
-
+const jwtAuth = require(__dirname + '/../lib/jwtAuth.js');
 var sandwichRouter = module.exports = new Router();
 
 // NON-Crub endpoint
@@ -18,16 +18,17 @@ sandwichRouter.get('/sandwich/mostyum', (req, res) => {
 });
 
 
-sandwichRouter.post('/sandwich', bodyParser, (req, res) => {
+sandwichRouter.post('/sandwich', jwtAuth, bodyParser, (req, res) => {
   var newSandwich = new Sandwich(req.body);
+  newSandwich.sandwichID = req.user._id;
   newSandwich.save((err, data) => {
     if (err) errorHandler(err, res);
     res.status(200).json(data);
   });
 });
 
-sandwichRouter.get('/sandwich', (req, res) => {
-  Sandwich.find(null, (err, data) => {
+sandwichRouter.get('/sandwich', jwtAuth, (req, res) => {
+  Sandwich.find({ sandwichID: req.user._id }, (err, data) => {
     if (err) errorHandler(err, res);
     res.status(200).json(data);
   });

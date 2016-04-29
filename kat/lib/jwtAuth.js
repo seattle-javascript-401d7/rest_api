@@ -1,8 +1,8 @@
-const User = require(__dirname + '/../models/user');
+const User = require(__dirname + '/../models/user.js');
 const jwt = require('jsonwebtoken');
 
 module.exports = exports = function(req, res, next) {
-  jwt.verify(req.header.token, process.env.APP_SECRET, function(err, decoded) {
+  jwt.verify(req.headers.token, process.env.APP_SECRET, function(err, decoded) {
     if (err) return res.status(403).json({ msg: 'Invalid token' });
 
     User.findOne({ findHash: decoded.idd }, function(err, data) {
