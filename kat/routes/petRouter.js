@@ -22,7 +22,7 @@ petRouter.post('/pet', jwtAuth, bodyParser, (req, res) => {
   });
 });
 
-petRouter.put('/pet/:id', bodyParser, (req, res) => {
+petRouter.put('/pet/:id', jwtAuth, bodyParser, (req, res) => {
   var petData = req.body;
   delete petData._id;
   Pet.update({ _id: req.params.id }, petData, (err) => {
@@ -31,7 +31,7 @@ petRouter.put('/pet/:id', bodyParser, (req, res) => {
   });
 });
 
-petRouter.delete('/pet/:id', bodyParser, (req, res) => {
+petRouter.delete('/pet/:id', jwtAuth, bodyParser, (req, res) => {
   Pet.findOneAndRemove({ _id: req.params.id }, (err) => {
     if (err) errorHandler(err, res);
     res.status(200).json({ msg: 'Deleted a pet entry' });

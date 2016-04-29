@@ -34,7 +34,7 @@ sandwichRouter.get('/sandwich', jwtAuth, (req, res) => {
   });
 });
 
-sandwichRouter.put('/sandwich/:id', bodyParser, (req, res) => {
+sandwichRouter.put('/sandwich/:id', jwtAuth, bodyParser, (req, res) => {
   var sandwichData = req.body;
   delete sandwichData._id;
   Sandwich.update({ _id: req.params.id }, sandwichData, (err) => {
@@ -43,7 +43,7 @@ sandwichRouter.put('/sandwich/:id', bodyParser, (req, res) => {
   });
 });
 
-sandwichRouter.delete('/sandwich/:id', bodyParser, (req, res) => {
+sandwichRouter.delete('/sandwich/:id', jwtAuth, bodyParser, (req, res) => {
   Sandwich.remove({ _id: req.params.id }, (err) => {
     if (err) errorHandler(err, res);
     res.status(200).json({ msg: 'Ate a sandwich' });

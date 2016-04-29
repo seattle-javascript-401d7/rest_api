@@ -84,6 +84,7 @@ describe('Pet routes that need content to work', () => {
   it('should be able to PUT a pet', (done) => {
     request('localhost:' + port)
     .put('/api/pet/' + this.pet._id)
+    .set('token', this.token)
     .send({ name: 'Noodle', nickName: 'Nunu', favoriteActivity: 'hissing' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -95,6 +96,7 @@ describe('Pet routes that need content to work', () => {
   it('should be able to DELETE a pet entry', (done) => {
     request('localhost:' + port)
     .delete('/api/pet/' + this.pet._id)
+    .set('token', this.token)
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('Deleted a pet entry');
@@ -160,6 +162,7 @@ describe('Pet routes that need content to work', () => {
     it('should be able to PUT a sandwich', (done) => {
       request('localhost:' + port)
       .put('/api/sandwich/' + this.sandwich._id)
+      .set('token', this.token)
       .send({ name: 'Club', ingrediants: ['bacon', 'lettuce',
       'tomato', 'turkey', 'mayo'], yumFactor: 4 })
       .end((err, res) => {
@@ -172,6 +175,7 @@ describe('Pet routes that need content to work', () => {
     it('should be able to DELETE (eat) a sandwich', (done) => {
       request('localhost:' + port)
       .delete('/api/sandwich/' + this.sandwich._id)
+      .set('token', this.token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('Ate a sandwich');
