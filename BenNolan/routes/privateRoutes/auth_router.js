@@ -28,12 +28,12 @@ authRouter.post('/signup', jsonParser, (req, res) => {
 
 authRouter.get('/signin', basicHTTP, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
-    if (err) return res.status(500).json({ msg: 'not authorized' });
+    if (err) return res.status(500).json({ msg: 'database error' });
 
-    if (!user) return res.status(500).json({ msg: 'not authorized' });
+    if (!user) return res.status(500).json({ msg: 'user not found' });
 
     if (!user.compareHash(req.auth.password)) {
-      return res.status(500).json({ msg: 'not authorized' });
+      return res.status(500).json({ msg: 'wrong password' });
     }
 
     user.generateToken( function(err, token) { //eslint-disable-line

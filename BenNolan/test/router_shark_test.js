@@ -8,7 +8,6 @@ const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/sharks_test_db';
 const server = require(__dirname + '/../server');
 const Shark = require(__dirname + '/../models/shark');
-const User = require(__dirname + '/../models/privateModels/user');
 
 describe('the server', () => {
   before((done) => {
@@ -72,7 +71,6 @@ describe('routes that need a shark in the DB', () => {
     .end((err, res) => {
       if (err) throw err;
       this.newToken = res.body.token;
-      console.log(this.token);
       done();
     });
   });
