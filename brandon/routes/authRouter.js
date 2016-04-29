@@ -33,7 +33,7 @@ router.get('/signin', basicHTTP, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
     if (err) return res.status(500).json({ msg: 'authentication error. database error!' } );
     if (!user) return res.status(500).json({ msg: 'authentication error. user not found!' } );
-    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'wrong password!' });
+    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'wrong password!' });//eslint-disable-line
 
     user.generateToken(function(err, token) {//eslint-disable-line
       if (err) return res.status(500).json({ msg: 'could not generate token, sign in later' });
