@@ -2,7 +2,7 @@ const router = require("express").Router();
 const bodyParser = require("body-parser").json();
 const User = require(__dirname + "/../models/user");
 const basicHttp = require(__dirname + "/../lib/basic_http");
-const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
+const errorHandler = require(__dirname + "/../lib/error_handler");
 
 module.exports = exports = router;
 
@@ -10,40 +10,52 @@ router.post("/signup", bodyParser, (req, res) => {
   var newUser;
 
   if (!req.body.username) {
-    return serverErrorHandler(null, res, "Create a new username!");
+    return errorHandler(new Error("No username!"), res, 500);
   }
 
   if (!req.body.password) {
-    return serverErrorHandler(null, res, "Create a new password!");
+    return errorHandler(new Error("No password!"), res, 500);
   }
 
   newUser = new User(req.body);
-  newUser.generateHash(req.body.password);
+  newUser.generateHashPass(req.body.password);
   req.body.password = null;
 
-  newUser.save((err) => {
+  newUser.save((err, user) => {
     if (err) {
-      return serverErrorHandler(err, res, "Could not create user!");
+      return errorHandler(err, res, 500, "Could not create user!");
     }
 
-    res.status(200).json({ msg: "New user created!" });
+    user.generateToken((err, token) => {
+      if (err) {
+        return errorHandler(err, res, 500);
+      }
+
+      res.status(200).json({ token, msg: "New user created!" });
+    });
   });
 });
 
 router.get("/signin", basicHttp, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
     if (err) {
-      return serverErrorHandler(err, res, "Database error!");
+      return errorHandler(err, res, 401, "Database error!");
     }
 
     if (!user) {
-      return serverErrorHandler(null, res, "User not found!");
+      return errorHandler(new Error("User not found!"), res, 401);
     }
 
-    if (!user.compareHash(req.auth.password)) {
-      return serverErrorHandler(null, res, "Incorrect password!");
+    if (!user.compareHashPass(req.auth.password)) {
+      return errorHandler(new Error("Incorrect password!"), res, 401);
     }
 
-    res.status(200).json({ msg: "Login successful!" });
+    user.generateToken((err, token) => {
+      if (err) {
+        return errorHandler(err, res, 500);
+      }
+
+      res.status(200).json({ token, msg: "Login successful!" });
+    });
   });
 });

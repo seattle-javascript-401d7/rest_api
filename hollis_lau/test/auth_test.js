@@ -1,7 +1,9 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const dirtyChai = require("dirty-chai");
 
 chai.use(chaiHttp);
+chai.use(dirtyChai);
 
 const expect = chai.expect;
 const request = chai.request;
@@ -13,8 +15,10 @@ describe("Authentication resource", () => {
   before((done) => {
     this.portBackup = process.env.PORT;
     this.mongoDbUriBackup = process.env.MONGODB_URI;
+    this.appSecretBackup = process.env.APP_SECRET;
     this.PORT = process.env.PORT = 1234;
     this.MONGODB_URI = process.env.MONGODB_URI = "mongodb://localhost/scifi_test";
+    this.APP_SECRET = process.env.APP_SECRET = "testsecret";
     this.server = app(this.PORT, this.MONGODB_URI, () => {
       process.stdout.write("Test server up on PORT " + this.PORT + "\n");
       done();
@@ -24,6 +28,7 @@ describe("Authentication resource", () => {
   after((done) => {
     process.env.PORT = this.portBackup;
     process.env.MONGODB_URI = this.mongoDbUriBackup;
+    process.env.APP_SECRET = this.appSecretBackup;
     mongoose.connection.db.dropDatabase(() => {
       mongoose.disconnect(() => {
         this.server.close(done);
@@ -44,9 +49,9 @@ describe("Authentication resource", () => {
           password: "testpassword"
         })
         .end((err, res) => {
-          expect(err).to.exist;
+          expect(err).to.exist();
           expect(res).to.have.status(500);
-          expect(res.body.msg).to.eql("Create a new username!");
+          expect(res.body.msg).to.eql("No username!");
           done();
         });
     });
@@ -59,9 +64,9 @@ describe("Authentication resource", () => {
           password: ""
         })
         .end((err, res) => {
-          expect(err).to.exist;
+          expect(err).to.exist();
           expect(res).to.have.status(500);
-          expect(res.body.msg).to.eql("Create a new password!");
+          expect(res.body.msg).to.eql("No password!");
           done();
         });
     });
@@ -76,6 +81,7 @@ describe("Authentication resource", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
+          expect(res.body.token).to.exist();
           expect(res.body.msg).to.eql("New user created!");
           done();
         });
@@ -86,12 +92,13 @@ describe("Authentication resource", () => {
     before((done) => {
       var newUser = new User({ username: "testuser", password: "testpassword" });
 
-      newUser.generateHash(newUser.password);
+      newUser.generateHashPass(newUser.password);
 
-      newUser.save((err, data) => {
+      newUser.save((err) => {
         if (err) {
-          throw new Error("Could not save user!");
+          throw err;
         }
+
         done();
       });
     });
@@ -101,8 +108,8 @@ describe("Authentication resource", () => {
         .get("/api/signin")
         .auth("baduser", "testpassword")
         .end((err, res) => {
-          expect(err).to.exist;
-          expect(res).to.have.status(500);
+          expect(err).to.exist();
+          expect(res).to.have.status(401);
           expect(res.body.msg).to.eql("User not found!");
           done();
         });
@@ -113,8 +120,8 @@ describe("Authentication resource", () => {
         .get("/api/signin")
         .auth("testuser", "badpassword")
         .end((err, res) => {
-          expect(err).to.exist;
-          expect(res).to.have.status(500);
+          expect(err).to.exist();
+          expect(res).to.have.status(401);
           expect(res.body.msg).to.eql("Incorrect password!");
           done();
         });
@@ -127,6 +134,7 @@ describe("Authentication resource", () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
+          expect(res.body.token).to.exist();
           expect(res.body.msg).to.eql("Login successful!");
           done();
         });

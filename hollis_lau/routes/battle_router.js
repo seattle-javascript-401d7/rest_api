@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const StarTrekChar = require(__dirname + "/../models/star_trek_char");
 const StarWarsChar = require(__dirname + "/../models/star_wars_char");
-const serverErrorHandler = require(__dirname + "/../lib/server_error_handler");
+const errorHandler = require(__dirname + "/../lib/error_handler");
 
 module.exports = exports = router;
 
@@ -31,7 +31,7 @@ router.get("/battle", (req, res) => {
   function getChars(model1, model2, cb) {
     model1.aggregate().sample(1).exec((err, char1) => {
       if (err) {
-        return serverErrorHandler(err, res, "Could not retrieve a random character!");
+        return errorHandler(err, res, 500, "Could not retrieve a random character!");
       }
 
       cb(model2, char1);
@@ -41,7 +41,7 @@ router.get("/battle", (req, res) => {
   function battle(model2, char1) {
     model2.aggregate().sample(1).exec((err, char2) => {
       if (err) {
-        return serverErrorHandler(err, res, "Could not retrieve a random character!");
+        return errorHandler(err, res, 500, "Could not retrieve a random character!");
       }
 
       if (!char1.length || !char2.length) {

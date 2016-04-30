@@ -6,6 +6,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const request = chai.request;
 const mongoose = require("mongoose");
+const User = require(__dirname + "/../models/user");
 const StarWarsChar = require(__dirname + "/../models/star_wars_char");
 const app = require(__dirname + "/../_server");
 
@@ -13,8 +14,10 @@ describe("Star Wars resource", () => {
   before((done) => {
     this.portBackup = process.env.PORT;
     this.mongoDbUriBackup = process.env.MONGODB_URI;
+    this.appSecretBackup = process.env.APP_SECRET;
     this.PORT = process.env.PORT = 1234;
     this.MONGODB_URI = process.env.MONGODB_URI = "mongodb://localhost/scifi_test";
+    this.APP_SECRET = process.env.APP_SECRET = "testsecret";
     this.server = app(this.PORT, this.MONGODB_URI, () => {
       process.stdout.write("Test server up on PORT " + this.PORT + "\n");
       done();
@@ -24,6 +27,7 @@ describe("Star Wars resource", () => {
   after((done) => {
     process.env.PORT = this.portBackup;
     process.env.MONGODB_URI = this.mongoDbUriBackup;
+    process.env.APP_SECRET = this.appSecretBackup;
     mongoose.connection.db.dropDatabase(() => {
       mongoose.disconnect(() => {
         this.server.close(done);
@@ -32,6 +36,26 @@ describe("Star Wars resource", () => {
   });
 
   describe("POST method", () => {
+    before((done) => {
+      var newUser = new User({ username: "testuser", password: "testpassword" });
+
+      newUser.generateHashPass(newUser.password);
+      newUser.save((err, user) => {
+        if (err) {
+          throw err;
+        }
+
+        user.generateToken((err, token) => {
+          if (err) {
+            throw err;
+          }
+
+          this.token = token;
+          done();
+        });
+      });
+    });
+
     after((done) => {
       mongoose.connection.db.dropDatabase(done);
     });
@@ -39,6 +63,7 @@ describe("Star Wars resource", () => {
     it("creates a new Star Wars character", (done) => {
       request("localhost:" + this.PORT)
         .post("/api/starwarschars")
+        .set("token", this.token)
         .send({
           name: "Luke Skywalker",
           gender: "M",
@@ -75,6 +100,26 @@ describe("Star Wars resource", () => {
 
   describe("PUT and DELETE methods", () => {
     before((done) => {
+      var newUser = new User({ username: "testuser", password: "testpassword" });
+
+      newUser.generateHashPass(newUser.password);
+      newUser.save((err, user) => {
+        if (err) {
+          throw err;
+        }
+
+        user.generateToken((err, token) => {
+          if (err) {
+            throw err;
+          }
+
+          this.token = token;
+          done();
+        });
+      });
+    });
+
+    before((done) => {
       var newStarWarsChar = new StarWarsChar({
         name: "Han Solo",
         gender: "M",
@@ -85,7 +130,7 @@ describe("Star Wars resource", () => {
 
       newStarWarsChar.save((err, data) => {
         if (err) {
-          throw new Error("Could not save character!");
+          throw err;
         }
 
         this.starWarsChar = data;
@@ -96,6 +141,7 @@ describe("Star Wars resource", () => {
     it("updates the Star Wars character on a PUT request", (done) => {
       request("localhost:" + this.PORT)
         .put("/api/starwarschars/" + this.starWarsChar._id)
+        .set("token", this.token)
         .send({
           name: "Chewbacca",
           gender: "M",
@@ -114,6 +160,7 @@ describe("Star Wars resource", () => {
     it("deletes the Star Wars character on a DELETE request", (done) => {
       request("localhost:" + this.PORT)
         .delete("/api/starwarschars/" + this.starWarsChar._id)
+        .set("token", this.token)
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);

@@ -65,9 +65,7 @@ describe("Battle resource", () => {
           return binks.save();
         })
         .catch((e) => {
-          if (e) {
-            throw new Error("Could not save character!");
-          }
+          throw e;
         })
         .then(() => {
           done();
@@ -104,9 +102,7 @@ describe("Battle resource", () => {
           return jawa.save();
         })
         .catch((e) => {
-          if (e) {
-            throw new Error("Could not save character!");
-          }
+          throw e;
         })
         .then(() => {
           done();

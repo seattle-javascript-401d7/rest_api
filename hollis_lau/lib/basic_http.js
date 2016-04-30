@@ -1,4 +1,4 @@
-var serverErrorHandler = require(__dirname + "/server_error_handler");
+var errorHandler = require(__dirname + "/error_handler");
 
 module.exports = exports = function (req, res, next) {
   try {
@@ -19,7 +19,7 @@ module.exports = exports = function (req, res, next) {
       throw new Error("No username or password!");
     }
   } catch (e) {
-    return serverErrorHandler(e, res, e.message || "Authentication error!");
+    return errorHandler(e, res, 401);
   }
   next();
 };
