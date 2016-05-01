@@ -1,8 +1,15 @@
-# Two-Resource REST API Assignment
+# Two-Resource REST API with Authentication
 
-Store your favorite Star Trek and Star Wars characters in a database and randomly pit them against one another in battle. Install using `npm install` and verify the tests with `npm test`. Start up your local install of MongoDB, then run `npm start` to get your server going. The port defaults to `3000` unless you have a PORT environment variable set up. Assuming a default port, POST your favorite Star Trek characters to <http://localhost:3000/api/startrekchars> and your favorite Star Wars heroes to <http://localhost:3000/api/starwarschars>.
+Store your favorite Star Trek and Star Wars characters in a database and randomly pit them against one another in battle. Install using `npm install` and verify the tests with `npm test`. Start up your local install of MongoDB, then run `npm start` to get your server going. The port defaults to `3000` unless you have a PORT environment variable set up. Assuming a default port, create a new user account by submitting a POST request to <http://localhost:3000/api/signup> using the following schema:
+```
+{
+  username: String,
+  password: String
+}
+```
+Once you have created an account, the server will send back a token that you can use to make changes to the character database. If you need to sign back into the app, make an authenticated GET request with your username and password to <http://localhost:3000/api/signin>. A new token will be generated for your use each time you sign back into the app.
 
-The schema for Star Trek characters is as follows:
+POST your favorite Star Trek characters to <http://localhost:3000/api/startrekchars> and your favorite Star Wars heroes to <http://localhost:3000/api/starwarschars>. The schema for Star Trek characters is as follows:
 ```
 {
   name: String,
@@ -23,11 +30,17 @@ The schema for Star Wars heroes is as follows:
   planet: String
 }
 ```
-The `name`, `weapon`, and `power` fields are required; the others are optional. The `power` value represents the strength of the character in battle. A character with a larger `power` value will always defeat one with a smaller value. Choose any `power` values you like, but they must be valid numbers.
+__The `name`, `weapon`, and `power` fields are required;__ the others are optional. The `power` value represents the strength of the character in battle. A character with a larger `power` value will always defeat one with a smaller value. Choose any `power` values you like, but they must be valid numbers.
 
 After creating your characters, you can return a list of all characters in your collection by submitting a GET request to the appropriate path (see above). You may submit PUT or DELETE requests to the appropriate path followed by the MongoDB ID number of the character you wish to update/delete. For example:
 ```
 PUT http://localhost:3000/api/startrekchars/:id
 DELETE http://localhost:3000/api/starwarschars/:id
+```
+__All POST, PUT, and DELETE requests must include the token in the request header:__
+```
+{
+ token: String,
+}
 ```
 Once your collection is complete, send your heroes into battle by submitting a GET request to <http://localhost:3000/api/battle>. The server will randomly select one Star Trek and one Star Wars character to fight against each other, and return an outcome depending on the power levels of the respective characters.
