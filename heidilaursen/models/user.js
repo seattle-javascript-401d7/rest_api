@@ -4,9 +4,9 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 var userSchema = mongoose.Schema({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  findHash: {type: String, unique: true}
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  findHash: { type: String, unique: true }
 });
 
 userSchema.methods.generateHash = function(password) {
@@ -23,7 +23,7 @@ userSchema.methods.generateFindHash = function(cb) {
   var _generateFindHash = () => {
     var hash = crypto.randomBytes(32);
     this.findHash = hash.toString('hex');
-    this.save((err, data) => {
+    this.save((err) => {
       if (err) {
         if (tries > 9) {
           return cb(new Error('could not generate hash'));
@@ -45,7 +45,7 @@ userSchema.methods.generateFindHash = function(cb) {
 userSchema.methods.generateToken = function(cb) {
   this.generateFindHash(function(err, hash) {
     if (err) return cb(err);
-    cb(null, jwt.sign({idd: hash}, process.env.APP_SECRET));
+    cb(null, jwt.sign({ idd: hash }, process.env.APP_SECRET));
   });
 };
 

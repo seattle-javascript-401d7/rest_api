@@ -6,14 +6,14 @@ const request = chai.request;
 const mongoose = require('mongoose');
 
 var port = process.env.PORT = 1234;
-process.env.MONGO_URI = 'mondodb://localhost/rabbit_test_db';
-require(__dirname + '/../server');
+process.env.MONGO_URI = 'mongodb://localhost/rabbit_test_db';
+require(__dirname + '/../server/server');
 
 describe('the POST method', () => {
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
-      done();
     });
+    done();
   });
 
   it('should build a rabbit', (done) => {
@@ -25,8 +25,8 @@ describe('the POST method', () => {
       expect(res.body.name).to.eql('Randall');
       expect(res.body.variety).to.eql('lop');
       expect(res.body.food).to.eql('celery');
-      done();
     });
+    done();
   });
 });
 
@@ -38,7 +38,7 @@ describe('the GET method', () => {
       expect(err).to.eql(null);
       expect(Array.isArray(res.body)).to.eql(true);
       expect(res.body.length).to.eql(0);
-      done();
     });
+    done();
   });
 });

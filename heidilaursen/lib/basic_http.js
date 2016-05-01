@@ -10,8 +10,10 @@ module.exports = exports = function(req, res, next) {
       username: namePassArr[0],
       password: namePassArr[1]
     };
-    if (rq.auth.username.length < 1 || req.auth.password.length < 1) throw new Error('no username or password');
-  } catch(e) {
+    if (req.auth.username.length < 1 || req.auth.password.length < 1) {
+      throw new Error('no username or password');
+    }
+  } catch (e) {
     console.log(e);
     return res.status(418).json({ msg: 'not working' });
   }
