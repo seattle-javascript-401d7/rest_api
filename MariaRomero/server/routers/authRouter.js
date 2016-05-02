@@ -17,10 +17,10 @@ authRouter.post('/signUp', bodyParser, (req, res) => {
   newUser.save( (err, user) => {
     if (err) return res.status(500).json({ msg: 'Could not create user' });
     var token = user.generateToken();
-      if (err) return res.status(500).json({ msg: 'Could not generate token' });
-      res.json({ token });
-    });
+    if (err) return res.status(500).json({ msg: 'Could not generate token' });
+    res.json({ token });
   });
+});
 
 authRouter.get('/signIn', basicHttp, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
@@ -31,9 +31,9 @@ authRouter.get('/signIn', basicHttp, (req, res) => {
     if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'Sorry, could not authenticate user' });
 
     var token = user.generateToken();
-      if (err) return res.status(500).json({ msg: 'Could not generate token' });
-      res.json({ token });
-    });
+    if (err) return res.status(500).json({ msg: 'Could not generate token' });
+    res.json({ token });
   });
+});
 
 module.exports = exports = authRouter;

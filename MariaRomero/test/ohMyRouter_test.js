@@ -90,7 +90,9 @@ describe('the routes at /ohMy', () => {
     .end( (err, res) => {
       expect(err).to.eql(null);
       expect(res.status).to.eql(200);
-      expect(res.text).to.eql('Lions, tigers, and bears are friends, but they can\'t cross oceans.  They can only be friends with others on their continent.  The friends in North_America are:   testTony who lives in Kellog,  testYogi who lives in Jellystone,  ');
+      expect(res.text).to.eql('Lions, tigers, and bears are friends, but they can\'t cross oceans.  They' +
+      ' can only be friends with others on their continent.  The friends in North_America are:' +
+      '   testTony who lives in Kellog,  testYogi who lives in Jellystone,  ');
       done();
     });
   });
