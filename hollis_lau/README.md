@@ -58,7 +58,7 @@ $ http PUT localhost:3000/api/[startrekchars/starwarschars]/[_id] token:[token] 
 
 $ http DELETE localhost:3000/api/[startrekchars/starwarschars]/[_id] token:[token]
 ```
-__All POST, PUT, and DELETE requests must include the token in the request header:__
+__All POST, PUT, and DELETE requests must include the token in the request header.__
 
 Once your collection is complete, send your heroes into battle by visiting <http://localhost:3000/api/battle> or submit a GET request:
 ```
