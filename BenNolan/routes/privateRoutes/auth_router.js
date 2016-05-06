@@ -18,7 +18,7 @@ authRouter.post('/signup', jsonParser, (req, res) => {
   newUser.save((err, user) => {
     if (err) return res.status(500).json({ msg: 'could not create user' });
 
-    user.generateToken(function(err, token) { //eslint-disable-line
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate token, sign in later' });
 
       res.json({ token });
@@ -36,7 +36,7 @@ authRouter.get('/signin', basicHTTP, (req, res) => {
       return res.status(500).json({ msg: 'wrong password' });
     }
 
-    user.generateToken( function(err, token) { //eslint-disable-line
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate toekn, sign in later' });
 
     res.json({ token });
