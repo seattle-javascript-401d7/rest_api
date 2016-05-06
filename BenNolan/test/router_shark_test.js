@@ -6,6 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 1234;
 process.env.MONGODB_URI = 'mongodb://localhost/sharks_test_db';
+process.env.APP_SECRET = 'mysecret';
 const server = require(__dirname + '/../server');
 const Shark = require(__dirname + '/../models/shark');
 
