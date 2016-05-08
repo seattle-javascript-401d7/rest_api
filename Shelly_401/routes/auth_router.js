@@ -1,11 +1,11 @@
-const express = require('express');
-const User = require(__dirname + '/../models/user');
+// const express = require('express');
+const Router = require('express').Router;
+const User = require(__dirname + '/../models/users');
 const jsonParser = require('body-parser').json();
 const basicHTTP = require(__dirname + '/../lib/basic_http');
+var authRouter = new Router();
 
-var router = module.exports = exports = exports.Router();
-
-router.post('signup', jsonParser, (req, res) => {
+authRouter.post('/signup', jsonParser, (req, res) => {
     var password = req.body.password;
     req.body.password = null;
 
@@ -15,23 +15,27 @@ router.post('signup', jsonParser, (req, res) => {
     password = null;
 
     newUser.save((err, user) => {
-if (err) return res.status(500).json({ msg: 'can\'t create user' });
+        if (err) return res.status(500).json({ msg: 'can\'t create user' });
+        var token = user.generateToken();
+        if (err) return res.status(500).json({ msg: 'can\'t generate token' });
+            res.json({ token });
 
-user.generateToke((err, token) => {
-if (err) return res.status(500).json({ msg: 'could not make token' });
-res.json({ token });
-});
+
+        });
     });
-});
-router.get('/signin', basicHTTP, (req, res) => {
-User.findOne({ username: req.auth.username }, (res, user) => {
-if (err) return res.status(500).json({ msg: 'authentication failed ' });
-if (!user.compareHash(req.auth.password))
-return res.status(500).json({ msg: 'not user compare hash' });
 
-user.generateToken((err, token) => {
-    if (err) return res.status(500).json({ msg:'could not make token' });
+
+authRouter.get('/signin', basicHTTP, (req, res) => {
+User.findOne({ username: req.auth.username }, (err, user) => {
+    if (err) return res.status(500).json({ msg: 'server error' });
+    if (!user) return res.status(500).json({ msg: 'not a user' });
+    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'auth failed' });
+
+    var token = user.generateToken();
+    if (err) return res.status(500).json({ msg: 'can\'t generate token' });
     res.json({ token });
 });
 });
-});
+
+
+module.exports = exports = authRouter;

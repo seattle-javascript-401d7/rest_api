@@ -6,9 +6,11 @@ const gutil = require('gulp-util');
 var files = ['lib/**/*.js',
  'test/**/*.js',
   'models/**/*.js',
+  'lib/**/*.js',
   'routes/**/*.js',
   'gulpfile.js',
-  'server.js'];
+  'server.js',
+'_server.js'];
 
 gulp.task('mocha', () => {
   return gulp.src(['./test/**/*test.js'], { read: false })
