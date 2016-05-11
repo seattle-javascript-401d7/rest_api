@@ -5,7 +5,7 @@
 * Before starting, you need a token.
 * You can get a token one of two ways...
 * If you are not yet a user, you need to sign up.  To do this, send a POST request to `/api/signup`.  You will need to send a username and password.  An example httpie request would look like this: `http POST localhost:3000/api/signup username=USERNAME password=PASSWORD`.  If a new user is created, it will be stored in the database and a token will be sent in return.  KEEP THIS TOKEN.
-* If you are already a user and don't remember your token, you can sign in to receive a new one.  To do this you send a GET request to `/api/signin`.  I your headers, you will need to send your username and password.  An example httpie requst would look like this: `http -a USERNAME:PASSWORD localhost:3000/api/signin`
+* If you are already a user and don't remember your token, you can sign in to receive a new one.  To do this you send a GET request to `/api/signin` that includes your username and password.  An example httpie requst would look like this: `http USERNAME:PASSWORD@localhost:3000/api/signin`
 
 #### REST Functionality
 * We start with two separate resources: Sloths and Bears.
