@@ -22,7 +22,7 @@ gulp.task('mocha', () => {
 
 gulp.task('lint:test', () => {
   return gulp.src('lint:test', () => {
-    return gulp.src('./test/**/image_test.js')
+    return gulp.src('./test/**/*.js')
     .pipe(eslint({
     }));
   });
