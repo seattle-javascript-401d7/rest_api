@@ -75,7 +75,6 @@ describe('the heroes versus villains server', () => {
     .send({ name: 'Ultron', powerlevel: 90000 })
     .end((err, res) => {
       expect(err).to.eql(null);
-      console.log(res);
       expect(res.body.name).to.eql('Ultron');
       expect(res.body.powerlevel).to.eql(90000);
       done();

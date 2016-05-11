@@ -12,7 +12,6 @@ strongestRouter.route('/strongestCharacter')
   let promiseTwo = Villain.find({ powerlevel: { $gt: 9000 } }).exec();
 
   Promise.all([promiseOne, promiseTwo]).then((combinedStrongest) => {
-    console.log(combinedStrongest);
     res.json(combinedStrongest);
   })
   .catch((err) => {
