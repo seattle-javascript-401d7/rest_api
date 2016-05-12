@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Skelton's Simple Shoe Selector</title>
+    <link rel="stylesheet" href="/css/style.css" media="screen">
+  </head>
+  <body data-ng-app="crudNG">
+    <section data-ng-controller="ShoesController as shoesctrl" data-ng-init="shoesctrl.getAll()">
+      <form data-ng-submit="shoesctrl.createShoe()">
+        <fieldset>
+          <legend>Here are your shoes:</legend>
+          <label for="brand">Brand:</label>
+          <input type="text" name="brand" data-ng-model="shoesctrl.newShoe.brand">
+
+          <label for="type">Type:</label>
+          <input type="text" name="type" data-ng-model="shoesctrl.newShoe.type">
+
+          <label for="color">Color:</label>
+          <input type="text" name="color" data-ng-model="shoesctrl.newShoe.color">
+
+          <label for="slipOn">SlipOn?:</label>
+          <input type="text" name="slipOn" data-ng-model="shoesctrl.newShoe.slipOn">
+
+          <label for="polish">Polish:</label>
+          <input type="text" name="polish" data-ng-model="shoesctrl.newShoe.polish">
+        </fieldset>
+      </form>
+    </section>
+    <section data-ng-controller="PantsController as pantsctrl" data-ng-init="pantsctrl.getAll()">
+      <form data-ng-submit="pantsctrl.createPant()">
+        <fieldset>
+          <legend>Here are your pants:</legend>
+          <label for="fabric">Fabric:</label>
+          <input type="text" name="fabric" data-ng-model="pantsctrl.newPant.fabric">
+
+          <label for="cut">Cut:</label>
+          <input type="text" name="cut" data-ng-model="pantsctrl.newPant.cut">
+
+          <label for="color">Color:</label>
+          <input type="text" name="color" data-ng-model="pantsctrl.newPant.color">
+        </fieldset>
+      </form>
+    </section>
+
+  </body>
+</html>
