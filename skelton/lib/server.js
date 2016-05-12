@@ -7,13 +7,6 @@ const wardrobeRouter = require(__dirname + '/../routes/wardrobe_router');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/outfit_db');
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Contorl-Allow-Headers', 'Content-Type');
-  res.header('Access-Contorl-Allow-Methods', 'DELETE, PUT');
-  next();
-});
-app.use(express.static(__dirname + '/../build'));
 app.use('/api', wardrobeRouter);
 app.use('/api', shoesRouter);
 app.use('/api', pantsRouter);

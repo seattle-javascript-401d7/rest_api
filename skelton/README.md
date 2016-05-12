@@ -15,7 +15,12 @@ Open four terminal windows.
 * TERM 4: command line. Use HTTPie to enter database commands: http POST localhost:3030/api/(route).  Route can be either pants or shoes.
 
 ### Alternative use
-Rather than using Terminal 4 to add, edit, or delete shoes or pants, enter localhost:3030 in your browser URL bar. The Angular framework instantly updates the database.
+If you'd like to use the Angular interface, do the following:
+* Leave Terminals 1-3 open
+* In a fourth terminal change directories to the /lib directory
+* In the lib directory type ``` node client-server ```
+* The terminal should respond with "client server up on 5000"
+* Enter localhost:5000 in your browser URL bar. The Angular framework instantly updates the database when you add, update or delete an entry. 
 
 ### Data entry
 * Pants Schema:
