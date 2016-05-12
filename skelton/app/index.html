@@ -1,47 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Skelton's Simple Shoe Selector</title>
-    <link rel="stylesheet" href="/css/style.css" media="screen">
-  </head>
-  <body data-ng-app="crudNG">
+    <link rel="stylesheet" href="/style.css" media="screen">
+</head>
+
+<body data-ng-app="crudNG">
     <section data-ng-controller="ShoesController as shoesctrl" data-ng-init="shoesctrl.getAll()">
-      <form data-ng-submit="shoesctrl.createShoe()">
-        <fieldset>
-          <legend>Here are your shoes:</legend>
-          <label for="brand">Brand:</label>
-          <input type="text" name="brand" data-ng-model="shoesctrl.newShoe.brand">
+        <form data-ng-submit="shoesctrl.createShoe()">
+            <fieldset>
+                <legend>Add shoes:</legend>
+                <label for="brand">Brand:</label>
+                <input type="text" name="brand" data-ng-model="shoesctrl.newShoe.brand">
 
-          <label for="type">Type:</label>
-          <input type="text" name="type" data-ng-model="shoesctrl.newShoe.type">
+                <label for="type">Type:</label>
+                <input type="text" name="type" data-ng-model="shoesctrl.newShoe.type">
 
-          <label for="color">Color:</label>
-          <input type="text" name="color" data-ng-model="shoesctrl.newShoe.color">
+                <label for="color">Color:</label>
+                <input type="text" name="color" data-ng-model="shoesctrl.newShoe.color">
 
-          <label for="slipOn">SlipOn?:</label>
-          <input type="text" name="slipOn" data-ng-model="shoesctrl.newShoe.slipOn">
+                <label for="slipOn">SlipOn?:</label>
+                <input type="text" name="slipOn" data-ng-model="shoesctrl.newShoe.slipOn">
 
-          <label for="polish">Polish:</label>
-          <input type="text" name="polish" data-ng-model="shoesctrl.newShoe.polish">
-        </fieldset>
-      </form>
+                <label for="polish">Polish:</label>
+                <input type="text" name="polish" data-ng-model="shoesctrl.newShoe.polish">
+
+                <button type="submit">Add Shoe</button>
+            </fieldset>
+        </form>
+        <ul id="shoelist">
+            <li data-ng-repeat="shoe in shoesctrl.shoes">
+                <span data-ng-if="!shoe.editing">This is a(n) {{shoe.brand}} {{shoe.type}} in {{shoe.color}}. It has a {{shoe.polish}} polish.</span>
+                <form data-ng-if="shoe.editing" data-ng-submit="shoesctrl.updateShoe(shoe)">
+                    <label for="brand">Brand:</label>
+                    <input type="text" name="brand" data-ng-model="shoe.brand">
+
+                    <label for="type">Type:</label>
+                    <input type="text" name="type" data-ng-model="shoe.type">
+
+                    <label for="color">Color:</label>
+                    <input type="text" name="color" data-ng-model="shoe.color">
+
+                    <label for="slipOn">SlipOn?:</label>
+                    <input type="text" name="slipOn" data-ng-model="shoe.slipOn">
+
+                    <label for="polish">Polish:</label>
+                    <input type="text" name="polish" data-ng-model="shoe.polish">
+
+                    <button type="submit">Update Shoe</button>
+                    <button data-ng-click="shoe.editing = false">Cancel</button>
+                </form>
+
+                <button data-ng-if="!shoe.editing" data-ng-click="shoe.editing = true">Edit</button>
+                <button data-ng-click="shoesctrl.removeShoe(shoe)">Throw These Shoes Away</button>
+            </li>
+        </ul>
+
     </section>
     <section data-ng-controller="PantsController as pantsctrl" data-ng-init="pantsctrl.getAll()">
-      <form data-ng-submit="pantsctrl.createPant()">
-        <fieldset>
-          <legend>Here are your pants:</legend>
-          <label for="fabric">Fabric:</label>
-          <input type="text" name="fabric" data-ng-model="pantsctrl.newPant.fabric">
+        <form data-ng-submit="pantsctrl.createPant()">
+            <fieldset>
+                <legend>Add pants:</legend>
+                <label for="fabric">Fabric:</label>
+                <input type="text" name="fabric" data-ng-model="pantsctrl.newPant.fabric">
 
-          <label for="cut">Cut:</label>
-          <input type="text" name="cut" data-ng-model="pantsctrl.newPant.cut">
+                <label for="cut">Cut:</label>
+                <input type="text" name="cut" data-ng-model="pantsctrl.newPant.cut">
 
-          <label for="color">Color:</label>
-          <input type="text" name="color" data-ng-model="pantsctrl.newPant.color">
-        </fieldset>
-      </form>
+                <label for="color">Color:</label>
+                <input type="text" name="color" data-ng-model="pantsctrl.newPant.color">
+
+                <button type="submit">Add Pants</button>
+            </fieldset>
+        </form>
+        <ul id="pantlist">
+            <li data-ng-repeat="pant in pantsctrl.pants">
+                <span data-ng-if="!pant.editing">These pants are {{pant.color}} {{pant.fabric}} {{pant.cut}}.</span>
+                <form data-ng-if="pant.editing" data-ng-submit="pantsctrl.updatePant(pant)">
+
+                    <label for="fabric">Fabric:</label>
+                    <input type="text" name="fabric" data-ng-model="pant.fabric">
+
+                    <label for="cut">Cut:</label>
+                    <input type="text" name="cut" data-ng-model="pant.cut">
+
+                    <label for="color">Color:</label>
+                    <input type="text" name="color" data-ng-model="pant.color">
+
+                    <button type="submit">Update Pants</button>
+                    <button data-ng-click="show.editing = false">Cancel</button>
+                </form>
+
+                <button data-ng-if="!pant.editing" data-ng-click="pant.editing = true">Edit</button>
+                <button data-ng-click="pantsctrl.removeShoe(pant)">Throw Out these Pants</button>
+            </li>
+        </ul>
+
     </section>
+    <script src="./bundle.js"></script>
+</body>
 
-  </body>
 </html>

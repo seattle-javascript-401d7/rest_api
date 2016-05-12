@@ -22,6 +22,13 @@ crudNG.controller('ShoesController', ['$http', function($http) {
       }, handleError.bind(this));
   };
 
+  this.updateShoe = (shoe) => {
+    $http.put(baseUrl + '/api/shoes/' + shoe._id, shoe)
+      .then(() => {
+        shoe.editing = false;
+      }, handleError.bind(this));
+  };
+
   this.removeShoe = (shoe) => {
     $http.delete(baseUrl + '/api/shoes/' + shoe._id)
       .then(() => {
@@ -44,6 +51,13 @@ crudNG.controller('PantsController', ['$http', function($http) {
       .then((res) => {
         this.pants.push(res.data);
         this.newPant = null;
+      }, handleError.bind(this));
+  };
+
+  this.updatePant = (pant) => {
+    $http.put(baseUrl + '/api/pants/' + pant._id, pant)
+      .then(() => {
+        pant.editing = false;
       }, handleError.bind(this));
   };
 
