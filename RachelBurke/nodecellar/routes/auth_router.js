@@ -1,8 +1,9 @@
-const Router = require('express').Router;
-const User = require(__dirname + '/../../models/user');
+const User = require(__dirname + '/../models/user');
 const bodyParser = require('body-parser').json();
-const basicHttp = require(__dirname + '/../../lib/basicHttp');
-var authRouter = new Router();
+const basicHttp = require(__dirname + '/../lib/basicHttp');
+const Router = require('express').Router;
+
+var authRouter = module.exports = exports = new Router();
 
 authRouter.post('/signUp', bodyParser, (req, res) => {
   var password = req.body.password;
