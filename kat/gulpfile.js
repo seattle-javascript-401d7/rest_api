@@ -37,6 +37,7 @@ gulp.task('static', () => {
 });
 
 gulp.task('default', ['lint', 'lintClient', 'webpack', 'static']);
+gulp.task('build', ['webpack', 'static']);
 
 
 gulp.task('default', ['lint']);
