@@ -5,10 +5,50 @@
     <title>Pets and Sandwiches</title>
     <link rel="stylesheet" href="./css/style.css" charset="utf-8">
   </head>
-  <body data-ng-app='practiceApp'>
-    <h1>{{hello}}</h1>
-    <input type="text" data-ng-model="hello">
-    <button data-ng-click="hello=null" name="button">Clear input here</button>
+  <body data-ng-app="practiceApp">
+    <section data-ng-controller="PetController as petcontrol" data-ng-init="petcontrol.getAll()">
+        <form data-ng-submit="petcontrol.createPet()">
+          <label for="name">Name</label>
+          <input type="text" name="name" data-ng-model="petcontrol.newPet.name">
+
+          <label name="nickName">nickName</label>
+          <input type="text" name="nickName" data-ng-model="petcontrol.newPet.nickName">
+
+
+          <label for="favoriteActivity">favoriteActivity</label>
+          <input type="text" name="favoriteActivity" data-ng-model="petcontrol.newPet.favoriteActivity" placeholder="cuddles">
+
+          <button type="submit">Create a Pet</button>
+        </form>
+
+        <ul id="petlist">
+          <li data-ng-repeat="pet in petcontrol.pet">
+            {{pet.name}} aka {{pet.nickName}} really likes {{pet.favoriteActivity}}
+            <form data-ng-if="pet.editing" data-ng-submit="petcontrol.updatePet(pet)">
+
+              <label for="name">Name</label>
+              <input type="text" name="name" data-ng-model="pet.name">
+
+              <label name="nickName">nickName</label>
+              <input type="text" name="nickName" data-ng-model="pet.nickName">
+
+
+              <label for="favoriteActivity">favoriteActivity</label>
+              <input type="text" name="favoriteActivity" data-ng-model="pet.favoriteActivity" placeholder="cuddles">
+
+              <button type="submit">Update Pet</button>
+              <button data-ng-click="pet.editing = false">Cancel</button>
+            </form>
+
+            <button data-ng-if="!pet.editing" data-ng-click="pet.editing = true">Edit Pet</button>
+
+            <button data-ng-click="petcontrol.deletePet(pet)">Remove a Pet</button>
+          </li>
+      </ul>
+    </section>
+    <section>
+
+    </section>
     <script src="./bundle.js"></script>
   </body>
 </html>
