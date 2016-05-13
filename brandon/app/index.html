@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Jedi vs Sith</title>
+  </head>
+  <body data-ng-app="liveApp">
+    <main data-ng-controller="JedisController as jediCtrl" data-ng-init="jediCtrl.getAll()">
+      <form data-ng-submit="jediCtrl.createJedi()">
+        <label for="name">Name</label>
+        <input type="text" name="name" data-ng-model="jediCtrl.newJedi.name">
+
+        <label for="ranking">Ranking</label>
+        <input type="text" name="ranking" data-ng-model="jediCtrl.newJedi.ranking">
+
+        <label for="weaponPreference">Weapon Preference</label>
+        <input type="text" name="weaponPreference" data-ng-model="jediCtrl.newJedi.weaponPreference">
+
+        <label for="lightsaberColor">Lightsaber Color</label>
+        <input type="text" name="lightsaberColor" data-ng-model="jediCtrl.newJedi.lightsaberColor">
+
+        <label for="catchphrase">Catchphrase</label>
+        <input type="text" name="catchphrase" data-ng-model="jediCtrl.newJedi.catchphrase">
+
+        <label for="handCount">Hand Count</label>
+        <input type="text" name="handCount" data-ng-model="jediCtrl.newJedi.handCount">
+
+        <button id="createJedi" type="submit">Create Jedi</button>
+      </form>
+      <ul id="jediList">
+        <li data-ng-repeate="jedi in jediCtrl.jedi">
+          <span data-ng-if="!jedi.editing">{{jedi}} is a {{jedi.ranking || 'jedi'}} who uses
+          {{weaponPreference}}. Their lightsaber is {{lightsaberColor}} and their catchphrase is
+          {{catchphrase}}</span>
+          <form data-ng-if="jedi.editing" data-ng-submit="jediCtrl.updateJedi(jedi)">
+            <label for="name">Name</label>
+            <input type="text" name="name" data-ng-model="jedi.name">
+
+            <label for="ranking">Ranking</label>
+            <input type="text" name="ranking" data-ng-model="jedi.ranking">
+
+            <label for="weaponPreference">Weapon Preference</label>
+            <input type="text" name="weaponPreference" data-ng-model="jedi.weaponPreference" placeholder="salmons">
+
+            <label for="lightsaberColor">Lightsaber Color</label>
+            <input type="text" name="lightsaberColor" data-ng-model="jedi.lightsaberColor">
+
+            <label for="catchphrase">Catchphrase</label>
+            <input type="text" name="catchphrase" data-ng-model="jedi.catchphrase" placeholder="Lions, Tigers, Bears">
+
+            <button type="submit">Update Jedi</button>
+            <button data-ng-click="jedi.editing = false">Cancel</button>
+          </form>
+        </li>
+      </ul>
+    </main>
+
+    <script src="./bundle.js"></script>
+  </body>
+</html>
+
+
+
+
+    <!-- <ul id="bearlist">
+    	<li data-ng-repeat="bear in bearsctrl.bears">
+        <span data-ng-if="!bear.editing">{{bear.name}} is a {{bear.variety || 'bear'}} who likes {{bear.fishPreference}}</span>
+
+        <button data-ng-if="!bear.editing" data-ng-click="bear.editing = true">Edit</button>
+        <button data-ng-click="bearsctrl.removeBear(bear)">Murder This Bear!</button>
+      </li>
+    </ul>
+  </main>
+</body>
+</html> -->

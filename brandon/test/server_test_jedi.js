@@ -6,26 +6,10 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 4545;
 process.env.MONGODB_URI = 'mongodb://localhost/jedi_sith_test_db';
-const User = require(__dirname + '/../models/user');
-require(__dirname + '/../server.js');
+require(__dirname + '/../apiServer.js');
 var Jedi = require(__dirname + '/../models/jedi');
 
 describe('The POST requests', () => {
-  before((done) => {
-    var newUser = new User({
-      username: 'testUser',
-      password: 'testPW'
-    });
-    newUser.save((err, user) => {
-      if (err) console.log(err);
-      user.generateToken((err, token) => {
-        if (err) console.log(err);
-        this.token = token;
-        this.user = user;
-        done();
-      });
-    });
-  });
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
@@ -69,21 +53,6 @@ describe('The Jedi GET request', () => {
 });
 
 describe('adding to the Jedi Council', () => {
-  before((done) => {
-    var newUser = new User({
-      username: 'testUserPut',
-      password: 'testPW'
-    });
-    newUser.save((err, user) => {
-      if (err) console.log(err);
-      user.generateToken((err, token) => {
-        if (err) console.log(err);
-        this.token = token;
-        this.user = user;
-        done();
-      });
-    });
-  });
   beforeEach((done) => {
     var newJedi = new Jedi({
       name: 'Harry Potter',
