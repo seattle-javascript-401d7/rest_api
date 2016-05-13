@@ -3,6 +3,6 @@ const Schema = mongoose.Schema;
 
 module.exports = mongoose.model('Cheese', new Schema({
   name: String,
-  courntry: String,
+  country: String,
   origin: String
 }));

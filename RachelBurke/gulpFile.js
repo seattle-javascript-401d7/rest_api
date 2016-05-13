@@ -11,7 +11,7 @@ gulp.task('eslint', () => {
   .pipe(eslint.format());
 });
 
-gulp.test('mocha', () => {
+gulp.task('mocha', () => {
   return gulp.src(files)
   .pipe(mocha())
   .pipe(mocha.format());

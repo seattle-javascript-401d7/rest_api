@@ -2,20 +2,19 @@ const Router = require('express').Router;
 const Wine = require(__dirname + '/../models/wines_model');
 const Cheese = require(__dirname + '/../models/cheese_model');
 const errorHandler = require(__dirname + '/../lib/error_handler');
-// const User = require(__dirname + '/../lib/user');
 
 var pairingRouter = module.exports = new Router();
 
 pairingRouter.get('/pairing', (req, res) => {
-  var winesTotal = [];
+  var wineTotal = [];
   var cheeseTotal = [];
   var tastyPairing = {};
 
   function findWine(callback) {
     Wine.find(null, (err, data) => {
       if (err) return errorHandler(err, res);
-      winesTotal = data;
-      callback(winesTotal);
+      wineTotal = data;
+      callback(wineTotal);
     });
   }
 

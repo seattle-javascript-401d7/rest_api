@@ -6,7 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 
 const port = process.env.PORT = 1234;
-process.env.MONGODB_URI = 'mongodb://localhost/wines_test_db';
+process.env.MONGODB_URI = 'mongodb://localhost/rb_db';
 
 require(__dirname + '/../server.js');
 const Wine = require(__dirname + '/../nodecellar/models/wines_model.js');
@@ -22,30 +22,31 @@ describe('the POST method', () => {
 
   it('should create a new wine', (done) => {
     request('localhost:' + port)
-    .post('/api/wines')
-    .send({ name: 'Fancy French Vineyard', year: '1800', grapes: 'Grenache / Syrah',
-      country: 'France', description: 'Delicious' })
+    .post('/api/wine')
+    .send({ name: 'Fancy French Vineyard', year: '1800',
+      country: 'France', grapes: 'Grenache / Syrah', description: 'Delicious' })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.name).to.eql('Fancy French Vineyard');
       expect(res.body.year).to.eql('1800');
-      expect(res.body.grapes).to.eql('Grenache / Syrah');
       expect(res.body.country).to.eql('France');
+      expect(res.body.grapes).to.eql('Grenache / Syrah');
       expect(res.body.description).to.eql('Delicious');
       done();
     });
   });
 
-  describe('the GET method', () => {
-    it('should get "/wines"', (done) => {
+  describe('GET method', () => {
+    it('should get "/wine"', (done) => {
       request('localhost:' + port)
-      .get('/api/wines')
+      .get('/api/wine')
       .end((err, res) => {
         expect(err).to.eql(null);
+        expect(res.status).to.eql(200);
         expect(res.body[0].name).to.eql('Fancy French Vineyard');
         expect(res.body[0].year).to.eql('1800');
-        expect(res.body[0].grapes).to.eql('Grenache / Syrah');
         expect(res.body[0].country).to.eql('France');
+        expect(res.body[0].grapes).to.eql('Grenache / Syrah');
         expect(res.body[0].description).to.eql('Delicious');
         done();
       });
@@ -55,7 +56,7 @@ describe('the POST method', () => {
   describe('routes that need wine in the DB: ', () => {
     beforeEach((done) => {
       var newWine = new Wine( { name: 'Fancy Spanish Vineyard', year: '2006',
-        grapes: 'Tempranillo', country: 'Spain', description: 'Intoxicating' } );
+         country: 'Spain', grapes: 'Tempranillo', description: 'Intoxicating' } );
       newWine.save((err, data) => {
         if (err) {
           console.log(err);
@@ -79,8 +80,8 @@ describe('the POST method', () => {
     it('should change the wine\'s identity on a PUT request', (done) => {
       request('localhost:' + port)
       .put('/api/wine/' + this.wine._id)
-      .send( { name: 'Fancy Wine', year: '2016', grapes: 'Malbec',
-        country: 'Australia', description: 'young' } )
+      .send( { name: 'Fancy Wine', year: '2016',
+        country: 'Australia', grapes: 'Malbec', description: 'young' } )
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('such good wine data with put');
@@ -90,10 +91,10 @@ describe('the POST method', () => {
 
     it('should turn water into wine or wine into water with a DELETE request', (done) => {
       request('localhost:' + port)
-      .delete('/api/wines/' + this.wine._id)
+      .delete('/api/wine/' + this.wine._id)
       .end((err, res) => {
         expect(err).to.eql(null);
-        expect(res.body.msg).to.eql('Deleted the wine!');
+        expect(res.body.msg).to.eql('Drank the wine!');
         done();
       });
     });
@@ -112,7 +113,7 @@ describe('the POST method', () => {
       it('should create a new cheese', (done) => {
         request('localhost:' + port)
         .post('/api/cheese')
-        .send({ name: 'Gruyere', country: 'Switzerland', source: 'Cow' })
+        .send({ name: 'Gruyere', country: 'Switzerland', origin: 'Cow' })
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.status).to.eql(200);
@@ -137,7 +138,7 @@ describe('the POST method', () => {
 
     describe('routes that need cheese in the DB', () => {
       beforeEach((done) => {
-        var newCheese = new Cheese({ name: 'Goat Cheese', country: 'All', source: 'Goat' });
+        var newCheese = new Cheese({ name: 'Goat Cheese', country: 'All', origin: 'Goat' });
         newCheese.save((err, data) => {
           if (err) {
             console.log(err);
@@ -147,6 +148,12 @@ describe('the POST method', () => {
         });
       });
       afterEach((done) => {
+        this.cheese.remove((err) => {
+          console.log(err);
+          done();
+        });
+      });
+      after((done) => {
         mongoose.connection.db.dropDatabase(() => {
           done();
         });
@@ -165,7 +172,7 @@ describe('the POST method', () => {
       it('should be able to PUT a cheese', (done) => {
         request('localhost:' + port)
         .put('/api/cheese/' + this.cheese._id)
-        .send( { name: 'Parmesan', country: 'Italy', source: 'Cows' } )
+        .send( { name: 'Parmesan', country: 'Italy', origin: 'Cows' } )
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.body.msg).to.eql('More cheese!');
@@ -189,7 +196,7 @@ describe('the POST method', () => {
   describe('Wine and Cheese Pairings', () => {
     beforeEach((done) => {
       // add a cheese
-      var newCheese = new Cheese({ name: 'Raclette', country: 'Switzerland', source: 'Cow' });
+      var newCheese = new Cheese({ name: 'Raclette', country: 'Switzerland', origin: 'Cow' });
       newCheese.save((err, data) => {
         if (err) {
           console.log(err);
@@ -199,14 +206,16 @@ describe('the POST method', () => {
 
       // add a wine
       var newWine = new Wine({ name: 'Fendant', year: '1999',
-        country: 'Switzerland', description: 'Honeyed' });
-      newWine.save((err) => {
+        country: 'Switzerland', grapes: 'test', description: 'Honeyed' });
+      newWine.save((err, data) => {
         if (err) {
           console.log(err);
         }
+        this.wine = data;
       });
+
       var newWines = new Wine( { name: 'Pinot Noir', year: '1988',
-        country: 'France', description: 'dry' } );
+        country: 'France', grapes: 'test', description: 'dry' } );
       newWines.save((err) => {
         if (err) {
           console.log(err);
