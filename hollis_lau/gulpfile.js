@@ -39,4 +39,4 @@ gulp.task("watch", () => {
   gulp.watch(testFiles, ["test"]);
 });
 
-gulp.task("default", ["develop"]);
+gulp.task("default", ["lint", "test"]);
