@@ -8,13 +8,13 @@ console.log(__dirname);
 gulp.task('eslint', () => {
   return gulp.src(files)
   .pipe(eslint())
-  .pipe(eslint.format());
+  .pipe(eslint( { reporter: 'nyan' }));
 });
 
 gulp.task('mocha', () => {
   return gulp.src(files)
   .pipe(mocha())
-  .pipe(mocha.format());
+  .pipe(mocha( { reporter: 'nyan' }));
 });
 
 gulp.task('default', ['eslint', 'mocha']);
