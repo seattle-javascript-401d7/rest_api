@@ -31,22 +31,11 @@ gulp.task('static:dev', () => {
 });
 
 gulp.task('start:server', () => {
-  children.push(cp.fork('apiServer.js'));
-  children.push(cp.fork('frontEndServer.js'));
-  children.push(cp.spawn('webdriver-manager', ['start']));
+  children.push(cp.fork('api_server.js'));
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
-});
-
-gulp.task('protractor', ['start:server', 'build:dev'], () => {
-  return gulp.src(['./src/test/integration/*spec.js'])
-    .pipe(protractor({
-      configFile: 'test/integration/config.js'
-    }))
-    .on('end', () => {
-      children.forEach((child) => {
-        child.kill('SIGTERM');
-    });
-  });
+  children.push(cp.fork('front_end_server.js'), [], { env: {
+    MONGODB_URI: 'mongodb://localhost/jedi_sith_test_db' } });
+  children.push(cp.spawn('webdriver-manager', ['start']));
 });
 
 gulp.task('lint:test', () => {
@@ -63,6 +52,19 @@ gulp.task('mocha', () => {
   });
 });
 
+gulp.task('protractor', ['start:server', 'build:dev'], () => {
+  return gulp.src(['test/integration/db_spec.js'])
+  .pipe(protractor({
+    configFile: 'test/integration/config.js'
+  }))
+  .on('end', () => {
+    children.forEach((child) => {
+      child.kill('SIGTERM');
+    });
+  });
+});
+
+gulp.task('build:test', ['webpack:dev', 'static:dev']);
 gulp.task('build:dev', ['lint', 'webpack:dev', 'static:dev', 'start:server']);
-gulp.task('test', ['mocha', 'protractor']);
-gulp.task('default', ['build:dev', 'protractor']);
+gulp.task('test', ['protractor']);
+gulp.task('default', ['build:dev', 'test']);

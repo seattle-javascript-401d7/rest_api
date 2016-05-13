@@ -11,6 +11,15 @@ const battleRouter = require(__dirname + '/routes/battleRouter');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/jedi_sith_db');
 
+
+ app.use((req, res, next) => {
+   res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  //  res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+   next();
+ });
+
+
 app.use('/api', jediRouter);
 app.use('/api', sithRouter);
 app.use('/api', versusRouter);

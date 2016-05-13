@@ -1,6 +1,6 @@
 module.exports = exports = {
   config: {
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: ['db-specs.js']
+    specs: ['db_spec.js']
   }
 };
