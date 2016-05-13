@@ -1,6 +1,6 @@
 const gulp = require('gulp');
-const eslint = require('eslint');
-const mocha = require('mocha');
+const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
 
 var files = ['/nodecellar/**', '/models/**', '/routes/**', '/test/**', '/winecellar'];
 console.log(__dirname);

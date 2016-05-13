@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rb_db');
 
 const port = process.env.PORT || 3000;
-mongoose.connect(config.database || 'localhost/rb_db');
+
 app.set('superSecret', config.secret || 'changeme');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
