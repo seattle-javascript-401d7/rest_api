@@ -6,7 +6,6 @@ const serverErrorHandler = require(__dirname + '/../lib/error_handler');
 
 dinosaursRouter.post('/dinosaurs', bodyParser, (req, res) => {
   var newDinosaur = new Dinosaur(req.body);
-  newDinosaur.userID = req.user._id;
   newDinosaur.save((err, data) => {
     if (err) return serverErrorHandler(err, res);
     res.status(200).json(data);
