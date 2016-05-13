@@ -24,4 +24,18 @@ liveApp.controller('JediController', ['$http', function($http) {
         this.newJedi = null;
       }, handleError.bind(this));
   };
+
+  this.updateJedi = (jedis) => {
+    $http.put(baseUrl + '/api/jedi/' + jedis._id, jedis)
+      .then(() => {
+        jedis.editing = false;
+      }, handleError.bind(this));
+  };
+
+  this.removeJedi = (jedis) => {
+    $http.delete(baseUrl + '/api/jedi/' + jedis._id)
+      .then(() => {
+        this.jedis.splice(this.jedis.indexOf(jedis), 1);
+      }, handleError.bind(this));
+  };
 }]);

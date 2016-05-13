@@ -32,7 +32,9 @@
           <span data-ng-if="!jedi.editing">{{jedi.name}} is a {{jedi.ranking || 'jedi'}} who uses a
           {{jedi.weaponPreference}}. Their lightsaber is {{jedi.lightsaberColor}} and their catchphrase is
           {{jedi.catchphrase}} with {{jedi.handCount}} hands.</span>
+
           <form data-ng-if="jedi.editing" data-ng-submit="jediCtrl.updateJedi(jedi)">
+
             <label for="name">Name</label>
             <input type="text" name="name" data-ng-model="jedi.name">
 
@@ -55,6 +57,7 @@
             <button data-ng-click="jedi.editing=false">Cancel</button>
           </form>
           <button data-ng-if="!jedi.editing" data-ng-click="jedi.editing=true">Edit</button>
+          <button data-ng-click="jediCtrl.removeJedi(jedi)">Remove this Jedi</button>
         </li>
       </ul>
     </main>
