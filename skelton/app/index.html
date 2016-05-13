@@ -22,7 +22,10 @@
                 <input type="text" name="color" data-ng-model="shoesctrl.newShoe.color">
 
                 <label for="slipOn">SlipOn?:</label>
-                <input type="text" name="slipOn" data-ng-model="shoesctrl.newShoe.slipOn">
+                <select name="slipOn" data-ng-model="shoesctrl.newShoe.slipOn">
+                  <option value="no" selected="selected">No</option>
+                  <option value="yes">Yes</option>
+                </select>
 
                 <label for="polish">Polish:</label>
                 <input type="text" name="polish" data-ng-model="shoesctrl.newShoe.polish">
