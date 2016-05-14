@@ -5,7 +5,7 @@ chai.use(chaiHttp);
 const request = chai.request;
 const mongoose = require('mongoose');
 
-var port = process.env.PORT = 1234;
+var port = process.env.PORT = 4030;
 process.env.MONGO_URI = 'mongodb://localhost/rabbit_test_db';
 require(__dirname + '/../server/server');
 
