@@ -13,7 +13,7 @@ winesRouter.post('/wines', bodyParser, (req, res) => {
   });
 });
 
-winesRouter.get('/wines', (req, res) => {
+winesRouter.get('/wine', (req, res) => {
   Wine.find(null, (err, data) => {
     if (err) return errorhandler(err, res);
 
@@ -21,7 +21,7 @@ winesRouter.get('/wines', (req, res) => {
   });
 });
 
-winesRouter.put('/wines/:wine_id', (req, res) => {
+winesRouter.put('/wine/:wine_id', (req, res) => {
   Wine.findById(req.params.wine_id, (err, wine) => {
     if (err) res.send(err);
 
@@ -35,7 +35,7 @@ winesRouter.put('/wines/:wine_id', (req, res) => {
 });
 
 
-winesRouter.delete('/wines/:wine_id', (req, res) => {
+winesRouter.delete('/wine/:wine_id', (req, res) => {
   Wine.findByIdAndRemove(req.params.wine_id, (err) => {
     if (err) return res.send(err);
 
