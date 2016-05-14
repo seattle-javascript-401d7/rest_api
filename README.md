@@ -1,18 +1,25 @@
-#REST API
 
-##To Submit this Assignment
-  * fork this repository
-  * write all of your code in a folder containing your name
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
+## Express REST API with Mongo DB
+Two Mongoose Schema models are created (resources) to route and manipulate through an express server.
 
-##Description
-Create a two rest resource rest API with Express that's backed by Mongo. I'm leaving this pretty open to interpretation. I want you to write this from scratch, don't just copy and paste code from class or previous projects. Also, implement a non CRUD endpoint.
+###Dependencies
+   * Body-Parser
+   * Express
+   * Gulp
+   * Mongo
+   * Mongoose
 
+##Dev dependencies
+   * Chai
+   * Chai-Http  
+   * Gulp-Eslint
+   * Gulp-Mocha
+   * Mocha
 
-##Rubric
-Use of Express: 3pts
-Use of Mongo: 3pts
-Tests: 2pts
-Project Organization: 2pts
+The databases can be
+located at ```localhost:4020```
+
+```/api/rabbits``` and ```api/slugs```
+
+#### Authorization
+Uses jsonwebtoken and bcrypt to build a token and store it for user sign in and sign up.
