@@ -52,7 +52,7 @@ liveApp.controller('JediController', ['$http', function($http) {
     this.jedis.backup = clone(jedis);
   };
 
-  this.stopEdit = (jedis) => {
+  this.endEdit = (jedis) => {
     jedis.editing = false;
     for (var key in this.jedis.backup) {
       jedis[key] = this.jedis.backup[key];
