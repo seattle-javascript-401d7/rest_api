@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wine and Cheese</title>
+  <link rel="stylesheet" href="./css/style.css" charset="utf-8">
+</head>
+<body data-ng-app="practiceApp">
+  <section data-ng-controller="WineController as winecontrol" data-ng-init="winecontrol.getAll()">
+  <h2>What Wines are in the Cellar?</h2>
+    <form data-ng-submit="winecontrol.createWine()">
+      <label for="name">Name</label>
+      <input type="text" name="name" data-ng-model="winecontrol.newWine.name">
+
+      <label name="grapes">grapes</label>
+      <input type="text" name="grapes" data-ng-model="winecontrol.newWine.grapes">
+
+      <label for="description"><description</label>
+      <input type="text" name="description" data-ng-model="winecontrol.newWine.description" placeholder="tempranillo">
+
+      <button type="submit">Create a Wine</button>
+    </form>
+
+    <ul id="winelist">
+      <li data-ng-repeat="wine in winecontrol.pet">
+        {{wine.name}} and {{wine.grapes }} tastes like {{wine.description}}
+        <form data-ng-if="wine.editing" data-ng-submit="winecontrol.updateWine(wine)">
+
+          <label for ="name"><Name</label>
+          <input type="text" name="name" data-ng-model="wine.name">
+
+          <label name="grapes"><grapes</label>
+          <input type="text" name="grapes" data-ng-model="wine.grapes">
+
+          <label for="description">description</label>
+          <input type="text" name="description" data-ng-model="wine.description" placeholder = "tempranillo">
+
+          <button type="submit">Update Wine</button>
+          <button data-ng-click="wine.editing = false">Cancel</button>
+        </form>
+
+        <button data-ng-if="!wine.editing" data-ng-click="wine.editing = true">Edit Wine</button>
+
+        <button data-ng-click="winecontrol.deleteWine(wine)">Remove a Wine</button>
+      </li>
+    </ul>
+  </section>
+  <section data-ng-controller="CheeseController as cheesecontrol" data-ng-init="cheesecontrol.getAll()">
+    <h2>Eat some Cheese</h2>
+    <form data-ng-submit="cheesecontrol.createCheese()">
+      <label for="type">Type</label>
+      <input type="text"
+
+
+
+
+</body>
+</html>
