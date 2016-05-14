@@ -1,10 +1,25 @@
-<<<<<<< HEAD
+
 ## Express REST API with Mongo DB
 Two Mongoose Schema models are created (resources) to route and manipulate through an express server.
 
-The resources will compete for food. With the output being the amount of food consumed by each.
+###Dependencies
+   * Body-Parser
+   * Express
+   * Gulp
+   * Mongo
+   * Mongoose
 
-Adding authorization for user signup and sign in.
-Changed the structure of the file system.
-Added user model.
-=======
+##Dev dependencies
+   * Chai
+   * Chai-Http  
+   * Gulp-Eslint
+   * Gulp-Mocha
+   * Mocha
+
+The databases can be
+located at ```localhost:4020```
+
+```/api/rabbits``` and ```api/slugs```
+
+#### Authorization
+Uses jsonwebtoken and bcrypt to build a token and store it for user sign in and sign up.
