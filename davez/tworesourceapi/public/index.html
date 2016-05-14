@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="entry.css">
+  <meta charset="UTF-8">
+  <title>...tHe JuiCe...</title>
+</head>
+<body data-ng-app="moviesApp">
+  <main id="moviewrapper" data-ng-controller="MoviesController as mvctrl" data-ng-init="mvctrl.getAll()">
+    <form data-ng-submit="mvctrl.createMovie()">
+
+      <label for="name">Name</label>
+      <input type="text" name="name" data-ng-model="mvctrl.newMovie.name">
+
+      <label for="genre">Genre</label>
+      <input type="text" name="genre" data-ng-model="mvctrl.newMovie.genre">
+
+      <label for="year">Year</label>
+      <input type="text" name="year" data-ng-model="mvctrl.newMovie.year" placeholder="year of the dog">
+
+      <label for="rating">Rating (R, PG, NC-17, etc.)</label>
+      <input type="text" name="rating" data-ng-model="mvctrl.newMovie.rating">
+
+      <label for="runTime">Runtime</label>
+      <input type="text" name="runTime" data-ng-model="mvctrl.newMovie.runTime">
+
+      <label for="emotion">Emotion(sad, mad, glad)</label>
+      <input type="text" name="emotion" data-ng-model="mvctrl.newMovie.emotion">
+
+      <button id="createmovie" type="submit">Add a Movie</button>
+    </form>
+
+    <ul id="movielist">
+      <li data-ng-repeat="movie in mvctrl.Movies">
+        <div class="buttonDiv">
+          <button class="edit" data-ng-click="mvctrl.removeMovie(movie)">remove this movie...</button>
+          <button class="edit" data-ng-if="!movie.editing" data-ng-click="movie.editing = true">Edit</button>
+        </div>
+        <span data-ng-if="!movie.editing">
+          Name: {{movie.name}}</br>
+          Genre: {{movie.genre}}</br>
+          Year: {{movie.year}}</br>
+          Rating: {{movie.rating}}</br>
+          Emotion: {{movie.emotion}}</br></br>
+        </span>
+        <form data-ng-if="movie.editing" data-ng-submit="mvctrl.updateMovie(movie)">
+          <label class="labeledit" for="name">Name</label>
+          <input class="inputEdit" type="text" name="name" data-ng-model="movie.name">
+
+          <label class="labeledit" for="genre">genre</label>
+          <input class="inputEdit" type="text" name="genre" data-ng-model="movie.genre">
+
+          <label class="labeledit" for="year">year</label>
+          <input class="inputEdit" type="text" name="year" data-ng-model="movie.year" placeholder="year of the rat">
+
+          <label class="labeledit" for="rating">rating</label>
+          <input class="inputEdit" type="text" name="rating" data-ng-model="movie.rating">
+
+          <label class="labeledit" for="runTime">Runtime</label>
+          <input class="inputEdit" type="text" name="runTime" data-ng-model="movie.runTime">
+
+          <label class="labeledit" for="emotion">Emotion(sad, mad, glad)</label>
+          <input class="inputEdit" type="text" name="emotion" data-ng-model="movie.emotion">
+
+          <button class="updater" type="submit">Update Movie</button>
+          <button class="updater" data-ng-click="movie.editing = false">Cancel</button>
+        </form>
+      </li>
+    </ul>
+  </main>
+
+  <main id="songwrapper" data-ng-controller="SongsController as sngctrl" data-ng-init="sngctrl.getAll()">
+    <form data-ng-submit="sngctrl.createSong()">
+
+      <label for="name">Name</label>
+      <input type="text" name="name" data-ng-model="sngctrl.newSong.name">
+
+      <label for="artist">artist</label>
+      <input type="text" name="artist" data-ng-model="sngctrl.newSong.artist" placeholder="NIN???">
+
+      <label for="album">Album</label>
+      <input type="text" name="album" data-ng-model="sngctrl.newSong.album">
+
+      <label for="year">Year</label>
+      <input type="text" name="year" data-ng-model="sngctrl.newSong.year">
+
+      <label for="genre">Genre</label>
+      <input type="text" name="genre" data-ng-model="sngctrl.newSong.genre">
+
+      <label for="personalRating">Personal Rating (1 - 10)</label>
+      <input type="text" name="personalRating" data-ng-model="sngctrl.newSong.personalRating">
+
+      <label for="emotion">Emotion (sad, mad, glad)</label>
+      <input type="text" name="emotion" data-ng-model="sngctrl.newSong.emotion">
+
+      <button id="createsong" type="submit">Add a Song</button>
+    </form>
+
+    <ul id="songlist">
+      <li data-ng-repeat="song in sngctrl.Songs">
+        <div class="buttonDiv">
+          <button class="edit" data-ng-click="sngctrl.removeSong(song)">remove this song...</button>
+          <button class="edit" data-ng-if="!song.editing" data-ng-click="song.editing = true">Edit</button>
+        </div>
+        <span data-ng-if="!song.editing">
+          Name: {{song.name}}</br>
+          Artist: {{song.artist}}</br>
+          Album: {{song.album}}</br>
+          Year: {{song.year}}</br>
+          Genre: {{song.genre}}</br>
+          Personal Rating: {{song.personalRating}}</br>
+          Emotion: {{song.emotion}}</br></br>
+        </span>
+        <form data-ng-if="song.editing" data-ng-submit="sngctrl.updateSong(song)">
+          <label class="labeledit" for="name">Name</label>
+          <input class="inputEdit" type="text" name="name" data-ng-model="song.name">
+
+          <label class="labeledit" for="artist">artist</label>
+          <input class="inputEdit" type="text" name="artist" data-ng-model="song.artist">
+
+          <label class="labeledit" for="album">album</label>
+          <input class="inputEdit" type="text" name="album" data-ng-model="song.album">
+
+          <label class="labeledit" for="year">year</label>
+          <input class="inputEdit" type="text" name="year" data-ng-model="song.year">
+
+          <label class="labeledit" for="genre">genre</label>
+          <input class="inputEdit" type="text" name="genre" data-ng-model="song.genre">
+
+          <label class="labeledit" for="personalRating">Personal Rating(1 - 10)</label>
+          <input class="inputEdit" type="text" name="personalRating" data-ng-model="song.personalRating">
+
+          <label class="labeledit" for="emotion">Emotion(sad, mad, glad)</label>
+          <input class="inputEdit" type="text" name="emotion" data-ng-model="song.emotion">
+
+          <button class="updater" type="submit">Update Song</button>
+          <button class="updater" data-ng-click="song.editing = false">Cancel</button>
+        </form>
+      </li>
+    </ul>
+  </main>
+  <script src="./bundle.js"></script>
+</body>
+</html>

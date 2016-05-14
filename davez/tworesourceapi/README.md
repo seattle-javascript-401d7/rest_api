@@ -1,3 +1,6 @@
+#ANGULAR - CRUD
+this is a version of my two-resource rest-api that uses angular and allows data to be retrieved from the data base and displayed in the browser. The user is also able to add songs and movies in the browser as well as update existing songs or movies, or delete them. User interaction with database in the browser will be reflected in the database.
+
 #REST_API
 this is a two resource api that uses mongodb and has access to different songs and movies and has interaction between the two creating a soundtrack suited for that movie based on sad, mad and glad values to the emotions properties on both movies and songs. It is not yet done with the interactions, but the set up is there all i have to do now is create a router for the soundtrack and than apply the interaction. Also, tests will be done tonight hopefully as well.
 #AUTHENTICATION
