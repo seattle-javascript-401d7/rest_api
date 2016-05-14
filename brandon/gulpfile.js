@@ -33,8 +33,8 @@ gulp.task('static:dev', () => {
 gulp.task('start:server', () => {
   children.push(cp.fork('api_server.js'));
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
-  children.push(cp.fork('front_end_server.js'), [], { env: {
-    MONGODB_URI: 'mongodb://localhost/jedi_sith_test_db' } });
+  children.push(cp.fork('front_end_server.js', [], { env: {
+    MONGODB_URI: 'mongodb://localhost/jedi_sith_test_db' } }));
   children.push(cp.spawn('webdriver-manager', ['start']));
 });
 
@@ -59,7 +59,7 @@ gulp.task('protractor', ['start:server', 'build:dev'], () => {
   }))
   .on('end', () => {
     children.forEach((child) => {
-      child.kill('SIGTERM');
+      child.kill('SIGINT');
     });
   });
 });

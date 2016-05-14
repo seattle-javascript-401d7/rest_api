@@ -8,6 +8,14 @@ var handleError = function(error) {
   this.errors = (this.errors || []).push(error);
 };
 
+const clone = function(obj) {
+  var current = obj.constructor;
+  for (var key in obj) {
+    current[key] = obj[key];
+  }
+  return current;
+};
+
 liveApp.controller('JediController', ['$http', function($http) {
   this.jedis = [];
   this.getAll = () => {
@@ -37,5 +45,17 @@ liveApp.controller('JediController', ['$http', function($http) {
       .then(() => {
         this.jedis.splice(this.jedis.indexOf(jedis), 1);
       }, handleError.bind(this));
+  };
+
+  this.beginEdit = (jedis) => {
+    jedis.editing = true;
+    this.jedis.backup = clone(jedis);
+  };
+
+  this.stopEdit = (jedis) => {
+    jedis.editing = false;
+    for (var key in this.jedis.backup) {
+      jedis[key] = this.jedis.backup[key];
+    }
   };
 }]);
