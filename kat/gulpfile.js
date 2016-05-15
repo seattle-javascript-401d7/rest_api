@@ -19,7 +19,7 @@ gulp.task('lintClient', () => {
     .pipe(eslint.format());
 });
 
-gulp.task('webpack', () => {
+gulp.task('webpack:dev', () => {
   gulp.src('./app/js/entry.js')
     .pipe(webpack({
       output: {
@@ -27,6 +27,16 @@ gulp.task('webpack', () => {
       }
     }))
     .pipe(gulp.dest('./build'));
+});
+
+gulp.task('webpack:test', () => {
+  gulp.src('./test/unit/test_entry.js')
+    .pipe(webpack({
+      output: {
+        filename: 'bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('./test'));
 });
 
 gulp.task('static', () => {
@@ -37,7 +47,7 @@ gulp.task('static', () => {
 });
 
 gulp.task('default', ['lint', 'lintClient', 'webpack', 'static']);
-gulp.task('build', ['webpack', 'static']);
+gulp.task('build', ['webpack:dev', 'static']);
 
 
 gulp.task('default', ['lint']);
