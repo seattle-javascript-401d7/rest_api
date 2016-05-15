@@ -1,0 +1,34 @@
+{
+  "name": "dinos-vs-politicos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "create-db-dir": "node lib/make-directory.js",
+    "start-server": "node server.js",
+    "install": "npm run create-db-dir",
+    "start": "npm run start-server",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbuchthal/Create-a-Framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.6",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^6.1.0",
+    "mongoose": "^4.4.13"
+  }
+}
