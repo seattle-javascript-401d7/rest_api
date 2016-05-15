@@ -22,7 +22,7 @@
     </form>
 
     <ul id="winelist">
-      <li data-ng-repeat="wine in winecontrol.pet">
+      <li data-ng-repeat="wine in winecontrol.wine">
         {{wine.name}} and {{wine.grapes }} tastes like {{wine.description}}
         <form data-ng-if="wine.editing" data-ng-submit="winecontrol.updateWine(wine)">
 
@@ -49,7 +49,27 @@
     <h2>Eat some Cheese</h2>
     <form data-ng-submit="cheesecontrol.createCheese()">
       <label for="type">Type</label>
-      <input type="text"
+      <input type="text" name="type" data-ng-model="cheesecontrol.newCheese.type">
+
+      <label name="country">Country</label>
+      <input type="text" name="country" data-ng-model="cheesecontrol.newCheese.country">
+
+      <label for="origin">Origin</label>
+      <input type="text" name="origin" data-ng-model="cheesecontrol.newCheese.origin">
+
+      <button type="submit">Update Cheese</buton>
+        <button data-ng-click="cheese.editing = false">Cancel</button>
+      </form>
+
+      <button data-ng-ig="!cheese.editing" data-ng-click="cheese.edit=true">Improve Cheese</button>
+
+      <button data-ng-click="cheesecontrol.deleteCheese(cheese)">Eat some Cheeze</button>
+    </li>
+  </ul>
+</section>
+<script src="./bundle.js"></script>
+</body>
+</html>
 
 
 
