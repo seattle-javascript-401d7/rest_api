@@ -1,7 +1,9 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
-
+const childProcess = require('child_process');
+const exec = require('child_process').exec();
+var children = [];
 
 var files = ['lib**/*.js', 'test/**/*.js', 'routes/**/*.js',
 'models/**/*.js', 'gulpfile.js', 'server.js'];
@@ -26,7 +28,13 @@ gulp.task('webpack', () => {
         filename: 'bundle.js'
       }
     }))
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('./build'))
+    // put this onto your protractor test
+    .on('end', () => {
+      children.forEach((child) => {
+        child.kill('SIGTERM');
+      });
+    });
 });
 
 gulp.task('static', () => {
@@ -36,8 +44,16 @@ gulp.task('static', () => {
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('default', ['lint', 'lintClient', 'webpack', 'static']);
-gulp.task('build', ['webpack', 'static']);
+gulp.task('startServer', () => {
+  children.push(childProcess.fork('client_server.js'));
+  children.push(childProcess.spawn('webdriver-manager', ['start']));
+  children.push(childProcess.spawn('mongod', ['--dbpath=./db']));
+  children.push(childProcess.fork('server.js', [],
+  { env: { MONGODB_URI: 'mongodb://localhost/test_server' } }));
+});
+
+gulp.task('default', ['lint', 'lintClient', 'startServer', 'webpack', 'static']);
+gulp.task('build', ['startServer', 'webpack', 'static', 'webpack']);
 
 
 gulp.task('default', ['lint']);
