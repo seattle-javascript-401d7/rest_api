@@ -29,9 +29,10 @@
       </form>
       <ul id="jediList">
         <li data-ng-repeat="jedi in jediCtrl.jedis">
-          <span data-ng-if="!jedi.editing">{{jedi.name}} is a {{jedi.ranking || 'jedi'}} who uses a
+
+          <p>{{jedi.name}} is a {{jedi.ranking || 'jedi'}} who uses a
           {{jedi.weaponPreference}}. Their lightsaber is {{jedi.lightsaberColor}} and their catchphrase is
-          {{jedi.catchphrase}} with {{jedi.handCount}} hands.</span>
+          {{jedi.catchphrase}} with {{jedi.handCount}} hands.</p>
 
           <form data-ng-if="jedi.editing" data-ng-submit="jediCtrl.updateJedi(jedi)">
 
@@ -53,11 +54,11 @@
             <label for="handCount">Hand Count</label>
             <input type="text" name="handCount" data-ng-model="jedi.handCount" placeholder="2">
 
-            <button type="submit">Update Jedi</button>
-            <button data-ng-click="jedi.editing=false">Cancel</button>
+            <button class="btn-cancel-jedi" data-ng-click="jedi.editing=false">Cancel</button>
+            <button class="btn-update-jedi" type="submit">Update Jedi</button>
           </form>
-          <button data-ng-if="!jedi.editing" data-ng-click="jedi.editing=true">Edit</button>
-          <button data-ng-click="jediCtrl.removeJedi(jedi)">Remove this Jedi</button>
+          <button class="btn-edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jedi.editing=true">Edit</button>
+          <button class="btn-remove-jedi" data-ng-click="jediCtrl.removeJedi(jedis)">Remove this Jedi</button>
         </li>
       </ul>
     </main>

@@ -9,53 +9,55 @@ var handleError = function(error) {
 };
 
 const clone = function(obj) {
-  var current = obj.constructor;
+  var temp = obj.constructor;
   for (var key in obj) {
-    current[key] = obj[key];
+    temp[key] = obj[key];
   }
-  return current;
+  return temp;
 };
 
 liveApp.controller('JediController', ['$http', function($http) {
-  this.jedis = [];
-  this.getAll = () => {
-    $http.get(baseUrl + '/api/jedi', this.newJedi)
+  var tj = this;
+  tj.jedis = [];
+  tj.getAll = () => {
+    $http.get(baseUrl + '/api/jedi')
       .then((res) => {
-        this.jedis = res.data;
-      }, handleError.bind(this));
+        tj.jedis = res.data;
+      }, handleError.bind(tj));
   };
 
-  this.createJedi = () => {
-    $http.post(baseUrl + '/api/jedi', this.newJedi)
+  tj.createJedi = () => {
+    $http.post(baseUrl + '/api/jedi', tj.newJedi)
       .then((res) => {
-        this.jedis.push(res.data);
-        this.newJedi = null;
-      }, handleError.bind(this));
+        tj.jedis.push(res.data);
+        tj.newJedi = null;
+      }, handleError.bind(tj));
   };
 
-  this.updateJedi = (jedis) => {
-    $http.put(baseUrl + '/api/jedi/' + jedis._id, jedis)
+  tj.removeJedi = (jedi) => {
+    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
+    .then(() => {
+      tj.jedis.splice(tj.jedis.indexOf(jedi), 1);
+    }, handleError.bind(tj));
+  };
+
+  tj.updateJedi = (jedi) => {
+    $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
       .then(() => {
-        jedis.editing = false;
-      }, handleError.bind(this));
+        jedi.editing = false;
+      }, handleError.bind(tj));
   };
 
-  this.removeJedi = (jedis) => {
-    $http.delete(baseUrl + '/api/jedi/' + jedis._id)
-      .then(() => {
-        this.jedis.splice(this.jedis.indexOf(jedis), 1);
-      }, handleError.bind(this));
+
+  tj.beginEdit = (jedi) => {
+    jedi.editing = true;
+    tj.backup = clone(jedi);
   };
 
-  this.beginEdit = (jedis) => {
-    jedis.editing = true;
-    this.jedis.backup = clone(jedis);
-  };
-
-  this.endEdit = (jedis) => {
-    jedis.editing = false;
-    for (var key in this.jedis.backup) {
-      jedis[key] = this.jedis.backup[key];
+  tj.endEdit = (jedi) => {
+    jedi.editing = false;
+    for (var key in tj.backup) {
+      jedi[key] = tj.backup[key];
     }
   };
 }]);
