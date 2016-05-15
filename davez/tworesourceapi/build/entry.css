@@ -1,3 +1,16 @@
+#movielist:last-child > li:last-of-type  {
+  border: 3px dashed yellow;
+}
+#songlist:last-child > li:last-of-type  {
+  border: 3px dashed yellow;
+}
+/*#dummyli {
+  display: none;
+}*/
+li {
+  padding: 5px;
+  border: 2px dashed white;
+}
 ul {
   color: white;
   margin-top: 10px;
