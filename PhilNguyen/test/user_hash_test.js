@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const User = require(__dirname + '/../app/models/user');
+const User = require(__dirname + '/../models/user');
 const mongoose = require('mongoose');
 
 describe('random user find hash', function() {

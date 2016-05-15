@@ -8,10 +8,10 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 8080;
 process.env.MONGODB_URI = 'mongodb://localhost/superhero_test_db';
-const server = require(__dirname + '/../server');
-const Superhero = require(__dirname + '/../app/models/superhero');
-const Villain = require(__dirname + '/../app/models/villain');
-const User = require(__dirname + '/../app/models/user');
+const server = require(__dirname + '/../api_server');
+const Superhero = require(__dirname + '/../models/superhero');
+const Villain = require(__dirname + '/../models/villain');
+const User = require(__dirname + '/../models/user');
 
 describe('the heroes versus villains server', () => {
   before((done) => {
