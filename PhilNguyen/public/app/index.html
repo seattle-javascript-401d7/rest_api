@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Avengers Infinity Wars</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-ng-app="newApp">
+  <main data-ng-controller="HeroesController as heroesctrl" data-ng-init="heroesctrl.getAll()">
+    <form data-ng-submit="heroesctrl.createSuperhero()">
+      <h1>Create a Superhero</h1>
+      <label for="name">Hero name</label>
+      <input type="text" name="heroname" data-ng-model="heroesctrl.newSuperhero.name"/>
+
+      <label for="powerlevel">Power Level</label>
+      <input type="text" name="powerlevel" data-ng-model="heroesctrl.newSuperhero.powerlevel" />
+
+      <button id="createsuperhero" type="submit">Create Superhero</button>
+    </form>
+
+  <h1>List of Heroes</h1>
+    <ul id="heroeslist">
+      <li data-ng-repeat="superhero in heroesctrl.superheroes">
+        <span data-ng-if="!superhero.editing">{{superhero.name}} has a powerlevel of {{superhero.powerlevel}}</span>
+        <form data-ng-if="superhero.editing" data-ng-submit="heroesctrl.updateSuperhero(superhero)">
+          <label for="name">Hero name</label>
+          <input type="text" name="name" data-ng-model="superhero.name" />
+
+          <label for="powerlevel">Power Level</label>
+          <input type="text" name="powerlevel" data-ng-model="superhero.powerlevel" />
+
+          <button id="updatesuperhero" type="submit">Update Superhero</button>
+          <button data-ng-click="superhero.editing = false">Cancel</button>
+        </form>
+
+        <button data-ng-if="!superhero.editing" data-ng-click="superhero.editing = true">Edit</button>
+        <button data-ng-click="heroesctrl.removeSuperhero(superhero)">Remove this Superhero!</button>
+      </li>
+    </ul>
+  </main>
+  <main data-ng-controller="VillainsController as villainsctrl" data-ng-init="villainsctrl.getAll()">
+    <form data-ng-submit="villainsctrl.createVillain()">
+      <h1>Create a Villain</h1>
+      <label for="name">Villain Name</label>
+      <input type="text" name="villainname" data-ng-model="villainsctrl.newVillain.name" />
+
+      <label for="powerlevel">Power Level</label>
+      <input type="text" name="powerlevel" data-ng-model="villainsctrl.newVillain.powerlevel" />
+
+      <button type="submit">Create Villain</button>
+    </form>
+
+      <h1>List of Villains</h1>
+      <ul id="villainslist">
+        <li data-ng-repeat="villain in villainsctrl.villains">
+          <span data-ng-if="!villain.editing">{{villain.name}} has a powerlevel of {{villain.powerlevel}}</span>
+          <form data-ng-if="villain.editing" data-ng-submit="villainsctrl.updateVillain(villain)">
+            <label for="name">Villain name</label>
+            <input type="text" name="name" data-ng-model="villain.name"/>
+
+            <label for="powerlevel">Power level</label>
+            <input type="text" name="powerlevel" data-ng-model="villain.powerlevel" />
+
+            <button type="submit">Update Villain</button>
+            <button data-ng-click="villain.editing = false">Cancel</button>
+          </form>
+
+          <button data-ng-if="!villain.editing" data-ng-click="villain.editing = true">Edit</button>
+          <button data-ng-click="villainsctrl.removeVillain(villain)">Remove Villain</button>
+        </li>
+      </ul>
+
+  </main>
+
+<script src="./bundle.js"></script>
+</body>
+</html>
