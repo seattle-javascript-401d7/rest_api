@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pets and Sandwiches</title>
+    <link rel="stylesheet" href="./css/style.css" charset="utf-8">
+  </head>
+  <body data-ng-app="practiceApp">
+    <section data-ng-controller="PetController as petcontrol" data-ng-init="petcontrol.getAll()">
+      <h2>What Pets are in the Kitchen?</h2>
+        <form data-ng-submit="petcontrol.createPet()">
+          <label for="name">Name</label>
+          <input type="text" name="name" data-ng-model="petcontrol.newPet.name">
+
+          <label name="nickName">nickName</label>
+          <input type="text" name="nickName" data-ng-model="petcontrol.newPet.nickName">
+
+
+          <label for="favoriteActivity">favoriteActivity</label>
+          <input type="text" name="favoriteActivity" data-ng-model="petcontrol.newPet.favoriteActivity" placeholder="cuddles">
+
+          <button type="submit">Create a Pet</button>
+        </form>
+
+        <ul id="petlist">
+          <li data-ng-repeat="pet in petcontrol.pet">
+            {{pet.name}} aka {{pet.nickName}} really likes {{pet.favoriteActivity}}
+            <form data-ng-if="pet.editing" data-ng-submit="petcontrol.updatePet(pet)">
+
+              <label for="name">Name</label>
+              <input type="text" name="name" data-ng-model="pet.name">
+
+              <label name="nickName">nickName</label>
+              <input type="text" name="nickName" data-ng-model="pet.nickName">
+
+
+              <label for="favoriteActivity">favoriteActivity</label>
+              <input type="text" name="favoriteActivity" data-ng-model="pet.favoriteActivity" placeholder="cuddles">
+
+              <button type="submit">Update Pet</button>
+              <button data-ng-click="pet.editing = false">Cancel</button>
+            </form>
+
+            <button data-ng-if="!pet.editing" data-ng-click="pet.editing = true">Edit Pet</button>
+
+            <button data-ng-click="petcontrol.deletePet(pet)">Remove a Pet</button>
+          </li>
+      </ul>
+    </section>
+    <section data-ng-controller="SandwichController as sandwichcontrol" data-ng-init="sandwichcontrol.getAll()">
+      <h2>Make a Sandwich</h2>
+          <form data-ng-submit="sandwichcontrol.createSandwich()">
+            <label for="type">Type</label>
+            <input type="text" name="type" data-ng-model="sandwichcontrol.newSandwich.type">
+
+            <label name="ingrediants">Ingrediants</label>
+            <input type="text" name="ingrediants" data-ng-model="sandwichcontrol.newSandwich.ingrediants">
+
+
+            <label for="yumFactor">yumFactor</label>
+            <input type="Number" name="yumFactor" data-ng-model="sandwichcontrol.newSandwich.yumFactor">
+
+            <button type="submit">Make a Sandwich</button>
+          </form>
+
+          <ul id="sandwichlist">
+            <li data-ng-repeat="sandwich in sandwichcontrol.sandwich">
+              {{sandwich.type}} aka {{sandwich.ingrediants}} really likes {{sandwich.yumFactor}}
+              <form data-ng-if="sandwich.editing" data-ng-submit="sandwichcontrol.updateSandwich(sandwich)">
+
+                <label for="type">Type</label>
+                <input type="text" name="type" data-ng-model="sandwich.type">
+
+                <label name="ingrediants">Ingrediants</label>
+                <input type="text" name="ingrediants" data-ng-model="sandwich.ingrediants">
+
+
+                <label for="yumFactor">yumFactor</label>
+                <input type="Number" name="yumFactor" data-ng-model="sandwich.yumFactor">
+
+                <button type="submit">Update Sandwicht</button>
+                <button data-ng-click="sandwich.editing = false">Cancel</button>
+              </form>
+
+              <button data-ng-if="!sandwich.editing" data-ng-click="sandwich.editing = true">Improve Sandwich</button>
+
+              <button data-ng-click="sandwichcontrol.deleteSandwich(sandwich)">Eat a Sandwich</button>
+            </li>
+        </ul>
+    </section>
+    <script src="./bundle.js"></script>
+  </body>
+</html>
