@@ -5,6 +5,11 @@
     "es6": true
   },
   "globals": {
+    "karma": true,
+    "angular": true,
+    "jasmine": true,
+    "expect": true,
+    "protractor": true
   },
   "rules": {
     "indent": ["error", 2],

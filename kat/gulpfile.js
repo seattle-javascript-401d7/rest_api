@@ -3,11 +3,12 @@ const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
 
 
-var files = ['lib**/*.js', 'test/**/*.js', 'routes/**/*.js',
+var files = ['lib**/*.js', 'routes/**/*.js',
 'models/**/*.js', 'gulpfile.js', 'server.js'];
 var clientFiles = ['app/**/*.js'];
+var testFiles = ['test/unit/pet_controller_test.js', 'test/unit/sandwich_controller_test.js', 'test/integration/*.js'];
 
-gulp.task('lint', () => {
+gulp.task('lintServer', () => {
   return gulp.src(files)
   .pipe(eslint('./.eslintrc'))
   .pipe(eslint.format());
@@ -16,6 +17,12 @@ gulp.task('lint', () => {
 gulp.task('lintClient', () => {
   return gulp.src(clientFiles)
     .pipe(eslint('./app/.eslintrc'))
+    .pipe(eslint.format());
+});
+
+gulp.task('lintTest', () => {
+  return gulp.src(testFiles)
+    .pipe(eslint('./test/unit/.eslintrc'))
     .pipe(eslint.format());
 });
 
@@ -46,8 +53,5 @@ gulp.task('static', () => {
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('default', ['lint', 'lintClient', 'webpack', 'static']);
+gulp.task('default', ['lintServer', 'lintClient', 'lintTest', 'webpack:dev', 'static']);
 gulp.task('build', ['webpack:dev', 'static']);
-
-
-gulp.task('default', ['lint']);
