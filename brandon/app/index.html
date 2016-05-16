@@ -26,7 +26,7 @@
         <label for="handCount">Hand Count</label>
         <input type="text" name="handCount" data-ng-model="jediCtrl.newJedi.handCount">
 
-        <button class="btn-create-jedi" type="submit">Create Jedi</button>
+        <button class="create-jedi" type="submit">Create Jedi</button>
       </form>
 
       <ul id="jediList">
@@ -56,12 +56,12 @@
             <label for="handCount">Hand Count</label>
             <input type="text" name="handCount" data-ng-model="jedi.handCount" placeholder="2">
 
-            <button class="btn-cancel-jedi" data-ng-click="jediCtrl.cancelJedi(jedi)">Cancel</button>
-            <button class="btn-update-jedi" type="submit">Update Jedi</button>
+            <button class="cancel-jedi" data-ng-click="jediCtrl.cancelJedi(jedi)">Cancel</button>
+            <button class="update-jedi" type="submit">Update Jedi</button>
           </form>
 
-          <button class="btn-edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jediCtrl.editJedi(jedi)">Edit</button>
-          <button class="btn-remove-jedi" data-ng-click="jediCtrl.removeJedi(jedi)">Remove this Jedi</button>
+          <button class="edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jediCtrl.editJedi(jedi)">Edit</button>
+          <button class="remove-jedi" data-ng-click="jediCtrl.removeJedi(jedi)">Remove this Jedi</button>
         </li>
       </ul>
     </section>
