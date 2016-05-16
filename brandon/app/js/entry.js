@@ -17,47 +17,45 @@ const clone = function(obj) {
 };
 
 liveApp.controller('JediController', ['$http', function($http) {
-  var tj = this;
-  tj.jedis = [];
-  tj.getAll = () => {
-    $http.get(baseUrl + '/api/jedi')
+  this.jedis = [];
+  this.getAll = () => {
+    $http.get(baseUrl + '/api/jedi', this.newJedi)
       .then((res) => {
-        tj.jedis = res.data;
-      }, handleError.bind(tj));
+        this.jedis = res.data;
+      }, handleError.bind(this));
   };
 
-  tj.createJedi = () => {
-    $http.post(baseUrl + '/api/jedi', tj.newJedi)
+  this.createJedi = () => {
+    $http.post(baseUrl + '/api/jedi', this.newJedi)
       .then((res) => {
-        tj.jedis.push(res.data);
-        tj.newJedi = null;
-      }, handleError.bind(tj));
+        this.jedis.push(res.data);
+        this.newJedi = null;
+      }, handleError.bind(this));
   };
 
-  tj.removeJedi = (jedi) => {
-    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
-    .then(() => {
-      tj.jedis.splice(tj.jedis.indexOf(jedi), 1);
-    }, handleError.bind(tj));
-  };
-
-  tj.updateJedi = (jedi) => {
+  this.updateJedi = (jedi) => {
     $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
       .then(() => {
         jedi.editing = false;
-      }, handleError.bind(tj));
+      }, handleError.bind(this));
   };
 
-
-  tj.beginEdit = (jedi) => {
+  this.editJedi = (jedi) => {
     jedi.editing = true;
-    tj.backup = clone(jedi);
+    this.backup = clone(jedi);
   };
 
-  tj.endEdit = (jedi) => {
+  this.cancelJedi = (jedi) => {
     jedi.editing = false;
-    for (var key in tj.backup) {
-      jedi[key] = tj.backup[key];
+    for (var key in this.backup) {
+      jedi[key] = this.backup[key];
     }
+  };
+
+  this.removeJedi = (jedi) => {
+    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
+    .then(() => {
+      this.jedis.splice(this.jedis.indexOf(jedi), 1);
+    }, handleError.bind(this));
   };
 }]);

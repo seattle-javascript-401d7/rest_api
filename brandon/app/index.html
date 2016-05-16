@@ -5,7 +5,8 @@
     <title>Jedi vs Sith</title>
   </head>
   <body data-ng-app="liveApp">
-    <main data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
+    <main>
+      <section  data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
       <form data-ng-submit="jediCtrl.createJedi()">
         <label for="name">Name</label>
         <input type="text" name="name" data-ng-model="jediCtrl.newJedi.name">
@@ -27,6 +28,7 @@
 
         <button class="btn-create-jedi" type="submit">Create Jedi</button>
       </form>
+
       <ul id="jediList">
         <li data-ng-repeat="jedi in jediCtrl.jedis">
 
@@ -54,13 +56,15 @@
             <label for="handCount">Hand Count</label>
             <input type="text" name="handCount" data-ng-model="jedi.handCount" placeholder="2">
 
-            <button class="btn-cancel-jedi" data-ng-click="jedi.editing=false">Cancel</button>
+            <button class="btn-cancel-jedi" data-ng-click="jediCtrl.cancelJedi(jedi)">Cancel</button>
             <button class="btn-update-jedi" type="submit">Update Jedi</button>
           </form>
-          <button class="btn-edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jedi.editing=true">Edit</button>
-          <button class="btn-remove-jedi" data-ng-click="jediCtrl.removeJedi(jedis)">Remove this Jedi</button>
+
+          <button class="btn-edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jediCtrl.editJedi(jedi)">Edit</button>
+          <button class="btn-remove-jedi" data-ng-click="jediCtrl.removeJedi(jedi)">Remove this Jedi</button>
         </li>
       </ul>
+    </section>
     </main>
 
     <script src="./bundle.js"></script>

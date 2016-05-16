@@ -91,6 +91,7 @@
 	  tj.removeJedi = (jedi) => {
 	    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
 	    .then(() => {
+	      console.log(jedi._id);
 	      tj.jedis.splice(tj.jedis.indexOf(jedi), 1);
 	    }, handleError.bind(tj));
 	  };
@@ -98,10 +99,10 @@
 	  tj.updateJedi = (jedi) => {
 	    $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
 	      .then(() => {
+	        console.log(jedi._id);
 	        jedi.editing = false;
 	      }, handleError.bind(tj));
 	  };
-	
 	
 	  tj.beginEdit = (jedi) => {
 	    jedi.editing = true;

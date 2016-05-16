@@ -7,7 +7,7 @@ describe('a simple test to pass', () => {
     element(by.model('jediCtrl.newJedi.lightsaberColor')).sendKeys('WHO CARES');
     element(by.model('jediCtrl.newJedi.catchphrase')).sendKeys('WOOOOO');
     element(by.model('jediCtrl.newJedi.handCount')).sendKeys('2');
-    element(by.css('.btn-create-jedi')).click();
+    element(by.css('#jediList li:last-child .btn-create-jedi')).click();
     element(by.css('#jediList li:last-child p')).getText((text) => {
       expect(text).toEqual('testman is a badass who uses a stick thing. Their lightsaber is ' +
        'WHO CARES and their catchphrase is WOOOOO with 2 hands.');
@@ -58,8 +58,8 @@ describe('a simple test to pass', () => {
     browser.get('http://localhost:5000');
     element(by.css('#jediList li:last-child .btn-remove-jedi')).click();
     element(by.css('#jediList li:last-child p')).getText().then((text) => {
-      expect(text).not.toEqual('testman is a badass who uses a stick thing. Their lightsaber is ' +
-       'WHO CARES and their catchphrase is WOOOOO with 2 hands.');
-    });
+      expect(text).not.toEqual('a new jedi is a noob who uses a computer. Their lightsaber is ' +
+      'black and white and their catchphrase is new phrase with 1 hands.');
+      });
   });
 });
