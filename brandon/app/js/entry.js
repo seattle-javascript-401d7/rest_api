@@ -9,7 +9,7 @@ var handleError = function(error) {
 };
 
 const clone = function(obj) {
-  var temp = obj.constructor;
+  var temp = obj.constructor();
   for (var key in obj) {
     temp[key] = obj[key];
   }
