@@ -18,3 +18,6 @@ https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 
 ### Added Auth 4/27/16
 (work in progress)
+
+## karma
+in terminal type in karma start to run the unit tests for the client side.

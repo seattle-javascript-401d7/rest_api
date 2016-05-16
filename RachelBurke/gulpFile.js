@@ -1,14 +1,32 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const webpack = require('webpack-stream');
 
 var files = ['/nodecellar/**', '/models/**', '/routes/**', '/test/**', '/winecellar'];
-console.log(__dirname);
+var clientFiles = ['app/**/*.js'];
 
-gulp.task('eslint', () => {
+gulp.task('lint', () => {
   return gulp.src(files)
-  .pipe(eslint())
-  .pipe(eslint( { reporter: 'nyan' }));
+  .pipe(eslint('./.eslintrc'))
+  .pipe(eslint.format());
+  // .pipe(eslint( { reporter: 'nyan' }));
+});
+
+gulp.task('lintClient', () => {
+  return gulp.src(clientFiles)
+  .pipe(eslint('./app/.eslintrc'))
+  .pipe(eslint.format());
+});
+
+gulp.task('webpack', () => {
+  gulp.src('./app/js/entry.js')
+  .pipe(webpack({
+    output: {
+      filename: 'bundle.js'
+    }
+  }))
+  .pipe(gulp.dest('./build'));
 });
 
 gulp.task('mocha', () => {
@@ -17,4 +35,14 @@ gulp.task('mocha', () => {
   .pipe(mocha( { reporter: 'nyan' }));
 });
 
-gulp.task('default', ['eslint', 'mocha']);
+gulp.task('static', () => {
+  gulp.src('app/**/*.html')
+  .pipe(gulp.dest('./build'));
+  gulp.src('app/**/*.css')
+  .pipe(gulp.dest('./build'));
+});
+
+gulp.task('default', ['lint', 'mocha', 'lintClient', 'webpack', 'static']);
+gulp.task('build', ['webpack', 'static']);
+
+gulp.task('default', ['lint']);
