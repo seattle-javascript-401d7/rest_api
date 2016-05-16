@@ -33,8 +33,8 @@
           <button data-ng-click="superhero.editing = false">Cancel</button>
         </form>
 
-        <button data-ng-if="!superhero.editing" data-ng-click="superhero.editing = true">Edit</button>
-        <button data-ng-click="heroesctrl.removeSuperhero(superhero)">Remove this Superhero!</button>
+        <button id="edit" data-ng-if="!superhero.editing" data-ng-click="superhero.editing = true">Edit</button>
+        <button id="delete" data-ng-click="heroesctrl.removeSuperhero(superhero)">Remove this Superhero!</button>
       </li>
     </ul>
   </main>
@@ -47,7 +47,7 @@
       <label for="powerlevel">Power Level</label>
       <input type="text" name="powerlevel" data-ng-model="villainsctrl.newVillain.powerlevel" />
 
-      <button type="submit">Create Villain</button>
+      <button id="createvillain" type="submit">Create Villain</button>
     </form>
 
       <h1>List of Villains</h1>
@@ -61,12 +61,12 @@
             <label for="powerlevel">Power level</label>
             <input type="text" name="powerlevel" data-ng-model="villain.powerlevel" />
 
-            <button type="submit">Update Villain</button>
+            <button id="updateillain" type="submit">Update Villain</button>
             <button data-ng-click="villain.editing = false">Cancel</button>
           </form>
 
-          <button data-ng-if="!villain.editing" data-ng-click="villain.editing = true">Edit</button>
-          <button data-ng-click="villainsctrl.removeVillain(villain)">Remove Villain</button>
+          <button id="edit" data-ng-if="!villain.editing" data-ng-click="villain.editing = true">Edit</button>
+          <button id="delete" data-ng-click="villainsctrl.removeVillain(villain)">Remove Villain</button>
         </li>
       </ul>
 
