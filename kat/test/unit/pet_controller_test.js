@@ -49,6 +49,24 @@ describe('pet controller', function() {
       expect(petcontrol.pet[0].name).toBe('Moose');
       expect(petcontrol.newPet).toBe(null);
     });
-  });
 
+  it('should update a pet', function() {
+    $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
+      .respond(200);
+      petcontrol.pet= [{name: 'test pet', editing: true, _id: 1}];
+      petcontrol.pet[0].name = 'diff pet';
+      petcontrol.updatePet(petcontrol.pet[0]);
+      $httpBackend.flush();
+      expect(petcontrol.pet[0].editing).toBe(false);
+    });
+
+  it('should delete a pet', function() {
+    $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
+      .respond(200);
+    petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
+    petcontrol.deletePet(petcontrol.pet[0]);
+    $httpBackend.flush();
+    expect(petcontrol.pet.length).toBe(0)
+  });
+  });
 });
