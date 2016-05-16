@@ -31066,24 +31066,24 @@
 	      expect(petcontrol.newPet).toBe(null);
 	    });
 
-	  it('should update a pet', function() {
-	    $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
+	    it('should update a pet', function() {
+	      $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
 	      .respond(200);
-	      petcontrol.pet= [{name: 'test pet', editing: true, _id: 1}];
+	      petcontrol.pet= [{ name: 'test pet', _id: 1, editing: true }];
 	      petcontrol.pet[0].name = 'diff pet';
 	      petcontrol.updatePet(petcontrol.pet[0]);
 	      $httpBackend.flush();
 	      expect(petcontrol.pet[0].editing).toBe(false);
 	    });
 
-	  it('should delete a pet', function() {
-	    $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
+	    it('should delete a pet', function() {
+	      $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
 	      .respond(200);
-	    petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
-	    petcontrol.deletePet(petcontrol.pet[0]);
-	    $httpBackend.flush();
-	    expect(petcontrol.pet.length).toBe(0)
-	  });
+	      petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
+	      petcontrol.deletePet(petcontrol.pet[0]);
+	      $httpBackend.flush();
+	      expect(petcontrol.pet.length).toBe(0);
+	    });
 	  });
 	});
 
@@ -34156,24 +34156,24 @@
 	      expect(sandwichcontrol.newSandwich).toBe(null);
 	    });
 
-	  it('should update a sandwich', function() {
-	    $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
-	      .respond(200);
-	      sandwichcontrol.sandwich= [{name: 'test sandwich', editing: true, _id: 1}];
+	    it('should update a sandwich', function() {
+	      $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
+	        .respond(200);
+	      sandwichcontrol.sandwich= [{ name: 'test sandwich', editing: true, _id: 1 }];
 	      sandwichcontrol.sandwich[0].name = 'update sandwich';
 	      sandwichcontrol.updateSandwich(sandwichcontrol.sandwich[0]);
 	      $httpBackend.flush();
 	      expect(sandwichcontrol.sandwich[0].editing).toBe(false);
 	    });
 
-	  it('should delete a sandwich', function() {
-	    $httpBackend.expectDELETE('http://localhost:5555/api/sandwich/1')
-	      .respond(200);
-	    sandwichcontrol.sandwich = [{ name: 'Tuna Melt', _id: 1 }];
-	    sandwichcontrol.deleteSandwich(sandwichcontrol.sandwich[0]);
-	    $httpBackend.flush();
-	    expect(sandwichcontrol.sandwich.length).toBe(0)
-	  });
+	    it('should delete a sandwich', function() {
+	      $httpBackend.expectDELETE('http://localhost:5555/api/sandwich/1')
+	        .respond(200);
+	      sandwichcontrol.sandwich = [{ name: 'Tuna Melt', _id: 1 }];
+	      sandwichcontrol.deleteSandwich(sandwichcontrol.sandwich[0]);
+	      $httpBackend.flush();
+	      expect(sandwichcontrol.sandwich.length).toBe(0);
+	    });
 	  });
 	});
 

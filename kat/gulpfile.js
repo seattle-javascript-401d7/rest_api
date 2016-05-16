@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
+const protractor = require('gulp-protractor').protractor;
 const childProcess = require('child_process');
 const exec = require('child_process').exec();
 var children = [];
@@ -35,13 +36,7 @@ gulp.task('webpack:dev', () => {
         filename: 'bundle.js'
       }
     }))
-    .pipe(gulp.dest('./build'))
-    // put this onto your protractor test
-    .on('end', () => {
-      children.forEach((child) => {
-        child.kill('SIGTERM');
-      });
-    });
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('webpack:test', () => {
@@ -69,6 +64,18 @@ gulp.task('startServer', () => {
   { env: { MONGODB_URI: 'mongodb://localhost/test_server' } }));
 });
 
+gulp.task('integrationTest', ['startServer', 'webpack:dev'], function() {
+  return gulp.src(['./test/integration/db-spec.js'])
+  .pipe(protractor({
+    configFile: './test/integration/config.js'
+  }))
+  .on('end', () => {
+    children.forEach((child) => {
+      child.kill('SIGTERM');
+    });
+  });
+});
+
 gulp.task('default', ['lintServer', 'lintClient', 'lintTest', 'startServer',
  'webpack:dev', 'static']);
-gulp.task('build', ['startServer', 'webpack:dev', 'static', 'webpack:test']);
+gulp.task('build', ['webpack:dev', 'static', 'webpack:test', ]);
