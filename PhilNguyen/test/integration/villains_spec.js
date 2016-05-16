@@ -19,6 +19,19 @@ describe('all the villains', function() {
     });
   });
 
+  it('should make an update to an existing villain', function() {
+    browser.get('http://localhost:5000');
+    element.all(by.repeater('villain in villainsctrl.villains').row(0));
+    element(by.id('edit')).click();
+    element(by.model('villain.powerlevel')).clear().sendKeys(24000);
+    element(by.id('updatevillain')).click();
+    element.all(by.repeater('villain in villainsctrl.villains')).all(by.tagName('span'))
+    .first().getText()
+    .then((text) => {
+      expect(text).toEqual('test_villain has a powerlevel of 24000');
+    });
+  });
+
   it('should remove a villain from a test database', function() {
     browser.get('http://localhost:5000');
     element.all(by.repeater('villain in villainsctrl.villains'))
