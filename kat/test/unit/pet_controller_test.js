@@ -27,14 +27,17 @@ describe('pet controller', function() {
     }));
 
     afterEach(function() {
-      $httpBackend.verifyNoOutsandingExpectation();
-      $httpBackend.verifyNoOutsandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('should send a GET to retrieve bears', function() {
-      $httpBackend.expectGET
-
-    })
-  })
+    it('should send a GET to retrieve pet', function() {
+      $httpBackend.expectGET('http://localhost:5555/api/pet').respond(200, [{ name: 'test pet' }]);
+      petcontrol.getAll();
+      $httpBackend.flush();
+      expect(petcontrol.pet.length).toBe(1);
+      expect(petcontrol.pet[0].name).toBe('test pet');
+    });
+  });
 
 });
