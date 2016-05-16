@@ -31053,6 +31053,17 @@
 	      expect(petcontrol.pet.length).toBe(1);
 	      expect(petcontrol.pet[0].name).toBe('test pet');
 	    });
+
+	    it('should create a pet', function() {
+	      $httpBackend.expectPOST('http://localhost:5555/api/pet', { name: 'Apollo' })
+	      .respond(200, { name: 'Moose' });
+	      expect(petcontrol.pet.length).toBe(0);
+	      petcontrol.newPet = { name: 'Apollo' };
+	      petcontrol.createPet();
+	      $httpBackend.flush();
+	      expect(petcontrol.pet[0].name).toBe('Moose');
+	      expect(petcontrol.newPet).toBe(null);
+	    });
 	  });
 
 	});
