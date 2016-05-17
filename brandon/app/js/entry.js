@@ -55,7 +55,7 @@ liveApp.controller('JediController', ['$http', function($http) {
   this.removeJedi = (jedi) => {
     $http.delete(baseUrl + '/api/jedi/' + jedi._id)
     .then(() => {
-      this.jedis.splice(this.jedis.indexOf(jedi), 1);
+      this.jedi.splice(this.jedi.indexOf(jedi), 1);
     }, handleError.bind(this));
   };
 }]);
@@ -98,8 +98,8 @@ liveApp.controller('SithController', ['$http', function($http) {
 
   this.removeSith = (sith) => {
     $http.delete(baseUrl + '/api/sith/' + sith._id)
-      .then(() => {
-        this.siths.splice(this.siths.indexOf(sith), 1);
-      }, handleError.bind(this));
+    .then(() => {
+      this.sith.splice(this.sith.indexOf(sith), 1);
+    }, handleError.bind(this));
   };
 }]);
