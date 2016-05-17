@@ -69,6 +69,11 @@ gulp.task('integrationTest', ['startServer', 'webpack:dev'], function() {
   .pipe(protractor({
     configFile: './test/integration/config.js'
   }))
+//   .on('', () => {
+//     children.forEach((child) => {
+//       child.kill('SIGTERM');
+//   })
+// })
   .on('end', () => {
     children.forEach((child) => {
       child.kill('SIGTERM');
