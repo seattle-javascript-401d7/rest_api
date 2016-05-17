@@ -59,3 +59,47 @@ liveApp.controller('JediController', ['$http', function($http) {
     }, handleError.bind(this));
   };
 }]);
+
+liveApp.controller('SithController', ['$http', function($http) {
+  this.siths = [];
+  this.getAll = () => {
+    $http.get(baseUrl + '/api/sith', this.newSith)
+      .then((res) => {
+        this.siths = res.data;
+      }, handleError.bind(this));
+  };
+
+  this.createSith = () => {
+    $http.post(baseUrl + '/api/sith', this.newSith)
+      .then((res) => {
+        this.siths.push(res.data);
+        this.newSith = null;
+      }, handleError.bind(this));
+  };
+
+  this.updateSith = (sith) => {
+    $http.put(baseUrl + '/api/sith' + sith._id, sith)
+      .then(() => {
+        sith.editing = false;
+      }, handleError.bind(this));
+  };
+
+  this.editSith = (sith) => {
+    sith.editing = true;
+    this.backup = clone(sith);
+  };
+
+  this.cancelSith = (sith) => {
+    sith.editing = false;
+    for (var key in this.backup) {
+      sith[key] = this.backup[key];
+    }
+  };
+
+  this.removeSith = (sith) => {
+    $http.delete(baseUrl + '/api/sith/' + sith._id)
+      .then(() => {
+        this.siths.splice(this.siths.indexOf(sith), 1);
+      }, handleError.bind(this));
+  };
+}]);

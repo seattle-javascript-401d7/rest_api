@@ -1,5 +1,5 @@
-describe('a simple test to pass', () => {
-  it('should test something', () => {
+describe('the Jedi Tests', () => {
+  it('should create a test Jedi', () => {
     browser.get('http://localhost:5000');
     element(by.model('jediCtrl.newJedi.name')).sendKeys('testman');
     element(by.model('jediCtrl.newJedi.ranking')).sendKeys('badass');
@@ -61,5 +61,22 @@ describe('a simple test to pass', () => {
       expect(text).not.toEqual('a new jedi is a noob who uses a computer. Their lightsaber is ' +
       'black and white and their catchphrase is new phrase with 1 hands.');
       });
+  });
+});
+
+describe('the Sith E2E tests', () => {
+  it('should create a new test Sith', () => {
+    browser.get('http://localhost:5000');
+    element(by.model('sithCtrl.newSith.name')).sendKeys('totally not a jedi');
+    element(by.model('sithCtrl.newSith.ranking')).sendKeys('newb');
+    element(by.model('sithCtrl.newSith.weaponPreference')).sendKeys('a cake');
+    element(by.model('sithCtrl.newSith.lightsaberColor')).sendKeys('funfetti');
+    element(by.model('sithCtrl.newSith.catchphrase')).sendKeys('cake is not a lie');
+    element(by.model('sithCtrl.newSith.handCount')).sendKeys('2');
+    element(by.css('.create-sith')).click();
+    element(by.css('#sithList li:last-child p')).getText((text) => {
+      expect(text).toEqual('totally not a jedi is a newb who uses a cake. Their lightsaber is ' +
+       'funfetti and their catchphrase is cake is not a lie with 2 hands.');
+    });
   });
 });

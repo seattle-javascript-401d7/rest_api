@@ -6,6 +6,7 @@
   </head>
   <body data-ng-app="liveApp">
     <main>
+      <h1>Jedi</h1>
       <section  data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
       <form data-ng-submit="jediCtrl.createJedi()">
         <label for="name">Name</label>
@@ -28,7 +29,6 @@
 
         <button class="create-jedi" type="submit">Create Jedi</button>
       </form>
-
       <ul id="jediList">
         <li data-ng-repeat="jedi in jediCtrl.jedis">
 
@@ -65,8 +65,66 @@
         </li>
       </ul>
     </section>
-    </main>
+    <h1>Sith</h1>
+    <section  data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
+      <form data-ng-submit="sithCtrl.createSith()">
+        <label for="name">Name</label>
+        <input type="text" name="name" data-ng-model="sithCtrl.newSith.name">
 
+        <label for="ranking">Ranking</label>
+        <input type="text" name="ranking" data-ng-model="sithCtrl.newSith.ranking">
+
+        <label for="weaponPreference">Weapon Preference</label>
+        <input type="text" name="weaponPreference" data-ng-model="sithCtrl.newSith.weaponPreference">
+
+        <label for="lightsaberColor">Lightsaber Color</label>
+        <input type="text" name="lightsaberColor" data-ng-model="sithCtrl.newSith.lightsaberColor">
+
+        <label for="catchphrase">Catchphrase</label>
+        <input type="text" name="catchphrase" data-ng-model="sithCtrl.newSith.catchphrase">
+
+        <label for="handCount">Hand Count</label>
+        <input type="text" name="handCount" data-ng-model="sithCtrl.newSith.handCount">
+
+        <button class="create-sith" type="submit">Create Sith</button>
+      </form>
+      <ul id="sithList">
+        <li data-ng-repeat="sith in sithCtrl.siths">
+
+          <p>{{sith.name}} is a {{sith.ranking || 'sith'}} who uses a
+          {{sith.weaponPreference}}. Their lightsaber is {{sith.lightsaberColor}} and their catchphrase is
+          {{sith.catchphrase}} with {{sith.handCount}} hands.</p>
+
+          <form data-ng-if="sith.editing" data-ng-submit="sithCtrl.updateSith(sith)">
+
+            <label for="name">Name</label>
+            <input type="text" name="name" data-ng-model="sith.name">
+
+            <label for="ranking">Ranking</label>
+            <input type="text" name="ranking" data-ng-model="sith.ranking">
+
+            <label for="weaponPreference">Weapon Preference</label>
+            <input type="text" name="weaponPreference" data-ng-model="sith.weaponPreference" placeholder="salmons">
+
+            <label for="lightsaberColor">Lightsaber Color</label>
+            <input type="text" name="lightsaberColor" data-ng-model="sith.lightsaberColor">
+
+            <label for="catchphrase">Catchphrase</label>
+            <input type="text" name="catchphrase" data-ng-model="sith.catchphrase" placeholder="Lions, Tigers, Bears">
+
+            <label for="handCount">Hand Count</label>
+            <input type="text" name="handCount" data-ng-model="sith.handCount" placeholder="2">
+
+            <button class="cancel-sith" data-ng-click="sithCtrl.cancelSith(sith)">Cancel</button>
+            <button class="update-sith" type="submit">Update Sith</button>
+          </form>
+
+          <button class="edit-sith" data-ng-if="!sith.editing" data-ng-click="sithCtrl.editSith(sith)">Edit</button>
+          <button class="remove-sith" data-ng-click="sithCtrl.removeSith(sith)">Remove this Sith</button>
+        </li>
+      </ul>
+    </section>
+    </main>
     <script src="./bundle.js"></script>
   </body>
 </html>
