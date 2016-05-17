@@ -35,8 +35,33 @@ describe('movies controller', function() {
       $httpBackend.expectGET('http://localhost:7777/api/movies').respond(200, [{name: 'movie'}]);
       movieCntrl.getAll();
       $httpBackend.flush();
-      expect(movieCntrl.movies.length).toBe(1);
-      expect(movieCntrl.movies[0].name).toBe('movie');
+      expect(movieCntrl.Movies.length).toBe(1);
+      expect(movieCntrl.Movies[0].name).toBe('movie');
+    });
+    it('should create a movie', function() {
+      $httpBackend.expectPOST('http://localhost:7777/api/movies', {name: 'serpico'}).respond(200, {name: 'insomnia'});
+      expect(movieCntrl.Movies.length).toBe(0);
+      movieCntrl.newMovie = {name: 'serpico'};
+      movieCntrl.createMovie();
+      $httpBackend.flush();
+      expect(movieCntrl.Movies[0].name).toBe('insomnia');
+      expect(movieCntrl.newMovie).toBe(null);
+    });
+    it('should update a movie', function() {
+      $httpBackend.expectPUT('http://localhost:7777/api/movies/clockwork', {name: 'clockwork', editing: true}).respond(200);
+      movieCntrl.Movies = [{name: 'updated', editing: true}];
+      movieCntrl.Movies[0].name = 'clockwork';
+      movieCntrl.updateMovie(movieCntrl.Movies[0]);
+      $httpBackend.flush();
+      expect(movieCntrl.Movies[0].editing).toBe(false);
+      expect(movieCntrl.Movies[0].name).toBe('clockwork');
+    });
+    it('should delete a movie', function() {
+      $httpBackend.expectDELETE('http://localhost:7777/api/movies/boogy').respond(200);
+      movieCntrl.Movies = [{name: 'boogy'}];
+      movieCntrl.removeMovie(movieCntrl.Movies[0]);
+      $httpBackend.flush();
+      expect(movieCntrl.Movies.length).toBe(0);
     });
   });
 });
