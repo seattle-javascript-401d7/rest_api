@@ -29,7 +29,7 @@
 
         <button class="create-jedi" type="submit">Create Jedi</button>
       </form>
-      <ul id="jediList">
+      <ul class="jediList">
         <li data-ng-repeat="jedi in jediCtrl.jedis">
 
           <p>{{jedi.name}} is a {{jedi.ranking || 'jedi'}} who uses a
@@ -88,7 +88,7 @@
 
         <button class="create-sith" type="submit">Create Sith</button>
       </form>
-      <ul id="sithList">
+      <ul class="sithList">
         <li data-ng-repeat="sith in sithCtrl.siths">
 
           <p>{{sith.name}} is a {{sith.ranking || 'sith'}} who uses a
