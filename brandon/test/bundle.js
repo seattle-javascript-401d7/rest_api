@@ -31107,13 +31107,6 @@
 	      expect(jediCtrl.jedis[0].editing).toBe(false);
 	    });
 	
-	    // it('should delete a Jedi', () => {
-	    //   $httpBackend.expectDELETE('http://localhost:3000/api/jedi/1').respond(200);
-	    //   jediCtrl.jedi = [{ name: 'Totally not a sith', _id: 1 }];
-	    //   jediCtrl.removeJedi(jediCtrl.jedis[0]);
-	    //   $httpBackend.flush();
-	    //   expect(jediCtrl.jedis.length).toBe(0);
-	    // });
 	  });
 	});
 

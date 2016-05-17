@@ -58,8 +58,8 @@ describe('the Jedi Tests', () => {
     browser.get('http://localhost:5000');
     element(by.css('.jediList li:last-child .remove-jedi')).click();
     element(by.css('.jediList li:last-child p')).getText().then( (text) => {
-      expect(text).not.toEqual('a new jedi is a noob who uses a computer. Their lightsaber is '
-      + 'black and white and their catchphrase is new phrase with 1 hands');
+      expect(text).not.toEqual('a new jedi is a noob who uses a computer. Their lightsaber is ' +
+      'black and white and their catchphrase is new phrase with 1 hands');
     });
   });
 });
@@ -124,7 +124,7 @@ describe('the Sith E2E tests', () => {
     browser.get('http://localhost:5000');
     element(by.css('.sithList li:last-child .remove-sith')).click();
     element(by.css('.sithList li:last-child p')).getText().then((text) => {
-      expect(text).not.toEqual('a new new sith is a even more newb who uses a new table. ' +
+      expect(text).toEqual('a new new sith is a even more newb who uses a new table. ' +
       'Their lightsaber is brown and their catchphrase is i am table with 4 hands.');
       });
   });
