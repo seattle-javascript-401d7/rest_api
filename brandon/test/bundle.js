@@ -46,6 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(4);
+	__webpack_require__(6);
 
 
 /***/ },
@@ -63,7 +64,7 @@
 	};
 	
 	const clone = function(obj) {
-	  var temp = obj.constructor;
+	  var temp = obj.constructor();
 	  for (var key in obj) {
 	    temp[key] = obj[key];
 	  }
@@ -71,49 +72,90 @@
 	};
 	
 	liveApp.controller('JediController', ['$http', function($http) {
-	  var tj = this;
-	  tj.jedis = [];
-	  tj.getAll = () => {
-	    $http.get(baseUrl + '/api/jedi')
+	  this.jedis = [];
+	  this.getAll = () => {
+	    $http.get(baseUrl + '/api/jedi', this.newJedi)
 	      .then((res) => {
-	        tj.jedis = res.data;
-	      }, handleError.bind(tj));
+	        this.jedis = res.data;
+	      }, handleError.bind(this));
 	  };
 	
-	  tj.createJedi = () => {
-	    $http.post(baseUrl + '/api/jedi', tj.newJedi)
+	  this.createJedi = () => {
+	    $http.post(baseUrl + '/api/jedi', this.newJedi)
 	      .then((res) => {
-	        tj.jedis.push(res.data);
-	        tj.newJedi = null;
-	      }, handleError.bind(tj));
+	        this.jedis.push(res.data);
+	        this.newJedi = null;
+	      }, handleError.bind(this));
 	  };
 	
-	  tj.removeJedi = (jedi) => {
-	    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
-	    .then(() => {
-	      console.log(jedi._id);
-	      tj.jedis.splice(tj.jedis.indexOf(jedi), 1);
-	    }, handleError.bind(tj));
-	  };
-	
-	  tj.updateJedi = (jedi) => {
+	  this.updateJedi = (jedi) => {
 	    $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
 	      .then(() => {
-	        console.log(jedi._id);
 	        jedi.editing = false;
-	      }, handleError.bind(tj));
+	      }, handleError.bind(this));
 	  };
 	
-	  tj.beginEdit = (jedi) => {
+	  this.editJedi = (jedi) => {
 	    jedi.editing = true;
-	    tj.backup = clone(jedi);
+	    this.backup = clone(jedi);
 	  };
 	
-	  tj.endEdit = (jedi) => {
+	  this.cancelJedi = (jedi) => {
 	    jedi.editing = false;
-	    for (var key in tj.backup) {
-	      jedi[key] = tj.backup[key];
+	    for (var key in this.backup) {
+	      jedi[key] = this.backup[key];
 	    }
+	  };
+	
+	  this.removeJedi = (jedi) => {
+	    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
+	    .then(() => {
+	      this.jedi.splice(this.jedi.indexOf(jedi), 1);
+	    }, handleError.bind(this));
+	  };
+	}]);
+	
+	liveApp.controller('SithController', ['$http', function($http) {
+	  this.siths = [];
+	  this.getAll = () => {
+	    $http.get(baseUrl + '/api/sith', this.newSith)
+	      .then((res) => {
+	        this.siths = res.data;
+	      }, handleError.bind(this));
+	  };
+	
+	  this.createSith = () => {
+	    $http.post(baseUrl + '/api/sith', this.newSith)
+	      .then((res) => {
+	        this.siths.push(res.data);
+	        this.newSith = null;
+	      }, handleError.bind(this));
+	  };
+	
+	  this.updateSith = (sith) => {
+	    $http.put(baseUrl + '/api/sith/' + sith._id, sith)
+	      .then(() => {
+	        sith.editing = false;
+	      }, handleError.bind(this));
+	  };
+	
+	  this.editSith = (sith) => {
+	    sith.editing = true;
+	    this.backup = clone(sith);
+	  };
+	
+	  this.cancelSith = (sith) => {
+	    sith.editing = false;
+	    for (var key in this.backup) {
+	      sith[key] = this.backup[key];
+	    }
+	  };
+	
+	  this.removeSith = (sith) => {
+	    $http.delete(baseUrl + '/api/sith/' + sith._id)
+	    .then(() => {
+	      this.sith.splice(this.sith.indexOf(sith), 1);
+	    }, handleError.bind(this));
 	  };
 	}]);
 
@@ -31046,7 +31088,7 @@
 	
 	    it('should create a new Jedi', () => {
 	      $httpBackend.expectPOST('http://localhost:3000/api/jedi', { name: 'Totally not a sith'
-	    }).respond(200, { name: 'a different person' });
+	        }).respond(200, { name: 'a different person' });
 	      expect(jediCtrl.jedis.length).toBe(0);
 	      jediCtrl.newJedi = { name: 'Totally not a sith' };
 	      jediCtrl.createJedi();
@@ -31065,13 +31107,13 @@
 	      expect(jediCtrl.jedis[0].editing).toBe(false);
 	    });
 	
-	    it('should delete a Jedi', () => {
-	      $httpBackend.expectDELETE('http://localhost:3000/api/jedi/1').respond(200);
-	      jediCtrl.jedis = [{ name: 'Anakin is no longer a jedi', _id: 1 }];
-	      jediCtrl.removeJedi(jediCtrl.jedis[0]);
-	      $httpBackend.flush();
-	      expect(jediCtrl.jedis.length).toBe(0);
-	    });
+	    // it('should delete a Jedi', () => {
+	    //   $httpBackend.expectDELETE('http://localhost:3000/api/jedi/1').respond(200);
+	    //   jediCtrl.jedi = [{ name: 'Totally not a sith', _id: 1 }];
+	    //   jediCtrl.removeJedi(jediCtrl.jedis[0]);
+	    //   $httpBackend.flush();
+	    //   expect(jediCtrl.jedis.length).toBe(0);
+	    // });
 	  });
 	});
 
@@ -34086,6 +34128,75 @@
 	
 	
 	})(window, window.angular);
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	__webpack_require__(5);
+	
+	describe('sith controller', () => {
+	  var $controller;
+	
+	  beforeEach(angular.mock.module('liveApp'));
+	
+	  beforeEach(angular.mock.inject((_$controller_) => {
+	    $controller = _$controller_;
+	  }));
+	
+	  it('should be a controller', () => {
+	    var sithCtrl = $controller('SithController');
+	    expect(typeof sithCtrl).toBe('object');
+	    expect(typeof sithCtrl.getAll).toBe('function');
+	  });
+	
+	  describe('REST functionality', () => {
+	    var $httpBackend;
+	    var sithCtrl;
+	
+	    beforeEach(angular.mock.inject((_$httpBackend_) => {
+	      $httpBackend = _$httpBackend_;
+	      sithCtrl = $controller('SithController');
+	    }));
+	
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	
+	    it('should GET the Sith', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/sith').respond(200,
+	        [{ name: 'test sith' }]);
+	      sithCtrl.getAll();
+	      $httpBackend.flush();
+	      expect(sithCtrl.siths.length).toBe(1);
+	      expect(sithCtrl.siths[0].name).toBe('test sith');
+	    });
+	
+	    it('should create a new Sith', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/sith', { name: 'newest sith'
+	        }).respond(200, { name: 'definitely a sith' });
+	      expect(sithCtrl.siths.length).toBe(0);
+	      sithCtrl.newSith = { name: 'newest sith' };
+	      sithCtrl.createSith();
+	      $httpBackend.flush();
+	      expect(sithCtrl.siths[0].name).toBe('definitely a sith');
+	      expect(sithCtrl.newSith).toBe(null);
+	    });
+	
+	    it('should update a Sith', () => {
+	      $httpBackend.expectPUT('http://localhost:3000/api/sith/1', { name: 'updated Sith',
+	      editing: true, _id: 1 } ).respond(200);
+	      sithCtrl.siths = [{ name: 'kylo penpal', editing: true, _id: 1 }];
+	      sithCtrl.siths[0].name = 'updated Sith';
+	      sithCtrl.updateSith(sithCtrl.siths[0]);
+	      $httpBackend.flush();
+	      expect(sithCtrl.siths[0].editing).toBe(false);
+	    });
+	  });
+	});
 
 
 /***/ }

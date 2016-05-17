@@ -77,5 +77,6 @@ gulp.task('protractor', ['start:server', 'build:dev'], () => {
 
 gulp.task('build:test', ['webpack:dev', 'static:dev']);
 gulp.task('build:dev', ['lint', 'webpack:dev', 'static:dev', 'start:server']);
+gulp.task('build:karma', ['webpack:dev', 'webpack:test']);
 gulp.task('test', ['protractor']);
 gulp.task('default', ['build:dev', 'test']);

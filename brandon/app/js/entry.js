@@ -78,7 +78,7 @@ liveApp.controller('SithController', ['$http', function($http) {
   };
 
   this.updateSith = (sith) => {
-    $http.put(baseUrl + '/api/sith' + sith._id, sith)
+    $http.put(baseUrl + '/api/sith/' + sith._id, sith)
       .then(() => {
         sith.editing = false;
       }, handleError.bind(this));
