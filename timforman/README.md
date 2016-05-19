@@ -10,9 +10,12 @@ jsonwebtoken is required
 ## secret key is required to launch the server
 ## must authenticate by signup and signin with a token
 
-## open a mongod connection in a terminal window
-## launch node server.js in a separate terminal window
-## run GET POST etc. from the command line in a third terminal window
+##To use this app
+
+1. Open a mongod connection in a terminal window
+2. In a different terminal window enter "export APP_SECRET='appsecret'"
+3. Launch node server.js in a separate terminal window.
+4. In a third terminal window run GET POST etc. from the command line. 
 
 ## /bands route
 POST band names and genres
