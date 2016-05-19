@@ -57,10 +57,8 @@ describe('the Jedi Tests', () => {
   it('should delete the last jedi', () => {
     browser.get('http://localhost:5000');
     element(by.css('.jediList li:last-child .remove-jedi')).click();
-    element(by.css('.jediList li:last-child p')).getText().then( (text) => {
-      expect(text).not.toEqual('a new jedi is a noob who uses a computer. Their lightsaber is ' +
-      'black and white and their catchphrase is new phrase with 1 hands');
-    });
+    var last = element(by.css('.jediList li:last-child p'));
+      expect(last.isPresent()).toBeFalsy();
   });
 });
 
@@ -123,9 +121,7 @@ describe('the Sith E2E tests', () => {
   it('should delete the test sith', () => {
     browser.get('http://localhost:5000');
     element(by.css('.sithList li:last-child .remove-sith')).click();
-    element(by.css('.sithList li:last-child p')).getText().then((text) => {
-      expect(text).toEqual('a new new sith is a even more newb who uses a new table. ' +
-      'Their lightsaber is brown and their catchphrase is i am table with 4 hands.');
-      });
+    var last = element(by.css('.sithList li:last-child p'));
+      expect(last.isPresent()).toBeFalsy();
   });
 });

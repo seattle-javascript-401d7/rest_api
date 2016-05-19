@@ -6,6 +6,8 @@ const cp = require('child_process');
 const protractor = require('gulp-protractor').protractor;
 var children = [];
 
+process.env.APP_SECRET = 'testing';
+
 var files = ['server.js', 'gulpfile.js', './routes/**/*.js', './models/**/*.js'];
 
 gulp.task('lint', () => {
