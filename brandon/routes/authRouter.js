@@ -21,7 +21,7 @@ router.post('/signup', jsonParser, (req, res) => {
       return res.status(500).json({ msg: 'could not create user' });
     }
 
-    user.generateToken(function(err, token) { //eslint-disable-line
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate token, sign in later' });
 
       res.json({ token });
@@ -33,9 +33,11 @@ router.get('/signin', basicHTTP, (req, res) => {
   User.findOne({ username: req.auth.username }, (err, user) => {
     if (err) return res.status(500).json({ msg: 'authentication error. database error!' } );
     if (!user) return res.status(500).json({ msg: 'authentication error. user not found!' } );
-    if (!user.compareHash(req.auth.password)) return res.status(500).json({ msg: 'wrong password!' });//eslint-disable-line
+    if (!user.compareHash(req.auth.password)) {
+      return res.status(500).json({ msg: 'wrong password!' });
+    }
 
-    user.generateToken(function(err, token) {//eslint-disable-line
+    user.generateToken((err, token) => {
       if (err) return res.status(500).json({ msg: 'could not generate token, sign in later' });
 
       res.json({ token });
