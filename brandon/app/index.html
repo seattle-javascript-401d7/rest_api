@@ -7,7 +7,7 @@
   <body data-ng-app="liveApp">
     <main>
       <h1>Jedi</h1>
-      <section  data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
+      <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
         <jedi-form
           data-button-text="Create Jedi"
           data-rest-action="create"
@@ -26,7 +26,7 @@
       </ul>
     </section>
     <h1>Sith</h1>
-    <section  data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
+    <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
       <sith-form
         data-button-text="Create Sith"
         data-rest-action="create"
