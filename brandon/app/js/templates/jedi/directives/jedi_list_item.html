@@ -1,0 +1,8 @@
+<li>
+  <ng-transclude></ng-transclude>
+  <p data-ng-if="!jedi.editing">{{jedi.name}} is a {{jedi.ranking || 'jedi'}} who uses a
+  {{jedi.weaponPreference}}. Their lightsaber is {{jedi.lightsaberColor}} and their catchphrase is
+  {{jedi.catchphrase}} with {{jedi.handCount}} hands.</p>
+  <button class="edit-jedi" data-ng-if="!jedi.editing" data-ng-click="jediCtrl.editJedi(jedi)">Edit</button>
+  <button class="remove-jedi" data-ng-click="remove(jedi)">Remove this Jedi</button>
+</li>

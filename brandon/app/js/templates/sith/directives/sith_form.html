@@ -1,0 +1,22 @@
+<form data-ng-submit="save(sith)">
+  <label for="name">Name</label>
+  <input type="text" name="name" data-ng-model="sithCtrl.newSith.name">
+
+  <label for="ranking">Ranking</label>
+  <input type="text" name="ranking" data-ng-model="sithCtrl.newSith.ranking">
+
+  <label for="weaponPreference">Weapon Preference</label>
+  <input type="text" name="weaponPreference" data-ng-model="sithCtrl.newSith.weaponPreference">
+
+  <label for="lightsaberColor">Lightsaber Color</label>
+  <input type="text" name="lightsaberColor" data-ng-model="sithCtrl.newSith.lightsaberColor">
+
+  <label for="catchphrase">Catchphrase</label>
+  <input type="text" name="catchphrase" data-ng-model="sithCtrl.newSith.catchphrase">
+
+  <label for="handCount">Hand Count</label>
+  <input type="text" name="handCount" data-ng-model="sithCtrl.newSith.handCount">
+
+  <button class="create-sith" type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>

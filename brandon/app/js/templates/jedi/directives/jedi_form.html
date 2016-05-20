@@ -1,0 +1,22 @@
+<form data-ng-submit="save(jedi)">
+  <label for="name">Name</label>
+  <input type="text" name="name" data-ng-model="jediCtrl.newJedi.name">
+
+  <label for="ranking">Ranking</label>
+  <input type="text" name="ranking" data-ng-model="jediCtrl.newJedi.ranking">
+
+  <label for="weaponPreference">Weapon Preference</label>
+  <input type="text" name="weaponPreference" data-ng-model="jediCtrl.newJedi.weaponPreference">
+
+  <label for="lightsaberColor">Lightsaber Color</label>
+  <input type="text" name="lightsaberColor" data-ng-model="jediCtrl.newJedi.lightsaberColor">
+
+  <label for="catchphrase">Catchphrase</label>
+  <input type="text" name="catchphrase" data-ng-model="jediCtrl.newJedi.catchphrase">
+
+  <label for="handCount">Hand Count</label>
+  <input type="text" name="handCount" data-ng-model="jediCtrl.newJedi.handCount">
+
+  <button class="create-jedi" type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>

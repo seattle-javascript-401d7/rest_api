@@ -1,25 +1,18 @@
 var errorHandler = require('../../lib').errorHandler;
 var baseUrl = require('../../config').baseUrl;
+const copy = require('angular').copy;
 
-module.exports = function() {
-  const clone = function(obj) {
-    var temp = obj.constructor();
-    for (var key in obj) {
-      temp[key] = obj[key];
-    }
-    return temp;
-  };
-
-  liveApp.controller('JediController', ['$http', function($http) {
+module.exports = function(app) {
+  app.controller('JediController', ['$http', function($http) {
     this.jedis = [];
-    this.getAll = () => {
+    this.getAll = function() {
       $http.get(baseUrl + '/api/jedi', this.newJedi)
         .then((res) => {
           this.jedis = res.data;
         }, errorHandler.bind(this));
     };
 
-    this.createJedi = () => {
+    this.createJedi = function() {
       $http.post(baseUrl + '/api/jedi', this.newJedi)
         .then((res) => {
           this.jedis.push(res.data);
@@ -27,26 +20,26 @@ module.exports = function() {
         }, errorHandler.bind(this));
     };
 
-    this.updateJedi = (jedi) => {
+    this.updateJedi = function(jedi) {
       $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
         .then(() => {
           jedi.editing = false;
         }, errorHandler.bind(this));
     };
 
-    this.editJedi = (jedi) => {
+    this.editJedi = function(jedi) {
       jedi.editing = true;
-      this.backup = clone(jedi);
+      this.backup = copy(jedi);
     };
 
-    this.cancelJedi = (jedi) => {
+    this.cancelJedi = function(jedi) {
       jedi.editing = false;
       for (var key in this.backup) {
         jedi[key] = this.backup[key];
       }
     };
 
-    this.removeJedi = (jedi) => {
+    this.removeJedi = function(jedi) {
       $http.delete(baseUrl + '/api/jedi/' + jedi._id)
       .then(() => {
         this.jedis.splice(this.jedis.indexOf(jedi), 1);

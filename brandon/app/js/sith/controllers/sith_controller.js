@@ -1,26 +1,18 @@
-var errorHandler = require('../../lib').error_handler;
+var errorHandler = require('../../lib').errorHandler;
 var baseUrl = require('../../config').baseUrl;
+const copy = require('angular').copy;
 
-
-module.exports = function() {
-  const clone = function(obj) {
-    var temp = obj.constructor();
-    for (var key in obj) {
-      temp[key] = obj[key];
-    }
-    return temp;
-  };
-
-  liveApp.controller('SithController', ['$http', function($http) {
+module.exports = function(app) {
+  app.controller('SithController', ['$http', function($http) {
     this.siths = [];
-    this.getAll = () => {
+    this.getAll = function() {
       $http.get(baseUrl + '/api/sith', this.newSith)
         .then((res) => {
           this.siths = res.data;
         }, errorHandler.bind(this));
     };
 
-    this.createSith = () => {
+    this.createSith = function() {
       $http.post(baseUrl + '/api/sith', this.newSith)
         .then((res) => {
           this.siths.push(res.data);
@@ -28,26 +20,26 @@ module.exports = function() {
         }, errorHandler.bind(this));
     };
 
-    this.updateSith = (sith) => {
+    this.updateSith = function(sith) {
       $http.put(baseUrl + '/api/sith/' + sith._id, sith)
         .then(() => {
           sith.editing = false;
         }, errorHandler.bind(this));
     };
 
-    this.editSith = (sith) => {
+    this.editSith = function(sith) {
       sith.editing = true;
-      this.backup = clone(sith);
+      this.backup = copy(sith);
     };
 
-    this.cancelSith = (sith) => {
+    this.cancelSith = function(sith) {
       sith.editing = false;
       for (var key in this.backup) {
         sith[key] = this.backup[key];
       }
     };
 
-    this.removeSith = (sith) => {
+    this.removeSith = function(sith) {
       $http.delete(baseUrl + '/api/sith/' + sith._id)
       .then(() => {
         this.siths.splice(this.siths.indexOf(sith), 1);
