@@ -54,4 +54,4 @@ gulp.task('static', () => {
 });
 
 gulp.task('default', ['lintServer', 'lintClient', 'lintTest', 'webpack:dev', 'static']);
-gulp.task('build', ['webpack:dev', 'static']);
+gulp.task('build', ['webpack:dev', 'static', 'webpack:test']);
