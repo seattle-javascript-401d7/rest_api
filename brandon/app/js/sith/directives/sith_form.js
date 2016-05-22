@@ -9,14 +9,14 @@ module.exports = function(app) {
       scope: {
         sith: '=',
         buttonText: '@',
-        action: '@'
+        savemethod: '@'
       },
       link: function(scope, element, attrs, controller) {
         var actions = {
           update: controller.updateSith,
           create: controller.createSith
         };
-        scope.save = actions[scope.action];
+        scope.save = actions[scope.savemethod];
       }
     };
   });

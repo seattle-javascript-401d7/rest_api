@@ -10,7 +10,7 @@
       <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
         <jedi-form
           data-button-text="Create Jedi"
-          data-rest-action="create"
+          data-savemethod="create"
           data-jedi="jediCtrl.newJedi">
         </jedi-form>
       <ul class="jediList">
@@ -18,7 +18,7 @@
           <jedi-form
             data-ng-if="jedi.editing"
             data-button-text="Update Jedi"
-            data-rest-action="update"
+            data-savemethod="update"
             data-jedi="jedi">
             <button data-ng-click="jedi.editing = false">Cancel</button>
           </jedi-form>
@@ -29,7 +29,7 @@
     <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
       <sith-form
         data-button-text="Create Sith"
-        data-rest-action="create"
+        data-savemethod="create"
         data-sith="sithCtrl.newSith">
       </sith-form>
       <ul class="sithList">
@@ -37,7 +37,7 @@
           <sith-form
             data-ng-if="sith.editing"
             data-button-text="Update Sith"
-            data-rest-action="update"
+            data-savemethod="update"
             data-sith="sith">
             <button data-ng-click="sith.editing = false">Cancel</button>
           </sith-form>
