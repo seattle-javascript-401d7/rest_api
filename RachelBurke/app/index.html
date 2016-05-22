@@ -58,21 +58,31 @@
       <input type="text" name="origin" data-ng-model="cheesecontrol.newCheese.origin">
 
       <button type="submit">Update Cheese</buton>
-        <button data-ng-click="cheese.editing = false">Cancel</button>
-      </form>
+    </form>
 
-      <button data-ng-ig="!cheese.editing" data-ng-click="cheese.edit=true">Improve Cheese</button>
+  </ul id="cheeselist">
+  <li data-ng-repeat= cheese in cheesecontrol.sandwich">
+    {{cheese.type}} {{cheese.country}} {{cheese.origin}}
 
-      <button data-ng-click="cheesecontrol.deleteCheese(cheese)">Eat some Cheeze</button>
-    </li>
-  </ul>
+    <form data-ng-if="cheese.editing" data-ng-submit="cheesecontrol.updateCheese(cheese)">
+      <label for="type">Type</label>
+      <input type="text" name="type" data-ng-model="sandwich.type">
+
+      <label name="country">Country</label>
+      <input type="text" name="country" data-ng-model="cheese.country">
+
+
+      <label for="origin">Origin</label>
+      <input type="text" name="Origin" data-ng-model="cheese.Origin">
+
+      <button type="submit">Choose Cheese</button>
+      <button data-ng-click="cheese.editing = false">Cancel</button>
+    </form>
+
+    <button data-ng-if="!cheese.editing" data-ng-click="cheese.editing = true">Eat Cheese</button>
+  </li>
+</ul>
 </section>
 <script src="./bundle.js"></script>
-</body>
-</html>
-
-
-
-
 </body>
 </html>
