@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(4);
-	__webpack_require__(6);
+	__webpack_require__(15);
+	__webpack_require__(17);
 
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -62,71 +62,8 @@
 	const angular = __webpack_require__(2);
 
 	const practiceApp = angular.module('practiceApp', []);
-	const url = 'http://localhost:5555';
-
-	var handleErrors = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
-	};
-
-	practiceApp.controller('PetController', ['$http', function($http) {
-	  this.pet = [];
-	  this.getAll = () => {
-	    $http.get(url + '/api/pet')
-	    .then((res) => {
-	      this.pet = res.data;
-	    }, handleErrors.bind(this));
-	  };
-	  this.createPet = () => {
-	    $http.post(url + '/api/pet', this.newPet)
-	      .then((res) => {
-	        this.pet.push(res.data);
-	        this.newPet = null;
-	      }, handleErrors.bind(this));
-	  };
-	  this.deletePet = (pet) => {
-	    $http.delete(url + '/api/pet/' + pet._id)
-	      .then(() => {
-	        this.pet.splice(this.pet.indexOf(pet), 1);
-	      }, handleErrors.bind(this));
-	  };
-	  this.updatePet = (pet) => {
-	    $http.put(url + '/api/pet/' + pet._id, pet)
-	      .then(() => {
-	        pet.editing = false;
-	      }, handleErrors.bind(this));
-	  };
-	}]);
-
-
-	practiceApp.controller('SandwichController', ['$http', function($http) {
-	  this.sandwich = [];
-	  this.getAll = () => {
-	    $http.get(url + '/api/sandwich')
-	    .then((res) => {
-	      this.sandwich = res.data;
-	    }, handleErrors.bind(this));
-	  };
-	  this.createSandwich = () => {
-	    $http.post(url + '/api/sandwich', this.newSandwich)
-	      .then((res) => {
-	        this.sandwich.push(res.data);
-	        this.newSandwich = null;
-	      }, handleErrors.bind(this));
-	  };
-	  this.deleteSandwich = (sandwich) => {
-	    $http.delete(url + '/api/sandwich/' + sandwich._id)
-	      .then(() => {
-	        this.sandwich.splice(this.sandwich.indexOf(sandwich), 1);
-	      }, handleErrors.bind(this));
-	  };
-	  this.updateSandwich = (sandwich) => {
-	    $http.put(url + '/api/sandwich/' + sandwich._id, sandwich)
-	      .then(() => {
-	        sandwich.editing = false;
-	      }, handleErrors.bind(this));
-	  };
-	}]);
+	__webpack_require__(4)(practiceApp);
+	__webpack_require__(11)(practiceApp);
 
 
 /***/ },
@@ -31014,8 +30951,162 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = function(app) {
+	  __webpack_require__(5)(app);
+	  __webpack_require__(10)(app);
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleErrors = __webpack_require__(7).handleErrors;
+	var url = __webpack_require__(9).url;
+	module.exports = function(app) {
+	  app.controller('PetController', ['$http', function($http) {
+	    this.pet = [];
+	    this.getAll = () => {
+	      $http.get(url + '/api/pet')
+	      .then((res) => {
+	        this.pet = res.data;
+	      }, handleErrors.bind(this));
+	    };
+	    this.createPet = () => {
+	      $http.post(url + '/api/pet', this.newPet)
+	      .then((res) => {
+	        this.pet.push(res.data);
+	        this.newPet = null;
+	      }, handleErrors.bind(this));
+	    };
+	    this.deletePet = (pet) => {
+	      $http.delete(url + '/api/pet/' + pet._id)
+	      .then(() => {
+	        this.pet.splice(this.pet.indexOf(pet), 1);
+	      }, handleErrors.bind(this));
+	    };
+	    this.updatePet = (pet) => {
+	      $http.put(url + '/api/pet/' + pet._id, pet)
+	      .then(() => {
+	        pet.editing = false;
+	      }, handleErrors.bind(this));
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  handleErrors: __webpack_require__(8)
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(error) {
+	  console.log(error);
+	  this.errors = (this.errors || []).push(error);
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  url: 'http://localhost:5555'
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(12)(app);
+	  __webpack_require__(14)(app);
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(13)(app);
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleErrors = __webpack_require__(7).handleErrors;
+	var url = __webpack_require__(9).url;
+	module.exports = function(app) {
+	  app.controller('SandwichController', ['$http', function($http) {
+	    this.sandwich = [];
+	    this.getAll = () => {
+	      $http.get(url + '/api/sandwich')
+	      .then((res) => {
+	        this.sandwich = res.data;
+	      }, handleErrors.bind(this));
+	    };
+	    this.createSandwich = () => {
+	      $http.post(url + '/api/sandwich', this.newSandwich)
+	      .then((res) => {
+	        this.sandwich.push(res.data);
+	        this.newSandwich = null;
+	      }, handleErrors.bind(this));
+	    };
+	    this.deleteSandwich = (sandwich) => {
+	      $http.delete(url + '/api/sandwich/' + sandwich._id)
+	      .then(() => {
+	        this.sandwich.splice(this.sandwich.indexOf(sandwich), 1);
+	      }, handleErrors.bind(this));
+	    };
+	    this.updateSandwich = (sandwich) => {
+	      $http.put(url + '/api/sandwich/' + sandwich._id, sandwich)
+	      .then(() => {
+	        sandwich.editing = false;
+	      }, handleErrors.bind(this));
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(16);
 
 
 	describe('pet controller', function() {
@@ -31066,30 +31157,30 @@
 	      expect(petcontrol.newPet).toBe(null);
 	    });
 
-	  it('should update a pet', function() {
-	    $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
+	    it('should update a pet', function() {
+	      $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
 	      .respond(200);
-	      petcontrol.pet= [{name: 'test pet', editing: true, _id: 1}];
+	      petcontrol.pet= [{ name: 'test pet', _id: 1, editing: true }];
 	      petcontrol.pet[0].name = 'diff pet';
 	      petcontrol.updatePet(petcontrol.pet[0]);
 	      $httpBackend.flush();
 	      expect(petcontrol.pet[0].editing).toBe(false);
 	    });
 
-	  it('should delete a pet', function() {
-	    $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
+	    it('should delete a pet', function() {
+	      $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
 	      .respond(200);
-	    petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
-	    petcontrol.deletePet(petcontrol.pet[0]);
-	    $httpBackend.flush();
-	    expect(petcontrol.pet.length).toBe(0)
-	  });
+	      petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
+	      petcontrol.deletePet(petcontrol.pet[0]);
+	      $httpBackend.flush();
+	      expect(petcontrol.pet.length).toBe(0);
+	    });
 	  });
 	});
 
 
 /***/ },
-/* 5 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -34101,11 +34192,11 @@
 
 
 /***/ },
-/* 6 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(16);
 
 
 	describe('sandwich controller', function() {
@@ -34156,24 +34247,24 @@
 	      expect(sandwichcontrol.newSandwich).toBe(null);
 	    });
 
-	  it('should update a sandwich', function() {
-	    $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
-	      .respond(200);
-	      sandwichcontrol.sandwich= [{name: 'test sandwich', editing: true, _id: 1}];
+	    it('should update a sandwich', function() {
+	      $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
+	        .respond(200);
+	      sandwichcontrol.sandwich= [{ name: 'test sandwich', editing: true, _id: 1 }];
 	      sandwichcontrol.sandwich[0].name = 'update sandwich';
 	      sandwichcontrol.updateSandwich(sandwichcontrol.sandwich[0]);
 	      $httpBackend.flush();
 	      expect(sandwichcontrol.sandwich[0].editing).toBe(false);
 	    });
 
-	  it('should delete a sandwich', function() {
-	    $httpBackend.expectDELETE('http://localhost:5555/api/sandwich/1')
-	      .respond(200);
-	    sandwichcontrol.sandwich = [{ name: 'Tuna Melt', _id: 1 }];
-	    sandwichcontrol.deleteSandwich(sandwichcontrol.sandwich[0]);
-	    $httpBackend.flush();
-	    expect(sandwichcontrol.sandwich.length).toBe(0)
-	  });
+	    it('should delete a sandwich', function() {
+	      $httpBackend.expectDELETE('http://localhost:5555/api/sandwich/1')
+	        .respond(200);
+	      sandwichcontrol.sandwich = [{ name: 'Tuna Melt', _id: 1 }];
+	      sandwichcontrol.deleteSandwich(sandwichcontrol.sandwich[0]);
+	      $httpBackend.flush();
+	      expect(sandwichcontrol.sandwich.length).toBe(0);
+	    });
 	  });
 	});
 
