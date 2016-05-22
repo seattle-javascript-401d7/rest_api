@@ -1,6 +1,7 @@
 var handleErrors = require('../../lib').handleErrors;
 var url = require('../../config.js').url;
 module.exports = function(app) {
+
   app.controller('SandwichController', ['$http', function($http) {
     this.sandwich = [];
     this.getAll = () => {
@@ -29,4 +30,5 @@ module.exports = function(app) {
       }, handleErrors.bind(this));
     };
   }]);
+
 };
