@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(4);
-	__webpack_require__(6);
+	__webpack_require__(19);
+	__webpack_require__(21);
 
 
 /***/ },
@@ -56,108 +56,8 @@
 	const angular = __webpack_require__(2);
 	
 	const liveApp = angular.module('liveApp', []);
-	const baseUrl = 'http://localhost:3000';
-	
-	var handleError = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
-	};
-	
-	const clone = function(obj) {
-	  var temp = obj.constructor();
-	  for (var key in obj) {
-	    temp[key] = obj[key];
-	  }
-	  return temp;
-	};
-	
-	liveApp.controller('JediController', ['$http', function($http) {
-	  this.jedis = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/jedi', this.newJedi)
-	      .then((res) => {
-	        this.jedis = res.data;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.createJedi = () => {
-	    $http.post(baseUrl + '/api/jedi', this.newJedi)
-	      .then((res) => {
-	        this.jedis.push(res.data);
-	        this.newJedi = null;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.updateJedi = (jedi) => {
-	    $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
-	      .then(() => {
-	        jedi.editing = false;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.editJedi = (jedi) => {
-	    jedi.editing = true;
-	    this.backup = clone(jedi);
-	  };
-	
-	  this.cancelJedi = (jedi) => {
-	    jedi.editing = false;
-	    for (var key in this.backup) {
-	      jedi[key] = this.backup[key];
-	    }
-	  };
-	
-	  this.removeJedi = (jedi) => {
-	    $http.delete(baseUrl + '/api/jedi/' + jedi._id)
-	    .then(() => {
-	      this.jedi.splice(this.jedi.indexOf(jedi), 1);
-	    }, handleError.bind(this));
-	  };
-	}]);
-	
-	liveApp.controller('SithController', ['$http', function($http) {
-	  this.siths = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/sith', this.newSith)
-	      .then((res) => {
-	        this.siths = res.data;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.createSith = () => {
-	    $http.post(baseUrl + '/api/sith', this.newSith)
-	      .then((res) => {
-	        this.siths.push(res.data);
-	        this.newSith = null;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.updateSith = (sith) => {
-	    $http.put(baseUrl + '/api/sith/' + sith._id, sith)
-	      .then(() => {
-	        sith.editing = false;
-	      }, handleError.bind(this));
-	  };
-	
-	  this.editSith = (sith) => {
-	    sith.editing = true;
-	    this.backup = clone(sith);
-	  };
-	
-	  this.cancelSith = (sith) => {
-	    sith.editing = false;
-	    for (var key in this.backup) {
-	      sith[key] = this.backup[key];
-	    }
-	  };
-	
-	  this.removeSith = (sith) => {
-	    $http.delete(baseUrl + '/api/sith/' + sith._id)
-	    .then(() => {
-	      this.sith.splice(this.sith.indexOf(sith), 1);
-	    }, handleError.bind(this));
-	  };
-	}]);
+	__webpack_require__(4)(liveApp);
+	__webpack_require__(13)(liveApp);
 
 
 /***/ },
@@ -31045,8 +30945,310 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = function(app) {
+	  __webpack_require__(5)(app);
+	  __webpack_require__(10)(app);
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var errorHandler = __webpack_require__(7).errorHandler;
+	var baseUrl = __webpack_require__(9).baseUrl;
+	const copy = __webpack_require__(2).copy;
+	
+	module.exports = function(app) {
+	  app.controller('JediController', ['$http', function($http) {
+	    this.jedis = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/jedi')
+	        .then((res) => {
+	          this.jedis = res.data;
+	        }, errorHandler.bind(this));
+	    };
+	
+	    this.createJedi = function() {
+	      $http.post(baseUrl + '/api/jedi', this.newJedi)
+	        .then((res) => {
+	          this.jedis.push(res.data);
+	          this.newJedi = null;
+	        }, errorHandler.bind(this));
+	    }.bind(this);
+	
+	    this.updateJedi = function(jedi) {
+	      $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
+	        .then(() => {
+	          jedi.editing = false;
+	        }, errorHandler.bind(this));
+	    };
+	
+	    this.editJedi = function(jedi) {
+	      jedi.editing = true;
+	      this.backup = copy(jedi);
+	    }.bind(this);
+	
+	    this.cancelJedi = function(jedi) {
+	      jedi.editing = false;
+	      for (var key in this.backup) {
+	        jedi[key] = this.backup[key];
+	      }
+	    };
+	
+	    this.removeJedi = function(jedi) {
+	      $http.delete(baseUrl + '/api/jedi/' + jedi._id)
+	      .then(() => {
+	        this.jedis.splice(this.jedis.indexOf(jedi), 1);
+	      }, errorHandler.bind(this));
+	    }.bind(this);
+	  }]);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  errorHandler: __webpack_require__(8)
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(error) {
+	  console.log(error);
+	  this.errors = (this.errors || []).push(error);
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  baseUrl: 'http://localhost:3000'
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('jediListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: 'js/templates/jedi/directives/jedi_list_item.html',
+	      scope: {
+	        jedi: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.remove = controller.removeJedi;
+	        scope.edit = controller.editJedi;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('jediForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: 'js/templates/jedi/directives/jedi_form.html',
+	      scope: {
+	        jedi: '=',
+	        buttonText: '@',
+	        savemethod: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var actions = {
+	          update: controller.updateJedi,
+	          create: controller.createJedi
+	        };
+	        scope.save = actions[scope.savemethod];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(14)(app);
+	  __webpack_require__(16)(app);
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(15)(app);
+	};
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var errorHandler = __webpack_require__(7).errorHandler;
+	var baseUrl = __webpack_require__(9).baseUrl;
+	const copy = __webpack_require__(2).copy;
+	
+	module.exports = function(app) {
+	  app.controller('SithController', ['$http', function($http) {
+	    this.siths = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/sith')
+	        .then((res) => {
+	          this.siths = res.data;
+	        }, errorHandler.bind(this));
+	    };
+	
+	    this.createSith = function() {
+	      $http.post(baseUrl + '/api/sith', this.newSith)
+	        .then((res) => {
+	          this.siths.push(res.data);
+	          this.newSith = null;
+	        }, errorHandler.bind(this));
+	    }.bind(this);
+	
+	    this.updateSith = function(sith) {
+	      $http.put(baseUrl + '/api/sith/' + sith._id, sith)
+	        .then(() => {
+	          sith.editing = false;
+	        }, errorHandler.bind(this));
+	    };
+	
+	    this.editSith = function(sith) {
+	      sith.editing = true;
+	      this.backup = copy(sith);
+	    }.bind(this);
+	
+	    this.cancelSith = function(sith) {
+	      sith.editing = false;
+	      for (var key in this.backup) {
+	        sith[key] = this.backup[key];
+	      }
+	    };
+	
+	    this.removeSith = function(sith) {
+	      $http.delete(baseUrl + '/api/sith/' + sith._id)
+	      .then(() => {
+	        this.siths.splice(this.siths.indexOf(sith), 1);
+	      }, errorHandler.bind(this));
+	    }.bind(this);
+	  }]);
+	};
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(17)(app);
+	  __webpack_require__(18)(app);
+	};
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('sithListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: 'js/templates/sith/directives/sith_list_item.html',
+	      scope: {
+	        sith: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.remove = controller.removeSith;
+	        scope.edit = controller.editSith;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('sithForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: 'js/templates/sith/directives/sith_form.html',
+	      scope: {
+	        sith: '=',
+	        buttonText: '@',
+	        savemethod: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var actions = {
+	          update: controller.updateSith,
+	          create: controller.createSith
+	        };
+	        scope.save = actions[scope.savemethod];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(20);
 	
 	describe('jedi controller', () => {
 	  var $controller;
@@ -31112,7 +31314,7 @@
 
 
 /***/ },
-/* 5 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/**
@@ -34124,11 +34326,11 @@
 
 
 /***/ },
-/* 6 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(20);
 	
 	describe('sith controller', () => {
 	  var $controller;
