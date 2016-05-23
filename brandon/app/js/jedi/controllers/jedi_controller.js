@@ -5,8 +5,8 @@ const copy = require('angular').copy;
 module.exports = function(app) {
   app.controller('JediController', ['$http', function($http) {
     this.jedis = [];
-    this.getAll = function() {
-      $http.get(baseUrl + '/api/jedi', this.newJedi)
+    this.getAll = () => {
+      $http.get(baseUrl + '/api/jedi')
         .then((res) => {
           this.jedis = res.data;
         }, errorHandler.bind(this));
@@ -18,7 +18,7 @@ module.exports = function(app) {
           this.jedis.push(res.data);
           this.newJedi = null;
         }, errorHandler.bind(this));
-    };
+    }.bind(this);
 
     this.updateJedi = function(jedi) {
       $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
@@ -30,7 +30,7 @@ module.exports = function(app) {
     this.editJedi = function(jedi) {
       jedi.editing = true;
       this.backup = copy(jedi);
-    };
+    }.bind(this);
 
     this.cancelJedi = function(jedi) {
       jedi.editing = false;
@@ -44,6 +44,6 @@ module.exports = function(app) {
       .then(() => {
         this.jedis.splice(this.jedis.indexOf(jedi), 1);
       }, errorHandler.bind(this));
-    };
+    }.bind(this);
   }]);
 };

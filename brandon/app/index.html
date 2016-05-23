@@ -14,13 +14,13 @@
           data-jedi="jediCtrl.newJedi">
         </jedi-form>
       <ul class="jediList">
-        <jedi-list-item data-ng-repeat="jedi in jediCtrl.jedi" data-jedi="jedi">
+        <jedi-list-item data-ng-repeat="jedi in jediCtrl.jedis" data-jedi="jedi">
           <jedi-form
             data-ng-if="jedi.editing"
             data-button-text="Update Jedi"
             data-savemethod="update"
             data-jedi="jedi">
-            <button data-ng-click="jedi.editing = false">Cancel</button>
+            <button data-ng-click="jediCtrl.cancelJedi(jedi)">Cancel</button>
           </jedi-form>
         </jedi-list-item>
       </ul>
@@ -33,13 +33,13 @@
         data-sith="sithCtrl.newSith">
       </sith-form>
       <ul class="sithList">
-        <sith-list-item data-ng-repeat="sith in sithCtrl.sith" data-sith="sith">
+        <sith-list-item data-ng-repeat="sith in sithCtrl.siths" data-sith="sith">
           <sith-form
             data-ng-if="sith.editing"
             data-button-text="Update Sith"
             data-savemethod="update"
             data-sith="sith">
-            <button data-ng-click="sith.editing = false">Cancel</button>
+            <button data-ng-click="sithCtrl.cancelSith(sith)">Cancel</button>
           </sith-form>
         </sith-list-item>
       </ul>

@@ -3,14 +3,15 @@ module.exports = function(app) {
     return {
       restrict: 'EAC',
       replace: true,
-      transclude: true,
       require: '^ngController',
-      templateUrl: '/templates/sith/directives/sith_list_item.html',
+      transclude: true,
+      templateUrl: 'js/templates/sith/directives/sith_list_item.html',
       scope: {
         sith: '='
       },
       link: function(scope, element, attrs, controller) {
         scope.remove = controller.removeSith;
+        scope.edit = controller.editSith;
       }
     };
   });

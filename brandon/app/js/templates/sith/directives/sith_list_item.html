@@ -1,8 +1,8 @@
 <li>
   <ng-transclude></ng-transclude>
-  <p data-ng-if="!sith.editing">{{sith.name}} is a {{sith.ranking || 'sith'}} who uses a
+  <p>{{sith.name}} is a {{sith.ranking || 'sith'}} who uses a
   {{sith.weaponPreference}}. Their lightsaber is {{sith.lightsaberColor}} and their catchphrase is
   {{sith.catchphrase}} with {{sith.handCount}} hands.</p>
-  <button class="edit-sith" data-ng-if="!sith.editing" data-ng-click="sithCtrl.editSith(sith)">Edit</button>
+  <button class="edit-sith" data-ng-if="!sith.editing" data-ng-click="edit(sith)">Edit</button>
   <button class="remove-sith" data-ng-click="remove(sith)">Remove this Sith</button>
 </li>

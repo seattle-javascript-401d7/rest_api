@@ -5,8 +5,8 @@ const copy = require('angular').copy;
 module.exports = function(app) {
   app.controller('SithController', ['$http', function($http) {
     this.siths = [];
-    this.getAll = function() {
-      $http.get(baseUrl + '/api/sith', this.newSith)
+    this.getAll = () => {
+      $http.get(baseUrl + '/api/sith')
         .then((res) => {
           this.siths = res.data;
         }, errorHandler.bind(this));
@@ -18,7 +18,7 @@ module.exports = function(app) {
           this.siths.push(res.data);
           this.newSith = null;
         }, errorHandler.bind(this));
-    };
+    }.bind(this);
 
     this.updateSith = function(sith) {
       $http.put(baseUrl + '/api/sith/' + sith._id, sith)
@@ -30,7 +30,7 @@ module.exports = function(app) {
     this.editSith = function(sith) {
       sith.editing = true;
       this.backup = copy(sith);
-    };
+    }.bind(this);
 
     this.cancelSith = function(sith) {
       sith.editing = false;
@@ -44,6 +44,6 @@ module.exports = function(app) {
       .then(() => {
         this.siths.splice(this.siths.indexOf(sith), 1);
       }, errorHandler.bind(this));
-    };
+    }.bind(this);
   }]);
 };

@@ -3,14 +3,15 @@ module.exports = function(app) {
     return {
       restrict: 'EAC',
       replace: true,
-      transclude: true,
       require: '^ngController',
-      templateUrl: '/templates/jedi/directives/jedi_list_item.html',
+      transclude: true,
+      templateUrl: 'js/templates/jedi/directives/jedi_list_item.html',
       scope: {
         jedi: '='
       },
       link: function(scope, element, attrs, controller) {
         scope.remove = controller.removeJedi;
+        scope.edit = controller.editJedi;
       }
     };
   });

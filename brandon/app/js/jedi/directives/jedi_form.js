@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/jedi/directives/jedi_form.html',
+      templateUrl: 'js/templates/jedi/directives/jedi_form.html',
       scope: {
         jedi: '=',
         buttonText: '@',

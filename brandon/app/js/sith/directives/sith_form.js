@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/sith/directives/sith_form.html',
+      templateUrl: 'js/templates/sith/directives/sith_form.html',
       scope: {
         sith: '=',
         buttonText: '@',
