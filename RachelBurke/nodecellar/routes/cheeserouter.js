@@ -1,7 +1,8 @@
 const Router = require('express').Router;
 const Cheese = require(__dirname + '/../models/cheese_model');
 const bodyParser = require('body-parser').json();
-const errorhandler = require(__dirname + '/../lib/error_handler');
+const errorhandler = require(__dirname + '/../nodecellar/error_handler');
+
 var cheeseRouter = module.exports = Router();
 
 cheeseRouter.post('/cheese', bodyParser, (req, res) => {

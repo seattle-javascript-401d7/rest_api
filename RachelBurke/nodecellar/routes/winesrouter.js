@@ -1,7 +1,7 @@
 const Router = require('express').Router;
 const Wine = require(__dirname + '/../models/wines_model');
 const bodyParser = require('body-parser').json();
-const errorhandler = require(__dirname + '/../lib/error_handler');
+const errorhandler = require(__dirname + '/../nodecellar/error_handler');
 var winesRouter = module.exports = Router();
 
 winesRouter.post('/wines', bodyParser, (req, res) => {
