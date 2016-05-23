@@ -8,21 +8,11 @@ const cp = require('child_process');
 const mongoUri = 'mongodb://localhost/test_server';
 let children = [];
 
-let files = ['test/**/*.js', 'api_server.js', 'gulpfile.js',
+let files = ['api_server.js', 'gulpfile.js',
 'routes/**/*.js'];
 
-let staticFiles = ['public/app/html/**/*.html'];
-
-gulp.task('lint: test', () => {
+gulp.task('lint: dev', () => {
   return gulp.src(files)
-  .pipe(eslint({
-    'useEslintrc': true
-  }))
-  .pipe(eslint.format());
-});
-
-gulp.task('lint:static', () => {
-  return gulp.src(staticFiles)
   .pipe(eslint({
     'useEslintrc': true
   }))
@@ -67,6 +57,11 @@ gulp.task('startservers:test', () => {
   children.push(cp.spawn('webdriver-manager', ['start']));
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
   children.push(cp.fork('api_server.js', [], { env: { MONGODB_URI: mongoUri } } ));
+})
+.on('end', () => {
+  children.forEach((child) => {
+    child.kill('SIGTERM');
+  });
 });
 
 gulp.task('protractor:test', ['startservers:test', 'build:dev'], () => {
@@ -92,4 +87,4 @@ gulp.task('mocha: test', () => {
 });
 
 gulp.task('build:dev', ['webpack:dev', 'static:dev', 'css:dev']);
-gulp.task('default', ['startservers:test', 'build:dev', 'lint: test', 'lint:static']);
+gulp.task('default', ['startservers:test', 'build:dev', 'lint: dev']);
