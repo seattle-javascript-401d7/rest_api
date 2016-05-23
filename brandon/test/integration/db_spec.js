@@ -27,9 +27,12 @@ describe('the Jedi Tests', () => {
     element(by.css('.jediList li:last-child .edit-jedi')).click();
     element(by.css('.jediList')).element(by.model('jedi.name')).clear().sendKeys('a new jedi');
     element(by.css('.jediList')).element(by.model('jedi.ranking')).clear().sendKeys('noob');
-    element(by.css('.jediList')).element(by.model('jedi.weaponPreference')).clear().sendKeys('computer');
-    element(by.css('.jediList')).element(by.model('jedi.lightsaberColor')).clear().sendKeys('black and white');
-    element(by.css('.jediList')).element(by.model('jedi.catchphrase')).clear().sendKeys('new phrase');
+    element(by.css('.jediList')).element(
+      by.model('jedi.weaponPreference')).clear().sendKeys('computer');
+    element(by.css('.jediList')).element(
+      by.model('jedi.lightsaberColor')).clear().sendKeys('black and white');
+    element(by.css('.jediList')).element(
+      by.model('jedi.catchphrase')).clear().sendKeys('new phrase');
     element(by.css('.jediList')).element(by.model('jedi.handCount')).clear().sendKeys('1');
     element(by.css('.jediList li:last-child .cancel-jedi')).click();
     element(by.css('.jediList li:last-child p')).getText().then((text) => {
@@ -43,9 +46,12 @@ describe('the Jedi Tests', () => {
     element(by.css('.jediList li:last-child .edit-jedi')).click();
     element(by.css('.jediList')).element(by.model('jedi.name')).clear().sendKeys('a new jedi');
     element(by.css('.jediList')).element(by.model('jedi.ranking')).clear().sendKeys('noob');
-    element(by.css('.jediList')).element(by.model('jedi.weaponPreference')).clear().sendKeys('computer');
-    element(by.css('.jediList')).element(by.model('jedi.lightsaberColor')).clear().sendKeys('black and white');
-    element(by.css('.jediList')).element(by.model('jedi.catchphrase')).clear().sendKeys('new phrase');
+    element(by.css('.jediList')).element(
+      by.model('jedi.weaponPreference')).clear().sendKeys('computer');
+    element(by.css('.jediList')).element(
+      by.model('jedi.lightsaberColor')).clear().sendKeys('black and white');
+    element(by.css('.jediList')).element(
+      by.model('jedi.catchphrase')).clear().sendKeys('new phrase');
     element(by.css('.jediList')).element(by.model('jedi.handCount')).clear().sendKeys('1');
     element(by.css('.jediList li:last-child .update-jedi')).click();
     element(by.css('.jediList li:last-child p')).getText().then((text) => {
@@ -91,10 +97,14 @@ describe('the Sith E2E tests', () => {
     browser.get('http://localhost:5000');
     element(by.css('.sithList li:last-child .edit-sith')).click();
     element(by.css('.sithList')).element(by.model('sith.name')).clear().sendKeys('some new sith');
-    element(by.css('.sithList')).element(by.model('sith.ranking')).clear().sendKeys('higher ranking newb');
-    element(by.css('.sithList')).element(by.model('sith.weaponPreference')).clear().sendKeys('words');
-    element(by.css('.sithList')).element(by.model('sith.lightsaberColor')).clear().sendKeys('invisible');
-    element(by.css('.sithList')).element(by.model('sith.catchphrase')).clear().sendKeys('meh');
+    element(by.css('.sithList')).element(
+      by.model('sith.ranking')).clear().sendKeys('higher ranking newb');
+    element(by.css('.sithList')).element(
+      by.model('sith.weaponPreference')).clear().sendKeys('words');
+    element(by.css('.sithList')).element(
+      by.model('sith.lightsaberColor')).clear().sendKeys('invisible');
+    element(by.css('.sithList')).element(
+      by.model('sith.catchphrase')).clear().sendKeys('meh');
     element(by.css('.sithList')).element(by.model('sith.handCount')).clear().sendKeys('4');
     element(by.css('.sithList li:last-child .cancel-sith')).click();
     element(by.css('.sithList li:last-child p')).getText().then((text) => {
@@ -107,10 +117,14 @@ describe('the Sith E2E tests', () => {
     browser.get('http://localhost:5000');
     element(by.css('.sithList li:last-child .edit-sith')).click();
     element(by.css('.sithList')).element(by.model('sith.name')).clear().sendKeys('a new new sith');
-    element(by.css('.sithList')).element(by.model('sith.ranking')).clear().sendKeys('even more newb');
-    element(by.css('.sithList')).element(by.model('sith.weaponPreference')).clear().sendKeys('new table');
-    element(by.css('.sithList')).element(by.model('sith.lightsaberColor')).clear().sendKeys('brown');
-    element(by.css('.sithList')).element(by.model('sith.catchphrase')).clear().sendKeys('i am table');
+    element(by.css('.sithList')).element(
+      by.model('sith.ranking')).clear().sendKeys('even more newb');
+    element(by.css('.sithList')).element(
+      by.model('sith.weaponPreference')).clear().sendKeys('new table');
+    element(by.css('.sithList')).element(
+      by.model('sith.lightsaberColor')).clear().sendKeys('brown');
+    element(by.css('.sithList')).element(
+      by.model('sith.catchphrase')).clear().sendKeys('i am table');
     element(by.css('.sithList')).element(by.model('sith.handCount')).clear().sendKeys('4');
     element(by.css('.sithList li:last-child .update-sith')).click();
     element(by.css('.sithList li:last-child p')).getText().then((text) => {
