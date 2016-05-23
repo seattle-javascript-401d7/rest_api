@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
+const html = require('html-loader');
 
 
 var files = ['lib**/*.js', 'routes/**/*.js',
@@ -39,8 +40,17 @@ gulp.task('webpack:dev', () => {
 gulp.task('webpack:test', () => {
   gulp.src('./test/unit/test_entry.js')
     .pipe(webpack({
+      devtool: 'source-map',
       output: {
         filename: 'bundle.js'
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.html$/,
+            loader: 'html'
+          }
+        ]
       }
     }))
     .pipe(gulp.dest('./test'));
