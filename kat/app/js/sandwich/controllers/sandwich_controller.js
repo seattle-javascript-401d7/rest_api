@@ -1,5 +1,5 @@
 var handleErrors = require('../../lib').handleErrors;
-var url = require('../../config.js').url;
+var url = require('../../config').url;
 module.exports = function(app) {
   app.controller('SandwichController', ['$http', function($http) {
     this.sandwich = [];

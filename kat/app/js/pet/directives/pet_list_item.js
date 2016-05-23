@@ -3,9 +3,14 @@ module.exports = function(app) {
     return {
       restrict: 'EAC',
       replace: true,
-      teplateUrl: '/templates/pet/directives/pet_list_item.html',
+      require: '^ngController',
+      transclude: true,
+      templateUrl: '/templates/pet/directives/pet_list_item.html',
       scope: {
         pet: '='
+      },
+      link: function(scope, element, attrs, controller) {
+        scope.sell = controller.deletePet;
       }
     };
   });

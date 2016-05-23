@@ -1,0 +1,15 @@
+<form data-ng-submit="save(sandwich)">
+
+  <label for="type">Type</label>
+  <input type="text" name="type" data-ng-model="sandwich.type">
+
+  <label name="ingrediants">Ingrediants</label>
+  <input type="text" name="ingrediants" data-ng-model="sandwich.ingrediants">
+
+
+  <label for="yumFactor">yumFactor</label>
+  <input type="Number" name="yumFactor" data-ng-model="sandwich.yumFactor">
+
+  <button type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>

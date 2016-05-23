@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(13);
-	__webpack_require__(15);
+	__webpack_require__(19);
+	__webpack_require__(21);
 
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -63,7 +63,7 @@
 	const practiceApp = angular.module('practiceApp', []);
 
 	__webpack_require__(4)(practiceApp);
-	__webpack_require__(10)(practiceApp);
+	__webpack_require__(13)(practiceApp);
 
 
 /***/ },
@@ -30953,7 +30953,7 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(5)(app);
-	  // require('./directives')(app);
+	  __webpack_require__(10)(app);
 	};
 
 
@@ -31038,21 +31038,83 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(11)(app);
-	  // require('./directives')(app);
-	};
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
 	  __webpack_require__(12)(app);
 	};
 
 
 /***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('petListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/pet/directives/pet_list_item.html',
+	      scope: {
+	        pet: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.sell = controller.deletePet;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('petForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/pet/directives/pet_form.html',
+	      scope: {
+	        pet: '=',
+	        buttonText: '@',
+	        change: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var changes = {
+	          update: controller.updatePet,
+	          create: controller.createPet
+	        };
+	        scope.save = changes[scope.change];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(14)(app);
+	  __webpack_require__(16)(app);
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(15)(app);
+	};
+
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var handleErrors = __webpack_require__(7).handleErrors;
@@ -31090,11 +31152,73 @@
 
 
 /***/ },
-/* 13 */
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(17)(app);
+	  __webpack_require__(18)(app);
+	};
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('sandwichListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/sandwich/directives/sandwich_list_item.html',
+	      scope: {
+	        sandwich: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.eat = controller.deleteSandwich;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('sandwichForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/sandwich/directives/sandwich_form.html',
+	      scope: {
+	        sandwich: '=',
+	        buttonText: '@',
+	        change: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var changes = {
+	          update: controller.updateSandwich,
+	          create: controller.createSandwich
+	        };
+	        scope.save = changes[scope.change];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(14);
+	__webpack_require__(20);
 
 
 	describe('pet controller', function() {
@@ -31168,7 +31292,7 @@
 
 
 /***/ },
-/* 14 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/**
@@ -34180,11 +34304,11 @@
 
 
 /***/ },
-/* 15 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(14);
+	__webpack_require__(20);
 
 
 	describe('sandwich controller', function() {
