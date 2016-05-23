@@ -65,7 +65,7 @@
 
           <ul id="sandwichlist">
             <li data-ng-repeat="sandwich in sandwichcontrol.sandwich">
-              {{sandwich.type}} aka {{sandwich.ingrediants}} really likes {{sandwich.yumFactor}}
+              {{sandwich.type}} needs {{sandwich.ingrediants}} and has a yum factor of {{sandwich.yumFactor}}
               <form data-ng-if="sandwich.editing" data-ng-submit="sandwichcontrol.updateSandwich(sandwich)">
 
                 <label for="type">Type</label>

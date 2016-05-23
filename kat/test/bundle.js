@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(13);
 	__webpack_require__(15);
-	__webpack_require__(17);
 
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -60,10 +60,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(2);
-
 	const practiceApp = angular.module('practiceApp', []);
+
 	__webpack_require__(4)(practiceApp);
-	__webpack_require__(11)(practiceApp);
+	__webpack_require__(10)(practiceApp);
 
 
 /***/ },
@@ -30953,7 +30953,7 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(5)(app);
-	  __webpack_require__(10)(app);
+	  // require('./directives')(app);
 	};
 
 
@@ -31034,9 +31034,13 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	
+	module.exports = function(app) {
+	  __webpack_require__(11)(app);
+	  // require('./directives')(app);
+	};
+
 
 /***/ },
 /* 11 */
@@ -31044,21 +31048,11 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(12)(app);
-	  __webpack_require__(14)(app);
 	};
 
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(13)(app);
-	};
-
-
-/***/ },
-/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var handleErrors = __webpack_require__(7).handleErrors;
@@ -31096,17 +31090,11 @@
 
 
 /***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	
-
-/***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(16);
+	__webpack_require__(14);
 
 
 	describe('pet controller', function() {
@@ -31180,7 +31168,7 @@
 
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -34192,11 +34180,11 @@
 
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(16);
+	__webpack_require__(14);
 
 
 	describe('sandwich controller', function() {
