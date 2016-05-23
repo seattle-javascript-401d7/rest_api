@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const config = require('./config');
 const winesRouter = require(__dirname + '/nodecellar/routes/winesrouter');
 const cheeseRouter = require(__dirname + '/nodecellar/routes/cheeserouter');
-const authRouter = require(__dirname + '/nodecellar/routes/auth_router');
 const pairingRouter = require(__dirname + '/nodecellar/routes/party');
 const mongoose = require('mongoose');
 
@@ -25,7 +24,7 @@ app.get('/', (req, res) => {
 app.use('/api', winesRouter);
 app.use('/api', cheeseRouter);
 app.use('/api', pairingRouter);
-app.use('/api', authRouter);
+
 
 app.listen(port);
 console.log('Good things happen at http://localhost:' + port);
