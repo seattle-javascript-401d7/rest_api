@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const winesRouter = require(__dirname + '/nodecellar/routes/winesrouter.js');
 const cheeseRouter = require(__dirname + '/nodecellar/routes/cheeserouter.js');
 const pairingRouter = require(__dirname + '/nodecellar/routes/party.js');

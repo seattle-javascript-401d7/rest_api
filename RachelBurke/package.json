@@ -1,16 +1,10 @@
 {
-  "name": "party",
+  "name": "rb",
   "version": "1.0.0",
-  "description": "Wine Cellar Application",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "rb",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.13.4"
+  "description": "Added Angular1 directives 5/22/16",
+  "main": "client_server.js",
+  "directories": {
+    "test": "test"
   },
   "devDependencies": {
     "angular": "^1.5.5",
@@ -31,6 +25,12 @@
     "webpack-stream": "^3.2.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
 }
