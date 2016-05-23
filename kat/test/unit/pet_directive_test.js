@@ -17,8 +17,8 @@ describe('pet form directive', function() {
   }));
 
   it('should show what the real content is', function() {
-    $httpBackend.when('GET', '/templates/pet/directives/pet_form').respond(200, template);
-    var element = $compile('<pet-form data-ng-if="pet.editing" data-button-text="Test Pet" data-change="update" data-pet="pet"></pet-form>')($scope);
+    $httpBackend.when('GET', '/templates/pet/directives/pet_form.html').respond(200, template);
+    var element = $compile('<section data-ng-controller="PetController as petcontrol"><pet-form data-button-text="Test Pet" data-pet=" {}"></pet-form></section>')($scope);
     $httpBackend.flush();
     $scope.$digest();
     expect(element.html()).toContain('Test Pet');

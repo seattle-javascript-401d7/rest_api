@@ -48,6 +48,7 @@
 	__webpack_require__(19);
 	__webpack_require__(21);
 	__webpack_require__(22);
+	__webpack_require__(24);
 	
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -34405,8 +34406,8 @@
 	  }));
 	
 	  it('should show what the real content is', function() {
-	    $httpBackend.when('GET', '/templates/pet/directives/pet_form').respond(200, template);
-	    var element = $compile('<pet-form data-ng-if="pet.editing" data-button-text="Test Pet" data-change="update" data-pet="pet"></pet-form>')($scope);
+	    $httpBackend.when('GET', '/templates/pet/directives/pet_form.html').respond(200, template);
+	    var element = $compile('<section data-ng-controller="PetController as petcontrol"><pet-form data-button-text="Test Pet" data-pet=" {}"></pet-form></section>')($scope);
 	    $httpBackend.flush();
 	    $scope.$digest();
 	    expect(element.html()).toContain('Test Pet');
@@ -34419,6 +34420,44 @@
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(pet)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"pet.name\">\n\n  <label name=\"nickName\">nickName</label>\n  <input type=\"text\" name=\"nickName\" data-ng-model=\"pet.nickName\">\n\n\n  <label for=\"favoriteActivity\">favoriteActivity</label>\n  <input type=\"text\" name=\"favoriteActivity\" data-ng-model=\"pet.favoriteActivity\" placeholder=\"cuddles\">\n\n  <button type=\"submit\">{{buttonText}}t</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(25);
+	__webpack_require__(20);
+	
+	
+	describe('sandwich form directive', function() {
+	  var $scope;
+	  var $compile;
+	  var $httpBackend;
+	
+	  beforeEach(angular.mock.module('practiceApp'));
+	
+	  beforeEach(angular.mock.inject(function(_$compile_, $rootScope, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $scope = $rootScope.$new();
+	    $httpBackend = _$httpBackend_;
+	  }));
+	
+	  it('should show what the real content is', function() {
+	    $httpBackend.when('GET', '/templates/sandwich/directives/sandwich_form.html').respond(200, template);
+	    var element = $compile('<section data-ng-controller="SandwichController as sandwichcontrol"><sandwich-form data-button-text="Test Sandwich" data-sandwich=" {}"></sandwich-form></section>')($scope);
+	    $httpBackend.flush();
+	    $scope.$digest();
+	    expect(element.html()).toContain('Test Sandwich');
+	  });
+	});
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(sandwich)\">\n\n  <label for=\"type\">Type</label>\n  <input type=\"text\" name=\"type\" data-ng-model=\"sandwich.type\">\n\n  <label name=\"ingrediants\">Ingrediants</label>\n  <input type=\"text\" name=\"ingrediants\" data-ng-model=\"sandwich.ingrediants\">\n\n\n  <label for=\"yumFactor\">yumFactor</label>\n  <input type=\"Number\" name=\"yumFactor\" data-ng-model=\"sandwich.yumFactor\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ }
 /******/ ]);
