@@ -5,7 +5,7 @@ const webpack = require('webpack-stream');
 var files = ['/nodecellar/**/*.js', '/models/**/*.js', '/routes/**/*.js', 'server.js'];
 var clientFiles = ['app/**/*.js'];
 var testFiles = ['test/unit/wine_controllertest.js',
-'test/unit/cheese_controllertest.js', 'test/unit/*.js'];
+'test/unit/cheese_controllertest.js', 'test/unit/*.js', 'test/test_api.js/'];
 
 gulp.task('lintServer', () => {
   return gulp.src(files)

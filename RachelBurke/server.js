@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rb_db');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.set('superSecret', config.secret || 'changeme');
 app.use(bodyParser.urlencoded({ extended: false }));
