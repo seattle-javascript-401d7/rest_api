@@ -1,30 +1,22 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const config = require('./config');
-const winesRouter = require(__dirname + '/nodecellar/routes/winesrouter');
-const cheeseRouter = require(__dirname + '/nodecellar/routes/cheeserouter');
-const pairingRouter = require(__dirname + '/nodecellar/routes/party');
+const PORT = process.env.PORT || 5000;
+const winesRouter = require(__dirname + '/nodecellar/routes/winesrouter.js');
+const cheeseRouter = require(__dirname + '/nodecellar/routes/cheeserouter.js');
+const pairingRouter = require(__dirname + '/nodecellar/routes/party.js');
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rb_db');
 
-const port = process.env.PORT || 5000;
-
-app.set('superSecret', config.secret || 'changeme');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(morgan('dev'));
-
-app.get('/', (req, res) => {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+  next();
 });
+
 
 app.use('/api', winesRouter);
 app.use('/api', cheeseRouter);
 app.use('/api', pairingRouter);
-
-
-app.listen(port);
-console.log('Good things happen at http://localhost:' + port);
+app.listen(PORT, () => console.log('server happy at' + PORT));
