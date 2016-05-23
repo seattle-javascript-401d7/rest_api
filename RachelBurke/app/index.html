@@ -61,12 +61,12 @@
     </form>
 
   </ul id="cheeselist">
-  <li data-ng-repeat= cheese in cheesecontrol.sandwich">
+  <li data-ng-repeat= cheese in cheesecontrol.cheese">
     {{cheese.type}} {{cheese.country}} {{cheese.origin}}
 
     <form data-ng-if="cheese.editing" data-ng-submit="cheesecontrol.updateCheese(cheese)">
       <label for="type">Type</label>
-      <input type="text" name="type" data-ng-model="sandwich.type">
+      <input type="text" name="type" data-ng-model="cheese.type">
 
       <label name="country">Country</label>
       <input type="text" name="country" data-ng-model="cheese.country">
