@@ -1,4 +1,4 @@
-require('../../public/entry.js');
+require('../../public/js/entry.js');
 
 // describe('does karma work?', () => {
 //   it('should world', () => {

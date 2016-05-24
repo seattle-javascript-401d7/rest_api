@@ -45,72 +45,76 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	
 	const moviesApp = angular.module('moviesApp', []);
-	const baseUrl = 'http://localhost:7777';
 	
-	var handleError = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
-	};
+	__webpack_require__(3)(moviesApp);
+	__webpack_require__(11)(moviesApp);
 	
-	moviesApp.controller('MoviesController', ['$http', function($http) {
-	  this.Movies = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/movies')
-	    .then((res) => {
-	      this.Movies = res.data;
-	    }, handleError.bind(this));
-	  };
-	  this.createMovie = () => {
-	    $http.post(baseUrl + '/api/movies', this.newMovie)
-	    .then((res) => {
-	      this.Movies.push(res.data);
-	      this.newMovie = null;
-	    }, handleError.bind(this));
-	  };
-	  this.updateMovie = (movie) => {
-	    $http.put(baseUrl + '/api/movies/' + movie.name, movie)
-	    .then(() => {
-	      movie.editing = false;
-	    }, handleError.bind(this));
-	  };
-	  this.removeMovie = (movie) => {
-	    $http.delete(baseUrl + '/api/movies/' + movie.name)
-	    .then(() => {
-	      this.Movies.splice(this.Movies.indexOf(movie), 1);
-	    }, handleError.bind(this));
-	  };
-	}]);
-	
-	moviesApp.controller('SongsController', ['$http', function($http) {
-	  this.Songs = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/songs')
-	    .then((res) => {
-	      this.Songs = res.data;
-	    }, handleError.bind(this));
-	  };
-	  this.createSong = () => {
-	    $http.post(baseUrl + '/api/songs', this.newSong)
-	    .then((res) => {
-	      this.Songs.push(res.data);
-	      this.newSong = null;
-	    }, handleError.bind(this));
-	  };
-	  this.updateSong = (song) => {
-	    $http.put(baseUrl + '/api/songs/' + song.name, song)
-	    .then(() => {
-	      song.editing = false;
-	    }, handleError.bind(this));
-	  };
-	  this.removeSong = (song) => {
-	    $http.delete(baseUrl + '/api/songs/' + song.name)
-	    .then(() => {
-	      this.Songs.splice(this.Songs.indexOf(song), 1);
-	    }, handleError.bind(this));
-	  };
-	}]);
+	// Below code is taken out and put into the movies and songs controllers for refactoring.
+	//
+	// const baseUrl = 'http://localhost:7777';
+	// var handleError = function(error) {
+	//   console.log(error);
+	//   this.errors = (this.errors || []).push(error);
+	// };
+	//
+	// moviesApp.controller('MoviesController', ['$http', function($http) {
+	//   this.Movies = [];
+	//   this.getAll = () => {
+	//     $http.get(baseUrl + '/api/movies')
+	//     .then((res) => {
+	//       this.Movies = res.data;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.createMovie = () => {
+	//     $http.post(baseUrl + '/api/movies', this.newMovie)
+	//     .then((res) => {
+	//       this.Movies.push(res.data);
+	//       this.newMovie = null;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.updateMovie = (movie) => {
+	//     $http.put(baseUrl + '/api/movies/' + movie.name, movie)
+	//     .then(() => {
+	//       movie.editing = false;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.removeMovie = (movie) => {
+	//     $http.delete(baseUrl + '/api/movies/' + movie.name)
+	//     .then(() => {
+	//       this.Movies.splice(this.Movies.indexOf(movie), 1);
+	//     }, handleError.bind(this));
+	//   };
+	// }]);
+	//
+	// moviesApp.controller('SongsController', ['$http', function($http) {
+	//   this.Songs = [];
+	//   this.getAll = () => {
+	//     $http.get(baseUrl + '/api/songs')
+	//     .then((res) => {
+	//       this.Songs = res.data;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.createSong = () => {
+	//     $http.post(baseUrl + '/api/songs', this.newSong)
+	//     .then((res) => {
+	//       this.Songs.push(res.data);
+	//       this.newSong = null;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.updateSong = (song) => {
+	//     $http.put(baseUrl + '/api/songs/' + song.name, song)
+	//     .then(() => {
+	//       song.editing = false;
+	//     }, handleError.bind(this));
+	//   };
+	//   this.removeSong = (song) => {
+	//     $http.delete(baseUrl + '/api/songs/' + song.name)
+	//     .then(() => {
+	//       this.Songs.splice(this.Songs.indexOf(song), 1);
+	//     }, handleError.bind(this));
+	//   };
+	// }]);
 
 
 /***/ },
@@ -30993,6 +30997,223 @@
 	})(window);
 	
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(4)(app)
+	  __webpack_require__(9)(app)
+	}
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(5)(app)
+	}
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(6).handleError;
+	var baseUrl = __webpack_require__(8).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('MoviesController', ['$http', function($http) {
+	    this.Movies = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/movies')
+	      .then((res) => {
+	        this.Movies = res.data;
+	      }, handleError.bind(this));
+	    };
+	    this.createMovie = () => {
+	      $http.post(baseUrl + '/api/movies', this.newMovie)
+	      .then((res) => {
+	        this.Movies.push(res.data);
+	        this.newMovie = null;
+	      }, handleError.bind(this));
+	    };
+	    this.updateMovie = (movie) => {
+	      $http.put(baseUrl + '/api/movies/' + movie.name, movie)
+	      .then(() => {
+	        movie.editing = false;
+	      }, handleError.bind(this));
+	    };
+	    this.removeMovie = (movie) => {
+	      $http.delete(baseUrl + '/api/movies/' + movie.name)
+	      .then(() => {
+	        this.Movies.splice(this.Movies.indexOf(movie), 1);
+	      }, handleError.bind(this));
+	    };
+	  }]);
+	}
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  handleError: __webpack_require__(7)
+	}
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = function(error) {
+	  console.log(error);
+	  this.errors = (this.errors || []).push(error);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  baseUrl: 'http://localhost:7777'
+	}
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(10)(app)
+	}
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('movieListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/movies/directives/movies_list_item.html',
+	      scope: {
+	        movie: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.murder = controller.removeMovie;
+	      }
+	    }
+	  });
+	}
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(12)(app)
+	  __webpack_require__(14)(app)
+	}
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(13)(app)
+	}
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(6).handleError;
+	var baseUrl = __webpack_require__(8).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('SongsController', ['$http', function($http) {
+	    this.Songs = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/songs')
+	      .then((res) => {
+	        this.Songs = res.data;
+	      }, handleError.bind(this));
+	    };
+	    this.createSong = () => {
+	      $http.post(baseUrl + '/api/songs', this.newSong)
+	      .then((res) => {
+	        this.Songs.push(res.data);
+	        this.newSong = null;
+	      }, handleError.bind(this));
+	    };
+	    this.updateSong = (song) => {
+	      var upSong = [];
+	      console.log(upSong);
+	      song.update = song.name;
+	      console.log(song.update);
+	      var thisSong = song;
+	      console.log(thisSong);
+	      console.log('song id: ' + song._id);
+	      $http.put(baseUrl + '/api/songs/' + song.name, song)
+	      .then((res) => {
+	        upSong.push(res.data);
+	        console.log(res.config.data._id);
+	        song.editing = false;
+	      }, handleError.bind(this));
+	    };
+	    this.removeSong = (song) => {
+	      $http.delete(baseUrl + '/api/songs/' + song.name)
+	      .then(() => {
+	        this.Songs.splice(this.Songs.indexOf(song), 1);
+	      }, handleError.bind(this));
+	    };
+	  }]);
+	}
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(15)(app)
+	}
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('songsListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/songs/directives/songs_list_item.html',
+	      scope: {
+	        song: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.murder = controller.removeSong;
+	      }
+	    }
+	  });
+	}
+
 
 /***/ }
 /******/ ]);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="entry.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <meta charset="UTF-8">
   <title>...tHe JuiCe...</title>
 </head>
@@ -31,21 +31,15 @@
     </form>
 
     <ul id="movielist">
+      <movie-list-item data-ng-repeat="movie in mvctrl.Movies" data-movie="movie">
       <li id="dummyli">Movies List:</li>
       <!-- For protractor, in case no movies are in movies list, test will fail. This remains hidden at all times through css-->
-      <li data-ng-repeat="movie in mvctrl.Movies">
-        <div class="buttonDiv">
-          <button class="edit" data-ng-click="mvctrl.removeMovie(movie)">remove this movie...</button>
-          <button class="edit" data-ng-if="!movie.editing" data-ng-click="movie.editing = true">Edit</button>
-        </div>
-        <span data-ng-if="!movie.editing">
-          Name: {{movie.name}}</br>
-          Genre: {{movie.genre}}</br>
-          Year: {{movie.year}}</br>
-          Rating: {{movie.rating}}</br>
-          Emotion: {{movie.emotion}}</br></br>
-        </span>
-        <form data-ng-if="movie.editing" data-ng-submit="mvctrl.updateMovie(movie)">
+<!-- used to be li data-ng-repeat="movie in mvctrl.Movies"
+moved to movies_list_item.html template-->
+<!-- used to be span data-ng-if="!movie.editing"
+moved to movies_list_item.html in templates/movies/directives
+button div also moved -->
+        <movie-form data-ng-if="movie.editing" data-ng-submit="mvctrl.updateMovie(movie)">
           <label class="labeledit" for="name">Name</label>
           <input class="inputEdit" type="text" name="name" data-ng-model="movie.name">
 
@@ -65,9 +59,10 @@
           <input class="inputEdit" type="text" name="emotion" data-ng-model="movie.emotion">
 
           <button id="proUpdate" class="updater" type="submit">Update Movie</button>
+
           <button class="updater" data-ng-click="movie.editing = false">Cancel</button>
-        </form>
-      </li>
+        </movie-form>
+      </movie-list-item>
     </ul>
   </main>
 
@@ -99,21 +94,13 @@
     </form>
 
     <ul id="songlist">
+      <songs-list-item data-ng-repeat="song in sngctrl.Songs" song="song">
       <li id="dummyli">Songs List:</li>
-      <li data-ng-repeat="song in sngctrl.Songs">
-        <div class="buttonDiv">
-          <button class="edit" data-ng-click="sngctrl.removeSong(song)">remove this song...</button>
-          <button class="edit" data-ng-if="!song.editing" data-ng-click="song.editing = true">Edit</button>
-        </div>
-        <span data-ng-if="!song.editing">
-          Name: {{song.name}}</br>
-          Artist: {{song.artist}}</br>
-          Album: {{song.album}}</br>
-          Year: {{song.year}}</br>
-          Genre: {{song.genre}}</br>
-          Personal Rating: {{song.personalRating}}</br>
-          Emotion: {{song.emotion}}</br></br>
-        </span>
+<!-- li data-ng-repeat="song in sngctrl.Songs"
+moved to songs_list_item.html in templates/songs/directives -->
+<!-- span data-ng-if="!song.editing"
+moved to song_list_item.html in templates/songs/directives
+button div also moved -->
         <form data-ng-if="song.editing" data-ng-submit="sngctrl.updateSong(song)">
           <label class="labeledit" for="name">Name</label>
           <input class="inputEdit" type="text" name="name" data-ng-model="song.name">
@@ -139,7 +126,7 @@
           <button id="proUpdateSong" class="updater" type="submit">Update Song</button>
           <button class="updater" data-ng-click="song.editing = false">Cancel</button>
         </form>
-      </li>
+      </songs-list-item>
     </ul>
   </main>
   <script src="./bundle.js"></script>

@@ -4,10 +4,21 @@ const mocha = require('gulp-mocha');
 const cp = require('child_process');
 const webpack = require('webpack-stream');
 const mongoUri = 'mongodb://localhost/movies_server';
+const exec = require('child_process').exec;
 
 var children = [];
 
-var files = ['public/server.js', 'public/entry.js', 'server.js','gulpfile.js','routes/songsrouter.js','routes/moviesrouter.js','models/songs.js','models/movies.js','lib/servererror.js'];
+function runCommand(command) {
+  return function(cb) {
+    exec(command, function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    });
+  }
+}
+
+var files = ['public/server.js', 'public/js/entry.js', 'server.js','gulpfile.js','routes/songsrouter.js','routes/moviesrouter.js','models/songs.js','models/movies.js','lib/servererror.js'];
 
 gulp.task('mochatest', () => {
   return gulp.src('test/servertest.js')
@@ -39,7 +50,7 @@ gulp.task('lint:test', () => {
 });
 
 gulp.task('webpack:dev', () => {
-  gulp.src('public/entry.js')
+  gulp.src('public/js/entry.js')
   .pipe(webpack({
     devtool: 'source-map',
     output: {
@@ -61,7 +72,7 @@ gulp.task('webpack:test', () => {
 });
 
 gulp.task('static:dev', () => {
-  gulp.src(['public/index.html', 'public/entry.css'])
+  gulp.src(['public/**/*.html', 'public/css/style.css'])
   .pipe(gulp.dest('./build'));
 });
 
@@ -71,6 +82,11 @@ gulp.task('startservers', () => {
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
   children.push(cp.fork('server', [], {env: {MONGO_URI: mongoUri}}));
 });
+
+gulp.task('start-mongo', runCommand('sudo mongod --dbpath=./db --smallfiles'));
+
+gulp.task('aaa', runCommand('pwd'));
+
 gulp.task('build:dev', ['webpack:dev', 'static:dev']);
 gulp.task('lint', ['lint:notest', 'lint:test']);
 gulp.task('lint-test', ['lint', 'mochatest'], function() {
