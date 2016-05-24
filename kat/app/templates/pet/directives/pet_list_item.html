@@ -1,0 +1,7 @@
+<li>
+  <ng-transclude></ng-transclude>
+  {{pet.name}} aka {{pet.nickName}} really likes {{pet.favoriteActivity}}
+  <button data-ng-if="!pet.editing" data-ng-click="pet.editing = true">Edit Pet</button>
+
+  <button data-ng-click="sell(pet)">Remove a Pet</button>
+</li>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pets and Sandwiches</title>
+    <link rel="stylesheet" href="./css/style.css" charset="utf-8">
+  </head>
+  <body data-ng-app="practiceApp">
+    <section data-ng-controller="PetController as petcontrol" data-ng-init="petcontrol.getAll()">
+      <h2>What Pets are in the Kitchen?</h2>
+        <pet-form
+        data-button-text="Create Pet"
+        data-change="create"
+        data-pet="petcontrol.newPet">
+        </pet-form>
+
+        <ul id="petlist">
+          <pet-list-item data-ng-repeat="pet in petcontrol.pet" data-pet="pet">
+            <pet-form data-ng-if="pet.editing"
+            data-button-text="Update Pet"
+            data-change="update"
+            data-pet="pet">
+              <button data-ng-click="pet.editing = false">Cancel</button>
+            </pet-form>
+          </pet-list-item>
+      </ul>
+    </section>
+
+    <section data-ng-controller="SandwichController as sandwichcontrol"
+     data-ng-init="sandwichcontrol.getAll()">
+      <h2>How to make a Sandwich</h2>
+          <sandwich-form
+          data-button-text="Make Sandwich"
+          data-change="create"
+          data-sandwich="sandwichcontrol.newSandwich">
+          </sandwich-form>
+
+          <ul id="sandwichlist">
+            <sandwich-list-item data-ng-repeat="sandwich in sandwichcontrol.sandwich" data-sandwich="sandwich">
+              <sandwich-form data-ng-if="sandwich.editing"
+              data-button-text="Improve Sandwich"
+              data-change="update"
+              data-sandwich="sandwich">
+                <button data-ng-click="sandwich.editing = false">Cancel</button>
+              </sandwich-form>
+            </sandwich-list-item>
+        </ul>
+    </section>
+    <script src="./bundle.js"></script>
+  </body>
+</html>
