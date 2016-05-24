@@ -4,7 +4,7 @@ const bodyParser = require('body-parser').json();
 const errorhandler = require(__dirname + '/../error_handler');
 var winesRouter = module.exports = Router();
 
-winesRouter.post('/wines', bodyParser, (req, res) => {
+winesRouter.post('/wine', bodyParser, (req, res) => {
   var newWine = new Wine(req.body);
   newWine.save((err, data) => {
     if (err) return errorhandler(err, res);
