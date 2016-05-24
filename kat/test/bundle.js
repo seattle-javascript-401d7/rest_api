@@ -48,7 +48,7 @@
 	__webpack_require__(19);
 	__webpack_require__(21);
 	__webpack_require__(22);
-	__webpack_require__(24);
+	__webpack_require__(25);
 	
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -34388,7 +34388,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var template = __webpack_require__(23);
+	var petFormTemplate = __webpack_require__(23);
+	var petListTemplate = __webpack_require__(24);
 	__webpack_require__(20);
 	
 	
@@ -34406,11 +34407,24 @@
 	  }));
 	
 	  it('should show what the real content is', function() {
-	    $httpBackend.when('GET', '/templates/pet/directives/pet_form.html').respond(200, template);
+	    $httpBackend.when('GET', '/templates/pet/directives/pet_form.html').respond(200, petFormTemplate);
 	    var element = $compile('<section data-ng-controller="PetController as petcontrol"><pet-form data-button-text="Test Pet" data-pet=" {}"></pet-form></section>')($scope);
 	    $httpBackend.flush();
 	    $scope.$digest();
 	    expect(element.html()).toContain('Test Pet');
+	  });
+	
+	  it('should print a pet', function() {
+	    $httpBackend.when('GET', '/templates/pet/directives/pet_list_item.html')
+	    .respond(200, petListTemplate);
+	    $scope.pet = {
+	      name: 'Apollo',
+	      nickName: 'Pilly',
+	      favoriteActivity: 'cuddles'
+	    };
+	    var listElement = $compile('<section data-ng-controller="PetController as petcontrol"><pet-list-item data-pet="pet"></pet-list-item></section>')($scope);
+	    $httpBackend.flush();
+	    expect(listElement.html()).toContain('Apollo aka Pilly really likes cuddles');
 	  });
 	});
 
@@ -34423,14 +34437,21 @@
 
 /***/ },
 /* 24 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{pet.name}} aka {{pet.nickName}} really likes {{pet.favoriteActivity}}\n  <button data-ng-if=\"!pet.editing\" data-ng-click=\"pet.editing = true\">Edit Pet</button>\n\n  <button data-ng-click=\"sell(pet)\">Remove a Pet</button>\n</li>\n";
+
+/***/ },
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var template = __webpack_require__(25);
+	var template = __webpack_require__(26);
+	var sandwichListTemplate = __webpack_require__(27);
 	__webpack_require__(20);
 	
 	
-	describe('sandwich form directive', function() {
+	describe('sandwich directives', function() {
 	  var $scope;
 	  var $compile;
 	  var $httpBackend;
@@ -34443,21 +34464,41 @@
 	    $httpBackend = _$httpBackend_;
 	  }));
 	// maybe create a new controller??
-	  it('should show what the real content is', function() {
+	  it('-form directive version', function() {
 	    $httpBackend.when('GET', '/templates/sandwich/directives/sandwich_form.html').respond(200, template);
 	    var element = $compile('<section data-ng-controller="SandwichController as sandwichcontrol"><sandwich-form data-button-text="Test Sandwich" data-sandwich=" {}"></sandwich-form></section>')($scope);
 	    $httpBackend.flush();
 	    $scope.$digest();
 	    expect(element.html()).toContain('Test Sandwich');
 	  });
+	
+	  it('should print sandwich', function() {
+	    $httpBackend.when('GET', '/templates/sandwich/directives/sandwich_list_item.html')
+	    .respond(200, sandwichListTemplate);
+	    $scope.sandwich = {
+	      type: 'Lettuce Sandwich',
+	      ingrediants: ['Lettuce', 'Bread'],
+	      yumFactor: 1
+	    };
+	    var listElement = $compile('<section data-ng-controller="SandwichController as sandwichcontrol"><sandwich-list-item data-sandwich="sandwich"></sandwich-list-item></section>')($scope);
+	    $httpBackend.flush();
+	    expect(listElement.html()).toContain('Lettuce Sandwich needs ["Lettuce","Bread"] and has a yum factor 1');
+	  });
+	
 	});
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(sandwich)\">\n\n  <label for=\"type\">Type</label>\n  <input type=\"text\" name=\"type\" data-ng-model=\"sandwich.type\">\n\n  <label name=\"ingrediants\">Ingrediants</label>\n  <input type=\"text\" name=\"ingrediants\" data-ng-model=\"sandwich.ingrediants\">\n\n\n  <label for=\"yumFactor\">yumFactor</label>\n  <input type=\"Number\" name=\"yumFactor\" data-ng-model=\"sandwich.yumFactor\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{sandwich.type}} needs {{sandwich.ingrediants}} and has a yum factor {{sandwich.yumFactor}}\n  <button data-ng-if=\"!sandwich.editing\" data-ng-click=\"sandwich.editing = true\">Improve Sandwich</button>\n\n  <button data-ng-click=\"eat(sandwich)\">Eat a Sandwich</button>\n</li>\n";
 
 /***/ }
 /******/ ]);
