@@ -1,0 +1,21 @@
+@import "globals";
+
+main {
+  background-color: $background;
+  color: $yellow-green;
+  font-family: $font;
+}
+
+h2 {
+  color: $feltBlue;
+}
+
+button {
+  border-radius: 7px;
+  border-color: $textColor;
+  font-size: 0.6em;
+  font-family: $subFont;
+  font-weight: bold;
+  background-color: $background;
+  color: $yellow-green;
+}
