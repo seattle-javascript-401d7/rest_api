@@ -1,16 +1,22 @@
 @import "globals";
 
-main {
+section {
   background-color: $background;
   color: $yellow-green;
   font-family: $font;
+  align-items: center;
 }
 
 h2 {
   color: $feltBlue;
 }
 
+
 button {
+  padding:5px;
+  border: 1px solid;
+  padding: 1em;
+  margin: 1em;
   border-radius: 7px;
   border-color: $textColor;
   font-size: 0.6em;
