@@ -7,7 +7,7 @@
 </head>
 <body data-ng-app="newApp">
   <main data-ng-controller="HeroesController as heroesctrl" data-ng-init="heroesctrl.getAll()">
-    <superhero-form
+    <superhero-form id="form"
     data-button-text="Create Superhero"
     data-rest-action="create"
     data-superhero="heroesctrl.newSuperhero">
@@ -16,7 +16,7 @@
   <h1>List of Heroes</h1>
   <ul id="heroeslist">
     <superhero-list-item data-ng-repeat="superhero in heroesctrl.superheroes" data-superhero="superhero">
-      <superhero-form
+      <superhero-form id="form"
       data-ng-if="superhero.editing"
       data-button-text="Update Superhero"
       data-rest-action="update"
@@ -28,7 +28,7 @@
 </main>
 
 <main data-ng-controller="VillainsController as villainsctrl" data-ng-init="villainsctrl.getAll()">
-  <villain-form
+  <villain-form id="form"
   data-button-text="Create Villain"
   data-rest-action="create"
   data-villain="villainsctrl.newVillain">
@@ -37,7 +37,7 @@
 <h1>List of Villains</h1>
 <ul id="villainslist">
   <villain-list-item data-ng-repeat="villain in villainsctrl.villains" data-villain="villain">
-    <villain-form
+    <villain-form id="form"
     data-ng-if="villain.editing"
     data-button-text="Update Villain"
     data-rest-action="update"
