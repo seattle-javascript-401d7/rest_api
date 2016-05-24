@@ -33,7 +33,7 @@ describe('pet form directive', function() {
       nickName: 'Pilly',
       favoriteActivity: 'cuddles'
     };
-    var listElement = $compile('<section data-ng-controller="PetController as petcontrol"><pet-list-item data-pet="pet"></pet-list-item></section>')($scope);
+    var listElement = $compile('<section data-ng-controller = "PetController as petcontrol"><pet-list-item data-pet="pet"></pet-list-item></section>')($scope);
     $httpBackend.flush();
     expect(listElement.html()).toContain('Apollo aka Pilly really likes cuddles');
   });

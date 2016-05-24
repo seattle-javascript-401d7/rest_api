@@ -31223,36 +31223,36 @@
 	__webpack_require__(20);
 	
 	
-	describe('pet controller', function() {
+	describe('pet controller', function() { // eslint-disable-line prefer-arrow-callback
 	  var $httpBackend;
 	  var $controller;
 	
 	  beforeEach(angular.mock.module('practiceApp'));
 	
-	  beforeEach(angular.mock.inject(function(_$controller_) {
+	  beforeEach(angular.mock.inject(function(_$controller_) { // eslint-disable-line prefer-arrow-callback
 	    $controller = _$controller_;
 	  }));
 	
-	  it('should be a controller', function() {
+	  it('should be a controller', function() { // eslint-disable-line prefer-arrow-callback
 	    var petcontrol = $controller('PetController');
 	    expect(typeof petcontrol).toBe('object');
 	    expect(typeof petcontrol.getAll).toBe('function');
 	  });
 	
-	  describe('REST functionality', function() {
+	  describe('REST functionality', function() { // eslint-disable-line prefer-arrow-callback
 	    var petcontrol;
 	
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) { // eslint-disable-line max-len
 	      $httpBackend = _$httpBackend_;
 	      petcontrol = $controller('PetController');
 	    }));
 	
-	    afterEach(function() {
+	    afterEach(function() { // eslint-disable-line prefer-arrow-callback
 	      $httpBackend.verifyNoOutstandingExpectation();
 	      $httpBackend.verifyNoOutstandingRequest();
 	    });
 	
-	    it('should send a GET to retrieve pet', function() {
+	    it('should send a GET to retrieve pet', function() { // eslint-disable-line max-len prefer-arrow-callback
 	      $httpBackend.expectGET('http://localhost:5555/api/pet').respond(200, [{ name: 'test pet' }]);
 	      petcontrol.getAll();
 	      $httpBackend.flush();
@@ -31260,7 +31260,7 @@
 	      expect(petcontrol.pet[0].name).toBe('test pet');
 	    });
 	
-	    it('should create a pet', function() {
+	    it('should create a pet', function() { // eslint-disable-line prefer-arrow-callback
 	      $httpBackend.expectPOST('http://localhost:5555/api/pet', { name: 'Apollo' })
 	      .respond(200, { name: 'Moose' });
 	      expect(petcontrol.pet.length).toBe(0);
@@ -31271,17 +31271,17 @@
 	      expect(petcontrol.newPet).toBe(null);
 	    });
 	
-	    it('should update a pet', function() {
-	      $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 })
+	    it('should update a pet', function() { // eslint-disable-line prefer-arrow-callback
+	      $httpBackend.expectPUT('http://localhost:5555/api/pet/1', { name: 'diff pet', editing: true, _id: 1 }) // eslint-disable-line max-len
 	      .respond(200);
-	      petcontrol.pet= [{ name: 'test pet', _id: 1, editing: true }];
+	      petcontrol.pet = [{ name: 'test pet', _id: 1, editing: true }];
 	      petcontrol.pet[0].name = 'diff pet';
 	      petcontrol.updatePet(petcontrol.pet[0]);
 	      $httpBackend.flush();
 	      expect(petcontrol.pet[0].editing).toBe(false);
 	    });
 	
-	    it('should delete a pet', function() {
+	    it('should delete a pet', function() { // eslint-disable-line prefer-arrow-callback
 	      $httpBackend.expectDELETE('http://localhost:5555/api/pet/1')
 	      .respond(200);
 	      petcontrol.pet = [{ name: 'Apollo', _id: 1 }];
@@ -34364,7 +34364,7 @@
 	    it('should update a sandwich', function() {
 	      $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
 	        .respond(200);
-	      sandwichcontrol.sandwich= [{ name: 'test sandwich', editing: true, _id: 1 }];
+	      sandwichcontrol.sandwich = [{ name: 'test sandwich', editing: true, _id: 1 }];
 	      sandwichcontrol.sandwich[0].name = 'update sandwich';
 	      sandwichcontrol.updateSandwich(sandwichcontrol.sandwich[0]);
 	      $httpBackend.flush();
@@ -34406,7 +34406,7 @@
 	    $httpBackend = _$httpBackend_;
 	  }));
 	
-	  it('should show what the real content is', function() {
+	  it('button in form should be customizable', function() {
 	    $httpBackend.when('GET', '/templates/pet/directives/pet_form.html').respond(200, petFormTemplate);
 	    var element = $compile('<section data-ng-controller="PetController as petcontrol"><pet-form data-button-text="Test Pet" data-pet=" {}"></pet-form></section>')($scope);
 	    $httpBackend.flush();
@@ -34414,7 +34414,7 @@
 	    expect(element.html()).toContain('Test Pet');
 	  });
 	
-	  it('should print a pet', function() {
+	  it('should print a pet list item', function() {
 	    $httpBackend.when('GET', '/templates/pet/directives/pet_list_item.html')
 	    .respond(200, petListTemplate);
 	    $scope.pet = {
@@ -34422,7 +34422,7 @@
 	      nickName: 'Pilly',
 	      favoriteActivity: 'cuddles'
 	    };
-	    var listElement = $compile('<section data-ng-controller="PetController as petcontrol"><pet-list-item data-pet="pet"></pet-list-item></section>')($scope);
+	    var listElement = $compile('<section data-ng-controller = "PetController as petcontrol"><pet-list-item data-pet="pet"></pet-list-item></section>')($scope);
 	    $httpBackend.flush();
 	    expect(listElement.html()).toContain('Apollo aka Pilly really likes cuddles');
 	  });
@@ -34472,7 +34472,7 @@
 	    expect(element.html()).toContain('Test Sandwich');
 	  });
 	
-	  it('should print sandwich', function() {
+	  it('should print a sandwich list item', function() {
 	    $httpBackend.when('GET', '/templates/sandwich/directives/sandwich_list_item.html')
 	    .respond(200, sandwichListTemplate);
 	    $scope.sandwich = {

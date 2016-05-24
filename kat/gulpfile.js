@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
-const html = require('html-loader');
+const html = require('html-loader'); // eslint-disable-line no-unused-vars
 
 
 var files = ['lib**/*.js', 'routes/**/*.js',

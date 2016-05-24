@@ -53,7 +53,7 @@ describe('sandwich controller', function() {
     it('should update a sandwich', function() {
       $httpBackend.expectPUT('http://localhost:5555/api/sandwich/1', { name: 'update sandwich', editing: true, _id: 1 })
         .respond(200);
-      sandwichcontrol.sandwich= [{ name: 'test sandwich', editing: true, _id: 1 }];
+      sandwichcontrol.sandwich = [{ name: 'test sandwich', editing: true, _id: 1 }];
       sandwichcontrol.sandwich[0].name = 'update sandwich';
       sandwichcontrol.updateSandwich(sandwichcontrol.sandwich[0]);
       $httpBackend.flush();
