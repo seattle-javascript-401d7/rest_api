@@ -211,7 +211,7 @@
     "arrow-spacing": 2,
     "constructor-super": 2,
     "no-const-assign": 2,
-    "prefer-arrow-callback": 1,
+    "prefer-arrow-callback": 0,
     "no-unneeded-ternary": [
       2,
       { "defaultAssignment": false }
