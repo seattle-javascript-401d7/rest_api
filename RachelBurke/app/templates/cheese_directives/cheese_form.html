@@ -1,0 +1,15 @@
+<form data-ng-submit="save(cheese)">
+
+  <label for="name">Name</label>
+  <input type="text" name="name" data-ng-model="cheese.name">
+
+  <label name="country">Country</label>
+  <input type="text" name="country" data-ng-model="cheese.country">
+
+
+  <label for="origin">Origin</label>
+  <input type="text" name="origin" data-ng-model="cheese.origin">
+
+  <button type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>
