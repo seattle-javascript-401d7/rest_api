@@ -75,4 +75,4 @@ gulp.task('sass', () => {
 });
 
 gulp.task('default', ['lintServer', 'lintClient', 'lintTest', 'webpack:dev', 'static']);
-gulp.task('build', ['webpack:dev', 'static', 'webpack:test']);
+gulp.task('build', ['webpack:dev', 'static', 'webpack:test', 'sass']);
