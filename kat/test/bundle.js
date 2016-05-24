@@ -34442,7 +34442,7 @@
 	    $scope = $rootScope.$new();
 	    $httpBackend = _$httpBackend_;
 	  }));
-	
+	// maybe create a new controller??
 	  it('should show what the real content is', function() {
 	    $httpBackend.when('GET', '/templates/sandwich/directives/sandwich_form.html').respond(200, template);
 	    var element = $compile('<section data-ng-controller="SandwichController as sandwichcontrol"><sandwich-form data-button-text="Test Sandwich" data-sandwich=" {}"></sandwich-form></section>')($scope);

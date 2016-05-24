@@ -28,11 +28,11 @@
 
     <section data-ng-controller="SandwichController as sandwichcontrol"
      data-ng-init="sandwichcontrol.getAll()">
-      <h2>Make a Sandwich</h2>
+      <h2>How to make a Sandwich</h2>
           <sandwich-form
-          data-button-text="Make a Sandwich"
+          data-button-text="Make Sandwich"
           data-change="create"
-          data-sandwich="sandwich.newSandwich">
+          data-sandwich="sandwichcontrol.newSandwich">
           </sandwich-form>
 
           <ul id="sandwichlist">
