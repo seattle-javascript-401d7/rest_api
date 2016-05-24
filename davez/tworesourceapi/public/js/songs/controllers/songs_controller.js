@@ -4,6 +4,8 @@ var baseUrl = require('../../config').baseUrl;
 module.exports = function(app) {
   app.controller('SongsController', ['$http', function($http) {
     this.Songs = [];
+    var originalSong = {};
+
     this.getAll = () => {
       $http.get(baseUrl + '/api/songs')
       .then((res) => {
@@ -31,6 +33,16 @@ module.exports = function(app) {
         console.log(res.config.data._id);
         song.editing = false;
       }, handleError.bind(this));
+    };
+    this.editSong = (song) => {
+      song.editing = true;
+      originalSong.name = song.name;
+      originalSong.artist = song.artist;
+      originalSong.album = song.album;
+      originalSong.year = song.year;
+      originalSong.genre = song.genre;
+      originalSong.personalRating = song.personalRating;
+      originalSong.emotion = song.emotion;
     };
     this.removeSong = (song) => {
       $http.delete(baseUrl + '/api/songs/' + song.name)

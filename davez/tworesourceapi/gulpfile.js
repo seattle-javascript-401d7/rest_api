@@ -5,6 +5,8 @@ const cp = require('child_process');
 const webpack = require('webpack-stream');
 const mongoUri = 'mongodb://localhost/movies_server';
 const exec = require('child_process').exec;
+const maps = require('gulp-sourcemaps');
+const sass = require('gulp-sass');
 
 var children = [];
 
@@ -49,6 +51,15 @@ gulp.task('lint:test', () => {
   })).pipe(eslint.format());
 });
 
+
+gulp.task('sass:dev', () => {
+  gulp.src('public/scss/*.scss')
+    .pipe(maps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(maps.write('./'))
+    .pipe(gulp.dest('./build'));
+});
+
 gulp.task('webpack:dev', () => {
   gulp.src('public/js/entry.js')
   .pipe(webpack({
@@ -87,9 +98,10 @@ gulp.task('start-mongo', runCommand('sudo mongod --dbpath=./db --smallfiles'));
 
 gulp.task('aaa', runCommand('pwd'));
 
-gulp.task('build:dev', ['webpack:dev', 'static:dev']);
+gulp.task('build:dev', ['sass:dev', 'webpack:dev', 'static:dev']);
 gulp.task('lint', ['lint:notest', 'lint:test']);
 gulp.task('lint-test', ['lint', 'mochatest'], function() {
   process.exit();
 });
+
 gulp.task('default', ['startservers', 'build:dev']);

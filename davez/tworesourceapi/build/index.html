@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
   <meta charset="UTF-8">
   <title>...tHe JuiCe...</title>
 </head>
 <body data-ng-app="moviesApp">
   <main id="moviewrapper" data-ng-controller="MoviesController as mvctrl" data-ng-init="mvctrl.getAll()">
-    <form data-ng-submit="mvctrl.createMovie()">
+
+    <movie-form
+      data-button-text="create movie"
+      data-crud="create"
+      data-movie="mvctrl.newMovie">
+    </movie-form>
+
+    <!-- <form data-ng-submit="mvctrl.createMovie()">
 
       <label for="name">Name</label>
       <input type="text" name="name" data-ng-model="mvctrl.newMovie.name">
@@ -28,7 +35,7 @@
       <input type="text" name="emotion" data-ng-model="mvctrl.newMovie.emotion">
 
       <button id="createmovie" type="submit">Add a Movie</button>
-    </form>
+    </form> -->
 
     <ul id="movielist">
       <movie-list-item data-ng-repeat="movie in mvctrl.Movies" data-movie="movie">
@@ -67,7 +74,14 @@ button div also moved -->
   </main>
 
   <main id="songwrapper" data-ng-controller="SongsController as sngctrl" data-ng-init="sngctrl.getAll()">
-    <form data-ng-submit="sngctrl.createSong()">
+
+    <song-form
+      data-button-text="create song"
+      data-crud="create"
+      data-song="sngctrl.newSong">
+    </song-form>
+
+    <!-- <form data-ng-submit="sngctrl.createSong()">
 
       <label for="name">Name</label>
       <input type="text" name="name" data-ng-model="sngctrl.newSong.name">
@@ -91,7 +105,7 @@ button div also moved -->
       <input type="text" name="emotion" data-ng-model="sngctrl.newSong.emotion">
 
       <button id="createsong" type="submit">Add a Song</button>
-    </form>
+    </form> -->
 
     <ul id="songlist">
       <songs-list-item data-ng-repeat="song in sngctrl.Songs" song="song">
@@ -101,7 +115,7 @@ moved to songs_list_item.html in templates/songs/directives -->
 <!-- span data-ng-if="!song.editing"
 moved to song_list_item.html in templates/songs/directives
 button div also moved -->
-        <form data-ng-if="song.editing" data-ng-submit="sngctrl.updateSong(song)">
+        <song-form data-ng-if="song.editing" data-ng-submit="sngctrl.updateSong(song)">
           <label class="labeledit" for="name">Name</label>
           <input class="inputEdit" type="text" name="name" data-ng-model="song.name">
 
@@ -125,7 +139,7 @@ button div also moved -->
 
           <button id="proUpdateSong" class="updater" type="submit">Update Song</button>
           <button class="updater" data-ng-click="song.editing = false">Cancel</button>
-        </form>
+        </song-form>
       </songs-list-item>
     </ul>
   </main>

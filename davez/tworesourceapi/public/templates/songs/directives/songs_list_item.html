@@ -1,8 +1,8 @@
 <li>
   <ng-transclude></ng-transclude>
   <div class="buttonDiv">
-    <button data-ng-click="murder(song)">remove this song...</button>
-    <button class="edit" data-ng-if="!song.editing" data-ng-click="song.editing = true">Edit</button>
+    <button class="edit" data-ng-click="murder(song)">remove this song...</button>
+    <button class="edit" data-ng-if="!song.editing" data-ng-click="edit(song)">Edit</button>
   </div>
   <span data-ng-if="!song.editing">
     <!-- ID: {{song._id}}</br> -->

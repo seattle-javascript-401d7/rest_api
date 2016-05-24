@@ -1,0 +1,300 @@
+$currentBorder: 3px dashed yellow;
+$border: 2px dashed white;
+
+body {
+  background-color: black;
+}
+h1 {
+  color: orange;
+  display: block;
+  font-family: sans-serif;
+}
+#moviewrapper {
+  float: left;
+  clear:both;
+  movie-form {
+    label {
+      color: white;
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    input {
+      background-color: grey;
+      display: block;
+      border: 2px solid black;
+    }
+    input[type='text'] {
+      font-size: 16px;
+      font-weight: lighter;
+      font-style: normal;
+      font-family: monospace;;
+    }
+    button {
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 12px;
+      color: gray;
+      background-color: black;
+      border: solid 2px orange;
+      border-radius: 15%;
+      display: inline-block;
+    }
+    button:hover {
+      color: black;
+      background-color: gray;
+      border-color: yellow;
+    }
+    .edit {
+      display: block;
+      clear: both;
+      float:right;
+    }
+    .edit[type="text"] {
+      font-size: 12px;
+      font-weight: lighter;
+      font-style: normal;
+      font-family: monospace;;
+      /*display: inline-block;*/
+    }
+    .inputEdit {
+      display: block;
+      margin-bottom: 15px;
+    }
+    .inputEdit[type="text"] {
+      /*display: block;*/
+      font-size: 12;
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+    #createmovie {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 20px;
+      /*margin-left: 15%;*/
+    }
+    .buttonDiv {
+      clear: both;
+      float: right;
+      margin-left: 15px;
+      /*clear: both;*/
+    }
+  }
+  #movielist {
+    float:left;
+    ul {
+      color: white;
+      margin-top: 10px;
+      padding: 5px;
+      font-family: monospace;
+      font-weight: bold;
+      display: block;
+      clear: both;
+    }
+    li {
+      padding: 5px;
+      border: 2px dashed white;
+    }
+    .edit {
+      display: block;
+      clear: both;
+      float:right;
+    }
+    .edit[type="text"] {
+      font-size: 12px;
+      font-weight: lighter;
+      font-style: normal;
+      font-family: monospace;;
+      /*display: inline-block;*/
+    }
+    .inputEdit {
+      display: block;
+      margin-bottom: 15px;
+    }
+    .inputEdit[type="text"] {
+      /*display: block;*/
+      font-size: 12;
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+    .updater {
+      clear: left;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    #createsong {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 20px;
+      /*margin-left: 15%;*/
+    }
+    .buttonDiv {
+      clear: both;
+      float: right;
+      margin-left: 15px;
+      /*clear: both;*/
+    }
+    button:hover {
+      color: black;
+      background-color: gray;
+      border-color: yellow;
+    }
+    button {
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 12px;
+      color: gray;
+      background-color: black;
+      border: solid 2px orange;
+      border-radius: 15%;
+      display: inline-block;
+    }
+  }
+}
+
+// #songwrapper {
+//   song-form {
+//     label {
+//
+//     }
+//     input {
+//
+//     }
+//     button {
+//
+//     }
+//   }
+// }
+//
+// #movielist:last-child > li:last-of-type  {
+//   border: $currentBorder;
+// }
+// #songlist:last-child > li:last-of-type  {
+//   border: $currentBorder;
+// }
+// li {
+//   padding: 5px;
+//   border: $border;
+// }
+// ul {
+//   color: white;
+//   margin-top: 10px;
+//   padding: 5px;
+//   font-family: monospace;
+//   font-weight: bold;
+//   display: block;
+//   clear: both;
+// }
+// label {
+//   color: white;
+//   font-family: monospace;
+//   font-weight: bold;
+//   font-size: 16px;
+// }
+// h1 {
+//   color: orange;
+//   display: block;
+//   font-family: sans-serif;
+// }
+// input {
+//   background-color: grey;
+//   display: block;
+//   border: 2px solid black;
+//   /*float: left;*/
+// }
+// input[type='text'] {
+//   font-size: 16px;
+//   font-weight: lighter;
+//   font-style: normal;
+//   font-family: monospace;;
+// }
+// button {
+//   font-weight: bold;
+//   font-family: monospace;
+//   font-size: 12px;
+//   color: gray;
+//   background-color: black;
+//   border: solid 2px orange;
+//   border-radius: 15%;
+//   display: inline-block;
+//   /*display: block;*/
+//   /*margin: auto;*/
+//   /*float: left;*/
+//   /*float: right;*/
+//   /*clear: right;*/
+//   /*clear: both;*/
+//   /*margin-top: 20px;*/
+// }
+// button:hover {
+//   color: black;
+//   background-color: gray;
+//   border-color: yellow;
+// }
+// body {
+//   background-color: black;
+// }
+// #createmovie {
+//   font-size: 16px;
+//   display: block;
+//   margin-bottom: 20px;
+//   /*margin-left: 15%;*/
+// }
+// #createsong {
+//   font-size: 16px;
+//   display: block;
+//   margin-bottom: 20px;
+//   /*margin-left: 15%;*/
+// }
+// .buttonDiv {
+//   clear: both;
+//   float: right;
+//   margin-left: 15px;
+//   /*clear: both;*/
+// }
+// #songlist {
+//   float: left;
+// }
+// #movielist {
+//   float:left;
+// }
+// #moviewrapper {
+//   float: left;
+//   clear:both;
+// }
+// #songwrapper {
+//   float: left;
+//   clear:both;
+// }
+// .edit {
+//   display: block;
+//   clear: both;
+//   float:right;
+// }
+// .edit[type="text"] {
+//   font-size: 12px;
+//   font-weight: lighter;
+//   font-style: normal;
+//   font-family: monospace;;
+//   /*display: inline-block;*/
+// }
+// .inputEdit {
+//   display: block;
+//   margin-bottom: 15px;
+// }
+// .inputEdit[type="text"] {
+//   /*display: block;*/
+//   font-size: 12;
+// }
+// .labeledit {
+//   font-size: 12px;
+// }
+// /*.inputEdit[type="text"] {
+//
+// }*/
+// .updater {
+//   clear: left;
+//   display: inline-block;
+//   margin-bottom: 15px;
+// }

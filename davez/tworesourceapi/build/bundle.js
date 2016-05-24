@@ -48,7 +48,7 @@
 	const moviesApp = angular.module('moviesApp', []);
 	
 	__webpack_require__(3)(moviesApp);
-	__webpack_require__(11)(moviesApp);
+	__webpack_require__(12)(moviesApp);
 	
 	// Below code is taken out and put into the movies and songs controllers for refactoring.
 	//
@@ -31027,6 +31027,8 @@
 	module.exports = function(app) {
 	  app.controller('MoviesController', ['$http', function($http) {
 	    this.Movies = [];
+	    var originalMovie = {};
+	
 	    this.getAll = () => {
 	      $http.get(baseUrl + '/api/movies')
 	      .then((res) => {
@@ -31045,6 +31047,15 @@
 	      .then(() => {
 	        movie.editing = false;
 	      }, handleError.bind(this));
+	    };
+	    this.editMovie = (movie) => {
+	      movie.editing = true;
+	      originalMovie.name = movie.name;
+	      originalMovie.genre = movie.genre;
+	      originalMovie.year = movie.year;
+	      originalMovie.rating = movie.rating;
+	      originalMovie.runTime = movie.runTime;
+	      originalMovie.emotion = movie.emotion;
 	    };
 	    this.removeMovie = (movie) => {
 	      $http.delete(baseUrl + '/api/movies/' + movie.name)
@@ -31090,6 +31101,7 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(10)(app)
+	  __webpack_require__(11)(app)
 	}
 
 
@@ -31110,6 +31122,7 @@
 	      },
 	      link: function(scope, element, attrs, controller) {
 	        scope.murder = controller.removeMovie;
+	        scope.edit = controller.editMovie;
 	      }
 	    }
 	  });
@@ -31118,12 +31131,30 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(12)(app)
-	  __webpack_require__(14)(app)
-	}
+	  app.directive('movieForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/movies/directives/movies_form.html',
+	      scope: {
+	        movie: '=',
+	        buttonText: '@',
+	        crud: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var cruds = {
+	          update: controller.updateMovie,
+	          create: controller.createMovie
+	        };
+	        scope.save = cruds[scope.crud];
+	      }
+	    };
+	  });
+	};
 
 
 /***/ },
@@ -31132,11 +31163,21 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(13)(app)
+	  __webpack_require__(15)(app)
 	}
 
 
 /***/ },
 /* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(14)(app)
+	}
+
+
+/***/ },
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var handleError = __webpack_require__(6).handleError;
@@ -31145,6 +31186,8 @@
 	module.exports = function(app) {
 	  app.controller('SongsController', ['$http', function($http) {
 	    this.Songs = [];
+	    var originalSong = {};
+	
 	    this.getAll = () => {
 	      $http.get(baseUrl + '/api/songs')
 	      .then((res) => {
@@ -31173,6 +31216,16 @@
 	        song.editing = false;
 	      }, handleError.bind(this));
 	    };
+	    this.editSong = (song) => {
+	      song.editing = true;
+	      originalSong.name = song.name;
+	      originalSong.artist = song.artist;
+	      originalSong.album = song.album;
+	      originalSong.year = song.year;
+	      originalSong.genre = song.genre;
+	      originalSong.personalRating = song.personalRating;
+	      originalSong.emotion = song.emotion;
+	    };
 	    this.removeSong = (song) => {
 	      $http.delete(baseUrl + '/api/songs/' + song.name)
 	      .then(() => {
@@ -31184,16 +31237,17 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(15)(app)
+	  __webpack_require__(16)(app)
+	  __webpack_require__(17)(app)
 	}
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31213,6 +31267,34 @@
 	    }
 	  });
 	}
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('songForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/songs/directives/songs_form.html',
+	      scope: {
+	        song: '=',
+	        buttonText: '@',
+	        crud: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var cruds = {
+	          update: controller.updateSong,
+	          create: controller.createSong
+	        };
+	        scope.save = cruds[scope.crud];
+	      }
+	    };
+	  });
+	};
 
 
 /***/ }
