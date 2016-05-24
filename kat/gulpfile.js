@@ -2,7 +2,9 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
 const html = require('html-loader'); // eslint-disable-line no-unused-vars
-
+const sass = require('gulp-sass');
+const maps = require('gulp-sourcemaps');
+const minifyCss = require('gulp-minify-css');
 
 var files = ['lib**/*.js', 'routes/**/*.js',
 'models/**/*.js', 'gulpfile.js', 'server.js'];
@@ -61,6 +63,15 @@ gulp.task('static', () => {
     .pipe(gulp.dest('./build'));
   gulp.src('app/**/*.css')
     .pipe(gulp.dest('./build'));
+});
+
+gulp.task('sass', () => {
+  gulp.src('./app/**/*.scss')
+  .pipe(maps.init())
+  .pipe(sass().on('error', sass.logErorr))
+  .pipe(minifyCss())
+  .pipe(maps.write('./'))
+  .pipe(gulp.dest('./build'));
 });
 
 gulp.task('default', ['lintServer', 'lintClient', 'lintTest', 'webpack:dev', 'static']);
