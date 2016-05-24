@@ -34433,7 +34433,7 @@
 /* 23 */
 /***/ function(module, exports) {
 
-	module.exports = "<form data-ng-submit=\"save(pet)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"pet.name\">\n\n  <label name=\"nickName\">nickName</label>\n  <input type=\"text\" name=\"nickName\" data-ng-model=\"pet.nickName\">\n\n\n  <label for=\"favoriteActivity\">favoriteActivity</label>\n  <input type=\"text\" name=\"favoriteActivity\" data-ng-model=\"pet.favoriteActivity\" placeholder=\"cuddles\">\n\n  <button type=\"submit\">{{buttonText}}t</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+	module.exports = "<form data-ng-submit=\"save(pet)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"pet.name\">\n\n  <label name=\"nickName\">nickName</label>\n  <input type=\"text\" name=\"nickName\" data-ng-model=\"pet.nickName\">\n\n\n  <label for=\"favoriteActivity\">favoriteActivity</label>\n  <input type=\"text\" name=\"favoriteActivity\" data-ng-model=\"pet.favoriteActivity\" placeholder=\"cuddles\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
 /* 24 */

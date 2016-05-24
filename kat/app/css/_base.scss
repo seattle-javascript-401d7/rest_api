@@ -1,19 +1,24 @@
 section {
   background-color: $pumpkin;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 ul {
   li {
     color: $stem;
     font-family: 'Francois One', sans-serif;
+    font-size: 1em;
+    list-style: none;
   }
 }
 button {
   padding:5px;
   background-color: $cream;
   border: 1px solid $stem;
+  padding: 1em;
+  margin: 1em;
   color: $stem;
   text-decoration: none;
   border-radius: 15px;

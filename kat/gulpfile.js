@@ -68,7 +68,7 @@ gulp.task('static', () => {
 gulp.task('sass', () => {
   gulp.src('./app/**/*.scss')
   .pipe(maps.init())
-  .pipe(sass().on('error', sass.logErorr))
+  .pipe(sass())
   .pipe(minifyCss())
   .pipe(maps.write('./'))
   .pipe(gulp.dest('./build'));
