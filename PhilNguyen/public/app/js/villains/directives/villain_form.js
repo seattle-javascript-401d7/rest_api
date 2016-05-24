@@ -4,7 +4,7 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/villains/directives/villain_form.html',
+      templateUrl: 'templates/villains/directives/villain_form.html',
       require: '^ngController',
       scope: {
         villain: '=',

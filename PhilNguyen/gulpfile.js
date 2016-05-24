@@ -1,11 +1,15 @@
 'use strict';
 const gulp = require('gulp');
+const sass = require('gulp-sass');
+const maps = require('gulp-sourcemaps');
+const minifyCss = require('gulp-minify-css');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const webpack = require('webpack-stream');
 const gulpProtractorAngular = require('gulp-angular-protractor');
 const cp = require('child_process');
 const mongoUri = 'mongodb://localhost/test_server';
+const html = require('html-loader');
 let children = [];
 
 let files = ['api_server.js', 'gulpfile.js',
@@ -37,6 +41,14 @@ gulp.task('webpack:test', () => {
     devtool: 'source-map',
     output: {
       filename: 'bundle.js'
+    },
+    module: {
+      loaders: [
+        {
+          test: /\.html$/,
+          loader: 'html'
+        }
+      ]
     }
   }))
   .pipe(gulp.dest('./test'));
@@ -49,6 +61,15 @@ gulp.task('static:dev', () => {
 
 gulp.task('css:dev', () => {
   gulp.src('public/app/css/**/*.css')
+  .pipe(gulp.dest('./build'));
+});
+
+gulp.task('sass:dev', function() {
+  gulp.src('public/app/css/**/*.scss')
+  .pipe(maps.init())
+  .pipe(sass().on('error', sass.logError))
+  .pipe(minifyCss())
+  .pipe(maps.write('./'))
   .pipe(gulp.dest('./build'));
 });
 
@@ -86,5 +107,9 @@ gulp.task('mocha: test', () => {
   .pipe(mocha());
 });
 
-gulp.task('build:dev', ['webpack:dev', 'static:dev', 'css:dev']);
+gulp.task('build:dev', ['webpack:dev', 'static:dev', 'static:dev']);
 gulp.task('default', ['startservers:test', 'build:dev', 'lint: dev']);
+
+gulp.task('sass:watch', function() {
+  gulp.watch('./*.scss', ['sass:dev']);
+});

@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/superheroes/directives/superhero_form.html',
+      templateUrl: 'templates/superheroes/directives/superhero_form.html',
       scope: {
         superhero: '=',
         buttonText: '@',

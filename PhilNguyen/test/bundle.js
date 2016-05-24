@@ -44,99 +44,27 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	const angular = __webpack_require__(1);
+	__webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(8);
+	__webpack_require__(9);
+	__webpack_require__(25);
+	__webpack_require__(26);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(2);
-	
-	const newApp = angular.module('newApp', []);
-	const baseUrl = 'http://localhost:8080';
-	
-	var handleError = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
-	};
-	
-	newApp.controller('HeroesController', ['$http', function($http) {
-	  this.superheroes = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/superheroes')
-	    .then((res) => {
-	      this.superheroes = res.data;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.createSuperhero = () => {
-	    $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
-	    .then((res) => {
-	      this.superheroes.push(res.data);
-	      this.newSuperhero = null;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.updateSuperhero = (superhero) => {
-	    $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
-	    .then(() => {
-	      superhero.editing = false;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.removeSuperhero = (superhero) => {
-	    $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
-	    .then(() => {
-	      this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
-	    }, handleError.bind(this));
-	  };
-	}])
-	.controller('VillainsController', ['$http', function($http) {
-	  this.villains = [];
-	  this.getAll = () => {
-	    $http.get(baseUrl + '/api/villains')
-	    .then((res) => {
-	      this.villains = res.data;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.createVillain = () => {
-	    $http.post(baseUrl + '/api/villains', this.newVillain)
-	    .then((res) => {
-	      this.villains.push(res.data);
-	      this.newVillain = null;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.updateVillain = (villain) => {
-	    $http.put(baseUrl + '/api/villains/' + villain._id, villain)
-	    .then(() => {
-	      villain.editing = false;
-	    }, handleError.bind(this));
-	  };
-	
-	  this.removeVillain = (villain) => {
-	    $http.delete(baseUrl + '/api/villains/' + villain._id)
-	    .then(() => {
-	      this.villains.splice(this.villains.indexOf(villain), 1);
-	    }, handleError.bind(this));
-	  };
-	}]);
-
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(3);
+	__webpack_require__(2);
 	module.exports = angular;
 
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	/**
@@ -31009,82 +30937,7 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var angular = __webpack_require__(2);
-	__webpack_require__(5);
-	
-	describe('superheroes controller', function() {
-	  var $controller;
-	
-	  beforeEach(angular.mock.module('newApp'));
-	
-	  beforeEach(angular.mock.inject(function(_$controller_) {
-	    $controller = _$controller_;
-	  }));
-	
-	  it('should be a controller', function() {
-	    var heroesctrl = $controller('HeroesController');
-	    expect(typeof heroesctrl).toBe('object');
-	    expect(typeof heroesctrl.getAll).toBe('function');
-	  });
-	
-	  describe('REST functionality', function() {
-	    var $httpBackend;
-	    var heroesctrl;
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      heroesctrl = $controller('HeroesController');
-	    }));
-	    afterEach(function() {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-	
-	    it('should send a GET request to retrieve superheroes', function() {
-	      $httpBackend.expectGET('http://localhost:8080/api/superheroes')
-	      .respond(200, [ { name: 'test_superhero' } ]);
-	      heroesctrl.getAll();
-	      $httpBackend.flush();
-	      expect(heroesctrl.superheroes.length).toBe(1);
-	      expect(heroesctrl.superheroes[0].name).toBe('test_superhero');
-	    });
-	
-	    it('should create a superhero', function() {
-	      $httpBackend.expectPOST('http://localhost:8080/api/superheroes', { name: 'captain_america' })
-	      .respond(200, { name: 'some hero' });
-	      expect(heroesctrl.superheroes.length).toBe(0);
-	      heroesctrl.newSuperhero = { name: 'captain_america' };
-	      heroesctrl.createSuperhero();
-	      $httpBackend.flush();
-	      expect(heroesctrl.superheroes[0].name).toBe('some hero');
-	      expect(heroesctrl.newSuperhero).toBe(null);
-	    });
-	
-	    it('should update a superhero', function() {
-	      $httpBackend.expectPUT('http://localhost:8080/api/superheroes/1',
-	      { name: 'updated hero!', powerlevel: 2000, editing: true, _id: 1 }).respond(200);
-	      heroesctrl.superheroes = [{ name: 'test hero', powerlevel: 2000, editing: true, _id: 1 }];
-	      heroesctrl.superheroes[0].name = 'updated hero!';
-	      heroesctrl.updateSuperhero(heroesctrl.superheroes[0]);
-	      $httpBackend.flush();
-	      expect(heroesctrl.superheroes[0].editing).toBe(false);
-	    });
-	
-	    it('should remove a superhero', function() {
-	      $httpBackend.expectDELETE('http://localhost:8080/api/superheroes/1').respond(200);
-	      heroesctrl.superheroes = [{ name: 'test', powerlevel: 100, _id: 1 }];
-	      heroesctrl.removeSuperhero(heroesctrl.superheroes[0]);
-	      $httpBackend.flush();
-	      expect(heroesctrl.superheroes.length).toBe(0);
-	    });
-	  });
-	});
-
-
-/***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -34096,11 +33949,449 @@
 
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	const angular = __webpack_require__(1);
+	const formTemplate = __webpack_require__(5);
+	
+	describe('superhero form directive', function() {
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  var $scope, $httpBackend, $compile, $controller;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_, _$controller_) {
+	    $scope = $rootScope.$new();
+	    $httpBackend = _$httpBackend_;
+	    $compile = _$compile_;
+	    $controller = _$controller_;
+	  }));
+	
+	  it('should transclude some html', function() {
+	    $httpBackend.expectGET('templates/superheroes/directives/superhero_form.html').respond(200, formTemplate);
+	    var testSuperheroFormDirective = $compile('<main data-ng-controller="HeroesController as heroesctrl"><superhero-form data-button-text="\'Update superhero\'"' +
+	    'data-rest-action="update" data-superhero="superhero">' +
+	    '<button data-ng-click="superhero.editing=false">Cancel</button></superhero-form></main>')($scope);
+	    $httpBackend.flush();
+	    expect(testSuperheroFormDirective.html().indexOf('Update superhero')).not.toBe(-1);
+	
+	  });
+	});
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(superhero)\">\n  <h1>Create a Superhero</h1>\n  <label for=\"name\">Hero name</label>\n  <input type=\"text\" name=\"heroname\" data-ng-model=\"superhero.name\"/>\n  <label for=\"powerlevel\">Power Level</label>\n  <input type=\"text\" name=\"powerlevel\" data-ng-model=\"superhero.powerlevel\" />\n  <button id=\"createsuperhero\" type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+	const formTemplate = __webpack_require__(5);
+	
+	describe('villain form directive', function() {
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  var $scope, $httpBackend, $compile;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_) {
+	    $scope = $rootScope.$new();
+	    $httpBackend = _$httpBackend_;
+	    $compile = _$compile_;
+	  }));
+	
+	  it('should transclude some html', function() {
+	    $httpBackend.expectGET('templates/villains/directives/villain_form.html').respond(200, formTemplate);
+	    var testVillainFormDirective = $compile('<main data-ng-controller="VillainsController as villainsctrl">' + 
+	    '<villain-form data-button-text="\'Update villain\'"' +
+	    'data-rest-action="update" data-villain="villain">' +
+	    '<button data-ng-click="villain.editing=false">Cancel</button></villain-form>')($scope);
+	    $httpBackend.flush();
+	    expect(testVillainFormDirective.html().indexOf('Update villain')).not.toBe(-1);
+	
+	  });
+	});
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+	const newApp = angular.module('newApp', []);
+	
+	__webpack_require__(10)(newApp);
+	__webpack_require__(19)(newApp);
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(11)(app);
+	  __webpack_require__(16)(app);
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(12)(app);
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(13).handleError;
+	var baseUrl = __webpack_require__(15).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('HeroesController', ['$http', function($http) {
+	    this.superheroes = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/superheroes')
+	      .then((res) => {
+	        this.superheroes = res.data;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.createSuperhero = () => {
+	      $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
+	      .then((res) => {
+	        this.superheroes.push(res.data);
+	        this.newSuperhero = null;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.updateSuperhero = (superhero) => {
+	      $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
+	      .then(() => {
+	        superhero.editing = false;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.removeSuperhero = (superhero) => {
+	      $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
+	      .then(() => {
+	        this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
+	      }, handleError.bind(this));
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  handleError: __webpack_require__(14)
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = function(error) {
+	  console.log(error);
+	  this.errors = (this.errors || []).push(error);
+	};
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  baseUrl: 'http://localhost:8080'
+	};
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(17)(app);
+	  __webpack_require__(18)(app);
+	};
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('superheroForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: 'templates/superheroes/directives/superhero_form.html',
+	      scope: {
+	        superhero: '=',
+	        buttonText: '@',
+	        restAction: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var actions = {
+	          update: controller.updateSuperhero,
+	          create: controller.createSuperhero
+	        };
+	        scope.save = actions[scope.restAction];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('superheroListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      templateUrl: '/templates/superheroes/directives/superhero_list_item.html',
+	      transclude: true,
+	      scope: {
+	        superhero: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.delete = controller.removeSuperhero;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(20)(app);
+	  __webpack_require__(22)(app);
+	};
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(21)(app);
+	};
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(13).handleError;
+	var baseUrl = __webpack_require__(15).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('VillainsController', ['$http', function($http) {
+	    this.villains = [];
+	    this.getAll = () => {
+	      $http.get(baseUrl + '/api/villains')
+	      .then((res) => {
+	        this.villains = res.data;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.createVillain = () => {
+	      $http.post(baseUrl + '/api/villains', this.newVillain)
+	      .then((res) => {
+	        this.villains.push(res.data);
+	        this.newVillain = null;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.updateVillain = (villain) => {
+	      $http.put(baseUrl + '/api/villains/' + villain._id, villain)
+	      .then(() => {
+	        villain.editing = false;
+	      }, handleError.bind(this));
+	    };
+	
+	    this.removeVillain = (villain) => {
+	      $http.delete(baseUrl + '/api/villains/' + villain._id)
+	      .then(() => {
+	        this.villains.splice(this.villains.indexOf(villain), 1);
+	      }, handleError.bind(this));
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(23)(app);
+	  __webpack_require__(24)(app);
+	};
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('villainForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: 'templates/villains/directives/villain_form.html',
+	      require: '^ngController',
+	      scope: {
+	        villain: '=',
+	        buttonText: '@',
+	        restAction: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var actions = {
+	          update: controller.updateVillain,
+	          create: controller.createVillain
+	        };
+	        scope.save = actions[scope.restAction];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('villainListItem', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      require: '^ngController',
+	      templateUrl: '/templates/villains/directives/villain_list_item.html',
+	      transclude: true,
+	      scope: {
+	        villain: '='
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        scope.delete = controller.removeVillain;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+	__webpack_require__(3);
+	
+	describe('superheroes controller', function() {
+	  var $controller;
+	
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  beforeEach(angular.mock.inject(function(_$controller_) {
+	    $controller = _$controller_;
+	  }));
+	
+	  it('should be a controller', function() {
+	    var heroesctrl = $controller('HeroesController');
+	    expect(typeof heroesctrl).toBe('object');
+	    expect(typeof heroesctrl.getAll).toBe('function');
+	  });
+	
+	  describe('REST functionality', function() {
+	    var $httpBackend;
+	    var heroesctrl;
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      heroesctrl = $controller('HeroesController');
+	    }));
+	    afterEach(function() {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	
+	    it('should send a GET request to retrieve superheroes', function() {
+	      $httpBackend.expectGET('http://localhost:8080/api/superheroes')
+	      .respond(200, [ { name: 'test_superhero' } ]);
+	      heroesctrl.getAll();
+	      $httpBackend.flush();
+	      expect(heroesctrl.superheroes.length).toBe(1);
+	      expect(heroesctrl.superheroes[0].name).toBe('test_superhero');
+	    });
+	
+	    it('should create a superhero', function() {
+	      $httpBackend.expectPOST('http://localhost:8080/api/superheroes', { name: 'captain_america' })
+	      .respond(200, { name: 'some hero' });
+	      expect(heroesctrl.superheroes.length).toBe(0);
+	      heroesctrl.newSuperhero = { name: 'captain_america' };
+	      heroesctrl.createSuperhero();
+	      $httpBackend.flush();
+	      expect(heroesctrl.superheroes[0].name).toBe('some hero');
+	      expect(heroesctrl.newSuperhero).toBe(null);
+	    });
+	
+	    it('should update a superhero', function() {
+	      $httpBackend.expectPUT('http://localhost:8080/api/superheroes/1',
+	      { name: 'updated hero!', powerlevel: 2000, editing: true, _id: 1 }).respond(200);
+	      heroesctrl.superheroes = [{ name: 'test hero', powerlevel: 2000, editing: true, _id: 1 }];
+	      heroesctrl.superheroes[0].name = 'updated hero!';
+	      heroesctrl.updateSuperhero(heroesctrl.superheroes[0]);
+	      $httpBackend.flush();
+	      expect(heroesctrl.superheroes[0].editing).toBe(false);
+	    });
+	
+	    it('should remove a superhero', function() {
+	      $httpBackend.expectDELETE('http://localhost:8080/api/superheroes/1').respond(200);
+	      heroesctrl.superheroes = [{ name: 'test', powerlevel: 100, _id: 1 }];
+	      heroesctrl.removeSuperhero(heroesctrl.superheroes[0]);
+	      $httpBackend.flush();
+	      expect(heroesctrl.superheroes.length).toBe(0);
+	    });
+	  });
+	});
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+	__webpack_require__(3);
 	
 	describe('villains controller', function() {
 	  var $controller;
