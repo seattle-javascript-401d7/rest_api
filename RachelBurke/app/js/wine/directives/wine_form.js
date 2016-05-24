@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/wine/directives/wine_form.html',
+      templateUrl: '/templates/wine_directives/wine_form.html',
       scope: {
         wine: '=',
         buttonText: '@',

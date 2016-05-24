@@ -32,8 +32,8 @@
   </section>
 </article>
 <article id="practiceApp">
-  <section data-ng-controller="cheese in cheesecontrol.cheese" data-cheese="cheese">
-    data-ng-init="cheesecontrol.getAll()">
+  <section data-ng-controller="CheeseController as cheesecontrol" data-cheese="cheese">
+    <data-ng-init="cheesecontrol.getAll()">
     <h2>How to choose a good cheese</h2>
     <cheese-form
     data-button-text="Choose Cheese"
@@ -42,7 +42,7 @@
   </cheese-form>
 <h2>Cellar</h2>
   <ul id="cheeselist">
-    <cheese-list-item data-ng-repeat="cheese in cheesecontrol.cheese" data-cheese="cheese">
+    <cheese-list-item data-ng-repeat="cheese in cheeses" data-cheese="cheese">
       <cheese-form
       data-ng-if="cheese.editing"
       data-button-text="Enjoy the Cheese"

@@ -31053,7 +31053,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/wine/directives/wine_form.html',
+	      templateUrl: '/templates/wine_directives/wine_form.html',
 	      scope: {
 	        wine: '=',
 	        buttonText: '@',
@@ -31121,24 +31121,24 @@
 	var url = __webpack_require__(9).url;
 	module.exports = function(app) {
 	  app.controller('CheeseController', ['$http', function($http) {
-	    this.cheese = [];
+	    this.cheeses = [];
 	    this.getAll = () => {
 	      $http.get(url + '/api/cheese')
 	      .then((res) => {
-	        this.cheese = res.data;
+	        this.cheeses = res.data;
 	      }, handleErrors.bind(this));
 	    };
 	    this.createCheese = () => {
 	      $http.post(url + '/api/cheese', this.newCheese)
 	      .then((res) => {
-	        this.cheese.push(res.data);
+	        this.cheeses.push(res.data);
 	        this.newCheese = null;
 	      }, handleErrors.bind(this));
 	    };
 	    this.deleteCheese = (cheese) => {
 	      $http.delete(url + '/api/cheese/' + cheese._id)
 	      .then(() => {
-	        this.cheese.splice(this.cheese.indexOf(cheese), 1);
+	        this.cheeses.splice(this.cheeses.indexOf(cheese), 1);
 	      }, handleErrors.bind(this));
 	    };
 	    this.updateCheese = (cheese) => {
@@ -31172,7 +31172,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/cheese/directives/cheese_form.html',
+	      templateUrl: '/templates/cheese_directives/cheese_form.html',
 	      scope: {
 	        sandwich: '=',
 	        buttonText: '@',
