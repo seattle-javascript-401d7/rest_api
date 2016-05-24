@@ -107,7 +107,7 @@ gulp.task('mocha: test', () => {
   .pipe(mocha());
 });
 
-gulp.task('build:dev', ['webpack:dev', 'static:dev', 'static:dev']);
+gulp.task('build:dev', ['webpack:dev', 'static:dev', 'sass:dev', 'css:dev']);
 gulp.task('default', ['startservers:test', 'build:dev', 'lint: dev']);
 
 gulp.task('sass:watch', function() {
