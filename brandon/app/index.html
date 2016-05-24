@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Jedi vs Sith</title>
+    <link rel="stylesheet" href="./css/style.css" charset="utf-8">
   </head>
   <body data-ng-app="liveApp">
     <main>
-      <h1>Jedi</h1>
+      <h1>Jedi vs Sith</h1>
+      <h2>Jedi Creator</h2>
       <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
         <jedi-form
           data-button-text="Create Jedi"
@@ -25,7 +27,7 @@
         </jedi-list-item>
       </ul>
     </section>
-    <h1>Sith</h1>
+    <h2>Sith Creator</h2>
     <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
       <sith-form
         data-button-text="Create Sith"

@@ -1,0 +1,29 @@
+header {
+  h1 {
+    font-family: $h1;
+    font-size: 48px;
+    background-color: $bgheader;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+section {
+  ul {
+    margin: 0;
+    padding: $gutter;
+  }
+
+  li {
+    display: inline-block;
+  }
+}
+
+input {
+  width: 100%;
+}
+
+p {
+  font-size: 20px;
+  color: $fontcolor;
+}

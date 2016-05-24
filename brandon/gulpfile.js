@@ -4,6 +4,9 @@ const mocha = require('gulp-mocha');
 const webpack = require('webpack-stream');
 const cp = require('child_process');
 const protractor = require('gulp-protractor').protractor;
+const sass = require('gulp-sass');
+const maps = require('gulp-sourcemaps');
+const minifyCss = require('gulp-minify-css');
 var children = [];
 
 process.env.APP_SECRET = 'testing';
@@ -16,7 +19,7 @@ gulp.task('lint', () => {
   .pipe(eslint.format());
 });
 
-gulp.task('webpack:dev', () => {
+gulp.task('webpack:dev', ['sass:dev'], () => {
   return gulp.src('app/js/entry.js')
     .pipe(webpack({
       devtool: 'source-map',
@@ -39,7 +42,7 @@ gulp.task('webpack:test', () => {
 });
 
 gulp.task('static:dev', () => {
-  return gulp.src('app/**/*.html')
+  return gulp.src(['app/**/*.html', 'app/**/*.css'])
     .pipe(gulp.dest('./build'));
 });
 
@@ -63,6 +66,19 @@ gulp.task('mocha', () => {
   .once('end', () => {
     process.exit();
   });
+});
+
+gulp.task('sass:dev', () => {
+  return gulp.src('app/sass/**/*.scss')
+    .pipe(maps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(minifyCss())
+    .pipe(maps.write())
+    .pipe(gulp.dest('./app/css'));
+});
+
+gulp.task('sass:watch', ['sass:dev'], () => {
+  gulp.watch('./app/sass/**/*.scss');
 });
 
 gulp.task('protractor', ['start:server', 'build:dev'], () => {
