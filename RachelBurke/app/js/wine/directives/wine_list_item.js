@@ -7,10 +7,10 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/wine/directives/wine_list_item.html',
       scope: {
-        wine: '='
+        pet: '='
       },
       link: function(scope, element, attrs, controller) {
-        scope.sell = controller.deleteWine;
+        scope.sell = controller.deletePet;
       }
     };
   });
