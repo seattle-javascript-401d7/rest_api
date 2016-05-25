@@ -1,0 +1,8 @@
+@mixin main-width {
+  main {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+@include main-width;

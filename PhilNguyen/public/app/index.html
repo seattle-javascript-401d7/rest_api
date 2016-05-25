@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Avengers Infinity Wars</title>
+  <link rel="stylesheet" href="application.css" />
+</head>
+<body data-ng-app="newApp">
+  <main data-ng-controller="HeroesController as heroesctrl" data-ng-init="heroesctrl.getAll()">
+
+    <superhero-form id="form"
+    data-button-text="Create Superhero"
+    data-rest-action="create"
+    data-superhero="heroesctrl.newSuperhero">
+  </superhero-form>
+
+  <ul id="errors">
+    <li data-ng-repeat="error in heroesctrl.errors">
+      {{error.message}}
+      <button data-ng-click="heroesctrl.errors.splice(heroesctrl.errors.indexOf(error), 1)">Remove</button>
+    </li>
+  </ul>
+
+  <h1>List of Heroes</h1>
+  <ul id="heroeslist">
+    <superhero-list-item data-ng-repeat="superhero in heroesctrl.superheroes" data-superhero="superhero">
+      <superhero-form id="form"
+      data-ng-if="superhero.editing"
+      data-button-text="Update Superhero"
+      data-rest-action="update"
+      data-superhero="superhero">
+      <button data-ng-click="superhero.editing=false">Cancel</button>
+    </superhero-form>
+  </superhero-list-item>
+</ul>
+</main>
+
+<main data-ng-controller="VillainsController as villainsctrl" data-ng-init="villainsctrl.getAll()">
+
+  <villain-form id="form"
+  data-button-text="Create Villain"
+  data-rest-action="create"
+  data-villain="villainsctrl.newVillain">
+</villain-form>
+
+<ul id="errors">
+  <li data-ng-repeat="error in villainsctrl.errors">
+    {{error.message}}
+    <button data-ng-click="villainsctrl.errors.splice(villainsctrl.errors.indexOf(error), 1)">Remove</button>
+  </li>
+</ul>
+
+<h1>List of Villains</h1>
+<ul id="villainslist">
+  <villain-list-item data-ng-repeat="villain in villainsctrl.villains" data-villain="villain">
+    <villain-form id="form"
+    data-ng-if="villain.editing"
+    data-button-text="Update Villain"
+    data-rest-action="update"
+    data-villain="villain">
+    <button data-ng-click="villain.editing=false">Cancel</button>
+  </villain-form>
+</villain-list-item>
+</ul>
+
+</main>
+
+<script src="./bundle.js"></script>
+</body>
+</html>
