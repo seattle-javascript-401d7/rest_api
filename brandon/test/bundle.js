@@ -47,6 +47,7 @@
 	__webpack_require__(1);
 	__webpack_require__(19);
 	__webpack_require__(21);
+	__webpack_require__(22);
 
 
 /***/ },
@@ -56,7 +57,9 @@
 	const angular = __webpack_require__(2);
 	
 	const liveApp = angular.module('liveApp', []);
+	
 	__webpack_require__(4)(liveApp);
+	__webpack_require__(6)(liveApp);
 	__webpack_require__(13)(liveApp);
 
 
@@ -30947,16 +30950,24 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(5)(app);
-	  __webpack_require__(10)(app);
 	};
 
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(6)(app);
+	  app.factory('cfHandleError', function() {
+	    return function(errorsArr, message) {
+	      return function(err) {
+	      console.log(err);
+	      if (Array.isArray(errorsArr)) {
+	        errorsArr.push(new Error(message || 'server error'));
+	        }
+	      };
+	    };
+	  });
 	};
 
 
@@ -30964,33 +30975,53 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var errorHandler = __webpack_require__(7).errorHandler;
+	module.exports = function(app) {
+	  __webpack_require__(7)(app);
+	  __webpack_require__(10)(app);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var baseUrl = __webpack_require__(9).baseUrl;
 	const copy = __webpack_require__(2).copy;
 	
 	module.exports = function(app) {
-	  app.controller('JediController', ['$http', function($http) {
+	  app.controller('JediController', ['$http', 'cfHandleError', function($http, cfHandleError) {
 	    this.jedis = [];
+	    this.errors = [];
 	    this.getAll = () => {
 	      $http.get(baseUrl + '/api/jedi')
 	        .then((res) => {
 	          this.jedis = res.data;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not retrieve jedis'));
 	    };
 	
 	    this.createJedi = function() {
+	      var jediName = this.newJedi.name;
 	      $http.post(baseUrl + '/api/jedi', this.newJedi)
 	        .then((res) => {
 	          this.jedis.push(res.data);
 	          this.newJedi = null;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not create ' + jediName));
 	    }.bind(this);
 	
 	    this.updateJedi = function(jedi) {
 	      $http.put(baseUrl + '/api/jedi/' + jedi._id, jedi)
 	        .then(() => {
 	          jedi.editing = false;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not update ' + jedi.name));
 	    };
 	
 	    this.editJedi = function(jedi) {
@@ -31009,28 +31040,9 @@
 	      $http.delete(baseUrl + '/api/jedi/' + jedi._id)
 	      .then(() => {
 	        this.jedis.splice(this.jedis.indexOf(jedi), 1);
-	      }, errorHandler.bind(this));
+	      }, cfHandleError(this.errors, 'could not delete ' + jedi.name));
 	    }.bind(this);
 	  }]);
-	};
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = {
-	  errorHandler: __webpack_require__(8)
-	};
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	module.exports = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
 	};
 
 
@@ -31129,33 +31141,34 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var errorHandler = __webpack_require__(7).errorHandler;
 	var baseUrl = __webpack_require__(9).baseUrl;
 	const copy = __webpack_require__(2).copy;
 	
 	module.exports = function(app) {
-	  app.controller('SithController', ['$http', function($http) {
+	  app.controller('SithController', ['$http', 'cfHandleError', function($http, cfHandleError) {
 	    this.siths = [];
+	    this.errors = [];
 	    this.getAll = () => {
 	      $http.get(baseUrl + '/api/sith')
 	        .then((res) => {
 	          this.siths = res.data;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not retrieve sith'));
 	    };
 	
 	    this.createSith = function() {
+	      var sithName = this.newSith.name;
 	      $http.post(baseUrl + '/api/sith', this.newSith)
 	        .then((res) => {
 	          this.siths.push(res.data);
 	          this.newSith = null;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not create ' + sithName));
 	    }.bind(this);
 	
 	    this.updateSith = function(sith) {
 	      $http.put(baseUrl + '/api/sith/' + sith._id, sith)
 	        .then(() => {
 	          sith.editing = false;
-	        }, errorHandler.bind(this));
+	        }, cfHandleError(this.errors, 'could not update ' + sith.name));
 	    };
 	
 	    this.editSith = function(sith) {
@@ -31250,66 +31263,21 @@
 	var angular = __webpack_require__(2);
 	__webpack_require__(20);
 	
-	describe('jedi controller', () => {
-	  var $controller;
-	
+	describe('cfHandleError service', () => {
 	  beforeEach(angular.mock.module('liveApp'));
 	
-	  beforeEach(angular.mock.inject((_$controller_) => {
-	    $controller = _$controller_;
+	  it('should return as a function', angular.mock.inject(function(cfHandleError) {
+	    expect(typeof cfHandleError).toBe('function');
 	  }));
 	
-	  it('should be a controller', () => {
-	    var jediCtrl = $controller('JediController');
-	    expect(typeof jediCtrl).toBe('object');
-	    expect(typeof jediCtrl.getAll).toBe('function');
-	  });
+	  it('should add an error to the errors array', angular.mock.inject(function(cfHandleError) {
+	    var testArr = [];
+	    cfHandleError(testArr, 'this is a test message')();
+	    expect(testArr.length).toBe(1);
+	    expect(testArr[0] instanceof Error).toBe(true);
+	    expect(testArr[0].message).toBe('this is a test message');
+	  }));
 	
-	  describe('REST functionality', () => {
-	    var $httpBackend;
-	    var jediCtrl;
-	
-	    beforeEach(angular.mock.inject((_$httpBackend_) => {
-	      $httpBackend = _$httpBackend_;
-	      jediCtrl = $controller('JediController');
-	    }));
-	
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-	
-	    it('should send a GET to get a jedi', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/jedi').respond(200,
-	        [{ name: 'test jedi' }]);
-	      jediCtrl.getAll();
-	      $httpBackend.flush();
-	      expect(jediCtrl.jedis.length).toBe(1);
-	      expect(jediCtrl.jedis[0].name).toBe('test jedi');
-	    });
-	
-	    it('should create a new Jedi', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/jedi', { name: 'Totally not a sith'
-	        }).respond(200, { name: 'a different person' });
-	      expect(jediCtrl.jedis.length).toBe(0);
-	      jediCtrl.newJedi = { name: 'Totally not a sith' };
-	      jediCtrl.createJedi();
-	      $httpBackend.flush();
-	      expect(jediCtrl.jedis[0].name).toBe('a different person');
-	      expect(jediCtrl.newJedi).toBe(null);
-	    });
-	
-	    it('should update a Jedi', () => {
-	      $httpBackend.expectPUT('http://localhost:3000/api/jedi/1', { name: 'updated Jedi',
-	      editing: true, _id: 1 } ).respond(200);
-	      jediCtrl.jedis = [{ name: 'JEDI ALL CAPS', editing: true, _id: 1 }];
-	      jediCtrl.jedis[0].name = 'updated Jedi';
-	      jediCtrl.updateJedi(jediCtrl.jedis[0]);
-	      $httpBackend.flush();
-	      expect(jediCtrl.jedis[0].editing).toBe(false);
-	    });
-	
-	  });
 	});
 
 
@@ -34327,6 +34295,76 @@
 
 /***/ },
 /* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	__webpack_require__(20);
+	
+	describe('jedi controller', () => {
+	  var $controller;
+	
+	  beforeEach(angular.mock.module('liveApp'));
+	
+	  beforeEach(angular.mock.inject((_$controller_) => {
+	    $controller = _$controller_;
+	  }));
+	
+	  it('should be a controller', () => {
+	    var jediCtrl = $controller('JediController');
+	    expect(typeof jediCtrl).toBe('object');
+	    expect(typeof jediCtrl.getAll).toBe('function');
+	  });
+	
+	  describe('REST functionality', () => {
+	    var $httpBackend;
+	    var jediCtrl;
+	
+	    beforeEach(angular.mock.inject((_$httpBackend_) => {
+	      $httpBackend = _$httpBackend_;
+	      jediCtrl = $controller('JediController');
+	    }));
+	
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	
+	    it('should send a GET to get a jedi', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/jedi').respond(200,
+	        [{ name: 'test jedi' }]);
+	      jediCtrl.getAll();
+	      $httpBackend.flush();
+	      expect(jediCtrl.jedis.length).toBe(1);
+	      expect(jediCtrl.jedis[0].name).toBe('test jedi');
+	    });
+	
+	    it('should create a new Jedi', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/jedi', { name: 'Totally not a sith'
+	        }).respond(200, { name: 'a different person' });
+	      expect(jediCtrl.jedis.length).toBe(0);
+	      jediCtrl.newJedi = { name: 'Totally not a sith' };
+	      jediCtrl.createJedi();
+	      $httpBackend.flush();
+	      expect(jediCtrl.jedis[0].name).toBe('a different person');
+	      expect(jediCtrl.newJedi).toBe(null);
+	    });
+	
+	    it('should update a Jedi', () => {
+	      $httpBackend.expectPUT('http://localhost:3000/api/jedi/1', { name: 'updated Jedi',
+	      editing: true, _id: 1 } ).respond(200);
+	      jediCtrl.jedis = [{ name: 'JEDI ALL CAPS', editing: true, _id: 1 }];
+	      jediCtrl.jedis[0].name = 'updated Jedi';
+	      jediCtrl.updateJedi(jediCtrl.jedis[0]);
+	      $httpBackend.flush();
+	      expect(jediCtrl.jedis[0].editing).toBe(false);
+	    });
+	
+	  });
+	});
+
+
+/***/ },
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);

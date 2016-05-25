@@ -9,7 +9,12 @@
     <h1>Jedi vs Sith</h1>
     <main>
       <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
-        <h2>Jedi Creator</h2>
+      <h2>Jedi Creator</h2>
+        <ul>
+          <li data-ng-repeat="error in jediCtrl.errors">{{error.message}}
+            <button data-ng-click="jediCtrl.errors.splice(jediCtrl.errors.indexOf(error), 1)">x</button>
+          </li>
+        </ul>
         <jedi-form
           data-button-text="Create Jedi"
           data-savemethod="create"
@@ -28,7 +33,12 @@
       </ul>
     </section>
     <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
-      <h2>Sith Creator</h2>
+    <h2>Sith Creator</h2>
+      <ul>
+        <li data-ng-repeat="error in sithCtrl.errors">{{error.message}}
+          <button data-ng-click="sithCtrl.errors.splice(sithCtrl.errors.indexOf(error), 1)">x</button>
+        </li>
+      </ul>
       <sith-form
         data-button-text="Create Sith"
         data-savemethod="create"
