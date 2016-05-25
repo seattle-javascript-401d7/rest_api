@@ -1,0 +1,36 @@
+:-moz-placeholder {
+    color: $stem;
+}
+
+::-webkit-input-placeholder {
+    color: $stem;
+}
+
+*:focus {
+  outline: none;
+}
+
+form {
+  @include border ($stem, $cream);
+  background-color: $cream;
+  background-color: $cream;
+  padding: 1em;
+  margin: 1em;
+  color: $stem;
+  text-decoration: none;
+  font-family: Tahoma, sans-serif;
+  input {
+    background-color: $cream;
+  }
+  input:focus {
+    @include border($stem, $pumpkin);
+  }
+  label {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    color: $stem;
+    text-shadow: 1px 1px black;
+  }
+  button {
+    background-color: $pumpkin;
+  }
+}

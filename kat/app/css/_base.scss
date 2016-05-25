@@ -1,0 +1,25 @@
+section {
+  background-color: $pumpkin;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+ul {
+  li {
+    color: $stem;
+    font-family: 'Francois One', sans-serif;
+    font-size: 1em;
+    list-style: none;
+  }
+}
+button {
+  @include border ($stem, $cream);
+  padding:5px;
+  background-color: $cream;
+  padding: 1em;
+  margin: 1em;
+  color: $stem;
+  text-decoration: none;
+  font-family: Tahoma, sans-serif;
+}

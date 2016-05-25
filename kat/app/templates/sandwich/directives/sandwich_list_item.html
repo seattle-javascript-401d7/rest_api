@@ -1,0 +1,7 @@
+<li>
+  <ng-transclude></ng-transclude>
+  {{sandwich.type}} needs {{sandwich.ingrediants}} and has a yum factor {{sandwich.yumFactor}}
+  <button data-ng-if="!sandwich.editing" data-ng-click="sandwich.editing = true">Improve Sandwich</button>
+
+  <button data-ng-click="eat(sandwich)">Eat a Sandwich</button>
+</li>
