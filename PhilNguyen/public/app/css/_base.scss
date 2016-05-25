@@ -1,5 +1,15 @@
 $backgroundBlue:#4086FF;
 
+@mixin headers {
+  h1 {
+    font-size: 1.5em;
+    margin: 0.5em;
+    font-weight: bold;
+  }
+}
+
+@include headers
+
 body {
   background-color: $backgroundBlue;
 }
