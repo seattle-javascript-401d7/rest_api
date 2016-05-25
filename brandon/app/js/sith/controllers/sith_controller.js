@@ -1,30 +1,31 @@
-var errorHandler = require('../../lib').errorHandler;
 var baseUrl = require('../../config').baseUrl;
 const copy = require('angular').copy;
 
 module.exports = function(app) {
-  app.controller('SithController', ['$http', function($http) {
+  app.controller('SithController', ['$http', 'cfHandleError', function($http, cfHandleError) {
     this.siths = [];
+    this.errors = [];
     this.getAll = () => {
       $http.get(baseUrl + '/api/sith')
         .then((res) => {
           this.siths = res.data;
-        }, errorHandler.bind(this));
+        }, cfHandleError(this.errors, 'could not retrieve sith'));
     };
 
     this.createSith = function() {
+      var sithName = this.newSith.name;
       $http.post(baseUrl + '/api/sith', this.newSith)
         .then((res) => {
           this.siths.push(res.data);
           this.newSith = null;
-        }, errorHandler.bind(this));
+        }, cfHandleError(this.errors, 'could not create ' + sithName));
     }.bind(this);
 
     this.updateSith = function(sith) {
       $http.put(baseUrl + '/api/sith/' + sith._id, sith)
         .then(() => {
           sith.editing = false;
-        }, errorHandler.bind(this));
+        }, cfHandleError(this.errors, 'could not update ' + sith.name));
     };
 
     this.editSith = function(sith) {

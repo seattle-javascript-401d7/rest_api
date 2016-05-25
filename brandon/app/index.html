@@ -32,11 +32,11 @@
     </section>
     <h1>Sith</h1>
     <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
-      <!-- <ul>
+      <ul>
         <li data-ng-repeat="error in sithCtrl.errors">{{error.message}}
           <button data-ng-click="sithCtrl.errors.splice(sithCtrl.errors.indexOf(error), 1)">x</button>
         </li>
-      </ul> -->
+      </ul>
       <sith-form
         data-button-text="Create Sith"
         data-savemethod="create"
