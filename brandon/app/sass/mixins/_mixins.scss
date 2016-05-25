@@ -1,0 +1,14 @@
+@mixin border-radius ($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin gradient-two-color {
+  background: rgb(211,166,165);
+  background: -moz-linear-gradient(top,  rgba(211,166,165,1) 0%, rgba(132,137,183,1) 100%, rgba(183,173,112,1) 100%);
+  background: -webkit-linear-gradient(top,  rgba(211,166,165,1) 0%,rgba(132,137,183,1) 100%,rgba(183,173,112,1) 100%);
+  background: linear-gradient(to bottom,  rgba(211,166,165,1) 0%,rgba(132,137,183,1) 100%,rgba(183,173,112,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d3a6a5', endColorstr='#b7ad70',GradientType=0 );
+}

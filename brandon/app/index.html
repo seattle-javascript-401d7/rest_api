@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="./css/style.css" charset="utf-8">
   </head>
   <body data-ng-app="liveApp">
+    <h1>Jedi vs Sith</h1>
     <main>
-      <h1>Jedi vs Sith</h1>
-      <h2>Jedi Creator</h2>
       <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
+        <h2>Jedi Creator</h2>
         <jedi-form
           data-button-text="Create Jedi"
           data-savemethod="create"
@@ -27,8 +27,8 @@
         </jedi-list-item>
       </ul>
     </section>
-    <h2>Sith Creator</h2>
     <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
+      <h2>Sith Creator</h2>
       <sith-form
         data-button-text="Create Sith"
         data-savemethod="create"
