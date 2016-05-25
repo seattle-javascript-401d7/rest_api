@@ -11,24 +11,24 @@
 }
 
 form {
-  @include border ($stem, $light-gray);
+  @include border ($feltblue, $light-gray);
   background-color: $light-gray;
   background-color: $light-gray;
   padding: 1em;
   margin: 1em;
-  color: $stem;
+  color: $feltblue;
   text-decoration: none;
   font-family: Tahoma, sans-serif;
   input {
     background-color: $light-gray;
   }
   input: focus {
-    @include border($stem, $yellow-green);
+    @include border($feltblue, $yellow-green);
   }
 
   label {
     font-family: Georgia, Times, "Times New Roman", serif;
-    color: $stem;
+    color: $feltblue;
     text-shadow: 1px 1px gray;
   }
   button {
