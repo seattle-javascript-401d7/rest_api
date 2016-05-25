@@ -7,6 +7,9 @@
   </head>
   <body data-ng-app="practiceApp">
     <section data-ng-controller="PetController as petcontrol" data-ng-init="petcontrol.getAll()">
+      <ul id="error1">
+        <li data-ng-repeat="error in petcontrol.errors">{{error.message}}<button data-ng-click="petcontrol.errors.splice(petcontrol.errors.indexOf(error), 1)">Done</button></li>
+      </ul>
       <h2>What Pets are in the Kitchen?</h2>
         <pet-form
         data-button-text="Create Pet"
@@ -28,6 +31,9 @@
 
     <section data-ng-controller="SandwichController as sandwichcontrol"
      data-ng-init="sandwichcontrol.getAll()">
+     <ul id="error2">
+       <li data-ng-repeat="error in sandwichcontrol.errors">{{error.message}}<button data-ng-click="sandwichcontrol.errors.splice(sandwichcontrol.errors.indexOf(error), 1)">Done</button></li>
+     </ul>
       <h2>How to make a Sandwich</h2>
           <sandwich-form
           data-button-text="Make Sandwich"
