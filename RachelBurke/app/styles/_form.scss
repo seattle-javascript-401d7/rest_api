@@ -1,9 +1,9 @@
 :-moz-placeholder {
-  color: $stem;
+  color: $feltblue;
 }
 
-::-webkit-input-placeholder {
-  color: $stem;
+:-webkit-input-placeholder {
+  color: $feltblue;
 }
 
 *:focus {
@@ -13,14 +13,13 @@
 form {
   @include border ($feltblue, $light-gray);
   background-color: $light-gray;
-  background-color: $light-gray;
   padding: 1em;
   margin: 1em;
   color: $feltblue;
   text-decoration: none;
   font-family: Tahoma, sans-serif;
   input {
-    background-color: $light-gray;
+  background-color: $light-gray;
   }
   input: focus {
     @include border($feltblue, $yellow-green);
