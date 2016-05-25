@@ -4,8 +4,6 @@ const webpack = require('webpack-stream');
 const html = require('html-loader'); // eslint-disable-line no-unused-vars
 const sass = require('gulp-sass');
 const maps = require('gulp-sourcemaps');
-// const minifyCss = require('gulp-minify-css');
-
 
 var files = ['/nodecellar/**/*.js', '/models/**/*.js', '/routes/**/*.js', 'server.js'];
 var clientFiles = ['app/**/*.js'];
@@ -15,7 +13,7 @@ var testFiles = ['test/unit/wine_controllertest.js',
 gulp.task('lintServer', () => {
   return gulp.src(files)
   .pipe(eslint('./.eslintrc'))
-  .pipe(eslint.format( { reporter: 'nyan' } ));
+  .pipe(eslint.format());
 });
 
 gulp.task('lintClient', () => {

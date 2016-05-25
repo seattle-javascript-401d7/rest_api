@@ -4,6 +4,7 @@ Added Angular1 directives 5/22/16
 
 ## How to use:
   * First type npm i into your command line to install all packages.
+  * Start mongod in terminal
   * Run gulp build in the terminal to build the file content needed.
   * Run server by entering node server.js into the terminal.
   * Run client server with node client_server.js
