@@ -1,0 +1,15 @@
+<form data-ng-submit="save(pet)">
+
+  <label for="name">Name</label>
+  <input type="text" name="name" data-ng-model="pet.name">
+
+  <label name="nickName">nickName</label>
+  <input type="text" name="nickName" data-ng-model="pet.nickName">
+
+
+  <label for="favoriteActivity">favoriteActivity</label>
+  <input type="text" name="favoriteActivity" data-ng-model="pet.favoriteActivity" placeholder="cuddles">
+
+  <button type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>
