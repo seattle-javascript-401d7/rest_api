@@ -6,34 +6,30 @@
     color: $stem;
 }
 
-*:focus {outline: none;}
+*:focus {
+  outline: none;
+}
 
 form {
+  @include border ($stem, $cream);
   background-color: $cream;
   background-color: $cream;
-  border: 1px solid $stem;
   padding: 1em;
   margin: 1em;
   color: $stem;
   text-decoration: none;
-  border-radius: 15px;
-  box-shadow: 0px 0px 5px $cream;
   font-family: Tahoma, sans-serif;
-}
-input {
-  background-color: $cream;
-}
-
-input:focus {
-  box-shadow: 0 0 5px $pumpkin;
-}
-
-label {
-  font-family: Georgia, Times, "Times New Roman", serif;
-  color: $stem;
-  text-shadow: 1px 1px black;
-}
-form {
+  input {
+    background-color: $cream;
+  }
+  input:focus {
+    @include border($stem, $pumpkin);
+  }
+  label {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    color: $stem;
+    text-shadow: 1px 1px black;
+  }
   button {
     background-color: $pumpkin;
   }
