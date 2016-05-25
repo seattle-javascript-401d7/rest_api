@@ -47,12 +47,13 @@
 	const angular = __webpack_require__(1);
 	__webpack_require__(3);
 	__webpack_require__(4);
-	__webpack_require__(6);
+	__webpack_require__(5);
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	__webpack_require__(25);
+	__webpack_require__(10);
 	__webpack_require__(26);
+	__webpack_require__(27);
 
 
 /***/ },
@@ -33952,18 +33953,41 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var angular = __webpack_require__(1);
+	
+	describe('handleError service', function() {
+	  var handleError;
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  it('should return a function', angular.mock.inject(function(handleError) {
+	    expect(typeof handleError).toBe('function');
+	  }));
+	
+	  it('should add an error to the errors array', angular.mock.inject(function(handleError) {
+	    var testArray = [];
+	    handleError(testArray, 'test error message')();
+	    expect(testArray.length).toBe(1);
+	    expect(testArray[0] instanceof Error).toBe(true);
+	    expect(testArray[0].message).toBe('test error message');
+	  }));
+	});
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(5);
+	const formTemplate = __webpack_require__(6);
 	
 	describe('superhero form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
 	
-	  var $scope, $httpBackend, $compile, $controller;
-	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_, _$controller_) {
+	  var $scope, $httpBackend, $compile;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_) {
 	    $scope = $rootScope.$new();
 	    $httpBackend = _$httpBackend_;
 	    $compile = _$compile_;
-	    $controller = _$controller_;
 	  }));
 	
 	  it('should transclude some html', function() {
@@ -33973,29 +33997,30 @@
 	    '<button data-ng-click="superhero.editing=false">Cancel</button></superhero-form></main>')($scope);
 	    $httpBackend.flush();
 	    expect(testSuperheroFormDirective.html().indexOf('Update superhero')).not.toBe(-1);
-	
+	    expect(testSuperheroFormDirective.html().indexOf('update')).not.toBe(-1);
+	    expect(testSuperheroFormDirective.html().indexOf('Cancel')).not.toBe(-1);
 	  });
 	});
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(superhero)\">\n  <h1>Create a Superhero</h1>\n  <label for=\"name\">Hero name</label>\n  <input type=\"text\" name=\"heroname\" data-ng-model=\"superhero.name\"/>\n  <label for=\"powerlevel\">Power Level</label>\n  <input type=\"text\" name=\"powerlevel\" data-ng-model=\"superhero.powerlevel\" />\n  <button id=\"createsuperhero\" type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(5);
+	const formTemplate = __webpack_require__(6);
 	
 	describe('villain form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
@@ -34009,42 +34034,32 @@
 	
 	  it('should transclude some html', function() {
 	    $httpBackend.expectGET('templates/villains/directives/villain_form.html').respond(200, formTemplate);
-	    var testVillainFormDirective = $compile('<main data-ng-controller="VillainsController as villainsctrl">' + 
+	    var testVillainFormDirective = $compile('<main data-ng-controller="VillainsController as villainsctrl">' +
 	    '<villain-form data-button-text="\'Update villain\'"' +
 	    'data-rest-action="update" data-villain="villain">' +
 	    '<button data-ng-click="villain.editing=false">Cancel</button></villain-form>')($scope);
 	    $httpBackend.flush();
 	    expect(testVillainFormDirective.html().indexOf('Update villain')).not.toBe(-1);
-	
 	  });
 	});
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	const angular = __webpack_require__(1);
-	const newApp = angular.module('newApp', []);
-	
-	__webpack_require__(10)(newApp);
-	__webpack_require__(19)(newApp);
 
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(app) {
-	  __webpack_require__(11)(app);
-	  __webpack_require__(16)(app);
-	};
+	const angular = __webpack_require__(1);
+	const newApp = angular.module('newApp', []);
+	
+	__webpack_require__(11)(newApp);
+	__webpack_require__(13)(newApp);
+	__webpack_require__(20)(newApp);
 
 
 /***/ },
@@ -34058,43 +34073,17 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var handleError = __webpack_require__(13).handleError;
-	var baseUrl = __webpack_require__(15).baseUrl;
-	
 	module.exports = function(app) {
-	  app.controller('HeroesController', ['$http', function($http) {
-	    this.superheroes = [];
-	    this.getAll = () => {
-	      $http.get(baseUrl + '/api/superheroes')
-	      .then((res) => {
-	        this.superheroes = res.data;
-	      }, handleError.bind(this));
+	  app.factory('handleError', function() {
+	    return function(errorsArr, message) {
+	      return function(err) {
+	        console.log(err);
+	        if (Array.isArray(errorsArr)) errorsArr.push(new Error(message || 'server error'));
+	      };
 	    };
-	
-	    this.createSuperhero = () => {
-	      $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
-	      .then((res) => {
-	        this.superheroes.push(res.data);
-	        this.newSuperhero = null;
-	      }, handleError.bind(this));
-	    };
-	
-	    this.updateSuperhero = (superhero) => {
-	      $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
-	      .then(() => {
-	        superhero.editing = false;
-	      }, handleError.bind(this));
-	    };
-	
-	    this.removeSuperhero = (superhero) => {
-	      $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
-	      .then(() => {
-	        this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
-	      }, handleError.bind(this));
-	    };
-	  }]);
+	  });
 	};
 
 
@@ -34102,23 +34091,66 @@
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	  handleError: __webpack_require__(14)
+	module.exports = function(app) {
+	  __webpack_require__(14)(app);
+	  __webpack_require__(17)(app);
 	};
 
 
 /***/ },
 /* 14 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(error) {
-	  console.log(error);
-	  this.errors = (this.errors || []).push(error);
+	module.exports = function(app) {
+	  __webpack_require__(15)(app);
 	};
 
 
 /***/ },
 /* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseUrl = __webpack_require__(16).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('HeroesController', ['$http', 'handleError', function($http, handleError) {
+	    this.superheroes = [];
+	    this.errors = [];
+	    this.getAll = function() {
+	      $http.get(baseUrl + '/api/superheroes')
+	      .then((res) => {
+	        this.superheroes = res.data;
+	      }, handleError(this.errors, 'could not retrieve superheroes'));
+	    }.bind(this);
+	
+	    this.createSuperhero = function() {
+	      var superheroName = this.newSuperhero.name;
+	      $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
+	      .then((res) => {
+	        this.superheroes.push(res.data);
+	        this.newSuperhero = null;
+	      }, handleError(this.errors, 'could not create a new superhero ' + superheroName));
+	    }.bind(this);
+	
+	    this.updateSuperhero = function(superhero) {
+	      $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
+	      .then(() => {
+	        superhero.editing = false;
+	      }, handleError(this.errors, 'could not update superhero ' + superhero.name));
+	    }.bind(this);
+	
+	    this.removeSuperhero = function(superhero) {
+	      $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
+	      .then(() => {
+	        this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
+	      }, handleError(this.errors, 'could not remove superhero ' + superhero.name));
+	    }.bind(this);
+	  }]);
+	};
+
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -34127,17 +34159,17 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(17)(app);
 	  __webpack_require__(18)(app);
+	  __webpack_require__(19)(app);
 	};
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34166,7 +34198,7 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34189,21 +34221,12 @@
 
 
 /***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(20)(app);
-	  __webpack_require__(22)(app);
-	};
-
-
-/***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
 	  __webpack_require__(21)(app);
+	  __webpack_require__(23)(app);
 	};
 
 
@@ -34211,41 +34234,8 @@
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleError = __webpack_require__(13).handleError;
-	var baseUrl = __webpack_require__(15).baseUrl;
-	
 	module.exports = function(app) {
-	  app.controller('VillainsController', ['$http', function($http) {
-	    this.villains = [];
-	    this.getAll = () => {
-	      $http.get(baseUrl + '/api/villains')
-	      .then((res) => {
-	        this.villains = res.data;
-	      }, handleError.bind(this));
-	    };
-	
-	    this.createVillain = () => {
-	      $http.post(baseUrl + '/api/villains', this.newVillain)
-	      .then((res) => {
-	        this.villains.push(res.data);
-	        this.newVillain = null;
-	      }, handleError.bind(this));
-	    };
-	
-	    this.updateVillain = (villain) => {
-	      $http.put(baseUrl + '/api/villains/' + villain._id, villain)
-	      .then(() => {
-	        villain.editing = false;
-	      }, handleError.bind(this));
-	    };
-	
-	    this.removeVillain = (villain) => {
-	      $http.delete(baseUrl + '/api/villains/' + villain._id)
-	      .then(() => {
-	        this.villains.splice(this.villains.indexOf(villain), 1);
-	      }, handleError.bind(this));
-	    };
-	  }]);
+	  __webpack_require__(22)(app);
 	};
 
 
@@ -34253,14 +34243,57 @@
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var baseUrl = __webpack_require__(16).baseUrl;
+	
 	module.exports = function(app) {
-	  __webpack_require__(23)(app);
-	  __webpack_require__(24)(app);
+	  app.controller('VillainsController', ['$http', 'handleError', function($http, handleError) {
+	    this.villains = [];
+	    this.errors = [];
+	    this.getAll = function() {
+	      $http.get(baseUrl + '/api/villains')
+	      .then((res) => {
+	        this.villains = res.data;
+	      }, handleError(this.errors, 'could not retrieve villains'));
+	    }.bind(this);
+	
+	    this.createVillain = function() {
+	      var villainName = this.newVillain.name;
+	      $http.post(baseUrl + '/api/villains', this.newVillain)
+	      .then((res) => {
+	        this.villains.push(res.data);
+	        this.newVillain = null;
+	      }, handleError(this.errors, 'could not create a villain ' + villainName));
+	    }.bind(this);
+	
+	    this.updateVillain = function(villain) {
+	      $http.put(baseUrl + '/api/villains/' + villain._id, villain)
+	      .then(() => {
+	        villain.editing = false;
+	      }, handleError(this.errors, 'could not update villain ' + villain.name));
+	    }.bind(this);
+	
+	    this.removeVillain = function(villain) {
+	      $http.delete(baseUrl + '/api/villains/' + villain._id)
+	      .then(() => {
+	        this.villains.splice(this.villains.indexOf(villain), 1);
+	      }, handleError(this.errors, 'could not delete ' + villain.name));
+	    }.bind(this);
+	  }]);
 	};
 
 
 /***/ },
 /* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(24)(app);
+	  __webpack_require__(25)(app);
+	};
+
+
+/***/ },
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34289,7 +34322,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34312,7 +34345,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34387,7 +34420,7 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);

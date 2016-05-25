@@ -19,6 +19,7 @@ describe('superhero form directive', function() {
     '<button data-ng-click="superhero.editing=false">Cancel</button></superhero-form></main>')($scope);
     $httpBackend.flush();
     expect(testSuperheroFormDirective.html().indexOf('Update superhero')).not.toBe(-1);
-
+    expect(testSuperheroFormDirective.html().indexOf('update')).not.toBe(-1);
+    expect(testSuperheroFormDirective.html().indexOf('Cancel')).not.toBe(-1);
   });
 });

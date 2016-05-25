@@ -1,36 +1,37 @@
-var handleError = require('../../lib').handleError;
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('VillainsController', ['$http', function($http) {
+  app.controller('VillainsController', ['$http', 'handleError', function($http, handleError) {
     this.villains = [];
-    this.getAll = () => {
+    this.errors = [];
+    this.getAll = function() {
       $http.get(baseUrl + '/api/villains')
       .then((res) => {
         this.villains = res.data;
-      }, handleError.bind(this));
-    };
+      }, handleError(this.errors, 'could not retrieve villains'));
+    }.bind(this);
 
-    this.createVillain = () => {
+    this.createVillain = function() {
+      var villainName = this.newVillain.name;
       $http.post(baseUrl + '/api/villains', this.newVillain)
       .then((res) => {
         this.villains.push(res.data);
         this.newVillain = null;
-      }, handleError.bind(this));
-    };
+      }, handleError(this.errors, 'could not create a villain ' + villainName));
+    }.bind(this);
 
-    this.updateVillain = (villain) => {
+    this.updateVillain = function(villain) {
       $http.put(baseUrl + '/api/villains/' + villain._id, villain)
       .then(() => {
         villain.editing = false;
-      }, handleError.bind(this));
-    };
+      }, handleError(this.errors, 'could not update villain ' + villain.name));
+    }.bind(this);
 
-    this.removeVillain = (villain) => {
+    this.removeVillain = function(villain) {
       $http.delete(baseUrl + '/api/villains/' + villain._id)
       .then(() => {
         this.villains.splice(this.villains.indexOf(villain), 1);
-      }, handleError.bind(this));
-    };
+      }, handleError(this.errors, 'could not delete ' + villain.name));
+    }.bind(this);
   }]);
 };

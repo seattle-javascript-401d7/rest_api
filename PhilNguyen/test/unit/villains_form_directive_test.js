@@ -13,12 +13,11 @@ describe('villain form directive', function() {
 
   it('should transclude some html', function() {
     $httpBackend.expectGET('templates/villains/directives/villain_form.html').respond(200, formTemplate);
-    var testVillainFormDirective = $compile('<main data-ng-controller="VillainsController as villainsctrl">' + 
+    var testVillainFormDirective = $compile('<main data-ng-controller="VillainsController as villainsctrl">' +
     '<villain-form data-button-text="\'Update villain\'"' +
     'data-rest-action="update" data-villain="villain">' +
     '<button data-ng-click="villain.editing=false">Cancel</button></villain-form>')($scope);
     $httpBackend.flush();
     expect(testVillainFormDirective.html().indexOf('Update villain')).not.toBe(-1);
-
   });
 });
