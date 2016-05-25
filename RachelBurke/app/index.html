@@ -11,6 +11,10 @@
   <h1>Wine and Cheese Party Time<h1/>
 
   <section data-ng-controller="WineController as winecontrol" data-ng-init="winecontrol.getAll()">
+    <ul id="error1">
+      <li data-ng-repeat="error in winecontrol as winecontrol" data-ng-init="winecontrol.getAll()">"
+        <li data-ng-repeat="error in winecontrol.errors">{{error.message}}<button
+          data-ng-click="winecontrol.errors.splice(winecontrol.errors.indexOf(error), 1)">Done</button></li>
   <h2>What Wines are in the Cellar?</h2>
     <wine-form
     data-button-text="inspect"
@@ -37,6 +41,11 @@
 
   <section data-ng-controller="CheeseController as cheesecontrol"
     <data-ng-init="cheesecontrol.getAll()">
+    <ul id="error1">
+      <li data-ng-repeat="error in cheesecontrol as cheesecontrol" data-ng-init="cheesecontrol.getAll()">"
+        <li data-ng-repeat="error in cheesecontrol.errors">{{error.message}}<button
+          data-ng-click="cheesecontrol.errors.splice(cheesecontrol.errors.indexOf(error), 1)">Done</button></li>
+    </ul>
 
   </br>
     <h2>How to choose a good cheese</h2>
