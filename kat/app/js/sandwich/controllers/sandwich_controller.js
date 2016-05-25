@@ -1,4 +1,3 @@
-var handleErrors = require('../../lib').handleErrors;
 var url = require('../../config').url;
 module.exports = function(app) {
   app.controller('SandwichController', ['$http', 'totalErrorHandle',
