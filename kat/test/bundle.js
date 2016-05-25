@@ -45,10 +45,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(19);
 	__webpack_require__(21);
-	__webpack_require__(23);
-	__webpack_require__(24);
-	__webpack_require__(27);
+	__webpack_require__(22);
+	__webpack_require__(25);
+	__webpack_require__(28);
 	
 	describe('does karma work?', () => {
 	  it('should work', () => {
@@ -65,8 +66,8 @@
 	const practiceApp = angular.module('practiceApp', []);
 	
 	__webpack_require__(4)(practiceApp);
+	__webpack_require__(6)(practiceApp);
 	__webpack_require__(13)(practiceApp);
-	__webpack_require__(19)(practiceApp);
 
 
 /***/ },
@@ -30956,16 +30957,24 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(5)(app);
-	  __webpack_require__(10)(app);
 	};
 
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(6)(app);
+	  app.factory('totalErrorHandle', function() {
+	    return function(errorsArray, message) {
+	      return function(err) {
+	        console.log(err);
+	        if (Array.isArray(errorsArray)) {
+	          errorsArray.push(new Error(message || 'error with server'));
+	        }
+	      };
+	    };
+	  });
 	};
 
 
@@ -30973,7 +30982,25 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleErrors = __webpack_require__(7).handleErrors;
+	module.exports = function(app) {
+	  __webpack_require__(7)(app);
+	  __webpack_require__(10)(app);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var url = __webpack_require__(9).url;
 	module.exports = function(app) {
 	  app.controller('PetController', ['$http', 'totalErrorHandle',
@@ -31011,25 +31038,6 @@
 	    }.bind(this);
 	
 	  }]);
-	};
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = {
-	  handleErrors: __webpack_require__(8)
-	};
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	module.exports = function(res) {
-	  console.log(res);
-	  this.errors.push(new Error('server problems'));
 	};
 
 
@@ -31127,7 +31135,6 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleErrors = __webpack_require__(7).handleErrors;
 	var url = __webpack_require__(9).url;
 	module.exports = function(app) {
 	  app.controller('SandwichController', ['$http', 'totalErrorHandle',
@@ -31230,35 +31237,8 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(app) {
-	  __webpack_require__(20)(app);
-	};
-
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	module.exports = function(app) {
-	  app.factory('totalErrorHandle', function() {
-	    return function(errorsArray, message) {
-	      return function(err) {
-	        console.log(err);
-	        if (Array.isArray(errorsArray)) {
-	          errorsArray.push(new Error(message || 'error with server'));
-	        }
-	      };
-	    };
-	  });
-	};
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var angular = __webpack_require__(2);
-	__webpack_require__(22);
+	__webpack_require__(20);
 	
 	
 	describe('pet controller', function() { // eslint-disable-line prefer-arrow-callback
@@ -31332,7 +31312,7 @@
 
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/**
@@ -34344,11 +34324,11 @@
 
 
 /***/ },
-/* 23 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(22);
+	__webpack_require__(20);
 	
 	
 	describe('sandwich controller', function() {
@@ -34422,13 +34402,13 @@
 
 
 /***/ },
-/* 24 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var petFormTemplate = __webpack_require__(25);
-	var petListTemplate = __webpack_require__(26);
-	__webpack_require__(22);
+	var petFormTemplate = __webpack_require__(23);
+	var petListTemplate = __webpack_require__(24);
+	__webpack_require__(20);
 	
 	
 	describe('pet form directive', function() {
@@ -34468,25 +34448,25 @@
 
 
 /***/ },
-/* 25 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(pet)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"pet.name\">\n\n  <label name=\"nickName\">nickName</label>\n  <input type=\"text\" name=\"nickName\" data-ng-model=\"pet.nickName\">\n\n\n  <label for=\"favoriteActivity\">favoriteActivity</label>\n  <input type=\"text\" name=\"favoriteActivity\" data-ng-model=\"pet.favoriteActivity\" placeholder=\"cuddles\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{pet.name}} aka {{pet.nickName}} really likes {{pet.favoriteActivity}}\n  <button data-ng-if=\"!pet.editing\" data-ng-click=\"pet.editing = true\">Edit Pet</button>\n\n  <button data-ng-click=\"sell(pet)\">Remove a Pet</button>\n</li>\n";
 
 /***/ },
-/* 27 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var template = __webpack_require__(28);
-	var sandwichListTemplate = __webpack_require__(29);
-	__webpack_require__(22);
+	var template = __webpack_require__(26);
+	var sandwichListTemplate = __webpack_require__(27);
+	__webpack_require__(20);
 	
 	
 	describe('sandwich directives', function() {
@@ -34527,16 +34507,39 @@
 
 
 /***/ },
-/* 28 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(sandwich)\">\n\n  <label for=\"type\">Type</label>\n  <input type=\"text\" name=\"type\" data-ng-model=\"sandwich.type\">\n\n  <label name=\"ingrediants\">Ingrediants</label>\n  <input type=\"text\" name=\"ingrediants\" data-ng-model=\"sandwich.ingrediants\">\n\n\n  <label for=\"yumFactor\">yumFactor</label>\n  <input type=\"Number\" name=\"yumFactor\" data-ng-model=\"sandwich.yumFactor\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
-/* 29 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{sandwich.type}} needs {{sandwich.ingrediants}} and has a yum factor {{sandwich.yumFactor}}\n  <button data-ng-if=\"!sandwich.editing\" data-ng-click=\"sandwich.editing = true\">Improve Sandwich</button>\n\n  <button data-ng-click=\"eat(sandwich)\">Eat a Sandwich</button>\n</li>\n";
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(2);
+	
+	describe('totalErrorHandle service', function() {
+	  var totalErrorHandle;
+	  beforeEach(angular.mock.module('practiceApp'));
+	
+	  it('should return a function', angular.mock.inject(function(totalErrorHandle) {
+	    expect(typeof totalErrorHandle).toBe('function');
+	  }));
+	
+	  it('should add an error to the array', angular.mock.inject(function(totalErrorHandle) {
+	    var fakeArray = [];
+	    totalErrorHandle(fakeArray, 'error')();
+	    expect(fakeArray.length).toBe(1);
+	    expect(fakeArray[0].message).toBe('error');
+	  }));
+	});
+
 
 /***/ }
 /******/ ]);
