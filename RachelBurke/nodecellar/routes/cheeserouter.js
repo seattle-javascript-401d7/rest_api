@@ -35,7 +35,6 @@ cheeseRouter.put('/cheese/:cheese_id', (req, res) => {
   });
 });
 
-
 cheeseRouter.delete('/cheese/:cheese_id', (req, res) => {
   Cheese.findByIdAndRemove(req.params.wine_id, (err) => {
     if (err) return res.send(err);

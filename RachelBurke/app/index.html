@@ -14,21 +14,24 @@
   <h2>What Wines are in the Cellar?</h2>
     <wine-form
     data-button-text="inspect"
-    data-change="decide"
+    data-change="create"
     data-wine="winecontrol.newWine">
     </wine-form>
 
     <ul id="winelist">
-      <wine-list-item data-ng-repeat="wine in winecontrol.wine" data-wine="wine">
+      <li data-ng-repeat="wine in winecontrol.wine">
+        {{wine.name}} from {{wine.year}} grown in {{wine.country}}
+        <button data-ng-if="!wine.editing" data-ng-click="wine.editing = true">Edit Wine</button>
+
+        <button data-ng-click="drink(wine)">Drink some wine!</button>
         <wine-form
         data-ng-if="wine.editing"
-        data-button-text="Do Something with Wine"
-        data-button-text="Choose Wine"
-        data-change="choose"
+        data-button-text="update"
+        data-change="update"
         data-wine="wine">
           <button data-ng-click="wine.editing = false">Cancel</button>
         </wine-form>
-      </wine-list-item>
+      </li>
     </ul>
   </section>
 
@@ -39,16 +42,30 @@
     <h2>How to choose a good cheese</h2>
     <cheese-form
     data-button-text="Choose Cheese"
-    data-action="thisone"
+    data-change="create"
     data-cheese="cheesecontrol.newCheese">
   </cheese-form>
 
   <ul id="cheeselist">
-    <cheese-list-item data-ng-repeat="cheese in cheeses" data-cheese="cheese">
+    <li data-ng-repeat="cheese in cheesecontrol.cheeses">
+      {{cheese.name}} produced in {{cheese.country}} made from {{cheese.origin}}
+      <button data-ng-if="!cheese.editing" data-ng-click="cheese.editing = true">More Cheese</button>
+
+      <button data-ng-click="eat(cheese)">Enjoy some Cheese</button>
       <cheese-form
       data-ng-if="cheese.editing"
       data-button-text="Enjoy the Cheese"
-      data-change="EAT"
+      data-change="update"
+      data-cheese="cheese">
+        <button data-ng-click="cheese.editing = false">Devour</button>
+      </cheese-form>
+    </li>
+
+    <cheese-list-item data-ng-repeat="cheese in cheesecontrol.cheeses" data-cheese="cheese">
+      <cheese-form
+      data-ng-if="cheese.editing"
+      data-button-text="Enjoy the Cheese"
+      data-change="update"
       data-cheese="cheese">
         <button data-ng-click="cheese.editing = false">Devour</button>
       </cheese-form>
