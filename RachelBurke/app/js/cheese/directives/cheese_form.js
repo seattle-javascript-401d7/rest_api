@@ -7,7 +7,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/cheese_directives/cheese_form.html',
       scope: {
-        sandwich: '=',
+        cheese: '=',
         buttonText: '@',
         change: '@'
       },
@@ -16,7 +16,7 @@ module.exports = function(app) {
           update: controller.updateCheese,
           create: controller.createCheese
         };
-        scope.save = changes[scope.change];
+        scope.save = changes[scope.change].bind(controller);
       }
     };
   });

@@ -2,31 +2,35 @@ var handleErrors = require('../../lib').handleErrors;
 var url = require('../../config').url;
 module.exports = function(app) {
   app.controller('CheeseController', ['$http', function($http) {
-    this.cheese = [];
-    this.getAll = () => {
+    this.cheeses = [];
+    this.newCheese = {};
+    this.getAll = function() {
       $http.get(url + '/api/cheese')
       .then((res) => {
-        this.cheese = res.data;
+        this.cheeses = res.data;
       }, handleErrors.bind(this));
-    };
-    this.createCheese = () => {
+    }.bind(this);
+
+    this.createCheese = function() {
       $http.post(url + '/api/cheese', this.newCheese)
       .then((res) => {
-        this.cheese.push(res.data);
+        this.cheeses.push(res.data);
         this.newCheese = null;
       }, handleErrors.bind(this));
-    };
-    this.deleteCheese = (cheese) => {
+    }.bind(this);
+
+    this.deleteCheese = function(cheese) {
       $http.delete(url + '/api/cheese/' + cheese._id)
       .then(() => {
-        this.cheese.splice(this.cheese.indexOf(cheese), 1);
+        this.cheeses.splice(this.cheeses.indexOf(cheese), 1);
       }, handleErrors.bind(this));
-    };
-    this.updateCheese = (cheese) => {
+    }.bind(this);
+
+    this.updateCheese = function(cheese) {
       $http.put(url + '/api/cheese/' + cheese._id, cheese)
       .then(() => {
         cheese.editing = false;
       }, handleErrors.bind(this));
-    };
+    }.bind(this);
   }]);
 };
