@@ -2,6 +2,7 @@
 ## Two REST API
 
 ### Startup:
+*Ensure that you are on the "angular2rest" branch and in the "skelton" directory.
 * ``` npm install ``` will load the package.json.
 * A "data" directory will automatically be generated (for the MongoDB).
 * Simple Shoe Selector uses Mongo, MongoDB, Express, Node and HTTPie. If you are unfamiliar with any of these, please review their respective documentation.
@@ -12,7 +13,7 @@ Open four terminal windows.
 * TERM 1: mongod --dbpath=./data - this will show that it's listening on 27017
 * TERM 2: mongo - this will show the mongo command line
 * TERM 3: node index - will begin running the database code. Note the port that the server says it's running on. My default is 3030; yours may be different.
-* TERM 4: command line. Use HTTPie to enter database commands: http POST localhost:3030/api/(route).  Route can be either pants or shoes.
+* TERM 4: (optional, see below) command line. Use HTTPie to enter database commands: http POST localhost:3030/api/(route).  Route can be either pants or shoes.
 
 ### Alternative use
 If you'd like to use the Angular interface, do the following:
@@ -20,7 +21,7 @@ If you'd like to use the Angular interface, do the following:
 * In a fourth terminal change directories to the /lib directory
 * In the lib directory type ``` node client-server ```
 * The terminal should respond with "client server up on 5000"
-* Enter localhost:5000 in your browser URL bar. The Angular framework instantly updates the database when you add, update or delete an entry. 
+* Enter localhost:5000 in your browser URL bar. The Angular framework instantly updates the database when you add, update or delete an entry.
 
 ### Data entry
 * Pants Schema:
