@@ -2,30 +2,22 @@ var baseUrl = require('../../config').baseUrl;
 const copy = require('angular').copy;
 
 module.exports = function(app) {
-  app.controller('SithController', ['$http', 'cfHandleError', function($http, cfHandleError) {
+  app.controller('SithController', ['cfResource', function(Resource) {
     this.siths = [];
     this.errors = [];
-    this.getAll = () => {
-      $http.get(baseUrl + '/api/sith')
-        .then((res) => {
-          this.siths = res.data;
-        }, cfHandleError(this.errors, 'could not retrieve sith'));
-    };
-
+    var remote = new Resource(this.siths, this.errors, baseUrl + '/api/sith');
+    this.getAll = remote.getAll.bind(remote);
     this.createSith = function() {
-      var sithName = this.newSith.name;
-      $http.post(baseUrl + '/api/sith', this.newSith)
-        .then((res) => {
-          this.siths.push(res.data);
+      remote.create(this.newSith)
+        .then(() => {
           this.newSith = null;
-        }, cfHandleError(this.errors, 'could not create ' + sithName));
+        });
     }.bind(this);
-
     this.updateSith = function(sith) {
-      $http.put(baseUrl + '/api/sith/' + sith._id, sith)
+      remote.update(sith)
         .then(() => {
           sith.editing = false;
-        }, cfHandleError(this.errors, 'could not update ' + sith.name));
+        });
     };
 
     this.editSith = function(sith) {
@@ -40,11 +32,6 @@ module.exports = function(app) {
       }
     };
 
-    this.removeSith = function(sith) {
-      $http.delete(baseUrl + '/api/sith/' + sith._id)
-      .then(() => {
-        this.siths.splice(this.siths.indexOf(sith), 1);
-      }, errorHandler.bind(this));
-    }.bind(this);
+    this.removeSith = remote.remove.bind(remote);
   }]);
 };
