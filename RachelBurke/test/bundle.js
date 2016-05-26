@@ -31053,7 +31053,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/wine/directives/wine_form.html',
+	      templateUrl: '/templates/wine_directives/wine_form.html',
 	      scope: {
 	        wine: '=',
 	        buttonText: '@',
@@ -31082,7 +31082,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/wine/directives/wine_list_item.html',
+	      templateUrl: '/templates/wine_directives/wine_list_item.html',
 	      scope: {
 	        wine: '='
 	      },
@@ -31172,7 +31172,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/cheese/directives/cheese_form.html',
+	      templateUrl: '/templates/cheese_directives/cheese_form.html',
 	      scope: {
 	        sandwich: '=',
 	        buttonText: '@',
@@ -31201,7 +31201,7 @@
 	      replace: true,
 	      require: '^ngController',
 	      transclude: true,
-	      templateUrl: '/templates/cheese/directives/cheese_list_item.html',
+	      templateUrl: '/templates/cheese_directives/cheese_list_item.html',
 	      scope: {
 	        cheese: '='
 	      },

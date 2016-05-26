@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/cheese/directives/cheese_list_item.html',
+      templateUrl: '/templates/cheese_directives/cheese_list_item.html',
       scope: {
         cheese: '='
       },
