@@ -3,10 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine and Cheese Adventure</title>
-  
+
 </head>
 
 <body data-ng-app="practiceApp">
+  <section data-ng-controller="CountCtrl as one">
+    <h1>{{one.counter.count}}</h1>
+    <button data-ng-click="one.add()">Add one onto the thing</button>
+  </section>
+
+  <section data-ng-controller="CountCtrl as two">
+    <h1>{{two.counter.count}}</h1>
+    <button data-ng-click="two.add()">Add two onto the thing</button>
+  </section>
+  
   <main>
   <h1>Wine and Cheese Party Time<h1/>
 
