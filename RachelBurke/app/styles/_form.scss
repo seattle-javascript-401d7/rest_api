@@ -1,0 +1,36 @@
+:-moz-placeholder {
+  color: $feltblue;
+}
+
+:-webkit-input-placeholder {
+  color: $feltblue;
+}
+
+*:focus {
+  outline: none;
+}
+
+form {
+  @include border ($feltblue, $light-gray);
+  background-color: $light-gray;
+  padding: 1em;
+  margin: 1em;
+  color: $feltblue;
+  text-decoration: none;
+  font-family: Tahoma, sans-serif;
+  input {
+  background-color: $light-gray;
+  }
+  input: focus {
+    @include border($feltblue, $yellow-green);
+  }
+
+  label {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    color: $feltblue;
+    text-shadow: 1px 1px gray;
+  }
+  button {
+    background-color: $yellow-green;
+  }
+}

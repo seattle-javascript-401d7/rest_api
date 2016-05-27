@@ -1,0 +1,22 @@
+@import "globals";
+
+li {
+  font-family: $subFont;
+  color: $textColor;
+  background-color: $light-gray;
+}
+
+// form {
+//   max-width: 250px;
+//   position: relative;
+//   button {
+//     text-align: right;
+//     position: absolute;
+//     right: 0;
+//   }
+// }
+
+label {
+  display: block;
+  text-align: right;
+}
