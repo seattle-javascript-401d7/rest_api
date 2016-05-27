@@ -53,7 +53,7 @@
                     <input type="text" name="polish" data-ng-model="shoe.polish">
 
                     <button type="submit">Update Shoe</button>
-                    <button data-ng-click="shoe.editing = false">Cancel</button>
+                    <button data-ng-click="shoesctrl.stopEdit(); shoe.editing = false">Cancel</button>
                 </form>
 
                 <button data-ng-if="!shoe.editing" data-ng-click="shoe.editing = true">Edit</button>
@@ -93,7 +93,7 @@
                     <input type="text" name="color" data-ng-model="pant.color">
 
                     <button type="submit">Update Pants</button>
-                    <button data-ng-click="show.editing = false">Cancel</button>
+                    <button type="button" data-ng-click="pantsctrl.stopEdit(); show.editing = false">Cancel</button>
                 </form>
 
                 <button data-ng-if="!pant.editing" data-ng-click="pant.editing = true">Edit</button>
