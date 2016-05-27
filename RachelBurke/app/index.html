@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine and Cheese Adventure</title>
-  <link rel="stylesheet" href="/styles/main.css">
+  
 </head>
 
 <body data-ng-app="practiceApp">
@@ -23,7 +23,7 @@
         {{wine.name}} from {{wine.year}} grown in {{wine.country}}
         <button data-ng-if="!wine.editing" data-ng-click="wine.editing = true">Edit Wine</button>
 
-        <button data-ng-click="drink(wine)">Drink some wine!</button>
+        <button data-ng-click="winecontrol.deleteWine(wine)">Drink some wine!</button>
         <wine-form
         data-ng-if="wine.editing"
         data-button-text="update"
@@ -50,7 +50,7 @@
       {{cheese.name}} produced in {{cheese.country}} made from {{cheese.origin}}
       <button data-ng-if="!cheese.editing" data-ng-click="cheese.editing = true">More Cheese</button>
 
-      <button data-ng-click="eat(cheese)">Enjoy some Cheese</button>
+      <button data-ng-click="cheesecontrol.deleteCheese(cheese)">Enjoy some Cheese</button>
       <cheese-form
       data-ng-if="cheese.editing"
       data-button-text="Enjoy the Cheese"

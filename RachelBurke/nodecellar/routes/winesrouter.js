@@ -25,7 +25,6 @@ winesRouter.put('/wine/:wine_id', (req, res) => {
   Wine.findById(req.params.wine_id, (err, wine) => {
     if (err) res.send(err);
 
-    wine.quantity = req.body.quantity;
     wine.save((err) => {
       if (err) return res.send(err);
 
