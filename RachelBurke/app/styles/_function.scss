@@ -1,0 +1,5 @@
+$child: "li";
+
+@function shade() {
+  @if $child {@return $feltBlue - $feltPaleBlue};
+}
