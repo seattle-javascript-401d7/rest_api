@@ -4,17 +4,8 @@ li {
   font-family: $subFont;
   color: $textColor;
   background-color: $light-gray;
+  @include bullet(circle);
 }
-
-// form {
-//   max-width: 250px;
-//   position: relative;
-//   button {
-//     text-align: right;
-//     position: absolute;
-//     right: 0;
-//   }
-// }
 
 label {
   display: block;
