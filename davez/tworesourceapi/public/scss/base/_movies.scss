@@ -1,0 +1,29 @@
+#moviewrapper {
+  movie-form {
+    label {
+      @include basictext(white, 16px, bold, $font);
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+    #createmovie {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  #movielist {
+    ul {
+      @include basictext(white, 16px, bold, $font);
+      margin-top: 10px;
+      padding: 5px;
+      display: block;
+      clear: both;
+    }
+    li {
+      @include basictext(white, 16px, bold, $font);
+      padding: 5px;
+      border: $border;
+    }
+  }
+}
