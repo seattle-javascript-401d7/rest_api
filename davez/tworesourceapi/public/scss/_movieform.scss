@@ -1,0 +1,69 @@
+$buttonBorder: solid 2px orange;
+$inputBorder: 2px solid black;
+$font: monospace;
+
+movie-form {
+  label {
+    color: white;
+    font-family: $font;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  input {
+    background-color: grey;
+    display: block;
+    border: $inputBorder;
+  }
+  input[type='text'] {
+    font-size: 16px;
+    font-weight: lighter;
+    font-style: normal;
+    font-family: $font;
+  }
+  button {
+    font-weight: bold;
+    font-family: $font;
+    font-size: 12px;
+    color: gray;
+    background-color: black;
+    border: $buttonBorder;
+    border-radius: 15%;
+    display: inline-block;
+  }
+  button:hover {
+    color: black;
+    background-color: gray;
+    border-color: yellow;
+  }
+  .edit {
+    display: block;
+    clear: both;
+    float:right;
+  }
+  .edit[type="text"] {
+    font-size: 12px;
+    font-weight: lighter;
+    font-style: normal;
+    font-family: $font;
+  }
+  .inputEdit {
+    display: block;
+    margin-bottom: 15px;
+  }
+  .inputEdit[type="text"] {
+    font-size: 12;
+  }
+  .labeledit {
+    font-size: 12px;
+  }
+  #createmovie {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 20px;
+  }
+  .buttonDiv {
+    clear: both;
+    float: right;
+    margin-left: 15px;
+  }
+}

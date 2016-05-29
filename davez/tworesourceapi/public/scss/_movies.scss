@@ -1,0 +1,73 @@
+$buttonBorder: solid 2px orange;
+$border: 2px dashed white;
+$font: monospace;
+
+#moviewrapper {
+  float: left;
+  clear:both;
+  #movielist {
+    float:left;
+    ul {
+      color: white;
+      margin-top: 10px;
+      padding: 5px;
+      font-family: $font;
+      font-weight: bold;
+      display: block;
+      clear: both;
+    }
+    li {
+      padding: 5px;
+      border: $border;
+      color: white;
+      font-family: $font;
+      font-weight: bold;
+    }
+    .edit {
+      display: block;
+      clear: both;
+      float:right;
+    }
+    .edit[type="text"] {
+      font-size: 12px;
+      font-weight: lighter;
+      font-style: normal;
+      font-family: $font;
+    }
+    .inputEdit {
+      display: block;
+      margin-bottom: 15px;
+    }
+    .inputEdit[type="text"] {
+      font-size: 12;
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+    .updater {
+      clear: left;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    .buttonDiv {
+      clear: both;
+      float: right;
+      margin-left: 15px;
+    }
+    button:hover {
+      color: black;
+      background-color: gray;
+      border-color: yellow;
+    }
+    button {
+      font-weight: bold;
+      font-family: $font;
+      font-size: 12px;
+      color: gray;
+      background-color: black;
+      border: $buttonBorder;
+      border-radius: 15%;
+      display: inline-block;
+    }
+  }
+}
