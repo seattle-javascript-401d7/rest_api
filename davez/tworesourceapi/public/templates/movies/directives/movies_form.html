@@ -1,0 +1,22 @@
+<form data-ng-submit="save(movie)">
+  <label for="name">Name</label>
+  <input type="text" name="name" data-ng-model="movie.name">
+
+  <label for="genre">Genre</label>
+  <input type="text" name="genre" data-ng-model="movie.genre">
+
+  <label for="year">Year</label>
+  <input type="text" name="year" data-ng-model="movie.year" placeholder="year of the dog">
+
+  <label for="rating">Rating (R, PG, NC-17, etc.)</label>
+  <input type="text" name="rating" data-ng-model="movie.rating">
+
+  <label for="runTime">Runtime</label>
+  <input type="text" name="runTime" data-ng-model="movie.runTime">
+
+  <label for="emotion">Emotion(sad, mad, glad)</label>
+  <input type="text" name="emotion" data-ng-model="movie.emotion">
+
+  <button id="createMovie" type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>
