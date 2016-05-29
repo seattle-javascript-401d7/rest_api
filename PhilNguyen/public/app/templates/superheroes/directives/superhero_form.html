@@ -1,0 +1,9 @@
+<form data-ng-submit="save(superhero)">
+  <h1>Create a Superhero</h1>
+  <label for="name">Hero name</label>
+  <input type="text" name="heroname" data-ng-model="superhero.name"/>
+  <label for="powerlevel">Power Level</label>
+  <input type="text" name="powerlevel" data-ng-model="superhero.powerlevel" />
+  <button id="createsuperhero" type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>
