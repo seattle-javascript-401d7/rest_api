@@ -1,5 +1,9 @@
 const angular = require('angular');
 require('angular-mocks');
+require('./resource_getall_test.js');
+require('./resource_create_test.js');
+require('./resource_update_test.js');
+require('./resource_remove_test.js');
 require('./handle_error_service_test.js');
 require('./superheroes_form_directive_test.js');
 require('./superheroes_list_item_directive_test.js');

@@ -1,37 +1,23 @@
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('HeroesController', ['$http', 'handleError', function($http, handleError) {
+  app.controller('HeroesController', ['crudResource', function(Resource) {
     this.superheroes = [];
     this.errors = [];
-    this.getAll = function() {
-      $http.get(baseUrl + '/api/superheroes')
-      .then((res) => {
-        this.superheroes = res.data;
-      }, handleError(this.errors, 'could not retrieve superheroes'));
-    }.bind(this);
-
+    var crud = new Resource(this.superheroes, this.errors, baseUrl + '/api/superheroes', { errMessages: { getAll: 'custom error message' } });
+    this.getAll = crud.getAll.bind(crud);
     this.createSuperhero = function() {
-      var superheroName = this.newSuperhero.name;
-      $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
-      .then((res) => {
-        this.superheroes.push(res.data);
+      crud.create(this.newSuperhero)
+      .then(() => {
         this.newSuperhero = null;
-      }, handleError(this.errors, 'could not create a new superhero ' + superheroName));
+      });
     }.bind(this);
-
     this.updateSuperhero = function(superhero) {
-      $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
+      crud.update(superhero)
       .then(() => {
         superhero.editing = false;
-      }, handleError(this.errors, 'could not update superhero ' + superhero.name));
-    }.bind(this);
-
-    this.removeSuperhero = function(superhero) {
-      $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
-      .then(() => {
-        this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
-      }, handleError(this.errors, 'could not remove superhero ' + superhero.name));
-    }.bind(this);
+      });
+    };
+    this.removeSuperhero = crud.remove.bind(crud);
   }]);
 };

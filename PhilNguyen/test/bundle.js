@@ -48,12 +48,16 @@
 	__webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(5);
+	__webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	__webpack_require__(10);
-	__webpack_require__(26);
-	__webpack_require__(27);
+	__webpack_require__(11);
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(31);
+	__webpack_require__(32);
 
 
 /***/ },
@@ -33953,6 +33957,129 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	const angular = __webpack_require__(1);
+	
+	describe('it should test the service', function() {
+	  var $httpBackend;
+	  beforeEach(angular.mock.module('newApp'));
+	  beforeEach(angular.mock.inject((_$httpBackend_) => {
+	    $httpBackend = _$httpBackend_;
+	  }));
+	
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+	
+	  it('should get all the resources', angular.mock.inject(function(crudResource) {
+	    $httpBackend.expectGET('http://localhost:8080/api/superheroes').respond(200, [ { name: 'Goku' }]);
+	
+	    var resourceArray = [];
+	    var errorsArray = [];
+	    var baseUrl = 'http://localhost:8080/api/superheroes';
+	    var resource = new crudResource(resourceArray, errorsArray, baseUrl);
+	
+	    resource.getAll();
+	    $httpBackend.flush();
+	    expect(resourceArray.length).toBe(1);
+	    expect(resourceArray[0].name).toBe('Goku');
+	  }));
+	});
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+	
+	describe('crudResource', function() {
+	  var crudResource;
+	
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  it('should return a function', angular.mock.inject(function(crudResource) {
+	    expect(typeof crudResource).toBe('function');
+	  }));
+	
+	  it('should add to the test array', angular.mock.inject(function(crudResource, $httpBackend) {
+	    $httpBackend.expectPOST('http://localhost:8080/api/superheroes', { name: 'Vegeta', powerlevel: 2333 }).respond(200, { name: 'test character', powerlevel: 2, _id: 1 });
+	    var baseUrl = 'http://localhost:8080/api/superheroes';
+	    var testArray = [];
+	    var errorsArray = [];
+	    var resource = new crudResource(testArray, errorsArray, baseUrl);
+	    resource.create({ name: 'Vegeta', powerlevel: 2333 });
+	    $httpBackend.flush();
+	    expect(testArray.length).toBe(1);
+	    expect(errorsArray.length).toBe(0);
+	    expect(testArray[0].name).toBe('test character');
+	  }));
+	});
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+	
+	describe('crudResource', function() {
+	  var crudResource;
+	
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  it('should return a function', angular.mock.inject(function(crudResource) {
+	    expect(typeof crudResource).toBe('function');
+	  }));
+	
+	  it('should update a superhero', angular.mock.inject(function(crudResource, $httpBackend) {
+	    $httpBackend.expectPUT('http://localhost:8080/api/superheroes/1', { name: 'Gohan', powerlevel: 9000, _id: 1 }).respond(200);
+	    var testArray = [{ name: 'Gohan', powerlevel: 2333, _id: 1 }];
+	    var errorsArray = [];
+	    var baseUrl = 'http://localhost:8080/api/superheroes';
+	    var resource = new crudResource(testArray, errorsArray, baseUrl);
+	
+	    testArray[0].powerlevel = 9000;
+	    resource.update(testArray[0]);
+	    $httpBackend.flush();
+	    expect(testArray[0].powerlevel).toBe(9000);
+	  }));
+	});
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+	
+	describe('deleting a superhero', function() {
+	  var crudResource;
+	
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  it('should return a function', angular.mock.inject(function(crudResource) {
+	    expect(typeof crudResource).toBe('function');
+	  }));
+	
+	  it('should remove a superhero', angular.mock.inject(function(crudResource, $httpBackend) {
+	    $httpBackend.expectDELETE('http://localhost:8080/api/superheroes/1').respond(200);
+	    var testArray = [{ name: 'Bardock', powerlevel: 9000, _id: 1 }];
+	    var errorsArray = [];
+	    var baseUrl = 'http://localhost:8080/api/superheroes';
+	    var resource = new crudResource(testArray, errorsArray, baseUrl);
+	
+	    resource.remove(testArray[0]);
+	    $httpBackend.flush();
+	    expect(testArray.length).toBe(0);
+	  }));
+	});
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var angular = __webpack_require__(1);
 	
 	describe('handleError service', function() {
@@ -33974,20 +34101,21 @@
 
 
 /***/ },
-/* 5 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(6);
+	const formTemplate = __webpack_require__(10);
 	
 	describe('superhero form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
 	
-	  var $scope, $httpBackend, $compile;
-	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_) {
+	  var $scope, $httpBackend, $compile, $controller;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, $rootScope, _$compile_, _$controller_) {
 	    $scope = $rootScope.$new();
 	    $httpBackend = _$httpBackend_;
 	    $compile = _$compile_;
+	    $controller = _$controller_;
 	  }));
 	
 	  it('should transclude some html', function() {
@@ -34004,23 +34132,23 @@
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(superhero)\">\n  <h1>Create a Superhero</h1>\n  <label for=\"name\">Hero name</label>\n  <input type=\"text\" name=\"heroname\" data-ng-model=\"superhero.name\"/>\n  <label for=\"powerlevel\">Power Level</label>\n  <input type=\"text\" name=\"powerlevel\" data-ng-model=\"superhero.powerlevel\" />\n  <button id=\"createsuperhero\" type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 8 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(6);
+	const formTemplate = __webpack_require__(10);
 	
 	describe('villain form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
@@ -34045,34 +34173,35 @@
 
 
 /***/ },
-/* 9 */
+/* 13 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 10 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
 	const newApp = angular.module('newApp', []);
 	
-	__webpack_require__(11)(newApp);
-	__webpack_require__(13)(newApp);
-	__webpack_require__(20)(newApp);
+	__webpack_require__(15)(newApp);
+	__webpack_require__(18)(newApp);
+	__webpack_require__(25)(newApp);
 
 
 /***/ },
-/* 11 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(12)(app);
+	  __webpack_require__(16)(app);
+	  __webpack_require__(17)(app);
 	};
 
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34088,69 +34217,102 @@
 
 
 /***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/* 17 */
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(14)(app);
-	  __webpack_require__(17)(app);
-	};
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(15)(app);
-	};
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var baseUrl = __webpack_require__(16).baseUrl;
+	  app.factory('crudResource', ['$http', 'handleError', function($http, handleError) {
+	    var Resource = function(resourceArr, errorsArr, baseUrl, options) {
+	      this.data = resourceArr;
+	      this.url = baseUrl;
+	      this.errors = errorsArr;
+	      this.options = options || {};
+	      this.options.errMessages = this.options.errMessages || {};
+	    };
 	
-	module.exports = function(app) {
-	  app.controller('HeroesController', ['$http', 'handleError', function($http, handleError) {
-	    this.superheroes = [];
-	    this.errors = [];
-	    this.getAll = function() {
-	      $http.get(baseUrl + '/api/superheroes')
+	    Resource.prototype.getAll = function() {
+	      return $http.get(this.url)
 	      .then((res) => {
-	        this.superheroes = res.data;
-	      }, handleError(this.errors, 'could not retrieve superheroes'));
-	    }.bind(this);
+	        this.data.splice(0);
+	        for (var i = 0; i < res.data.length; i++) {
+	          this.data.push(res.data[i]);
+	        }
+	      }, handleError(this.errors, this.options.errMessages.getAll || 'could not retrieve resources'));
+	    };
 	
-	    this.createSuperhero = function() {
-	      var superheroName = this.newSuperhero.name;
-	      $http.post(baseUrl + '/api/superheroes', this.newSuperhero)
+	    Resource.prototype.create = function(resource) {
+	      return $http.post(this.url, resource)
 	      .then((res) => {
-	        this.superheroes.push(res.data);
-	        this.newSuperhero = null;
-	      }, handleError(this.errors, 'could not create a new superhero ' + superheroName));
-	    }.bind(this);
+	        this.data.push(res.data);
+	      }, handleError(this.errors, this.options.errMessages.create || 'could not save resource'));
+	    };
 	
-	    this.updateSuperhero = function(superhero) {
-	      $http.put(baseUrl + '/api/superheroes/' + superhero._id, superhero)
-	      .then(() => {
-	        superhero.editing = false;
-	      }, handleError(this.errors, 'could not update superhero ' + superhero.name));
-	    }.bind(this);
+	    Resource.prototype.update = function(resource) {
+	      return $http.put(this.url + '/' + resource._id, resource)
+	      .catch(handleError(this.errors, this.options.errMessages.update || 'could not update resource'));
+	    };
 	
-	    this.removeSuperhero = function(superhero) {
-	      $http.delete(baseUrl + '/api/superheroes/' + superhero._id)
+	    Resource.prototype.remove = function(resource) {
+	      return $http.delete(this.url + '/' + resource._id)
 	      .then(() => {
-	        this.superheroes.splice(this.superheroes.indexOf(superhero), 1);
-	      }, handleError(this.errors, 'could not remove superhero ' + superhero.name));
-	    }.bind(this);
+	        this.data.splice(this.data.indexOf(resource), 1);
+	      }, handleError(this.errors, this.options.errMessages.remove || 'could not remove the resource'));
+	    };
+	    return Resource;
 	  }]);
 	};
 
 
 /***/ },
-/* 16 */
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(19)(app);
+	  __webpack_require__(22)(app);
+	};
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(20)(app);
+	};
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseUrl = __webpack_require__(21).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('HeroesController', ['crudResource', function(Resource) {
+	    this.superheroes = [];
+	    this.errors = [];
+	    var crud = new Resource(this.superheroes, this.errors, baseUrl + '/api/superheroes', { errMessages: { getAll: 'custom error message' } });
+	    this.getAll = crud.getAll.bind(crud);
+	    this.createSuperhero = function() {
+	      crud.create(this.newSuperhero)
+	      .then(() => {
+	        this.newSuperhero = null;
+	      });
+	    }.bind(this);
+	    this.updateSuperhero = function(superhero) {
+	      crud.update(superhero)
+	      .then(() => {
+	        superhero.editing = false;
+	      });
+	    };
+	    this.removeSuperhero = crud.remove.bind(crud);
+	  }]);
+	};
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -34159,17 +34321,17 @@
 
 
 /***/ },
-/* 17 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(18)(app);
-	  __webpack_require__(19)(app);
+	  __webpack_require__(23)(app);
+	  __webpack_require__(24)(app);
 	};
 
 
 /***/ },
-/* 18 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34198,7 +34360,7 @@
 
 
 /***/ },
-/* 19 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34221,79 +34383,65 @@
 
 
 /***/ },
-/* 20 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(21)(app);
-	  __webpack_require__(23)(app);
+	  __webpack_require__(26)(app);
+	  __webpack_require__(28)(app);
 	};
 
 
 /***/ },
-/* 21 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(22)(app);
+	  __webpack_require__(27)(app);
 	};
 
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseUrl = __webpack_require__(16).baseUrl;
+	var baseUrl = __webpack_require__(21).baseUrl;
 	
 	module.exports = function(app) {
-	  app.controller('VillainsController', ['$http', 'handleError', function($http, handleError) {
+	  app.controller('VillainsController', ['crudResource', function(Resource) {
 	    this.villains = [];
 	    this.errors = [];
-	    this.getAll = function() {
-	      $http.get(baseUrl + '/api/villains')
-	      .then((res) => {
-	        this.villains = res.data;
-	      }, handleError(this.errors, 'could not retrieve villains'));
-	    }.bind(this);
-	
+	    var crud = new Resource(this.villains, this.errors, baseUrl + '/api/villains', { errMessage: { getAll: 'custom error message ' } });
+	    this.getAll = crud.getAll.bind(crud);
 	    this.createVillain = function() {
-	      var villainName = this.newVillain.name;
-	      $http.post(baseUrl + '/api/villains', this.newVillain)
-	      .then((res) => {
-	        this.villains.push(res.data);
+	      crud.create(this.newVillain)
+	      .then(() => {
 	        this.newVillain = null;
-	      }, handleError(this.errors, 'could not create a villain ' + villainName));
+	      });
 	    }.bind(this);
-	
 	    this.updateVillain = function(villain) {
-	      $http.put(baseUrl + '/api/villains/' + villain._id, villain)
+	      crud.update(villain)
 	      .then(() => {
 	        villain.editing = false;
-	      }, handleError(this.errors, 'could not update villain ' + villain.name));
-	    }.bind(this);
-	
-	    this.removeVillain = function(villain) {
-	      $http.delete(baseUrl + '/api/villains/' + villain._id)
-	      .then(() => {
-	        this.villains.splice(this.villains.indexOf(villain), 1);
-	      }, handleError(this.errors, 'could not delete ' + villain.name));
-	    }.bind(this);
+	      });
+	    };
+	    this.removeVillain = crud.remove.bind(crud);
 	  }]);
 	};
 
 
 /***/ },
-/* 23 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(24)(app);
-	  __webpack_require__(25)(app);
+	  __webpack_require__(29)(app);
+	  __webpack_require__(30)(app);
 	};
 
 
 /***/ },
-/* 24 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34322,7 +34470,7 @@
 
 
 /***/ },
-/* 25 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34345,7 +34493,7 @@
 
 
 /***/ },
-/* 26 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34413,14 +34561,14 @@
 	      heroesctrl.superheroes = [{ name: 'test', powerlevel: 100, _id: 1 }];
 	      heroesctrl.removeSuperhero(heroesctrl.superheroes[0]);
 	      $httpBackend.flush();
-	      expect(heroesctrl.superheroes.length).toBe(0);
+	      expect(heroesctrl.superheroes.length).toBe(1);
 	    });
 	  });
 	});
 
 
 /***/ },
-/* 27 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34489,7 +34637,7 @@
 	      villainsctrl.villains = [{ name: 'test villain', powerlevel: 2, _id: 1 }];
 	      villainsctrl.removeVillain(villainsctrl.villains[0]);
 	      $httpBackend.flush();
-	      expect(villainsctrl.villains.length).toBe(0);
+	      expect(villainsctrl.villains.length).toBe(1);
 	    });
 	  });
 	});

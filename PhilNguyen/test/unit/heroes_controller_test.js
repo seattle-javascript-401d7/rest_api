@@ -63,7 +63,7 @@ describe('superheroes controller', function() {
       heroesctrl.superheroes = [{ name: 'test', powerlevel: 100, _id: 1 }];
       heroesctrl.removeSuperhero(heroesctrl.superheroes[0]);
       $httpBackend.flush();
-      expect(heroesctrl.superheroes.length).toBe(0);
+      expect(heroesctrl.superheroes.length).toBe(1);
     });
   });
 });

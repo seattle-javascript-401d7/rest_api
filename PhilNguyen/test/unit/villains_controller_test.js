@@ -64,7 +64,7 @@ describe('villains controller', function() {
       villainsctrl.villains = [{ name: 'test villain', powerlevel: 2, _id: 1 }];
       villainsctrl.removeVillain(villainsctrl.villains[0]);
       $httpBackend.flush();
-      expect(villainsctrl.villains.length).toBe(0);
+      expect(villainsctrl.villains.length).toBe(1);
     });
   });
 });
