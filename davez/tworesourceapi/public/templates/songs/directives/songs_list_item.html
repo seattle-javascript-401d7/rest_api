@@ -1,0 +1,17 @@
+<li>
+  <ng-transclude></ng-transclude>
+  <div class="buttonDiv">
+    <button class="edit" data-ng-click="murder(song)">remove this song...</button>
+    <button class="edit" data-ng-if="!song.editing" data-ng-click="edit(song)">Edit</button>
+  </div>
+  <span data-ng-if="!song.editing">
+    <!-- ID: {{song._id}}</br> -->
+    Name: {{song.name}}</br>
+    Artist: {{song.artist}}</br>
+    Album: {{song.album}}</br>
+    Year: {{song.year}}</br>
+    Genre: {{song.genre}}</br>
+    Personal Rating: {{song.personalRating}}</br>
+    Emotion: {{song.emotion}}</br></br>
+  </span>
+</li>
