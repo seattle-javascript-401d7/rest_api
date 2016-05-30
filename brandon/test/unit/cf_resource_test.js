@@ -15,25 +15,24 @@ describe('cfResource', () => {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('should return a function', angular.mock.inject(function(cfResource) {
+  it('should return a function', angular.mock.inject((cfResource) => {
     expect(typeof cfResource).toBe('function');
   }));
 
-  // it('should get get everything in the resource', angular.mock.inject(function(cfResource) {
+  // it('should get get all in the resource', angular.mock.inject((cfResource, $httpBackend) => {
   //   $httpBackend.expectGET(baseUrl).respond(200, [{ name: 'yoda' }]);
   //
-  //   var resourceArray = [{}, {}];
+  //   var testArray = [{}, {}, {}];
   //   var errorsArray = [];
-  //   var resource = new cfResource(resourceArray, errorsArray, baseUrl);
+  //   var testRemote = new cfResource(testArray, errorsArray, baseUrl);
   //
-  //   resource.getAll();
+  //   testRemote.getAll();
   //   $httpBackend.flush();
-  //   console.log(resourceArray);
-  //   expect(resourceArray.length).toBe(3);
-  //   expect(resourceArray[0].name).toBe('yoda');
+  //   expect(testArray.length).toBe(1);
+  //   expect(testArray[0].name).toBe('yoda');
   // }));
 
-  it('should add to the array', angular.mock.inject(function(cfResource) {
+  it('should add to the array', angular.mock.inject((cfResource) => {
     $httpBackend.expectPOST(baseUrl, { name: 'test jedi' }).respond(200, {
         name: 'completely different jedi', _id: 0 });
       var testArr = [];
@@ -46,7 +45,7 @@ describe('cfResource', () => {
       expect(testArr[0].name).toBe('completely different jedi');
   }));
 
-  it('should update an entry', angular.mock.inject(function(cfResource, $q) {
+  it('should update an entry', angular.mock.inject((cfResource, $q) => {
     var testJedi = { name: 'test jedi', _id: 1 };
     var testArr = [testJedi];
     var errorsArr = [];
@@ -58,4 +57,15 @@ describe('cfResource', () => {
     expect(errorsArr.length).toBe(0);
     expect(result instanceof $q).toBe(true);
   }));
+
+  it('should remove a resource', angular.mock.inject((cfResource, $httpBackend) => {
+    $httpBackend.expectDELETE(baseUrl + '/1').respond(200);
+    var jedi = [{ name: 'test jedi', _id: 1 }];
+    var errorsArr = [];
+    var testRemote = new cfResource(jedi, errorsArr, baseUrl);
+    testRemote.remove(jedi[0]);
+    $httpBackend.flush();
+    expect(jedi.length).toBe(0);
+  }));
+
 });
