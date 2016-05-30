@@ -6,3 +6,5 @@ db/**
 .DS_Store?
 npm-debug.log
 build/**
+bundle.js
+bundle.js.map
