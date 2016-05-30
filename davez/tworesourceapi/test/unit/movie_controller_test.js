@@ -48,14 +48,24 @@ describe('movies controller', function() {
       expect(movieCntrl.newMovie).toBe(null);
     });
     it('should update a movie', function() {
-      $httpBackend.expectPUT('http://localhost:7777/api/movies/clockwork', {name: 'clockwork', editing: true}).respond(200);
-      movieCntrl.Movies = [{name: 'updated', editing: true}];
-      movieCntrl.Movies[0].name = 'clockwork';
+      $httpBackend.expectPUT('http://localhost:7777/api/movies/1', {name: 'changemovie', editing: true, _id: 1}).respond(200);
+
+      movieCntrl.Movies = [{name: 'updated', editing: true, _id: 1}];
+      movieCntrl.Movies[0].name = 'changemovie';
       movieCntrl.updateMovie(movieCntrl.Movies[0]);
       $httpBackend.flush();
       expect(movieCntrl.Movies[0].editing).toBe(false);
-      expect(movieCntrl.Movies[0].name).toBe('clockwork');
+      expect(movieCntrl.Movies[0].name).toBe('changemovie');
     });
+    // it('should update a movie', function() {
+    //   $httpBackend.expectPUT('http://localhost:7777/api/movies/clockwork', {name: 'clockwork', editing: true}).respond(200);
+    //   movieCntrl.Movies = [{name: 'updated', editing: true}];
+    //   movieCntrl.Movies[0].name = 'clockwork';
+    //   movieCntrl.updateMovie(movieCntrl.Movies[0]);
+    //   $httpBackend.flush();
+    //   expect(movieCntrl.Movies[0].editing).toBe(false);
+    //   expect(movieCntrl.Movies[0].name).toBe('clockwork');
+    // });
     it('should delete a movie', function() {
       $httpBackend.expectDELETE('http://localhost:7777/api/movies/boogy').respond(200);
       movieCntrl.Movies = [{name: 'boogy'}];

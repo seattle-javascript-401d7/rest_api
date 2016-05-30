@@ -46,13 +46,8 @@
 
 	__webpack_require__(1);
 	
-	// describe('does karma work?', () => {
-	//   it('should world', () => {
-	//     expect(true).not.toBe(false);
-	//   });
-	// });
-	
-	__webpack_require__(17);
+	__webpack_require__(21);
+	__webpack_require__(23);
 
 
 /***/ },
@@ -63,7 +58,8 @@
 	const moviesApp = angular.module('moviesApp', []);
 	
 	__webpack_require__(4)(moviesApp);
-	__webpack_require__(12)(moviesApp);
+	__webpack_require__(6)(moviesApp);
+	__webpack_require__(15)(moviesApp);
 	
 	// Below code is taken out and put into the movies and songs controllers for refactoring.
 	//
@@ -31018,56 +31014,34 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(5)(app)
-	  __webpack_require__(10)(app)
-	}
+	  __webpack_require__(5)(app);
+	};
 
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(6)(app)
-	}
+	  app.factory('dzHandleError', function() {
+	    return function(errorsArr, message) {
+	      return function(err) {
+	        console.log(err);
+	        if (Array.isArray(errorsArr))
+	          errorsArr.push(new Error(message || 'server error'));
+	      };
+	    };
+	  });
+	};
 
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleError = __webpack_require__(7).handleError;
-	var baseUrl = __webpack_require__(9).baseUrl;
-	
 	module.exports = function(app) {
-	  app.controller('MoviesController', ['$http', function($http) {
-	    this.Movies = [];
-	    this.getAll = () => {
-	      $http.get(baseUrl + '/api/movies')
-	      .then((res) => {
-	        this.Movies = res.data;
-	      }, handleError.bind(this));
-	    };
-	    this.createMovie = () => {
-	      $http.post(baseUrl + '/api/movies', this.newMovie)
-	      .then((res) => {
-	        this.Movies.push(res.data);
-	        this.newMovie = null;
-	      }, handleError.bind(this));
-	    };
-	    this.updateMovie = (movie) => {
-	      $http.put(baseUrl + '/api/movies/' + movie.name, movie)
-	      .then(() => {
-	        movie.editing = false;
-	      }, handleError.bind(this));
-	    };
-	    this.removeMovie = (movie) => {
-	      $http.delete(baseUrl + '/api/movies/' + movie.name)
-	      .then(() => {
-	        this.Movies.splice(this.Movies.indexOf(movie), 1);
-	      }, handleError.bind(this));
-	    };
-	  }]);
+	  __webpack_require__(7)(app)
+	  __webpack_require__(12)(app)
 	}
 
 
@@ -31075,13 +31049,87 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	  handleError: __webpack_require__(8)
+	module.exports = function(app) {
+	  __webpack_require__(8)(app)
 	}
 
 
 /***/ },
 /* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(9).handleError;
+	var baseUrl = __webpack_require__(11).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('MoviesController', ['$http', 'dzHandleError', function($http, dzHandleError) {
+	    this.Movies = [];
+	    this.errors = [];
+	    var originalMovie = {};
+	
+	    this.getAll = function() {
+	      $http.get(baseUrl + '/api/movies')
+	      .then((res) => {
+	        this.Movies = res.data;
+	      }, dzHandleError(this.errors, 'could not retrieve movies'));
+	    }.bind(this);
+	
+	    this.createMovie = function() {
+	      $http.post(baseUrl + '/api/movies', this.newMovie)
+	      .then((res) => {
+	        this.Movies.push(res.data);
+	        this.newMovie = null;
+	      }, dzHandleError(this.errors, 'could not create movie'));
+	    }.bind(this);
+	
+	    this.updateMovie = function(movie) {
+	      $http.put(baseUrl + '/api/movies/' + movie._id, movie)
+	      .then(() => {
+	        movie.editing = false;
+	      }, dzHandleError(this.errors, 'could not update movies'));
+	    }.bind(this);
+	
+	    this.editMovie = (movie) => {
+	      movie.editing = true;
+	      originalMovie.name = movie.name;
+	      originalMovie.genre = movie.genre;
+	      originalMovie.year = movie.year;
+	      originalMovie.rating = movie.rating;
+	      originalMovie.runTime = movie.runTime;
+	      originalMovie.emotion = movie.emotion;
+	    };
+	
+	    this.cancelEdit = (movie) => {
+	      movie.name = originalMovie.name;
+	      movie.genre = originalMovie.genre;
+	      movie.year = originalMovie.year;
+	      movie.rating = originalMovie.rating;
+	      movie.runTime = originalMovie.runTime;
+	      movie.emotion = originalMovie.emotion;
+	      movie.editing = false;
+	    };
+	
+	    this.removeMovie = function(movie) {
+	      $http.delete(baseUrl + '/api/movies/' + movie.name)
+	      .then(() => {
+	        this.Movies.splice(this.Movies.indexOf(movie), 1);
+	      }, dzHandleError(this.errors, 'could not delete movie'));
+	    }.bind(this);
+	  }]);
+	}
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  handleError: __webpack_require__(10)
+	}
+
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function(error) {
@@ -31091,7 +31139,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -31100,16 +31148,17 @@
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(11)(app)
+	  __webpack_require__(13)(app)
+	  __webpack_require__(14)(app)
 	}
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31125,6 +31174,8 @@
 	      },
 	      link: function(scope, element, attrs, controller) {
 	        scope.murder = controller.removeMovie;
+	        scope.edit = controller.editMovie;
+	        scope.cancel = controller.cancelEdit;
 	      }
 	    }
 	  });
@@ -31132,61 +31183,31 @@
 
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(13)(app)
-	  __webpack_require__(15)(app)
-	}
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(14)(app)
-	}
-
-
-/***/ },
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var handleError = __webpack_require__(7).handleError;
-	var baseUrl = __webpack_require__(9).baseUrl;
-	
 	module.exports = function(app) {
-	  app.controller('SongsController', ['$http', function($http) {
-	    this.Songs = [];
-	    this.getAll = () => {
-	      $http.get(baseUrl + '/api/songs')
-	      .then((res) => {
-	        this.Songs = res.data;
-	      }, handleError.bind(this));
+	  app.directive('movieForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/movies/directives/movies_form.html',
+	      scope: {
+	        movie: '=',
+	        buttonText: '@',
+	        crud: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var cruds = {
+	          update: controller.updateMovie,
+	          create: controller.createMovie
+	        };
+	        scope.save = cruds[scope.crud];
+	      }
 	    };
-	    this.createSong = () => {
-	      $http.post(baseUrl + '/api/songs', this.newSong)
-	      .then((res) => {
-	        this.Songs.push(res.data);
-	        this.newSong = null;
-	      }, handleError.bind(this));
-	    };
-	    this.updateSong = (song) => {
-	      $http.put(baseUrl + '/api/songs/' + song.name, song)
-	      .then(() => {
-	        song.editing = false;
-	      }, handleError.bind(this));
-	    };
-	    this.removeSong = (song) => {
-	      $http.delete(baseUrl + '/api/songs/' + song.name)
-	      .then(() => {
-	        this.Songs.splice(this.Songs.indexOf(song), 1);
-	      }, handleError.bind(this));
-	    };
-	  }]);
-	}
+	  });
+	};
 
 
 /***/ },
@@ -31195,11 +31216,98 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(16)(app)
+	  __webpack_require__(18)(app)
 	}
 
 
 /***/ },
 /* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(17)(app)
+	}
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(9).handleError;
+	var baseUrl = __webpack_require__(11).baseUrl;
+	
+	module.exports = function(app) {
+	  app.controller('SongsController', ['$http', 'dzHandleError', function($http, dzHandleError) {
+	    this.Songs = [];
+	    this.errors = [];
+	    var originalSong = {};
+	
+	    this.getAll = function() {
+	      $http.get(baseUrl + '/api/songs')
+	      .then((res) => {
+	        this.Songs = res.data;
+	      }, dzHandleError(this.errors, 'could not retrieve songs'));
+	    }.bind(this);
+	
+	    this.createSong = function() {
+	      $http.post(baseUrl + '/api/songs', this.newSong)
+	      .then((res) => {
+	        this.Songs.push(res.data);
+	        this.newSong = null;
+	      }, dzHandleError(this.errors, 'could not create song'));
+	    }.bind(this);
+	
+	    this.updateSong = function(song) {
+	      $http.put(baseUrl + '/api/songs/' + song._id, song)
+	      .then(() => {
+	        song.editing = false;
+	      }, dzHandleError(this.errors, 'could not update song'));
+	    }.bind(this);
+	
+	    this.editSong = (song) => {
+	      song.editing = true;
+	      originalSong.name = song.name;
+	      originalSong.artist = song.artist;
+	      originalSong.album = song.album;
+	      originalSong.year = song.year;
+	      originalSong.genre = song.genre;
+	      originalSong.personalRating = song.personalRating;
+	      originalSong.emotion = song.emotion;
+	    };
+	
+	    this.cancelEdit = (song) => {
+	      song.name = originalSong.name;
+	      song.artist = originalSong.artist;
+	      song.album = originalSong.album;
+	      song.year = originalSong.year;
+	      song.genre = originalSong.genre;
+	      song.personalRating = originalSong.personalRating;
+	      song.emotion = originalSong.emotion;
+	      song.editing = false;
+	    };
+	
+	    this.removeSong = function(song) {
+	      $http.delete(baseUrl + '/api/songs/' + song.name)
+	      .then(() => {
+	        this.Songs.splice(this.Songs.indexOf(song), 1);
+	      }, dzHandleError(this.errors, 'could not delete song'));
+	    }.bind(this);
+	  }]);
+	}
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(19)(app)
+	  __webpack_require__(20)(app)
+	}
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31215,6 +31323,8 @@
 	      },
 	      link: function(scope, element, attrs, controller) {
 	        scope.murder = controller.removeSong;
+	        scope.edit = controller.editSong;
+	        scope.cancel = controller.cancelEdit;
 	      }
 	    }
 	  });
@@ -31222,11 +31332,39 @@
 
 
 /***/ },
-/* 17 */
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('songForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      require: '^ngController',
+	      transclude: true,
+	      templateUrl: '/templates/songs/directives/songs_form.html',
+	      scope: {
+	        song: '=',
+	        buttonText: '@',
+	        crud: '@'
+	      },
+	      link: function(scope, element, attrs, controller) {
+	        var cruds = {
+	          update: controller.updateSong,
+	          create: controller.createSong
+	        };
+	        scope.save = cruds[scope.crud];
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(18);
+	__webpack_require__(22);
 	
 	describe('movies controller', function() {
 	  // var $httpBackend;
@@ -31275,14 +31413,24 @@
 	      expect(movieCntrl.newMovie).toBe(null);
 	    });
 	    it('should update a movie', function() {
-	      $httpBackend.expectPUT('http://localhost:7777/api/movies/clockwork', {name: 'clockwork', editing: true}).respond(200);
-	      movieCntrl.Movies = [{name: 'updated', editing: true}];
-	      movieCntrl.Movies[0].name = 'clockwork';
+	      $httpBackend.expectPUT('http://localhost:7777/api/movies/1', {name: 'changemovie', editing: true, _id: 1}).respond(200);
+	
+	      movieCntrl.Movies = [{name: 'updated', editing: true, _id: 1}];
+	      movieCntrl.Movies[0].name = 'changemovie';
 	      movieCntrl.updateMovie(movieCntrl.Movies[0]);
 	      $httpBackend.flush();
 	      expect(movieCntrl.Movies[0].editing).toBe(false);
-	      expect(movieCntrl.Movies[0].name).toBe('clockwork');
+	      expect(movieCntrl.Movies[0].name).toBe('changemovie');
 	    });
+	    // it('should update a movie', function() {
+	    //   $httpBackend.expectPUT('http://localhost:7777/api/movies/clockwork', {name: 'clockwork', editing: true}).respond(200);
+	    //   movieCntrl.Movies = [{name: 'updated', editing: true}];
+	    //   movieCntrl.Movies[0].name = 'clockwork';
+	    //   movieCntrl.updateMovie(movieCntrl.Movies[0]);
+	    //   $httpBackend.flush();
+	    //   expect(movieCntrl.Movies[0].editing).toBe(false);
+	    //   expect(movieCntrl.Movies[0].name).toBe('clockwork');
+	    // });
 	    it('should delete a movie', function() {
 	      $httpBackend.expectDELETE('http://localhost:7777/api/movies/boogy').respond(200);
 	      movieCntrl.Movies = [{name: 'boogy'}];
@@ -31295,7 +31443,7 @@
 
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports) {
 
 	/**
@@ -34304,6 +34452,31 @@
 	
 	
 	})(window, window.angular);
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	__webpack_require__(22);
+	
+	describe('dzHandleError helper service', function() {
+	  var dzHandleError;
+	  beforeEach(angular.mock.module('moviesApp'));
+	
+	  it('should return a function', angular.mock.inject(function(dzHandleError) {
+	    expect(typeof dzHandleError).toBe('function');
+	  }));
+	
+	  it('should add an error to the errors array',
+	  angular.mock.inject(function(dzHandleError) {
+	  var testError = [];
+	  dzHandleError(testError, 'this is a test error message')();
+	  expect(testError.length).toBe(1);
+	  expect(testError[0].message).toBe('this is a test error message');
+	  }));
+	});
 
 
 /***/ }

@@ -1,7 +1,7 @@
 describe('all the movies', function() {
   var lastMovie = element(by.css('#movielist:last-child > li:last-of-type'))
-  var updateInput = element(by.css('#movielist:last-child > li:last-of-type > form > input:first-of-type'));
-  var updateSubmit = element(by.css('#movielist:last-child > li:last-of-type > form > #proUpdate'));
+  var updateInput = element(by.css('#movielist:last-child > li:last-of-type > ng-transclude > movie-form > form > input:first-of-type'));
+  var updateSubmit = element(by.css('#movielist:last-child > li:last-of-type > ng-transclude > movie-form > form > button:last-of-type'));
 
   it('should show movies in browser', function(done) {
     browser.get('http://localhost:8888');
@@ -10,10 +10,10 @@ describe('all the movies', function() {
   });
   it('should create a movie', function(done) {
     browser.get('http://localhost:8888');
-    element(by.model('mvctrl.newMovie.name')).sendKeys('test movie');
-    element(by.id('createmovie')).click();
+    element(by.id('protractNameMovie')).sendKeys('lkjhgfdsa');
+    element(by.id('createMovie')).click();
 
-    expect(lastMovie.getText()).toContain('test movie');
+    expect(lastMovie.getText()).toContain('lkjhgfdsa');
     expect(true).toEqual(true);
     done();
   });
@@ -28,7 +28,7 @@ describe('all the movies', function() {
   it('should delete a movie', function(done) {
     browser.get('http://localhost:8888');
     element.all(by.css('#movielist:last-child > li:last-of-type > div > button:first-of-type')).click();
-     expect(lastMovie.getText()).not.toContain('test movie');
+     expect(lastMovie.getText()).not.toContain('lkjhgfdsa');
     done();
   });
 });

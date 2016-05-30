@@ -1,9 +1,4 @@
 require('../../public/js/entry.js');
 
-// describe('does karma work?', () => {
-//   it('should world', () => {
-//     expect(true).not.toBe(false);
-//   });
-// });
-
 require('./movie_controller_test.js');
+require('./dz_handle_error_test.js');

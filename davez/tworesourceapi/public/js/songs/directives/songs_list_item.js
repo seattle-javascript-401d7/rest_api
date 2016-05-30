@@ -11,6 +11,8 @@ module.exports = function(app) {
       },
       link: function(scope, element, attrs, controller) {
         scope.murder = controller.removeSong;
+        scope.edit = controller.editSong;
+        scope.cancel = controller.cancelEdit;
       }
     }
   });

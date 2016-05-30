@@ -48,7 +48,8 @@
 	const moviesApp = angular.module('moviesApp', []);
 	
 	__webpack_require__(3)(moviesApp);
-	__webpack_require__(12)(moviesApp);
+	__webpack_require__(5)(moviesApp);
+	__webpack_require__(14)(moviesApp);
 	
 	// Below code is taken out and put into the movies and songs controllers for refactoring.
 	//
@@ -31003,51 +31004,81 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(4)(app)
-	  __webpack_require__(9)(app)
-	}
+	  __webpack_require__(4)(app);
+	};
 
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(5)(app)
-	}
+	  app.factory('dzHandleError', function() {
+	    return function(errorsArr, message) {
+	      return function(err) {
+	        console.log(err);
+	        if (Array.isArray(errorsArr))
+	          errorsArr.push(new Error(message || 'server error'));
+	      };
+	    };
+	  });
+	};
 
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleError = __webpack_require__(6).handleError;
-	var baseUrl = __webpack_require__(8).baseUrl;
+	module.exports = function(app) {
+	  __webpack_require__(6)(app)
+	  __webpack_require__(11)(app)
+	}
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(7)(app)
+	}
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(8).handleError;
+	var baseUrl = __webpack_require__(10).baseUrl;
 	
 	module.exports = function(app) {
-	  app.controller('MoviesController', ['$http', function($http) {
+	  app.controller('MoviesController', ['$http', 'dzHandleError', function($http, dzHandleError) {
 	    this.Movies = [];
+	    this.errors = [];
 	    var originalMovie = {};
 	
-	    this.getAll = () => {
+	    this.getAll = function() {
 	      $http.get(baseUrl + '/api/movies')
 	      .then((res) => {
 	        this.Movies = res.data;
-	      }, handleError.bind(this));
-	    };
-	    this.createMovie = () => {
+	      }, dzHandleError(this.errors, 'could not retrieve movies'));
+	    }.bind(this);
+	
+	    this.createMovie = function() {
 	      $http.post(baseUrl + '/api/movies', this.newMovie)
 	      .then((res) => {
 	        this.Movies.push(res.data);
 	        this.newMovie = null;
-	      }, handleError.bind(this));
-	    };
-	    this.updateMovie = (movie) => {
-	      $http.put(baseUrl + '/api/movies/' + movie.name, movie)
+	      }, dzHandleError(this.errors, 'could not create movie'));
+	    }.bind(this);
+	
+	    this.updateMovie = function(movie) {
+	      $http.put(baseUrl + '/api/movies/' + movie._id, movie)
 	      .then(() => {
 	        movie.editing = false;
-	      }, handleError.bind(this));
-	    };
+	      }, dzHandleError(this.errors, 'could not update movies'));
+	    }.bind(this);
+	
 	    this.editMovie = (movie) => {
 	      movie.editing = true;
 	      originalMovie.name = movie.name;
@@ -31057,27 +31088,38 @@
 	      originalMovie.runTime = movie.runTime;
 	      originalMovie.emotion = movie.emotion;
 	    };
-	    this.removeMovie = (movie) => {
+	
+	    this.cancelEdit = (movie) => {
+	      movie.name = originalMovie.name;
+	      movie.genre = originalMovie.genre;
+	      movie.year = originalMovie.year;
+	      movie.rating = originalMovie.rating;
+	      movie.runTime = originalMovie.runTime;
+	      movie.emotion = originalMovie.emotion;
+	      movie.editing = false;
+	    };
+	
+	    this.removeMovie = function(movie) {
 	      $http.delete(baseUrl + '/api/movies/' + movie.name)
 	      .then(() => {
 	        this.Movies.splice(this.Movies.indexOf(movie), 1);
-	      }, handleError.bind(this));
-	    };
+	      }, dzHandleError(this.errors, 'could not delete movie'));
+	    }.bind(this);
 	  }]);
 	}
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	  handleError: __webpack_require__(7)
+	  handleError: __webpack_require__(9)
 	}
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = function(error) {
@@ -31087,7 +31129,7 @@
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -31096,17 +31138,17 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(10)(app)
-	  __webpack_require__(11)(app)
+	  __webpack_require__(12)(app)
+	  __webpack_require__(13)(app)
 	}
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31123,6 +31165,7 @@
 	      link: function(scope, element, attrs, controller) {
 	        scope.murder = controller.removeMovie;
 	        scope.edit = controller.editMovie;
+	        scope.cancel = controller.cancelEdit;
 	      }
 	    }
 	  });
@@ -31130,7 +31173,7 @@
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31158,64 +31201,59 @@
 
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(13)(app)
-	  __webpack_require__(15)(app)
-	}
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(14)(app)
-	}
-
-
-/***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var handleError = __webpack_require__(6).handleError;
-	var baseUrl = __webpack_require__(8).baseUrl;
+	module.exports = function(app) {
+	  __webpack_require__(15)(app)
+	  __webpack_require__(17)(app)
+	}
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(16)(app)
+	}
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var handleError = __webpack_require__(8).handleError;
+	var baseUrl = __webpack_require__(10).baseUrl;
 	
 	module.exports = function(app) {
-	  app.controller('SongsController', ['$http', function($http) {
+	  app.controller('SongsController', ['$http', 'dzHandleError', function($http, dzHandleError) {
 	    this.Songs = [];
+	    this.errors = [];
 	    var originalSong = {};
 	
-	    this.getAll = () => {
+	    this.getAll = function() {
 	      $http.get(baseUrl + '/api/songs')
 	      .then((res) => {
 	        this.Songs = res.data;
-	      }, handleError.bind(this));
-	    };
-	    this.createSong = () => {
+	      }, dzHandleError(this.errors, 'could not retrieve songs'));
+	    }.bind(this);
+	
+	    this.createSong = function() {
 	      $http.post(baseUrl + '/api/songs', this.newSong)
 	      .then((res) => {
 	        this.Songs.push(res.data);
 	        this.newSong = null;
-	      }, handleError.bind(this));
-	    };
-	    this.updateSong = (song) => {
-	      var upSong = [];
-	      console.log(upSong);
-	      song.update = song.name;
-	      console.log(song.update);
-	      var thisSong = song;
-	      console.log(thisSong);
-	      console.log('song id: ' + song._id);
-	      $http.put(baseUrl + '/api/songs/' + song.name, song)
-	      .then((res) => {
-	        upSong.push(res.data);
-	        console.log(res.config.data._id);
+	      }, dzHandleError(this.errors, 'could not create song'));
+	    }.bind(this);
+	
+	    this.updateSong = function(song) {
+	      $http.put(baseUrl + '/api/songs/' + song._id, song)
+	      .then(() => {
 	        song.editing = false;
-	      }, handleError.bind(this));
-	    };
+	      }, dzHandleError(this.errors, 'could not update song'));
+	    }.bind(this);
+	
 	    this.editSong = (song) => {
 	      song.editing = true;
 	      originalSong.name = song.name;
@@ -31226,28 +31264,40 @@
 	      originalSong.personalRating = song.personalRating;
 	      originalSong.emotion = song.emotion;
 	    };
-	    this.removeSong = (song) => {
+	
+	    this.cancelEdit = (song) => {
+	      song.name = originalSong.name;
+	      song.artist = originalSong.artist;
+	      song.album = originalSong.album;
+	      song.year = originalSong.year;
+	      song.genre = originalSong.genre;
+	      song.personalRating = originalSong.personalRating;
+	      song.emotion = originalSong.emotion;
+	      song.editing = false;
+	    };
+	
+	    this.removeSong = function(song) {
 	      $http.delete(baseUrl + '/api/songs/' + song.name)
 	      .then(() => {
 	        this.Songs.splice(this.Songs.indexOf(song), 1);
-	      }, handleError.bind(this));
-	    };
+	      }, dzHandleError(this.errors, 'could not delete song'));
+	    }.bind(this);
 	  }]);
 	}
 
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(16)(app)
-	  __webpack_require__(17)(app)
+	  __webpack_require__(18)(app)
+	  __webpack_require__(19)(app)
 	}
 
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31263,6 +31313,8 @@
 	      },
 	      link: function(scope, element, attrs, controller) {
 	        scope.murder = controller.removeSong;
+	        scope.edit = controller.editSong;
+	        scope.cancel = controller.cancelEdit;
 	      }
 	    }
 	  });
@@ -31270,7 +31322,7 @@
 
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {

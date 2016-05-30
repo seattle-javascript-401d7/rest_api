@@ -21,7 +21,7 @@ songsRouter.get('/songs', (req, res) => {
 songsRouter.put('/songs/:id', bodyParser, (req, res) => {
   var songData = req.body;
   delete songData._id;
-  Song.update({name: req.params.id}, songData, (err) => {
+  Song.update({_id: req.params.id}, songData, (err) => {
     if(err) return serverError(err, res);
     res.status(200).json({msg:'you have updated songs'});
   });

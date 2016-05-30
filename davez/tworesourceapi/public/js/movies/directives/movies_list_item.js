@@ -12,6 +12,7 @@ module.exports = function(app) {
       link: function(scope, element, attrs, controller) {
         scope.murder = controller.removeMovie;
         scope.edit = controller.editMovie;
+        scope.cancel = controller.cancelEdit;
       }
     }
   });

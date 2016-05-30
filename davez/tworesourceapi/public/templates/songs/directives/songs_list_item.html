@@ -5,7 +5,6 @@
     <button class="edit" data-ng-if="!song.editing" data-ng-click="edit(song)">Edit</button>
   </div>
   <span data-ng-if="!song.editing">
-    <!-- ID: {{song._id}}</br> -->
     Name: {{song.name}}</br>
     Artist: {{song.artist}}</br>
     Album: {{song.album}}</br>
@@ -14,4 +13,5 @@
     Personal Rating: {{song.personalRating}}</br>
     Emotion: {{song.emotion}}</br></br>
   </span>
+  <button data-ng-if="song.editing" data-ng-click="cancel(song)">fancy Cancel</button>
 </li>

@@ -1,32 +1,35 @@
-#ANGULAR-REFACTORING
-This is a refactored version of my rest-api. I have made seperate directives and
-controllers and templates for both the songs and the movies. Data is retrieved
-from the database if it exists and ddisplayed on the page. You can add and
-update data via. the page and it is pretty much self explanatory if you are on
-the page. To run this app, you must type
+# updated REST-API w/ angular and Helper service
+In this assignment, I created a service that displays errors for either my songs
+controller or my movies controller. It displays an error that is based on if one
+of the CRUD (create, read, update or delete) methods fails to work. It displays
+the error message in red above the form for either movies or songs, depending on
+where the error is coming from. I also incorporated unit testing to make sure
+that everything is all good with my service. Complete instructions for how to
+run this app and also run the tests and also install everything needed in order
+for it to work, can be found below. 
 
-'''
-gulp
-'''
+# Installing the app
+1. Type '''npm install''' from root directory
+  - this will install all necessary packages needed for running the app and the
+tests.
 
-from the root directory. After that, all servers will be running, and all you
-have to do is go to
+# Starting the app
+1. type: '''gulp''' from the root directory
+2. navigate to: '''localhost:8888''' in your browser
+3. Input data into the input fields
+  - only numbers can be used for the year
+4. Have fun!!
 
-'''
-localhost:8888
-'''
+# Running end-to-end protactor tests
+1. type: '''gulp webpack:test''' from root directory
+2. type: '''protractor test/protractor/conf.js''' from root directory
+3. all tests should run and pass
 
-in your browser, and than you can use this app.
-
-##IMPORTANT NOTES
-I am still tweaking with my code to get the update button for the movies to
-work.
-
-Also:
-The update button for the songs works, but only if you change anything 'OTHER'
-than the name of the song. If you change the name of the song, the database will
-not update. Again, I am still working on this and trying to fix it. The Movies
-edit button works but the update button does not. I am also trying to fix this. 
+# Running Unit (karma) tests
+1. type: '''gulp webpack:test''' from root directory
+2. ensure that karma.conf.js is set to '''single run: true'''
+3. type '''karma start''' from root directory
+4. all tests should run and pass
 
 #ANGULAR - CRUD
 this is a version of my two-resource rest-api that uses angular and allows data to be retrieved from the data base and displayed in the browser. The user is also able to add songs and movies in the browser as well as update existing songs or movies, or delete them. User interaction with database in the browser will be reflected in the database.
