@@ -6,7 +6,7 @@ the error message in red above the form for either movies or songs, depending on
 where the error is coming from. I also incorporated unit testing to make sure
 that everything is all good with my service. Complete instructions for how to
 run this app and also run the tests and also install everything needed in order
-for it to work, can be found below. 
+for it to work, can be found below.
 
 # Installing the app
 1. Type '''npm install''' from root directory
@@ -14,16 +14,24 @@ for it to work, can be found below.
 tests.
 
 # Starting the app
-1. type: '''gulp''' from the root directory
-2. navigate to: '''localhost:8888''' in your browser
-3. Input data into the input fields
+1. Open 2 terminal windows, and type '''mongod''' in one of them.
+  - this starts the mongodb database
+2. In the 2nd window, type: '''gulp''' from the root directory
+  - this starts the servers needed for the app to work.
+3. navigate to: '''localhost:8888''' in your browser
+4. Input data into the input fields
   - only numbers can be used for the year
-4. Have fun!!
+5. Have fun!!
 
 # Running end-to-end protactor tests
-1. type: '''gulp webpack:test''' from root directory
-2. type: '''protractor test/protractor/conf.js''' from root directory
-3. all tests should run and pass
+1. open three seperate terminal windows
+2. in one window run mongo by typing '''mongod'''
+  - this starts the mongo database
+3. in another window, type: '''gulp''' from the root directory
+  - this starts the necessary servers
+4. in the last window, type: '''gulp webpack:test''' from the root directory
+5. in the same window as step 4, type: '''protractor test/protractor/conf.js''' from root directory
+6. all tests should run and pass
 
 # Running Unit (karma) tests
 1. type: '''gulp webpack:test''' from root directory
