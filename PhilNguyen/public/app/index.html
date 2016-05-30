@@ -21,6 +21,12 @@
     </li>
   </ul>
 
+  <h1>The Strongest Hero</h1>
+  <div data-ng-controller="theStrongest as strongestctrl" data-ng-init="strongestctrl.getStrongestHero()">
+    <li data-ng-repeat="strongest in strongestctrl.data">
+      {{strongest}}
+    </li>
+  </div>
   <h1>List of Heroes</h1>
   <ul id="heroeslist">
     <superhero-list-item data-ng-repeat="superhero in heroesctrl.superheroes" data-superhero="superhero">

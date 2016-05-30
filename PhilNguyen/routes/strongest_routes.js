@@ -5,14 +5,38 @@ const Villain = require(__dirname + '/../models/villain');
 
 let strongestRouter = module.exports = Router();
 
-strongestRouter.route('/strongestCharacter')
+strongestRouter.route('/strongestCharacters')
 
 .get((req, res) => {
-  let promiseOne = Superhero.find({ powerlevel: { $gt: 9000 } }).exec();
-  let promiseTwo = Villain.find({ powerlevel: { $gt: 9000 } }).exec();
+  let promiseOne = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
+  let promiseTwo = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
   Promise.all([promiseOne, promiseTwo]).then((combinedStrongest) => {
     res.json(combinedStrongest);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+
+strongestRouter.route('/strongestHero')
+.get((req, res) => {
+  let strongestHero = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec()
+
+  strongestHero.then((hero) => {
+    res.json(hero);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
+
+strongestRouter.route('/strongestVillain')
+.get((req, res) => {
+  let strongestVillain = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec()
+
+  strongestVillain.then((villain) => {
+    res.json(villain);
   })
   .catch((err) => {
     console.log(err);
