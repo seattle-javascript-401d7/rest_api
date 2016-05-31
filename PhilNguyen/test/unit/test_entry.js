@@ -1,5 +1,6 @@
 const angular = require('angular');
 require('angular-mocks');
+require('./communication_service_test.js');
 require('./resource_getall_test.js');
 require('./resource_create_test.js');
 require('./resource_update_test.js');

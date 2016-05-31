@@ -52,12 +52,13 @@
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	__webpack_require__(11);
+	__webpack_require__(10);
 	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(14);
-	__webpack_require__(31);
-	__webpack_require__(32);
+	__webpack_require__(15);
+	__webpack_require__(33);
+	__webpack_require__(34);
 
 
 /***/ },
@@ -33959,6 +33960,43 @@
 
 	const angular = __webpack_require__(1);
 	
+	describe('it should test the communication service', function() {
+	  beforeEach(angular.mock.module('newApp'));
+	
+	  it('should return a function', angular.mock.inject(function(theStrongest) {
+	    expect(typeof theStrongest).toBe('object');
+	  }));
+	
+	  it('should get the strongest hero', angular.mock.inject(function(theStrongest, $httpBackend) {
+	    $httpBackend.expectGET('http://localhost:8080/api/strongestHero')
+	    .respond(200, [ { name: 'Goku', powerlevel: 9000 } ]);
+	
+	    var testData = theStrongest.superheroData = [];
+	    theStrongest.getStrongestHero();
+	    $httpBackend.flush();
+	    expect(testData.length).toBe(1);
+	    expect(testData[0].name).toBe('Goku');
+	  }));
+	
+	  it('should get the strongest villain', angular.mock.inject(function(theStrongest, $httpBackend) {
+	    $httpBackend.expectGET('http://localhost:8080/api/strongestVillain')
+	    .respond(200, [ { name: 'Ultron', powerlevel: 10000 } ]);
+	
+	    var testData = theStrongest.villainData = [];
+	    theStrongest.getStrongestVillain();
+	    $httpBackend.flush();
+	    expect(testData.length).toBe(1);
+	    expect(testData[0].name).toBe('Ultron');
+	  }));
+	});
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+	
 	describe('it should test the service', function() {
 	  var $httpBackend;
 	  beforeEach(angular.mock.module('newApp'));
@@ -33988,7 +34026,7 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34018,7 +34056,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
@@ -34048,7 +34086,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
@@ -34077,7 +34115,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34101,11 +34139,11 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(10);
+	const formTemplate = __webpack_require__(11);
 	
 	describe('superhero form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
@@ -34132,23 +34170,23 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(superhero)\">\n  <h1>Create a Superhero</h1>\n  <label for=\"name\">Hero name</label>\n  <input type=\"text\" name=\"heroname\" data-ng-model=\"superhero.name\"/>\n  <label for=\"powerlevel\">Power Level</label>\n  <input type=\"text\" name=\"powerlevel\" data-ng-model=\"superhero.powerlevel\" />\n  <button id=\"createsuperhero\" type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(1);
-	const formTemplate = __webpack_require__(10);
+	const formTemplate = __webpack_require__(11);
 	
 	describe('villain form directive', function() {
 	  beforeEach(angular.mock.module('newApp'));
@@ -34173,35 +34211,36 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	const angular = __webpack_require__(1);
-	const newApp = angular.module('newApp', []);
-	
-	__webpack_require__(15)(newApp);
-	__webpack_require__(18)(newApp);
-	__webpack_require__(25)(newApp);
 
 
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(app) {
-	  __webpack_require__(16)(app);
-	  __webpack_require__(17)(app);
-	};
+	const angular = __webpack_require__(1);
+	const newApp = angular.module('newApp', []);
+	
+	__webpack_require__(16)(newApp);
+	__webpack_require__(21)(newApp);
+	__webpack_require__(27)(newApp);
 
 
 /***/ },
 /* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(17)(app);
+	  __webpack_require__(18)(app);
+	  __webpack_require__(19)(app);
+	};
+
+
+/***/ },
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34217,7 +34256,7 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34264,29 +34303,70 @@
 
 
 /***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(19)(app);
-	  __webpack_require__(22)(app);
-	};
-
-
-/***/ },
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var baseUrl = __webpack_require__(20).baseUrl;
+	
 	module.exports = function(app) {
-	  __webpack_require__(20)(app);
+	  app.factory('theStrongest', ['$http', function($http) {
+	    return {
+	      superheroData: [],
+	      villainData: [],
+	      getStrongestHero: function() {
+	        $http.get(baseUrl + '/api/strongestHero')
+	        .then((res) => {
+	          for (var i = 0; i < res.data.length; i++) {
+	            this.superheroData.push(res.data[i]);
+	          }
+	        });
+	      },
+	      getStrongestVillain: function() {
+	        $http.get(baseUrl + '/api/strongestVillain')
+	        .then((res) => {
+	          for (var i = 0; i < res.data.length; i++) {
+	            this.villainData.push(res.data[i]);
+	          }
+	        });
+	      }
+	    };
+	  }]);
 	};
 
 
 /***/ },
 /* 20 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  baseUrl: 'http://localhost:8080'
+	};
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseUrl = __webpack_require__(21).baseUrl;
+	module.exports = function(app) {
+	  __webpack_require__(22)(app);
+	  __webpack_require__(24)(app);
+	};
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(23)(app);
+	};
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseUrl = __webpack_require__(20).baseUrl;
 	
 	module.exports = function(app) {
 	  app.controller('HeroesController', ['crudResource', function(Resource) {
@@ -34308,30 +34388,25 @@
 	    };
 	    this.removeSuperhero = crud.remove.bind(crud);
 	  }]);
+	  app.controller('strongestHero', ['theStrongest', function(theStrongest) {
+	    this.heroes = theStrongest.superheroData;
+	    this.getStrongestHero = theStrongest.getStrongestHero.bind(theStrongest);
+	  }]);
 	};
 
 
 /***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  baseUrl: 'http://localhost:8080'
-	};
-
-
-/***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(23)(app);
-	  __webpack_require__(24)(app);
+	  __webpack_require__(25)(app);
+	  __webpack_require__(26)(app);
 	};
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34360,7 +34435,7 @@
 
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34383,29 +34458,29 @@
 
 
 /***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(26)(app);
-	  __webpack_require__(28)(app);
-	};
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(27)(app);
-	};
-
-
-/***/ },
 /* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseUrl = __webpack_require__(21).baseUrl;
+	module.exports = function(app) {
+	  __webpack_require__(28)(app);
+	  __webpack_require__(30)(app);
+	};
+
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(29)(app);
+	};
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var baseUrl = __webpack_require__(20).baseUrl;
 	
 	module.exports = function(app) {
 	  app.controller('VillainsController', ['crudResource', function(Resource) {
@@ -34427,21 +34502,25 @@
 	    };
 	    this.removeVillain = crud.remove.bind(crud);
 	  }]);
+	  app.controller('strongestVillain', ['theStrongest', function(theStrongest) {
+	    this.villains = theStrongest.villainData;
+	    this.getStrongestVillain = theStrongest.getStrongestVillain.bind(theStrongest);
+	  }]);
 	};
 
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
-	  __webpack_require__(29)(app);
-	  __webpack_require__(30)(app);
+	  __webpack_require__(31)(app);
+	  __webpack_require__(32)(app);
 	};
 
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34470,7 +34549,7 @@
 
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -34493,7 +34572,7 @@
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
@@ -34568,7 +34647,7 @@
 
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(1);
