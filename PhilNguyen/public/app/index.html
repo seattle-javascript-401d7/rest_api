@@ -22,9 +22,9 @@
   </ul>
 
   <h1>The Strongest Hero</h1>
-  <div data-ng-controller="theStrongest as strongestctrl" data-ng-init="strongestctrl.getStrongestHero()">
-    <li data-ng-repeat="strongest in strongestctrl.data">
-      {{strongest}}
+  <div data-ng-controller="strongestHero as strongestheroctrl" data-ng-init="strongestheroctrl.getStrongestHero()">
+    <li data-ng-repeat="hero in strongestheroctrl.heroes">
+      <span>{{hero.name}} is currently the strongest superhero of them all with an enourmouse power level of {{hero.powerlevel}}!</span>
     </li>
   </div>
   <h1>List of Heroes</h1>
@@ -56,6 +56,12 @@
   </li>
 </ul>
 
+<h1>The Strongest Villain</h1>
+<div data-ng-controller="strongestVillain as strongestvillainctrl" data-ng-init="strongestvillainctrl.getStrongestVillain()">
+  <li data-ng-repeat="villain in strongestvillainctrl.villains">
+    <span>{{villain.name}} is currently the strongest villain of them all with an enourmouse power level of {{villain.powerlevel}}!</span>
+  </li>
+</div>
 <h1>List of Villains</h1>
 <ul id="villainslist">
   <villain-list-item data-ng-repeat="villain in villainsctrl.villains" data-villain="villain">

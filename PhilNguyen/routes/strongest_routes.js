@@ -21,7 +21,7 @@ strongestRouter.route('/strongestCharacters')
 
 strongestRouter.route('/strongestHero')
 .get((req, res) => {
-  let strongestHero = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec()
+  let strongestHero = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
   strongestHero.then((hero) => {
     res.json(hero);
@@ -33,7 +33,7 @@ strongestRouter.route('/strongestHero')
 
 strongestRouter.route('/strongestVillain')
 .get((req, res) => {
-  let strongestVillain = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec()
+  let strongestVillain = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
   strongestVillain.then((villain) => {
     res.json(villain);

@@ -20,4 +20,8 @@ module.exports = function(app) {
     };
     this.removeVillain = crud.remove.bind(crud);
   }]);
+  app.controller('strongestVillain', ['theStrongest', function(theStrongest) {
+    this.villains = theStrongest.villainData;
+    this.getStrongestVillain = theStrongest.getStrongestVillain.bind(theStrongest);
+  }]);
 };
