@@ -1,11 +1,11 @@
 movie-form {
   input {
-    background-color: grey;
+    @include linear-gradient(white, gray);
     display: block;
     border: $inputBorder;
   }
   input[type='text'] {
-    @include basictext(white, 16px, lighter, $font);
+    @include basictext(black, 16px, bold, $font);
     font-style: normal;
   }
   .edit {

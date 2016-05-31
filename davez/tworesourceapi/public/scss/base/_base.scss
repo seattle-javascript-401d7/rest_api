@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  @include linear-gradient(green, black);
 }
 h1 {
   color: orange;

@@ -4,3 +4,9 @@
   font-weight: $weight;
   font-family: $family;
 }
+
+.basictext_extend {
+  @include basictext(white, 16px, bold, monospace);
+}
+
+/* This selector is here because I am demonstrating how inheritance with @extend works. The basictext mixin is being inherited from .border_extend by the li element in #movielist and #songlist in _movies.scss and _songs.scss */
