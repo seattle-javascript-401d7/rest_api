@@ -15,6 +15,7 @@ section {
   }
 
   li {
+    width: calc(100% - #{$gutter});
     display: inline-block;
   }
 }
@@ -37,6 +38,10 @@ main {
 button {
   @include border-radius(5px);
   background: $buttoncolor;
+}
+
+button:hover {
+  background: lighten($buttoncolor, 15%);
 }
 
 form {
