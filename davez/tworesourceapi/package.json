@@ -16,6 +16,8 @@
   "dependencies": {
     "bcrypt": "^0.8.6",
     "body-parser": "^1.15.0",
+    "bourbon": "^4.2.7",
+    "bourbon-neat": "^1.7.4",
     "express": "^4.13.4",
     "mongoose": "^4.4.13"
   },
