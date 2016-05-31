@@ -2,7 +2,7 @@ var baseUrl = require('../../config').baseUrl;
 const copy = require('angular').copy;
 
 module.exports = function(app) {
-  app.controller('JediController', ['cfResource', function(Resource) {
+  app.controller('JediController', ['cfResource', 'theOldRepublic', function(Resource, theOldRepublic) {
     this.jedis = [];
     this.errors = [];
     var remote = new Resource(this.jedis, this.errors, baseUrl + '/api/jedi');
@@ -33,5 +33,9 @@ module.exports = function(app) {
     };
 
     this.removeJedi = remote.remove.bind(remote);
+
+    this.service = theOldRepublic;
+    this.addJedi = theOldRepublic.addJedi.bind(theOldRepublic);
+    theOldRepublic.jedis = this.jedis;
   }]);
 };

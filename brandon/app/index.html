@@ -21,6 +21,7 @@
           data-jedi="jediCtrl.newJedi">
         </jedi-form>
       <ul class="jediList">
+        <p>The number of jedi in this list is {{jediCtrl.jedis.length}}</p>
         <jedi-list-item data-ng-repeat="jedi in jediCtrl.jedis" data-jedi="jedi">
           <jedi-form
             data-ng-if="jedi.editing"
@@ -45,6 +46,7 @@
         data-sith="sithCtrl.newSith">
       </sith-form>
       <ul class="sithList">
+        <p>The number of sith in this list is {{sithCtrl.siths.length}}</p>
         <sith-list-item data-ng-repeat="sith in sithCtrl.siths" data-sith="sith">
           <sith-form
             data-ng-if="sith.editing"

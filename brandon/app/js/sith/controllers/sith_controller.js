@@ -2,7 +2,7 @@ var baseUrl = require('../../config').baseUrl;
 const copy = require('angular').copy;
 
 module.exports = function(app) {
-  app.controller('SithController', ['cfResource', function(Resource) {
+  app.controller('SithController', ['cfResource', 'theOldRepublic', function(Resource, theOldRepublic) {
     this.siths = [];
     this.errors = [];
     var remote = new Resource(this.siths, this.errors, baseUrl + '/api/sith');
@@ -33,5 +33,9 @@ module.exports = function(app) {
     };
 
     this.removeSith = remote.remove.bind(remote);
+
+    this.service = theOldRepublic;
+    this.addSith = theOldRepublic.addSith.bind(theOldRepublic);
+    theOldRepublic.siths = this.siths;
   }]);
 };
