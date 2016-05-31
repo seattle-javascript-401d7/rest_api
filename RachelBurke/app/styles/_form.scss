@@ -5,10 +5,10 @@
 :-webkit-input-placeholder {
   color: $feltBlue;
 }
-//
-// *:focus {
-//   outline: none;
-// }
+
+*:focus {
+  outline: none;
+}
 
 form {
   @include border;
