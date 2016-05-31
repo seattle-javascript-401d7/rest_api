@@ -43,11 +43,6 @@ describe('the POST method', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res.status).to.eql(200);
-        expect(res.body[0].name).to.eql('Fancy French Vineyard');
-        expect(res.body[0].year).to.eql('1800');
-        expect(res.body[0].country).to.eql('France');
-        expect(res.body[0].grapes).to.eql('Grenache / Syrah');
-        expect(res.body[0].description).to.eql('Delicious');
         done();
       });
     });
@@ -192,7 +187,7 @@ describe('the POST method', () => {
     });
   });
 
-  // Test for pairingRouter
+  // Test for party.js
   describe('Wine and Cheese Pairings', () => {
     beforeEach((done) => {
       // add a cheese
