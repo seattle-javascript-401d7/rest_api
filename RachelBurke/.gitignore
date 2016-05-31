@@ -8,3 +8,5 @@ npm-debug.log
 build/**
 bundle.js
 bundle.js.map
+test/unit/test_bundle.js
+test/unit/test_bundle.js.map
