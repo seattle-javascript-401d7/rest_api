@@ -1,0 +1,25 @@
+<form data-ng-submit="save(song)">
+  <label for="name">Name</label>
+  <input id="protractNameSong" type="text" name="name" data-ng-model="song.name">
+
+  <label for="artist">artist</label>
+  <input type="text" name="artist" data-ng-model="song.artist" placeholder="NIN???">
+
+  <label for="album">Album</label>
+  <input type="text" name="album" data-ng-model="song.album">
+
+  <label for="year">Year</label>
+  <input type="text" name="year" data-ng-model="song.year">
+
+  <label for="genre">Genre</label>
+  <input type="text" name="genre" data-ng-model="song.genre">
+
+  <label for="personalRating">Personal Rating (1 - 10)</label>
+  <input type="text" name="personalRating" data-ng-model="song.personalRating">
+
+  <label for="emotion">Emotion (sad, mad, glad)</label>
+  <input type="text" name="emotion" data-ng-model="song.emotion">
+
+  <button id="createSong" type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>
