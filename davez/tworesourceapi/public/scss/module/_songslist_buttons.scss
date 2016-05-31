@@ -1,0 +1,24 @@
+#songlist {
+  .updater {
+    clear: left;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  .buttonDiv {
+    clear: both;
+    float: right;
+    margin-left: 15px;
+  }
+  button:hover {
+    color: black;
+    background-color: gray;
+    border-color: yellow;
+  }
+  button {
+    @include basictext(gray, 12px, bold, $font);
+    background-color: black;
+    border: $buttonBorder;
+    border-radius: 15%;
+    display: inline-block;
+  }
+}

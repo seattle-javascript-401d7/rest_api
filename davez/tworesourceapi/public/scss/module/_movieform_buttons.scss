@@ -1,0 +1,14 @@
+movie-form {
+  button {
+  @include basictext(gray, 12px, bold, $font)
+  background-color: black;
+  border: $buttonBorder;
+  border-radius: 15%;
+  display: inline-block;
+  }
+  button:hover {
+  color: black;
+  background-color: gray;
+  border-color: yellow;
+  }
+}
