@@ -27,7 +27,7 @@ songsRouter.put('/songs/:id', bodyParser, (req, res) => {
   });
 });
 songsRouter.delete('/songs/:id', (req, res) => {
-  Song.remove({name: req.params.id}, (err) => {
+  Song.remove({_id: req.params.id}, (err) => {
     if(err) return serverError(err, res);
     res.status(200).json({msg:'deleted the song'});
   });

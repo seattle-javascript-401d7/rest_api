@@ -27,7 +27,7 @@ moviesRouter.put('/movies/:id', bodyParser, (req, res) => {
   });
 });
 moviesRouter.delete('/movies/:id', (req, res) => {
-  Movie.remove({name: req.params.id}, (err) => {
+  Movie.remove({_id: req.params.id}, (err) => {
     if (err) return serverError(err, res);
     res.status(200).json({msg: 'deleted the movie'});
   });

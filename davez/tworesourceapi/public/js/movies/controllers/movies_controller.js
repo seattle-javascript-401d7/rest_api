@@ -1,59 +1,37 @@
-var handleError = require('../../lib').handleError;
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('MoviesController', ['$http', 'dzHandleError', function($http, dzHandleError) {
+  app.controller('MoviesController', ['dzResource', function(Resource) {
     this.Movies = [];
     this.errors = [];
-    var originalMovie = {};
-
-    this.getAll = function() {
-      $http.get(baseUrl + '/api/movies')
-      .then((res) => {
-        this.Movies = res.data;
-      }, dzHandleError(this.errors, 'could not retrieve movies'));
-    }.bind(this);
-
+    var message = {
+      message: {
+        getAll: 'cannot retreive movies',
+        create: 'cannot add Movie',
+        update: 'cannot update Movie',
+        remove: 'cannot delete Movie'
+      }
+    };
+    var remote = new Resource(this.Movies, this.errors, baseUrl + '/api/movies', message);
+    this.getAll = remote.getAll.bind(remote);
     this.createMovie = function() {
-      $http.post(baseUrl + '/api/movies', this.newMovie)
-      .then((res) => {
-        this.Movies.push(res.data);
+      remote.create(this.newMovie)
+      .then(() => {
         this.newMovie = null;
-      }, dzHandleError(this.errors, 'could not create movie'));
+      });
     }.bind(this);
-
     this.updateMovie = function(movie) {
-      $http.put(baseUrl + '/api/movies/' + movie._id, movie)
+      remote.update(movie)
       .then(() => {
         movie.editing = false;
-      }, dzHandleError(this.errors, 'could not update movies'));
-    }.bind(this);
-
+      });
+    };
     this.editMovie = (movie) => {
-      movie.editing = true;
-      originalMovie.name = movie.name;
-      originalMovie.genre = movie.genre;
-      originalMovie.year = movie.year;
-      originalMovie.rating = movie.rating;
-      originalMovie.runTime = movie.runTime;
-      originalMovie.emotion = movie.emotion;
+      remote.edit(movie);
     };
-
     this.cancelEdit = (movie) => {
-      movie.name = originalMovie.name;
-      movie.genre = originalMovie.genre;
-      movie.year = originalMovie.year;
-      movie.rating = originalMovie.rating;
-      movie.runTime = originalMovie.runTime;
-      movie.emotion = originalMovie.emotion;
-      movie.editing = false;
+      remote.cancel(movie);
     };
-
-    this.removeMovie = function(movie) {
-      $http.delete(baseUrl + '/api/movies/' + movie.name)
-      .then(() => {
-        this.Movies.splice(this.Movies.indexOf(movie), 1);
-      }, dzHandleError(this.errors, 'could not delete movie'));
-    }.bind(this);
+    this.removeMovie = remote.remove.bind(remote);
   }]);
 }
