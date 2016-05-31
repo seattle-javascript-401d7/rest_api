@@ -4,10 +4,6 @@ const webpack = require('webpack-stream');
 const html = require('html-loader'); // eslint-disable-line no-unused-vars
 const sass = require('gulp-sass');
 const maps = require('gulp-sourcemaps');
-<<<<<<< HEAD
-
-=======
->>>>>>> c8a34e5b9acab62d78c23a5d3871c7bcef08dab7
 
 var files = ['/nodecellar/**/*.js', '/models/**/*.js', '/routes/**/*.js', 'server.js'];
 var clientFiles = ['app/**/*.js'];
