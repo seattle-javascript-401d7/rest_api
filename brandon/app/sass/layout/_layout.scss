@@ -35,6 +35,10 @@ main {
   justify-content: space-around;
 }
 
+img {
+  width: 100%;
+}
+
 button {
   @include border-radius(5px);
   background: $buttoncolor;

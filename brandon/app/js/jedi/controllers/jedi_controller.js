@@ -11,6 +11,7 @@ module.exports = function(app) {
       remote.create(this.newJedi)
         .then(() => {
           this.newJedi = null;
+          // this.getTotal();
         });
     }.bind(this);
     this.updateJedi = function(jedi) {
