@@ -1,15 +1,16 @@
-$backgroundBlue:#4086FF;
+$backgroundBlue:rgb(12, 184, 255);
 
-@mixin headers {
   h1 {
     font-size: 1.5em;
     margin: 0.5em;
     font-weight: bold;
+    font-family: "Helvetica", "Arial", "sans-serif";
   }
-}
-
-@include headers
 
 body {
+  font-size: 1.0em;
+  line-height: 20px;
+  font-weight: normal;
   background-color: $backgroundBlue;
+  @extend h1
 }

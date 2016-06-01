@@ -1,8 +1,14 @@
-@mixin main-width {
-  main {
-    width: 60%;
-    margin: 0 auto;
-  }
+$grid-width: 100%;
+
+@function grid-width($n) {
+  @return $grid-width/$n;
 }
 
-@include main-width;
+@mixin center {
+    margin: 0 auto;
+}
+
+main {
+  width: grid-width($n: 2);
+  @include center;
+}

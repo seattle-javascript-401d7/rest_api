@@ -19,8 +19,8 @@ module.exports = function(app) {
       });
     };
     this.removeSuperhero = crud.remove.bind(crud);
-  }]);
-  app.controller('strongestHero', ['theStrongest', function(theStrongest) {
+  }])
+  .controller('strongestHero', ['theStrongest', function(theStrongest) {
     this.heroes = theStrongest.superheroData;
     this.getStrongestHero = theStrongest.getStrongestHero.bind(theStrongest);
   }]);
