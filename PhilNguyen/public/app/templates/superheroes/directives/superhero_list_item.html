@@ -1,0 +1,6 @@
+<li>
+  <ng-transclude></ng-transclude>
+  <span data-ng-if="!superhero.editing">{{superhero.name}} has a powerlevel of {{superhero.powerlevel}}</span>
+  <button id="edit" data-ng-if="!superhero.editing" data-ng-click="superhero.editing = true">Edit</button>
+  <button id="delete" data-ng-click="delete(superhero)">Remove this Superhero!</button>
+</li>
