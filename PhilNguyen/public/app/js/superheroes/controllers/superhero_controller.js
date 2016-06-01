@@ -1,7 +1,7 @@
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('HeroesController', ['crudResource', function(Resource) {
+  app.controller('HeroesController',  ['crudResource', 'theStrongest', function(Resource, theStrongest) {
     this.superheroes = [];
     this.errors = [];
     var crud = new Resource(this.superheroes, this.errors, baseUrl + '/api/superheroes', { errMessages: { getAll: 'custom error message' } });
@@ -10,6 +10,7 @@ module.exports = function(app) {
       crud.create(this.newSuperhero)
       .then(() => {
         this.newSuperhero = null;
+        theStrongest.getStrongestHero();
       });
     }.bind(this);
     this.updateSuperhero = function(superhero) {

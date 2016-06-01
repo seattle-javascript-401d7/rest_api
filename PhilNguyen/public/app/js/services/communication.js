@@ -6,6 +6,7 @@ module.exports = function(app) {
       superheroData: [],
       villainData: [],
       getStrongestHero: function() {
+        this.superheroData.splice(0);
         $http.get(baseUrl + '/api/strongestHero')
         .then((res) => {
           for (var i = 0; i < res.data.length; i++) {
@@ -14,6 +15,7 @@ module.exports = function(app) {
         });
       },
       getStrongestVillain: function() {
+        this.villainData.splice(0);
         $http.get(baseUrl + '/api/strongestVillain')
         .then((res) => {
           for (var i = 0; i < res.data.length; i++) {
