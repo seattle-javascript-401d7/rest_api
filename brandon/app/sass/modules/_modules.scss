@@ -1,0 +1,14 @@
+.errors {
+  li {
+    width: 100%;
+    background-color: #FF6B6B;
+    border-radius: 5px;
+    border: 1px solid red;
+    padding: 5px;
+    text-align: center;
+  }
+
+  button {
+    @extend .spacing;
+  }
+}

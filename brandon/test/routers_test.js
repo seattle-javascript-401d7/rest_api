@@ -5,7 +5,7 @@ chai.use(chaiHttp);
 const request = chai.request;
 const port = process.env.PORT = 4545;
 process.env.MONGODB_URI = 'mongodb://localhost/jedi_sith_test_db';
-const server = require(__dirname + '/../server.js');
+const server = require(__dirname + '/../apiServer.js');
 var Jedi = require(__dirname + '/../models/jedi');
 var Sith = require(__dirname + '/../models/sith');
 

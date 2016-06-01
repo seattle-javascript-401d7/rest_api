@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Jedi vs Sith</title>
+    <link rel="stylesheet" href="./css/style.css" charset="utf-8">
+  </head>
+  <body data-ng-app="liveApp">
+    <h1>Jedi vs Sith</h1>
+    <main>
+      <section data-ng-controller="JediController as jediCtrl" data-ng-init="jediCtrl.getAll()">
+      <h2>Jedi Creator</h2>
+        <ul class="errors">
+          <li data-ng-repeat="error in jediCtrl.errors">{{error.message}}
+            <button data-ng-click="jediCtrl.errors.splice(jediCtrl.errors.indexOf(error), 1)">x</button>
+          </li>
+        </ul>
+        <jedi-form
+          data-button-text="Create Jedi"
+          data-savemethod="create"
+          data-jedi="jediCtrl.newJedi">
+        </jedi-form>
+      <ul class="jediList">
+        <p>The number of jedi in this list is {{jediCtrl.jedis.length}}</p>
+        <jedi-list-item data-ng-repeat="jedi in jediCtrl.jedis" data-jedi="jedi">
+          <jedi-form
+            data-ng-if="jedi.editing"
+            data-button-text="Update Jedi"
+            data-savemethod="update"
+            data-jedi="jedi">
+            <button class="cancel-jedi" data-ng-click="jediCtrl.cancelJedi(jedi)">Cancel</button>
+          </jedi-form>
+        </jedi-list-item>
+      </ul>
+    </section>
+    <section data-ng-controller="SithController as sithCtrl" data-ng-init="sithCtrl.getAll()">
+    <h2>Sith Creator</h2>
+      <ul class="errors">
+        <li data-ng-repeat="error in sithCtrl.errors">{{error.message}}
+          <button data-ng-click="sithCtrl.errors.splice(sithCtrl.errors.indexOf(error), 1)">x</button>
+        </li>
+      </ul>
+      <sith-form
+        data-button-text="Create Sith"
+        data-savemethod="create"
+        data-sith="sithCtrl.newSith">
+      </sith-form>
+      <ul class="sithList">
+        <p>The number of sith in this list is {{sithCtrl.siths.length}}</p>
+        <sith-list-item data-ng-repeat="sith in sithCtrl.siths" data-sith="sith">
+          <sith-form
+            data-ng-if="sith.editing"
+            data-button-text="Update Sith"
+            data-savemethod="update"
+            data-sith="sith">
+            <button class="cancel-sith" data-ng-click="sithCtrl.cancelSith(sith)">Cancel</button>
+          </sith-form>
+        </sith-list-item>
+      </ul>
+    </section>
+    </main>
+    <script src="./bundle.js"></script>
+  </body>
+</html>

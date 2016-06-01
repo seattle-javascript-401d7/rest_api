@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var jediSchema = new mongoose.Schema({
-  name: { type: String, unique: true },
+  name: { type: String, unique: true, required: true },
   ranking: String,
   weaponPreference: String,
   lightsaberColor: String,

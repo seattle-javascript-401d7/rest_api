@@ -6,7 +6,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 const port = process.env.PORT = 4545;
 process.env.MONGODB_URI = 'mongodb://localhost/jedi_sith_test_db';
-require(__dirname + '/../server.js');
+require(__dirname + '/../apiServer.js');
 const Sith = require(__dirname + '/../models/sith');
 
 describe('The POST requests', () => {
@@ -18,6 +18,7 @@ describe('The POST requests', () => {
   it('should add a Sith to the DB', (done) => {
     request('localhost:' + port)
     .post('/api/jedi')
+    .set('token', this.token)
     .send({
       name: 'Darth Bandon',
       ranking: 'Sith Lord',
@@ -82,6 +83,7 @@ describe('adding to the Sith Council', () => {
   it('PUT, you shall', (done) => {
     request('localhost:' + port)
     .put('/api/sith/' + this.sith._id)
+    .set('token', this.token)
     .send({
       name: 'Sauromon',
       ranking: 'Evil Mythic Wizard',
@@ -100,6 +102,7 @@ describe('adding to the Sith Council', () => {
   it('should banish the Sith from the Council with a DELETE', (done) => {
     request('localhost:' + port)
     .delete('/api/sith/' + this.sith._id)
+    .set('token', this.token)
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res.body.msg).to.eql('I have felt a tremor in the force. The Dark Side calls');
