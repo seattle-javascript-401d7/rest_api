@@ -8,7 +8,7 @@ describe('storageService', function() {
     expect(typeof storageService).toBe('object');
   }));
 
-  it('should hae a counter', angular.mock.inject(function(storageService) {
+  it('should have a counter', angular.mock.inject(function(storageService) {
     expect(typeof storageService.count).toBe('number');
   }));
 
