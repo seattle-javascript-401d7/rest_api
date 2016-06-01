@@ -1,35 +1,36 @@
 var url = require('../../config.js').url;
-
 module.exports = function(app) {
-  app.controller('WineController', ['$http', function($http) {
+  app.controller('WineController', ['resource', 'partyPlan', function(Resource, partyPlan) {
     this.wine = [];
+    this.service = partyPlan;
+    this.serviceAddPairing = partyPlan.addPairing.bind(partyPlan);
+    this.totalPairing = 0;
+    this.addPairing = function() {
+      this.totalPairing++;
+    };
+    this.errors = [];
+    var remote = new Resource(this.wine, this.errors, url + '/api/wine');
+
     this.getAll = function() {
-      $http.get(url + '/api/wine')
-      .then((res) => {
-        this.wine = res.data;
-      }, handleErrors.bind(this));
-    }.bind(this);
+      remote.getAll();
+    };
 
     this.createWine = function() {
-      $http.post(url + '/api/wine', this.newWine)
-      .then((res) => {
-        this.wine.push(res.data);
+      remote.create(this.newWine)
+      .then(() => {
         this.newWine = null;
-      }, handleErrors.bind(this));
+      });
     }.bind(this);
 
     this.deleteWine = function(wine) {
-      $http.delete(url + '/api/wine/' + wine._id)
-      .then(() => {
-        this.wine.splice(this.wine.indexOf(wine), 1);
-      }, handleErrors.bind(this));
-    }.bind(this);
+      remote.removeParty(wine);
+    };
 
     this.updateWine = function(wine) {
-      $http.put(url + '/api/wine/' + wine._id, wine)
+      remote.update(wine)
       .then(() => {
         wine.editing = false;
-      }, handleErrors.bind(this));
-    }.bind(this);
+      });
+    };
   }]);
 };

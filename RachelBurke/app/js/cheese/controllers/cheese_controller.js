@@ -1,36 +1,35 @@
-var handleErrors = require('../../lib').handleErrors;
 var url = require('../../config').url;
 module.exports = function(app) {
-  app.controller('CheeseController', ['$http', function($http) {
+  app.controller('CheeseController', ['resource', function(Resource) {
     this.cheeses = [];
-    this.newCheese = {};
+    this.errors = [];
+    this.totalPairing = 0;
+    this.addPairing = function() {
+      this.totalPairing++;
+    };
+
+    var remote = new Resource(this.cheese, this.errors, url + '/api/cheese');
+
     this.getAll = function() {
-      $http.get(url + '/api/cheese')
-      .then((res) => {
-        this.cheeses = res.data;
-      }, handleErrors.bind(this));
-    }.bind(this);
+      remote.getAll();
+    };
 
     this.createCheese = function() {
-      $http.post(url + '/api/cheese', this.newCheese)
-      .then((res) => {
-        this.cheeses.push(res.data);
+      remote.create(this.newCheese)
+      .then(() => {
         this.newCheese = null;
-      }, handleErrors.bind(this));
+      });
     }.bind(this);
 
     this.deleteCheese = function(cheese) {
-      $http.delete(url + '/api/cheese/' + cheese._id)
-      .then(() => {
-        this.cheeses.splice(this.cheeses.indexOf(cheese), 1);
-      }, handleErrors.bind(this));
-    }.bind(this);
+      remote.removeResource(cheese);
+    };
 
     this.updateCheese = function(cheese) {
-      $http.put(url + '/api/cheese/' + cheese._id, cheese)
+      remote.update(cheese)
       .then(() => {
         cheese.editing = false;
-      }, handleErrors.bind(this));
-    }.bind(this);
+      });
+    };
   }]);
 };
