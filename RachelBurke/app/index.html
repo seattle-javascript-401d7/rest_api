@@ -80,6 +80,18 @@
       </cheese-form>
     </cheese-list-item>
   </ul>
+
+  <article>
+    <h2>Plan the Party</h2>
+    <h3> Cheese Count: {{cheesecontrol.totalPairing}}</h3>
+    <button data-ng-click="cheesecontrol.addPairing()">Add Cheese Pairing</button>
+    <span data-ng-if="cheesecontrol.totalPairing < 2 || cheesecontrol.totalPairing > 2"
+      data-ng-controller="WineController as winecontrol">
+      <h3>How many pairings?: {{winecontrol.totalPairing}}</h3>
+      <h3 id="favoritePairing">How many pairings?: {{winecontrol.totalPairing}}</h3>
+      <button data-ng-click="winecontrol.serviceAddPairing()">Add pairing</button>
+    </span>
+  </article>
 </section>
 <script src="bundle.js"></script>
 </body>
