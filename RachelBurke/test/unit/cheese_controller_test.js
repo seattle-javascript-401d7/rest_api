@@ -49,7 +49,7 @@ describe('cheese controller', function() {
       expect(cheesecontrol.newCheese).toBe(null);
     });
 
-    it('should update a pet', function() {
+    it('should update a wine', function() {
       $httpBackend.expectPUT('http://localhost:5555/api/cheese/1', { name: 'diff cheese', editing: true, _id: 1 })
       .respond(200);
       cheesecontrol.cheese = [{ name: 'test cheese', _id: 1, editing: true }];
