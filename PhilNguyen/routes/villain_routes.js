@@ -2,12 +2,13 @@
 const Router = require('express').Router;
 const Villain = require(__dirname + '/../models/villain');
 const bodyParser = require('body-parser').json();
+const jwToken = require(__dirname + '/../lib/jwt_auth');
 
 let villainRouter = module.exports = Router();
 
 villainRouter.route('/villains')
 
-.post(bodyParser, (req, res) => {
+.post(jwToken, bodyParser, (req, res) => {
   let newVillain = new Villain(req.body);
   newVillain.save((err, data) => {
     if (err) {
@@ -17,7 +18,7 @@ villainRouter.route('/villains')
   });
 })
 
-.get((req, res) => {
+.get(jwToken, (req, res) => {
   Villain.find((err, villain) => {
     if (err) {
       res.send(err);
@@ -28,7 +29,7 @@ villainRouter.route('/villains')
 
 villainRouter.route('/villains/:villain_id')
 
-.get((req, res) => {
+.get(jwToken, (req, res) => {
   Villain.findById(req.params.villain_id, (err, villain) => {
     if (err) {
       res.send(err);
@@ -36,7 +37,7 @@ villainRouter.route('/villains/:villain_id')
     res.status(200).json(villain);
   });
 })
-.put(bodyParser, (req, res) => {
+.put(jwToken, bodyParser, (req, res) => {
   Villain.findByIdAndUpdate(req.params.villain_id, req.body, (err, villain) => {
     if (err) {
       res.send(err);
@@ -49,7 +50,7 @@ villainRouter.route('/villains/:villain_id')
     });
   });
 })
-.delete((req, res) => {
+.delete(jwToken, (req, res) => {
   Villain.remove({
     _id: req.params.villain_id
   }, (err) => {

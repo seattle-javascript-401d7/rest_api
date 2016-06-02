@@ -2,12 +2,13 @@
 const Router = require('express').Router;
 const Superhero = require(__dirname + '/../models/superhero');
 const Villain = require(__dirname + '/../models/villain');
+const jwToken = require(__dirname + '/../lib/jwt_auth');
 
 let strongestRouter = module.exports = Router();
 
 strongestRouter.route('/strongestCharacters')
 
-.get((req, res) => {
+.get(jwToken, (req, res) => {
   let promiseOne = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
   let promiseTwo = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
@@ -20,7 +21,7 @@ strongestRouter.route('/strongestCharacters')
 });
 
 strongestRouter.route('/strongestHero')
-.get((req, res) => {
+.get(jwToken, (req, res) => {
   let strongestHero = Superhero.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
   strongestHero.then((hero) => {
@@ -32,7 +33,7 @@ strongestRouter.route('/strongestHero')
 });
 
 strongestRouter.route('/strongestVillain')
-.get((req, res) => {
+.get(jwToken, (req, res) => {
   let strongestVillain = Villain.find({ powerlevel: { $gt: 9000 } }).limit(1).sort({ powerlevel: -1 }).exec();
 
   strongestVillain.then((villain) => {
