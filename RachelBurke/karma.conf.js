@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Wed Jun 01 2016 16:43:10 GMT-0700 (PDT)
+// Generated on Thu Jun 02 2016 10:05:34 GMT-0700 (PDT)
 
 module.exports = function(config) {
   config.set({
@@ -50,7 +50,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
 
     // start these browsers
@@ -64,6 +64,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: 2
+    concurrency: Infinity
   });
 };

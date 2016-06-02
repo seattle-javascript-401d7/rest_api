@@ -25,7 +25,7 @@ describe('wine form directive', function() {
   });
 
   it('should print a wine list item', function() {
-    $httpBackend.when('GET', '/templates/wine_directives/wine_list_item.js').respond(200, wineListTemplate);
+    $httpBackend.when('GET', '/templates/wine_directives/wine_list_item.html').respond(200, wineListTemplate);
     $scope.wine = {
       name: 'Merlot',
       description: 'Dry'
@@ -33,6 +33,6 @@ describe('wine form directive', function() {
 
     var listElement = $compile('<section data-ng-controller = "WineController as winecontrol"><wine-list-item data-wine="wine"></wine-list-item></section>')($scope);
     $httpBackend.flush();
-    expect(listElement.html()).toContain('Merlot usually is not dry');
+    expect(listElement.html()).toContain('Merlot from 2016 grown in France');
   });
 });

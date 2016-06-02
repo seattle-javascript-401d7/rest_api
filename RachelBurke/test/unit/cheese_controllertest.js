@@ -32,41 +32,41 @@ describe('cheese controller', function() {
     });
 
     it('should send a GET to retrieve cheese', function() {
-      $httpBackend.expectGET('http://localhost:5000/api/cheese').respond(200, [{ name: 'test cheese' }]);
+      $httpBackend.expectGET('http://localhost:3000/api/cheese').respond(200, [{ name: 'test cheese' }]);
       cheesecontrol.getAll();
       $httpBackend.flush();
-      expect(cheesecontrol.cheese.length).toBe(1);
-      expect(cheesecontrol.cheese[0].name).toBe('test cheese');
+      expect(cheesecontrol.cheeses.length).toBe(1);
+      expect(cheesecontrol.cheeses[0].name).toBe('test cheese');
     });
 
     it('should create a cheese', function() {
-      $httpBackend.expectPOST('http://localhost:5000/api/cheese', { name: 'Gruyere' })
+      $httpBackend.expectPOST('http://localhost:3000/api/cheese', { name: 'Gruyere' })
       .respond(200, { name: 'Cheddar' });
-      expect(cheesecontrol.cheese.length).toBe(0);
+      expect(cheesecontrol.cheeses.length).toBe(0);
       cheesecontrol.newCheese = { name: 'Gruyere' };
       cheesecontrol.createCheese();
       $httpBackend.flush();
-      expect(cheesecontrol.cheese[0].name).toBe('Cheddar');
-      expect(cheesecontrol.newCheese).toBe(null);
+      expect(cheesecontrol.cheeses[0].name).toBe('Cheddar');
+      expect(cheesecontrol.newCheeses).toBe(null);
     });
 
     it('should update a cheese', function() {
-      $httpBackend.expectPUT('http://localhost:5000/api/cheese/1', { name: 'update cheese', editing: true, _id: 1 })
+      $httpBackend.expectPUT('http://localhost:3000/api/cheese/1', { name: 'update cheese', editing: true, _id: 1 })
         .respond(200);
-      cheesecontrol.cheese = [{ name: 'test cheese', editing: true, _id: 1 }];
-      cheesecontrol.cheese[0].name = 'update cheese';
-      cheesecontrol.updateCheese(cheesecontrol.cheese[0]);
+      cheesecontrol.cheeses = [{ name: 'test cheese', editing: true, _id: 1 }];
+      cheesecontrol.cheeses[0].name = 'update cheese';
+      cheesecontrol.updateCheese(cheesecontrol.cheeses[0]);
       $httpBackend.flush();
-      expect(cheesecontrol.cheese[0].editing).toBe(false);
+      expect(cheesecontrol.cheeses[0].editing).toBe(false);
     });
 
     it('should delete a cheese', function() {
-      $httpBackend.expectDELETE('http://localhost:5000/api/cheese/1')
+      $httpBackend.expectDELETE('http://localhost:3000/api/cheese/1')
         .respond(200);
-      cheesecontrol.cheese = [{ name: 'Gruyere', _id: 1 }];
-      cheesecontrol.deleteCheese(cheesecontrol.cheese[0]);
+      cheesecontrol.cheeses = [{ name: 'Gruyere', _id: 1 }];
+      cheesecontrol.deleteCheese(cheesecontrol.cheeses[0]);
       $httpBackend.flush();
-      expect(cheesecontrol.cheese.length).toBe(0);
+      expect(cheesecontrol.cheeses.length).toBe(0);
     });
   });
 });

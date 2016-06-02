@@ -25,15 +25,15 @@ describe('cheese directive', function() {
   });
 
   it('should print a cheese list item', function() {
-    $httpBackend.when('GET', '/templates/cheese_directives/cheese_list_item.js').respond(200, cheeseListTemplate);
+    $httpBackend.when('GET', '/templates/cheese_directives/cheese_list_item.html').respond(200, cheeseListTemplate);
     $scope.cheese = {
       name: 'Manchego',
       country: 'Spain',
       origin: 'Sheep'
     };
 
-    var listElement = $compile('<section data-ng-controller = "CheeseController as cheesecontrol"><cheese-list-item data-wine="cheese"></cheese-list-item></section>')($scope);
+    var listElement = $compile('<section data-ng-controller = "CheeseController as cheesecontrol"><cheese-list-item data-cheese="cheese"></cheese-list-item></section>')($scope);
     $httpBackend.flush();
-    expect(listElement.html()).toContain('Manchego is delicious');
+    expect(listElement.html()).toContain('Manchego produced in Spain made from Sheep');
   });
 });

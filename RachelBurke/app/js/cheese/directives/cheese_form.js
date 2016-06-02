@@ -16,7 +16,7 @@ module.exports = function(app) {
           update: controller.updateCheese,
           create: controller.createCheese
         };
-        scope.save = changes[scope.change].bind(controller);
+        scope.save = changes[scope.change];
       }
     };
   });

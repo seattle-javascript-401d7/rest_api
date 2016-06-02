@@ -26,12 +26,12 @@ describe('wine controller', function() {
     }));
 
     afterEach(function() {
-      $httpBackend.veryifyNoOutstandingException();
+      $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
     it('should send a GET to retrieve a wine', function() {
-      $httpBackend.expectGET('http://localhost:5000/api/wine').respond(200, [{ name: 'test wine' }]);
+      $httpBackend.expectGET('http://localhost:3000/api/wine').respond(200, [{ name: 'test wine' }]);
       winecontrol.getAll();
       $httpBackend.flush();
       expect(winecontrol.wine.length).toBe(1);
@@ -39,7 +39,7 @@ describe('wine controller', function() {
     });
 
     it('should create a wine', function() {
-      $httpBackend.expectPOST('http://localhost:5000/api/wine', { name: 'Tempranillo' })
+      $httpBackend.expectPOST('http://localhost:3000/api/wine', { name: 'Tempranillo' })
       .respond(200, { name: 'Malbec' });
       expect(winecontrol.wine.length).toBe(0);
       winecontrol.newWine = { name: 'Tempranillo' };
@@ -50,7 +50,7 @@ describe('wine controller', function() {
     });
 
     it('should update a wine', function() {
-      $httpBackend.expectPUT('http://localhost:5000/api/wine/1', { name: 'different wine', editing: true, _id: 1 })
+      $httpBackend.expectPUT('http://localhost:3000/api/wine/1', { name: 'different wine', editing: true, _id: 1 })
       .respond(200);
       winecontrol.wine = [{ name: 'test wine', _id: 1, editing: true }];
       winecontrol.wine[0].name = 'different wine';
@@ -60,7 +60,7 @@ describe('wine controller', function() {
     });
 
     it('should delete a wine', function() {
-      $httpBackend.expectDELETE('http://localhost:5000/api/wine/1')
+      $httpBackend.expectDELETE('http://localhost:3000/api/wine/1')
       .respond(200);
       winecontrol.wine = [{ name: 'Tempranillo', _id: 1 }];
       winecontrol.deleteWine(winecontrol.wine[0]);

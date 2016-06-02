@@ -5,7 +5,7 @@ module.exports = function(app) {
       replace: true,
       require: '^ngController',
       transclude: true,
-      templateUrl: '/templates/wine/directives/wine_list_item.html',
+      templateUrl: '/templates/wine_directives/wine_list_item.html',
       scope: {
         wine: '='
       },
