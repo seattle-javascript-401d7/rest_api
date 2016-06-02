@@ -55,7 +55,7 @@ gulp.task('webpack:test', () => {
       ]
     }
   }))
-  .pipe(gulp.dest('./test'));
+  .pipe(gulp.dest('./test/unit'));
 });
 
 gulp.task('static', () => {

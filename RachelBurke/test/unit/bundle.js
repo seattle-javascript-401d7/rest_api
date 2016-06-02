@@ -45,8 +45,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(19);
-	__webpack_require__(21);
+	__webpack_require__(23);
+	__webpack_require__(25);
+	__webpack_require__(26);
+	__webpack_require__(29);
+	__webpack_require__(30);
+	
 	
 	describe('good karma?', () => {
 	  it('should be good karma', () => {
@@ -64,6 +68,7 @@
 	
 	__webpack_require__(4)(practiceApp);
 	__webpack_require__(13)(practiceApp);
+	__webpack_require__(19)(practiceApp);
 
 
 /***/ },
@@ -31224,8 +31229,84 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = function(app) {
+	  __webpack_require__(20)(app);
+	  __webpack_require__(21)(app);
+	  __webpack_require__(22)(app);
+	};
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('totalErrorHandle', function() {
+	    return function(errorsArray, message) {
+	      return function(err) {
+	        console.log(err);
+	        if (Array.isArray(errorsArray)) {
+	          errorsArray.push(new Error(message || 'server not happy'));
+	        }
+	      };
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('resource', ['$http', 'totalErrorHandle', function($http, totalErrorHandle) {
+	    var Resource = function(resourceArray, errorArray, url) {
+	      this.data = resourceArray;
+	      this.url = url;
+	      this.errors = errorArray;
+	    };
+	    Resource.prototype.getAll = function() {
+	      return $http.get(this.url)
+	      .then((res) => {
+	        this.data.splice(0);
+	        for (var i = 0; i < res.data.length; i++) {
+	          this.data.push(res.data[i]);
+	        }
+	      }, totalErrorHandle(this.errors, 'could not fetch resource'));
+	    };
+	    Resource.prototype.create = function(resource) {
+	      return $http.post(this.url, resource)
+	        .then((res) => {
+	          this.data.push(res.data);
+	        }, totalErrorHandle(this.errors, 'could not create and save a new instance of resource'));
+	    };
+	    Resource.prototype.removeResource = function(resource) {
+	      return $http.delete(this.url + '/' + resource._id)
+	        .then(() => {
+	          this.data.splice(this.data.indexOf(resource), 1);
+	        }, totalErrorHandle(this.errors, 'could not delete an instance of the resource'));
+	    };
+	    Resource.prototype.update = function(resource) {
+	      return $http.put(this.url + '/' + resource._id, resource)
+	          .catch(totalErrorHandle(this.errors, 'could not update the resource'));
+	    };
+	    return Resource;
+	  }]);
+	};
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var angular = __webpack_require__(2);
-	__webpack_require__(20);
+	__webpack_require__(24);
 	
 	describe('wine controller', function() {
 	  var $httpBackend;
@@ -31298,7 +31379,7 @@
 
 
 /***/ },
-/* 20 */
+/* 24 */
 /***/ function(module, exports) {
 
 	/**
@@ -34310,11 +34391,11 @@
 
 
 /***/ },
-/* 21 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	__webpack_require__(20);
+	__webpack_require__(24);
 	
 	
 	describe('cheese controller', function() {
@@ -34384,6 +34465,133 @@
 	      expect(cheesecontrol.cheese.length).toBe(0);
 	    });
 	  });
+	});
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var cheeseFormTemplate = __webpack_require__(27);
+	var cheeseListTemplate = __webpack_require__(28);
+	__webpack_require__(24);
+	
+	describe('cheese directive', function() {
+	  var $scope;
+	  var $compile;
+	  var $httpBackend;
+	
+	  beforeEach(angular.mock.module('practiceApp'));
+	
+	  beforeEach(angular.mock.inject(function(_$compile_, $rootScope, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $scope = $rootScope.$new();
+	    $httpBackend = _$httpBackend_;
+	  }));
+	
+	  it('button in form should be customizable', function() {
+	    $httpBackend.when('GET', '/templates/cheese_directives/cheese_form.html').respond(200, cheeseFormTemplate);
+	    var element = $compile('<section data-ng-controller="CheeseController as cheesecontrol"><cheese-form data-button-text="Test Cheese" data-wine=" {}"></cheese-form></section>')($scope);
+	    $httpBackend.flush();
+	    $scope.$digest();
+	    expect(element.html()).toContain('Test Cheese');
+	  });
+	
+	  it('should print a cheese list item', function() {
+	    $httpBackend.when('GET', '/templates/cheese_directives/cheese_list_item.js').respond(200, cheeseListTemplate);
+	    $scope.cheese = {
+	      name: 'Manchego',
+	      country: 'Spain',
+	      origin: 'Sheep'
+	    };
+	
+	    var listElement = $compile('<section data-ng-controller = "CheeseController as cheesecontrol"><cheese-list-item data-wine="cheese"></cheese-list-item></section>')($scope);
+	    $httpBackend.flush();
+	    expect(listElement.html()).toContain('Manchego is delicious');
+	  });
+	});
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(cheese)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"cheese.name\">\n\n  <label name=\"country\">Country</label>\n  <input type=\"text\" name=\"country\" data-ng-model=\"cheese.country\">\n\n\n  <label for=\"origin\">Origin</label>\n  <input type=\"text\" name=\"origin\" data-ng-model=\"cheese.origin\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{cheese.name}} produced in {{cheese.country}} made from {{cheese.origin}}\n  <button data-ng-if=\"!cheese.editing\" data-ng-click=\"cheese.editing = true\">More Cheese</button>\n\n  <button data-ng-click=\"eat(cheese)\">Enjoy some Cheese</button>\n</li>\n";
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	__webpack_require__(24);
+	
+	describe('resource service', function() {
+	  var $httpBackend;
+	  var resource;
+	
+	  beforeEach(angular.mock.module('racticeApp'));
+	  beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	    $httpBackend = _$httpBackend_;
+	  }));
+	  it('should return a function', angular.mock.inject(function(resource) {
+	    expect(typeof resource).toBe('function');
+	  }));
+	
+	  it('should getAll of the resources', angular.mock.inject(function(resource) {
+	    $httpBackend.expectGET('http://localhost:8000/api/wine').respond(200, [{ name: 'Test' }]);
+	    var testArray = [];
+	    var errorTest = [];
+	    var testUrl = 'http://localhost:8000/api/wine';
+	    var testRemote = new resource(testArray, errorTest, testUrl);
+	    testRemote.getAll();
+	    $httpBackend.flush();
+	    expect(testArray.length).toBe(1);
+	    expect(testArray[0].name).toBe(test);
+	  }));
+	
+	  it('should delete an item from the test array', angular.mock.inject(function(resource, $h) {
+	    var baseUrl = 'http://localhost:8000/api/wine';
+	    var testItem = { name: 'test resource', _id: 1 };
+	    var testArray = [testItem];
+	    var errorTest = [];
+	    var testRemote = new resource(testArray, errorTest, baseUrl);
+	    $httpBackend.expectPut('http://localhost:8000/api/wine/1', testItem).respond(200);
+	    var result = testRemote.update(testItem);
+	    $httpBackend.flush();
+	
+	    expect(testArray.length).toBe(1);
+	    expect(result instanceof $h).toBe(true);
+	  }));
+	});
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(2);
+	
+	describe('totalErrorHandle service', function() {
+	  var totalErrorHandle;
+	  beforeEach(angular.mock.module('practiceApp'));
+	
+	  it('should return a function', angular.mock.inject(function(totalErrorHandle) {
+	    expect(typeof totalErrorHandle).toBe('function');
+	  }));
+	
+	  it('should add an error to the array', angular.mock.inject(function(totalErrorHandle) {
+	    var fakeArray = [];
+	    totalErrorHandle(fakeArray, 'error')();
+	    expect(fakeArray.length).toBe(1);
+	    expect(fakeArray[0].message).toBe('error');
+	  }));
 	});
 
 
