@@ -49,7 +49,7 @@ describe('wine controller', function() {
       expect(winecontrol.newWine).toBe(null);
     });
 
-    it('should update a pet', function() {
+    it('should update a wine', function() {
       $httpBackend.expectPUT('http://localhost:5555/api/wine/1', { name: 'diff wine', editing: true, _id: 1 })
       .respond(200);
       winecontrol.wine = [{ name: 'test wine', _id: 1, editing: true }];
@@ -58,7 +58,7 @@ describe('wine controller', function() {
       expect(winecontrol.wine[0].editing).toBe(false);
     });
 
-    it('should delete a pet', function() {
+    it('should delete a wine', function() {
       $httpBackend.expectDELETE('http://localhost:5555/api/wine/1')
       .respond(200);
       winecontrol.wine = [{ name: 'Tempranillo', _id: 1 }];
