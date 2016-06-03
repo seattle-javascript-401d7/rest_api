@@ -9,7 +9,8 @@ var songSchema = new mongoose.Schema({
   year: Number,
   genre: String,
   personalRating: {type: Number, min: 1, max: 10},
-  emotion: String
+  emotion: String,
+  wranglerId: String
 });
 
 module.exports = mongoose.model('Song', songSchema);

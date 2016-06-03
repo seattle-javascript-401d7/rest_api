@@ -6,57 +6,10 @@
   <title>...tHe JuiCe...</title>
 </head>
 <body data-ng-app="moviesApp">
-  <main id="moviewrapper" data-ng-controller="MoviesController as mvctrl" data-ng-init="mvctrl.getAll()">
-    <ul id="movieError">
-        <li data-ng-repeat="error in mvctrl.errors">{{error.message}}
-          <button data-ng-click="mvctrl.errors.splice(mvctrl.errors.indexOf(error), 1)">X</button>
-        </li>
-    </ul>
-    <movie-form
-      data-button-text="create movie"
-      data-crud="create"
-      data-movie="mvctrl.newMovie">
-    </movie-form>
-
-    <ul id="movielist">
-      <li id="dummyli">Movies List:</li>
-      <!-- For protractor, in case no movies are in movies list, test will fail. This remains hidden at all times through css-->
-      <movie-list-item data-ng-repeat="movie in mvctrl.Movies" data-movie="movie">
-        <movie-form
-          data-ng-if="movie.editing"
-          data-button-text="Update Movie"
-          data-crud="update"
-          data-movie="movie">
-        </movie-form>
-      </movie-list-item>
-
-    </ul>
-  </main>
-
-  <main id="songwrapper" data-ng-controller="SongsController as sngctrl" data-ng-init="sngctrl.getAll()">
-    <ul id="songError">
-        <li data-ng-repeat="error in sngctrl.errors">{{error.message}}
-          <button data-ng-click="sngctrl.errors.splice(sngctrl.errors.indexOf(error), 1)">X</button>
-        </li>
-    </ul>
-    <song-form
-      data-button-text="create song"
-      data-crud="create"
-      data-song="sngctrl.newSong">
-    </song-form>
-
-    <ul id="songlist">
-      <li id="dummyli">Songs List:</li>
-      <!-- For protractor, in case no movies are in movies list, test will fail. This remains hidden at all times through css-->
-      <songs-list-item data-ng-repeat="song in sngctrl.Songs" data-song="song">
-        <song-form
-          data-ng-if="song.editing"
-          data-button-text="update song"
-          data-crud="update"
-          data-song="song">
-        </song-form>
-      </songs-list-item>
-    </ul>
+  <div data-ng-controller="AuthController as globalAuth" data-ng-init="globalAuth.getUsername()">
+    <p data-ng-if="globalAuth.username">Hello: {{globalAuth.username}} <a href data-ng-click="globalAuth.logout()">Logout</a></p>
+  </div>
+  <main data-ng-view>
   </main>
   <script src="./bundle.js"></script>
 </body>

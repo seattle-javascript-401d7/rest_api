@@ -7,7 +7,8 @@ var movieSchema = new mongoose.Schema({
   year: {type: Number},
   rating: {type: String},
   runTime: {type: String},
-  emotion: String
+  emotion: String,
+  wranglerId: String
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

@@ -2,25 +2,30 @@ const Router = require('express').Router;
 const Movie = require(__dirname + '/../models/movies');
 const bodyParser = require('body-parser').json();
 const serverError = require(__dirname + '/../lib/servererror');
-
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 var moviesRouter = module.exports = Router();
 
-moviesRouter.post('/movies', bodyParser, (req, res) => {
+moviesRouter.post('/movies', jwtAuth, bodyParser, (req, res) => {
+  console.log(req.user._id);
   var newMovie = new Movie(req.body);
+  newMovie.wranglerId = req.user._id;
   newMovie.save((err, data) => {
-    if(err) return serverError(err,res);
+    if(err) return serverError(err, res);
     res.status(200).json(data);
   });
 });
 
-moviesRouter.get('/movies', (req, res) => {
-  Movie.find(null, (err,data) => {
+moviesRouter.get('/movies', jwtAuth, (req, res) => {
+  console.log(req.user._id);
+  console.log('there should be an ID# before this');
+  Movie.find({wranglerId: req.user._id}, (err,data) => {
     if(err) return serverError(err, res);
     res.status(200).json(data);
   });
 });
 moviesRouter.put('/movies/:id', bodyParser, (req, res) => {
   var movieData = req.body;
+  delete movieData._id;
   Movie.update({_id: req.params.id}, movieData, (err) => {
     if(err) return serverError(err, res);
     res.status(200).json({msg:'you have updated movies'});

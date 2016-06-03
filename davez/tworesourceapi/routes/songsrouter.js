@@ -2,18 +2,19 @@ const Router = require('express').Router;
 const Song = require(__dirname + '/../models/songs');
 const bodyParser = require('body-parser').json();
 const serverError = require(__dirname + '/../lib/servererror');
-
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 var songsRouter = module.exports = Router();
 
-songsRouter.post('/songs', bodyParser, (req, res) => {
+songsRouter.post('/songs', jwtAuth, bodyParser, (req, res) => {
   var newSong = new Song(req.body);
+  newSong.wranglerId = req.user._id;
   newSong.save((err, data) => {
     if(err) return serverError(err, res);
     res.status(200).json(data);
   });
 });
-songsRouter.get('/songs', (req, res) => {
-  Song.find(null, (err, data) => {
+songsRouter.get('/songs', jwtAuth, (req, res) => {
+  Song.find({wranglerId: req.user._id}, (err, data) => {
     if(err) return serverError(err, res);
     res.status(200).json(data);
   });

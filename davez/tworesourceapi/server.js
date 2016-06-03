@@ -11,8 +11,8 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/movies_db');
 
 app.use(function(req,res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, token');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
   next();
 });
 

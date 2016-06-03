@@ -1,0 +1,28 @@
+<section data-ng-init="globalAuth.getUsername()">
+  <article id="moviewrapper" data-ng-controller="MoviesController as mvctrl" data-ng-init="mvctrl.getAll()">
+  <!-- <article id="moviewrapper"> -->
+  <ul id="movieError">
+      <li data-ng-repeat="error in mvctrl.errors">{{error.message}}
+        <button data-ng-click="mvctrl.errors.splice(mvctrl.errors.indexOf(error), 1)">X</button>
+      </li>
+  </ul>
+  <movie-form
+    data-button-text="create movie"
+    data-crud="create"
+    data-movie="mvctrl.newMovie">
+  </movie-form>
+
+  <ul id="movielist">
+    <li id="dummyli">Movies List:</li>
+    <!-- For protractor, in case no movies are in movies list, test will fail. This remains hidden at all times through css-->
+    <movie-list-item data-ng-repeat="movie in mvctrl.Movies" data-movie="movie">
+      <movie-form
+        data-ng-if="movie.editing"
+        data-button-text="Update Movie"
+        data-crud="update"
+        data-movie="movie">
+      </movie-form>
+    </movie-list-item>
+  </ul>
+</article>
+</section>

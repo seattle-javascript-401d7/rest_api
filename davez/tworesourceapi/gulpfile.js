@@ -91,7 +91,7 @@ gulp.task('startservers', () => {
   children.push(cp.fork('./public/server.js'));
   children.push(cp.spawn('webdriver-manager', ['start']));
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
-  children.push(cp.fork('server', [], {env: {MONGO_URI: mongoUri}}));
+  children.push(cp.fork('server', [], {env: {APP_SECRET:'booyah', MONGO_URI: mongoUri}}));
 });
 
 gulp.task('start-mongo', runCommand('sudo mongod --dbpath=./db --smallfiles'));

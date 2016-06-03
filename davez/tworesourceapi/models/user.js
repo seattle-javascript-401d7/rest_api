@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 var userSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  findHash: {type: String}
+  findHash: {type: String, unique: true}
 });
 userSchema.methods.generateHash = function(password) {
   return this.password = bcrypt.hashSync(password, 8);
@@ -33,11 +33,17 @@ userSchema.methods.generateFindHash = function(cb) {
           tries++;
         }, 1000);
       }
-      if(timeout) clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
       cb(null, hash.toString('hex'));
     });
   };
   _generateFindHash();
+};
+userSchema.methods.generateToken = function(cb) {
+  this.generateFindHash(function(err, hash) {
+    if (err) return cb(err);
+    cb(null, jwt.sign({idd: hash}, process.env.APP_SECRET));
+  });
 };
 
 module.exports = exports = mongoose.model('User', userSchema);
