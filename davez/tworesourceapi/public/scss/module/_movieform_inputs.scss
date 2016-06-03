@@ -1,0 +1,27 @@
+movie-form {
+  input {
+    @include linear-gradient(white, gray);
+    display: block;
+    border: $inputBorder;
+  }
+  input[type='text'] {
+    @include basictext(black, 16px, bold, $font);
+    font-style: normal;
+  }
+  .edit {
+    display: block;
+    clear: both;
+    float: right;
+  }
+  .edit[type="text"] {
+    @include basictext(white, 12px, lighter, $font);
+    font-style: normal;
+  }
+  .inputEdit {
+    display: block;
+    margin-bottom: 15px;
+  }
+  .inputEdit[type="text"] {
+    font-size: 12;
+  }
+}

@@ -1,0 +1,5 @@
+@function beefy($pixels) {
+  @return ($pixels * 3)+px
+}
+
+/* This function will triple the size of any element or any property of that element in pixels. Just write the amount of pixels without the px, and the function will take care of the rest */

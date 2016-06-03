@@ -1,0 +1,14 @@
+#movieError {
+  @include basictext(red, 12px, bold, $font);
+  button {
+    font-weight: bold;
+    border-radius: 50%;
+  }
+}
+#songError {
+  @include basictext(red, 12px, bold, $font);
+  button {
+    font-weight: bold;
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,28 @@
+<section data-ng-init="globalAuth.getUsername()">
+  <article id="songwrapper" data-ng-controller="SongsController as sngctrl" data-ng-init="sngctrl.getAll()">
+  <!-- <article id="songwrapper"> -->
+  <ul id="songError">
+      <li data-ng-repeat="error in sngctrl.errors">{{error.message}}
+        <button data-ng-click="sngctrl.errors.splice(sngctrl.errors.indexOf(error), 1)">X</button>
+      </li>
+  </ul>
+  <song-form
+    data-button-text="create song"
+    data-crud="create"
+    data-song="sngctrl.newSong">
+  </song-form>
+
+  <ul id="songlist">
+    <li id="dummyli">Songs List:</li>
+    <!-- For protractor, in case no movies are in movies list, test will fail. This remains hidden at all times through css-->
+    <songs-list-item data-ng-repeat="song in sngctrl.Songs" data-song="song">
+      <song-form
+        data-ng-if="song.editing"
+        data-button-text="update song"
+        data-crud="update"
+        data-song="song">
+      </song-form>
+    </songs-list-item>
+  </ul>
+</article>
+</section>

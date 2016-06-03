@@ -1,0 +1,10 @@
+$buttonBorder: solid 2px orange;
+$inputBorder: 2px solid black;
+$border: 2px dashed white;
+$font: monospace;
+
+$bgcolor: orange;
+
+// below is a demonstration of interpolation, which displays the string contained in each of the variables that I am using my my scss, prefixed by the name of the variable, and logs them to the console when the scss is being compiled in the form of a warning. 
+
+@warn "The Following Variables are being used, $buttonBorder: #{$buttonBorder},$inputBorder: #{$inputBorder},$border: #{$border},$font: #{$font},$bgcolor:#{$bgcolor}";

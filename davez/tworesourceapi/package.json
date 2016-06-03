@@ -1,0 +1,42 @@
+{
+  "name": "tworesourceapi",
+  "version": "1.0.0",
+  "description": "an app that takes data about songs and movies and sends them to the mongo database",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "dzknj@outlook.com",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^0.8.6",
+    "body-parser": "^1.15.0",
+    "bourbon": "^4.2.7",
+    "bourbon-neat": "^1.7.4",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.13"
+  },
+  "devDependencies": {
+    "angular": "^1.5.5",
+    "angular-mocks": "^1.5.5",
+    "angular-route": "^1.5.6",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "jsonwebtoken": "^7.0.0",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "mocha": "^2.4.5",
+    "webpack-stream": "^3.2.0"
+  }
+}
