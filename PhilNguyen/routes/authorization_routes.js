@@ -2,6 +2,7 @@ const express = require('express');
 const User = require(__dirname + '/../models/user');
 const jsonParser = require('body-parser').json();
 const basicHTTP = require(__dirname + '/../lib/basic_http');
+const jwToken = require(__dirname + '/../lib/jwt_auth');
 
 var router = module.exports = exports = express.Router();
 
@@ -46,4 +47,10 @@ router.route('/signin')
       res.json({ token });
     });
   });
+});
+
+router.route('/profile')
+.get(jwToken, (req, res) => {
+  console.log(res);
+  res.json({ username: req.user.username });
 });
