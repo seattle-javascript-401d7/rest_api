@@ -34866,7 +34866,7 @@
 
 	var angular = __webpack_require__(2);
 	var wineFormTemplate = __webpack_require__(32);
-	var wineListTemplate = __webpack_require__(32);
+	var wineListTemplate = __webpack_require__(33);
 	__webpack_require__(24);
 	
 	describe('wine form directive', function() {
@@ -34909,7 +34909,13 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "<form data-ng-submit=\"save(wine)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"wine.name\">\n\n  <label name=\"grapes\">Grapes</label>\n  <input type=\"text\" name=\"grapes\" data-ng-model=\"wine.grapes\">\n\n\n  <label for=\"year\">Year</label>\n  <input type=\"text\" name=\"year\" data-ng-model=\"wine.year\" placeholder=\"tempranillo\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+	module.exports = "<form data-ng-submit=\"save(wine)\">\n\n  <label for=\"name\">Name</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"wine.name\">\n\n  <label name=\"grapes\">Grapes</label>\n  <input type=\"text\" name=\"grapes\" data-ng-model=\"wine.grapes\">\n  <label for=\"year\">Year</label>\n  <input type=\"text\" name=\"year\" data-ng-model=\"wine.year\" placeholder=\"tempranillo\">\n\n  <label for=\"country\">Country</lable>\n  <input type=\"text\" name=\"country\" data-ng-model=\"wine.country\" placeholder=\"france\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <ng-transclude></ng-transclude>\n  {{wine.name}} from {{wine.year}} grown in {{wine.country}}\n  <button data-ng-if=\"!wine.editing\" data-ng-click=\"wine.editing = true\">Edit Wine</button>\n\n  <button data-ng-click=\"drink(wine)\">Drink some wine!</button>\n</li>\n";
 
 /***/ }
 /******/ ]);

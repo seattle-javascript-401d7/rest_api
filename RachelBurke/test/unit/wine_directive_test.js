@@ -1,6 +1,6 @@
 var angular = require('angular');
 var wineFormTemplate = require('../../app/templates/wine_directives/wine_form.html');
-var wineListTemplate = require('../../app/templates/wine_directives/wine_form.html');
+var wineListTemplate = require('../../app/templates/wine_directives/wine_list_item.html');
 require('angular-mocks');
 
 describe('wine form directive', function() {
