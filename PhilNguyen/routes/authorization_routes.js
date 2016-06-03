@@ -51,6 +51,5 @@ router.route('/signin')
 
 router.route('/profile')
 .get(jwToken, (req, res) => {
-  console.log(res);
   res.json({ username: req.user.username });
 });

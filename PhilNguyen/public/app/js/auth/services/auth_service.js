@@ -26,6 +26,7 @@ module.exports = function(app) {
 
           $http.get(baseUrl + '/api/profile')
           .then((res) => {
+            console.log(res.data);
             this.username = res.data.username;
             resolve(res.data.username);
           }, reject);

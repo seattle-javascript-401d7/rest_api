@@ -20,6 +20,7 @@ module.exports = function(app) {
       });
     };
     this.removeSuperhero = crud.remove.bind(crud);
+    this.getAll();
   }])
   .controller('strongestHero', ['theStrongest', function(theStrongest) {
     this.heroes = theStrongest.superheroData;
