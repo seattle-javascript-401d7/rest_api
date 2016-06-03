@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Avengers Infinity Wars</title>
+  <link rel="stylesheet" href="application.css" />
+</head>
+<body data-ng-app="newApp">
+  <div data-ng-controller="AuthController as globalAuth" data-ng-init="globalAuth.getUsername()">
+    <p data-ng-if="globalAuth.username">Hello: {{globalAuth.username}} <a href data-ng-click="globalAuth.logout()">Logout</a></p>
+    <main data-ng-view>
+    </main>
+  </div>
+
+<script src="./bundle.js"></script>
+</body>
+</html>

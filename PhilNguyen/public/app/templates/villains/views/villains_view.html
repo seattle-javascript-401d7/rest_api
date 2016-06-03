@@ -1,0 +1,33 @@
+<section data-ng-init="globalAuth.getUsername()">
+  <villain-form id="form"
+  data-button-text="Create Villain"
+  data-rest-action="create"
+  data-villain="villainsctrl.newVillain">
+  </villain-form>
+
+  <ul id="errors">
+  <li data-ng-repeat="error in villainsctrl.errors">
+    {{error.message}}
+    <button data-ng-click="villainsctrl.errors.splice(villainsctrl.errors.indexOf(error), 1)">Remove</button>
+  </li>
+  </ul>
+
+  <h1>The Strongest Villain</h1>
+  <div data-ng-controller="strongestVillain as strongestvillainctrl" data-ng-init="strongestvillainctrl.getStrongestVillain()">
+  <li data-ng-repeat="villain in strongestvillainctrl.villains">
+    <span>{{villain.name}} is currently the strongest villain of them all with an enormous power level of {{villain.powerlevel}}!</span>
+  </li>
+  </div>
+  <h1>List of Villains</h1>
+  <ul id="villainslist">
+  <villain-list-item data-ng-repeat="villain in villainsctrl.villains" data-villain="villain">
+    <villain-form id="form"
+    data-ng-if="villain.editing"
+    data-button-text="Update Villain"
+    data-rest-action="update"
+    data-villain="villain">
+    <button data-ng-click="villain.editing=false">Cancel</button>
+  </villain-form>
+  </villain-list-item>
+  </ul>
+</section>
