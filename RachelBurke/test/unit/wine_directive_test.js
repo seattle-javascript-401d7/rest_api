@@ -28,7 +28,8 @@ describe('wine form directive', function() {
     $httpBackend.when('GET', '/templates/wine_directives/wine_list_item.html').respond(200, wineListTemplate);
     $scope.wine = {
       name: 'Merlot',
-      description: 'Dry'
+      year: '2016',
+      country: 'France'
     };
 
     var listElement = $compile('<section data-ng-controller = "WineController as winecontrol"><wine-list-item data-wine="wine"></wine-list-item></section>')($scope);

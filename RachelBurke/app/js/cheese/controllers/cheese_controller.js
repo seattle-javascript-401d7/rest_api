@@ -15,7 +15,7 @@ module.exports = function(app) {
       $http.post(url + '/api/cheese', this.newCheese)
       .then((res) => {
         this.cheeses.push(res.data);
-        this.newCheese = null;
+        this.newCheeses = null;
       }, handleErrors.bind(this));
     }.bind(this);
 

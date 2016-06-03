@@ -18,7 +18,7 @@ describe('cheese directive', function() {
 
   it('button in form should be customizable', function() {
     $httpBackend.when('GET', '/templates/cheese_directives/cheese_form.html').respond(200, cheeseFormTemplate);
-    var element = $compile('<section data-ng-controller="CheeseController as cheesecontrol"><cheese-form data-button-text="Test Cheese" data-wine=" {}"></cheese-form></section>')($scope);
+    var element = $compile('<section data-ng-controller="CheeseController as cheesecontrol"><cheese-form data-button-text="Test Cheese" data-cheese=" {}"></cheese-form></section>')($scope);
     $httpBackend.flush();
     $scope.$digest();
     expect(element.html()).toContain('Test Cheese');

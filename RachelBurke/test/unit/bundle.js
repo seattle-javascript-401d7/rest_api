@@ -31298,7 +31298,7 @@
 	      $http.post(url + '/api/cheese', this.newCheese)
 	      .then((res) => {
 	        this.cheeses.push(res.data);
-	        this.newCheese = null;
+	        this.newCheeses = null;
 	      }, handleErrors.bind(this));
 	    }.bind(this);
 	
@@ -34757,7 +34757,7 @@
 	
 	  it('button in form should be customizable', function() {
 	    $httpBackend.when('GET', '/templates/cheese_directives/cheese_form.html').respond(200, cheeseFormTemplate);
-	    var element = $compile('<section data-ng-controller="CheeseController as cheesecontrol"><cheese-form data-button-text="Test Cheese" data-wine=" {}"></cheese-form></section>')($scope);
+	    var element = $compile('<section data-ng-controller="CheeseController as cheesecontrol"><cheese-form data-button-text="Test Cheese" data-cheese=" {}"></cheese-form></section>')($scope);
 	    $httpBackend.flush();
 	    $scope.$digest();
 	    expect(element.html()).toContain('Test Cheese');
@@ -34894,7 +34894,8 @@
 	    $httpBackend.when('GET', '/templates/wine_directives/wine_list_item.html').respond(200, wineListTemplate);
 	    $scope.wine = {
 	      name: 'Merlot',
-	      description: 'Dry'
+	      year: '2016',
+	      country: 'France'
 	    };
 	
 	    var listElement = $compile('<section data-ng-controller = "WineController as winecontrol"><wine-list-item data-wine="wine"></wine-list-item></section>')($scope);
