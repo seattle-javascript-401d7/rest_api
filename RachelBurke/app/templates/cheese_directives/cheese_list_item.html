@@ -1,0 +1,7 @@
+<li>
+  <ng-transclude></ng-transclude>
+  {{cheese.name}} produced in {{cheese.country}} made from {{cheese.origin}}
+  <button data-ng-if="!cheese.editing" data-ng-click="cheese.editing = true">More Cheese</button>
+
+  <button data-ng-click="eat(cheese)">Enjoy some Cheese</button>
+</li>
