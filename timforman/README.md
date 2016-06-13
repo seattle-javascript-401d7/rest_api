@@ -31,7 +31,7 @@ GET all band names
 PUT a new band name and genre under the same ID
 DELETE a band name and genre under a specific ID
 
-POST requires enter your request along with the user token received on sign-in as shown below:
+POST and GET requests require you to enter your request along with the user token received on sign-in as shown below:
 
 POST example using Httpie:
 ```
@@ -60,7 +60,7 @@ http GET localhost:3000/api/songs 'token':<enter token here inside quotes, no sp
 ## /bandName route (non-CRUD)
 GET all the songs by a specific band using /bandName/[name of band] route.
 No token needed.
-Example using Httpie: 
+Example using Httpie:
 ```
 http GET localhost:3000/api/bandName/Blondie
 ```
