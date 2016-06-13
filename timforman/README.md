@@ -16,10 +16,18 @@ jsonwebtoken is required
 2. In a different terminal window enter "export APP_SECRET='appsecret'"
 3. Launch node server.js in a separate terminal window.
 4. In a third terminal window run GET POST etc. from the command line.
-5. To signup, input a username and password in the format below at the command line:
+
+## Testing
+Linter and Mocha tests run from the Gulp default. With mongod and the server running,
+type 'gulp' at the command line of the third terminal window. 
+
+## Sign-up
+To signup, input a username and password in the format below at the command line:
 ```
 echo '{"username": "Kid", "password": "password1"}' | http POST localhost:3000/api/signup
 ```
+
+## Sign-in
 To sign-in, input your username and password in the format below at the command line(a token will be assigned whenever a user is signed-in, which is needed to process REST methods):
 ```
 http -a Kid:password1 localhost:3000/api/signin
