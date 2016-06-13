@@ -44,19 +44,19 @@ describe('the songs router', () => {
     });
   });
 
-    it('should add a song', (done) => {
-      request('localhost:' + port)
-      .post('/api/songs')
-      .set('token', this.token)
-      .send({ title: 'Rainmaker', bandName: 'Sparklehorse' })
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        console.log('added ' + res.body.title);
-        expect(res.body.title).to.eql('Rainmaker');
-        expect(res.body.bandName).to.eql('Sparklehorse');
-        done();
-      });
+  it('should add a song', (done) => {
+    request('localhost:' + port)
+    .post('/api/songs')
+    .set('token', this.token)
+    .send({ title: 'Rainmaker', bandName: 'Sparklehorse' })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      console.log('added ' + res.body.title);
+      expect(res.body.title).to.eql('Rainmaker');
+      expect(res.body.bandName).to.eql('Sparklehorse');
+      done();
     });
+  });
 
   describe('routes to test PUT and DELETE: ', () => {
 

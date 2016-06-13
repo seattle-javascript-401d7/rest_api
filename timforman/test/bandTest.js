@@ -44,19 +44,19 @@ describe('the bands router', () => {
     });
   });
 
-    it('should add a band', (done) => {
-      request('localhost:' + port)
-      .post('/api/bands')
-      .set('token', this.token)
-      .send({ bandName: 'Husker Du', genre: 'Alternative' })
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        console.log('added ' + res.body.bandName);
-        expect(res.body.bandName).to.eql('Husker Du');
-        expect(res.body.genre).to.eql('Alternative');
-        done();
-      });
+  it('should add a band', (done) => {
+    request('localhost:' + port)
+    .post('/api/bands')
+    .set('token', this.token)
+    .send({ bandName: 'Husker Du', genre: 'Alternative' })
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      console.log('added ' + res.body.bandName);
+      expect(res.body.bandName).to.eql('Husker Du');
+      expect(res.body.genre).to.eql('Alternative');
+      done();
     });
+  });
 
   describe('routes to test PUT and DELETE: ', () => {
 
