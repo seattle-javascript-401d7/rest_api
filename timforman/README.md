@@ -15,11 +15,11 @@ jsonwebtoken is required
 1. Open a mongod connection in a terminal window
 2. In a different terminal window enter "export APP_SECRET='appsecret'"
 3. Launch node server.js in a separate terminal window.
-4. In a third terminal window run GET POST etc. from the command line.
+4. In a third terminal window perform signup, signin, GET POST etc. from the command line.
 
 ## Testing
-Linter and Mocha tests run from the Gulp default. With mongod and the server running,
-type 'gulp' at the command line of the third terminal window. 
+Linter and Mocha tests run from the Gulp default (12 total). With mongod and the server running,
+type 'gulp' at the command line of the third terminal window.
 
 ## Sign-up
 To signup, input a username and password in the format below at the command line:
