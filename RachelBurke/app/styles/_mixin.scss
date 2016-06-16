@@ -1,0 +1,9 @@
+@mixin border($border-color: $feltBlue) {
+  border-color: $border-color;
+  border-width: 1px;
+  border-radius: .5em;
+  border-style: solid;
+}
+@mixin bullet($bullet) {
+  list-style: #{$bullet};
+}
