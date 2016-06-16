@@ -1,4 +1,5 @@
 var url = require('../../config.js').url;
+var handleErrors = require('../../lib').handleErrors;
 
 module.exports = function(app) {
   app.controller('WineController', ['$http', function($http) {
@@ -8,15 +9,26 @@ module.exports = function(app) {
       .then((res) => {
         this.wine = res.data;
       }, handleErrors.bind(this));
-    }.bind(this);
+    };
 
-    this.createWine = function() {
+
+    // this.createWine = function() {
+    //   $http.post(url + '/api/wine', this.newWine)
+    //   .then((res) => {
+    //     this.wine.push(res.data);
+    //     this.newWine = null;
+    //   }, handleErrors.bind(this));
+    // }.bind(this);
+
+    this.createWine = () => {
       $http.post(url + '/api/wine', this.newWine)
       .then((res) => {
         this.wine.push(res.data);
         this.newWine = null;
       }, handleErrors.bind(this));
-    }.bind(this);
+    };
+
+
 
     this.deleteWine = function(wine) {
       $http.delete(url + '/api/wine/' + wine._id)

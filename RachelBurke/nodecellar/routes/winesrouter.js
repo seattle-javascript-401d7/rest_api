@@ -21,16 +21,12 @@ winesRouter.get('/wine', (req, res) => {
   });
 });
 
-winesRouter.put('/wine/:wine_id', (req, res) => {
-  Wine.findById(req.params.wine_id, (err, wine) => {
-    if (err) res.send(err);
-
-    wine.quantity = req.body.quantity;
-    wine.save((err) => {
-      if (err) return res.send(err);
-
-      res.json(wine);
-    });
+winesRouter.put('/wine/:id', bodyParser, (req, res) => {
+  var wineData = req.body;
+  delete wineData._id;
+  Wine.update({ _id: req.params.id }, wineData, (err) => {
+    if (err) return errorhandler(err, res);
+    res.status(200).json({ msg: 'Wine updated' });
   });
 });
 

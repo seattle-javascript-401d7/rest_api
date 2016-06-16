@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Wine', new Schema({
+var wineSchema = new mongoose.Schema({
   name: String,
   year: String,
   country: String,
   grapes: String,
   description: String
-}));
+});
+
+module.exports = mongoose.model('Wine', wineSchema);
