@@ -1,4 +1,5 @@
 var url = require('../../config.js').url;
+var handleErrors = require('../../lib').handleErrors;
 
 module.exports = function(app) {
   app.controller('WineController', ['$http', function($http) {
@@ -16,7 +17,7 @@ module.exports = function(app) {
         this.wine.push(res.data);
         this.newWine = null;
       }, handleErrors.bind(this));
-    }.bind(this);
+    };
 
     this.deleteWine = function(wine) {
       $http.delete(url + '/api/wine/' + wine._id)

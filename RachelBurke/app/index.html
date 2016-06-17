@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine and Cheese Service</title>
-  <link rel="stylesheet" href="/styles/main.css">
+  <!-- <link rel="stylesheet" href="/styles/main.css"> -->
 </head>
 
 <body data-ng-app="practiceApp">
   <main>
   <h1>Wine and Cheese Party Time<h1/>
 
-  <section data-ng-controller="CheeseController as cheese">
+  <!-- <section data-ng-controller="CheeseController as cheese">
     <h1>cheese controller counter: {{cheese.count}}</h1>
     <button data-ng-click="cheese.addCount()">Change Cheese Count</button>
     <div data-ng-ig="cheese.count < 2 || cheese.count > 2" data-ng-controller="WineController as wine">
@@ -23,9 +23,9 @@
       <button data-ng-click="wine.addCount()">change controller count</button>
       <button data-ng-click="cheese.addCount()">change cheese controller count</button>
     </div>
-  </section>
+  </section> -->
 
-  <!-- <h2>What Wines are in the Cellar?</h2>
+  <h2>What Wines are in the Cellar?</h2>
     <wine-form
     data-button-text="inspect"
     data-change="create"
@@ -96,7 +96,7 @@
       </cheese-form>
     </cheese-list-item>
   </ul>
-</section> -->
+</section>
 <script src="bundle.js"></script>
 </body>
 </html>
