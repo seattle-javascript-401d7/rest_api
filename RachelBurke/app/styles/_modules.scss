@@ -1,0 +1,13 @@
+@import "globals";
+
+li {
+  font-family: $subFont;
+  color: $textColor;
+  background-color: $light-gray;
+  @include bullet(circle);
+}
+
+label {
+  display: block;
+  text-align: right;
+}
