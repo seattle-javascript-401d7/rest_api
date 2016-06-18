@@ -104,4 +104,4 @@ gulp.task('lint-test', ['lint', 'mochatest'], function() {
   process.exit();
 });
 
-gulp.task('default', ['startservers', 'build:dev']);
+gulp.task('default', ['startservers', 'build:dev', 'lint']);
