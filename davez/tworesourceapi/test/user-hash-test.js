@@ -6,8 +6,8 @@ describe('user has hash', function() {
   before(function(done) {
     mongoose.connect('mongodb://localhost/user_hash_testing');
     var newUser = new User({username: 'test', password: 'test'});
+
     newUser.save((err, data) => {
-      console.log(data);
       if(err) throw err;
       this.user = data;
       done();

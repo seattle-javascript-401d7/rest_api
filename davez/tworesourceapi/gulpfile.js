@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
@@ -17,7 +18,7 @@ function runCommand(command) {
       console.log(stderr);
       cb(err);
     });
-  }
+  };
 }
 
 var files = ['public/server.js', 'public/js/entry.js', 'server.js','gulpfile.js','routes/songsrouter.js','routes/moviesrouter.js','models/songs.js','models/movies.js','lib/servererror.js'];
@@ -50,7 +51,6 @@ gulp.task('lint:test', () => {
     ]
   })).pipe(eslint.format());
 });
-
 
 gulp.task('sass:dev', () => {
   gulp.src('public/scss/*.scss')
@@ -91,7 +91,7 @@ gulp.task('startservers', () => {
   children.push(cp.fork('./public/server.js'));
   children.push(cp.spawn('webdriver-manager', ['start']));
   children.push(cp.spawn('mongod', ['--dbpath=./db']));
-  children.push(cp.fork('server', [], {env: {APP_SECRET:'booyah', MONGO_URI: mongoUri}}));
+  children.push(cp.fork('server', [], { env: { APP_SECRET: 'booyah', MONGO_URI: mongoUri }}));
 });
 
 gulp.task('start-mongo', runCommand('sudo mongod --dbpath=./db --smallfiles'));

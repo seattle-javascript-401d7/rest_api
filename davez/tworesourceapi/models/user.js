@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 
-var userSchema = mongoose.Schema({
+var userSchema = mongoose.Schema({ // eslint-disable-line
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   findHash: {type: String, unique: true}
@@ -19,14 +19,14 @@ userSchema.methods.compareHash = function(password) {
 userSchema.methods.generateFindHash = function(cb) {
   var tries = 0;
   var timeout;
-  var _generateFindHash = ()=> {
+  var _generateFindHash = () => { // eslint-disable-line
     var hash = crypto.randomBytes(32);
+
     this.findHash = hash.toString('hex');
     this.save((err, data) => {
       if(err) {
         if(tries > 9) {
           return cb(new Error('could not generate hash'));
-
         }
         return timeout = setTimeout(() => {
           _generateFindHash();

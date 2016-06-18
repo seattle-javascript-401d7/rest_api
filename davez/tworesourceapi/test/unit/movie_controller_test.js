@@ -1,4 +1,5 @@
 var angular = require('angular');
+
 require('angular-mocks');
 
 describe('movies controller', function() {
@@ -13,13 +14,14 @@ describe('movies controller', function() {
 
   it('should be a controller', function() {
     var movieCntrl = $controller('MoviesController');
+
     expect(typeof movieCntrl).toBe('object');
     expect(typeof movieCntrl.getAll).toBe('function');
   });
 
   describe('REST functionality', function() {
     var $httpBackend;
-    var movieCntrl;
+    var movieCntrl; // eslint-disable-line
 
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
       $httpBackend = _$httpBackend_;

@@ -1,5 +1,5 @@
 describe('all the movies', function() {
-  var lastMovie = element(by.css('#movielist:last-child > li:last-of-type'))
+  var lastMovie = element(by.css('#movielist:last-child > li:last-of-type'));
   var updateInput = element(by.css('#movielist:last-child > li:last-of-type > ng-transclude > movie-form > form > input:first-of-type'));
   var updateSubmit = element(by.css('#movielist:last-child > li:last-of-type > ng-transclude > movie-form > form > button:last-of-type'));
 
@@ -28,7 +28,7 @@ describe('all the movies', function() {
   it('should delete a movie', function(done) {
     browser.get('http://localhost:8888');
     element.all(by.css('#movielist:last-child > li:last-of-type > div > button:first-of-type')).click();
-     expect(lastMovie.getText()).not.toContain('lkjhgfdsa');
+    expect(lastMovie.getText()).not.toContain('lkjhgfdsa');
     done();
   });
 });

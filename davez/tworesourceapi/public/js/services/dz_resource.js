@@ -1,3 +1,4 @@
+/* eslint-disable newline-after-var */
 module.exports = function(app) {
   app.factory('dzResource', ['$http', 'dzHandleError', function($http, dzError) {
     var original = {};
@@ -14,8 +15,8 @@ module.exports = function(app) {
         this.data.splice(0);
         for(var i = 0; i < res.data.length; i++) {
           this.data.push(res.data[i]);
-        };
-      }, dzError(this.errors, this.customErrors.message.getAll || 'could not fetch resource'))
+        }
+      }, dzError(this.errors, this.customErrors.message.getAll || 'could not fetch resource'));
     };
     Resource.prototype.create = function(resource) {
       return $http.post(this.url, resource)

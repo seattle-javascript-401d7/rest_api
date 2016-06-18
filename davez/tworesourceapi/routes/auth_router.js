@@ -9,11 +9,13 @@ var userRouter = module.exports = exports = express.Router();
 
 userRouter.post('/signup', jsonParser, (req, res) => {
   var password = req.body.password;
+
   req.body.password = null;
 
   if(!password) return res.status(500).json({msg: 'you must not have a blank password field'});
 
   var newUser = new User(req.body);
+
   newUser.generateHash(password);
   password = null;
 

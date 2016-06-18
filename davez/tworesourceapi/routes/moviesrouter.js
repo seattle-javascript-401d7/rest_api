@@ -6,8 +6,9 @@ const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 var moviesRouter = module.exports = Router();
 
 moviesRouter.post('/movies', jwtAuth, bodyParser, (req, res) => {
-  console.log(req.user._id);
+  console.log('user ID: ' + req.user._id);
   var newMovie = new Movie(req.body);
+
   newMovie.wranglerId = req.user._id;
   newMovie.save((err, data) => {
     if(err) return serverError(err, res);
@@ -16,8 +17,7 @@ moviesRouter.post('/movies', jwtAuth, bodyParser, (req, res) => {
 });
 
 moviesRouter.get('/movies', jwtAuth, (req, res) => {
-  console.log(req.user._id);
-  console.log('there should be an ID# before this');
+  console.log('User ID: ' + req.user._id);
   Movie.find({wranglerId: req.user._id}, (err,data) => {
     if(err) return serverError(err, res);
     res.status(200).json(data);
@@ -25,10 +25,11 @@ moviesRouter.get('/movies', jwtAuth, (req, res) => {
 });
 moviesRouter.put('/movies/:id', bodyParser, (req, res) => {
   var movieData = req.body;
+
   delete movieData._id;
   Movie.update({_id: req.params.id}, movieData, (err) => {
     if(err) return serverError(err, res);
-    res.status(200).json({msg:'you have updated movies'});
+    res.status(200).json({ msg: 'you have updated movies' });
   });
 });
 moviesRouter.delete('/movies/:id', (req, res) => {
@@ -45,23 +46,17 @@ moviesRouter.route('/moviessadmadglad')
         var sadArrayMovies = [];
         var madArrayMovies = [];
         var gladArrayMovies = [];
+
         moviesArray.push(movies);
         for(var i = 0; i < movies.length; i++) {
           if(movies[i].emotion === 'sad') {
-            sadArrayMovies.push(movies[i])
+            sadArrayMovies.push(movies[i]);
           } else if(movies[i].emotion === 'mad') {
-            madArrayMovies.push(movies[i])
+            madArrayMovies.push(movies[i]);
           } else if(movies[i].emotion === 'glad') {
-            gladArrayMovies.push(movies[i])
+            gladArrayMovies.push(movies[i]);
           }
         }
-        console.log('\nMovies Array: \n');
-        console.log(moviesArray);
-        console.log('\nSad Array:\n' + sadArrayMovies + '\n');
-        console.log('\nMad Array:\n' + madArrayMovies + '\n');
-        console.log('\nGlad Array:\n' + gladArrayMovies + '\n');
-        console.log('\nMovies (Not Array) : \n')
-        console.log(movies);
       });
       res.end();
     });

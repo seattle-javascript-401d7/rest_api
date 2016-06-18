@@ -1,4 +1,5 @@
 var baseUrl = require('../../config').baseUrl;
+
 module.exports = function(app) {
   app.controller('SignUpController', ['$http', '$location', 'dzHandleError', 'dzAuth', function($http, $location, handleError, auth) {
     this.signup = true;

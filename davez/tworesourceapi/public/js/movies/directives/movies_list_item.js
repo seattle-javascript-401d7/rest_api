@@ -14,6 +14,6 @@ module.exports = function(app) {
         scope.edit = controller.editMovie;
         scope.cancel = controller.cancelEdit;
       }
-    }
+    };
   });
-}
+};

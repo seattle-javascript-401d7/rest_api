@@ -1,3 +1,3 @@
 module.exports = function(app) {
-  require('./movies_controller')(app)
-}
+  require('./movies_controller')(app);
+};

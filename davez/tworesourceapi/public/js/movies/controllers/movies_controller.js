@@ -13,6 +13,7 @@ module.exports = function(app) {
       }
     };
     var remote = new Resource(this.Movies, this.errors, baseUrl + '/api/movies', message);
+
     this.getAll = remote.getAll.bind(remote);
     this.createMovie = function() {
       remote.create(this.newMovie)
@@ -34,4 +35,4 @@ module.exports = function(app) {
     };
     this.removeMovie = remote.remove.bind(remote);
   }]);
-}
+};

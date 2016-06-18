@@ -11,7 +11,7 @@ module.exports = function(app) {
         crud: '@'
       },
       link: function(scope, element, attrs, controller) {
-        var cruds = {
+        var cruds = { // eslint-disable-line
           update: controller.updateMovie,
           create: controller.createMovie
         };

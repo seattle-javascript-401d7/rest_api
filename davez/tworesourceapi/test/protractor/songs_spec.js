@@ -1,5 +1,5 @@
 describe('all the songs', function() {
-  var lastSong = element(by.css('#songlist:last-child > li:last-of-type'))
+  var lastSong = element(by.css('#songlist:last-child > li:last-of-type'));
   var updateInput = element(by.css('#songlist:last-child > li:last-of-type > ng-transclude > song-form > form > input:first-of-type'));
   var updateSubmit = element(by.css('#songlist:last-child > li:last-of-type > ng-transclude > song-form > form > button:last-of-type'));
 
@@ -28,7 +28,7 @@ describe('all the songs', function() {
   it('should delete a song', function(done) {
     browser.get('http://localhost:8888');
     element.all(by.css('#songlist:last-child > li:last-of-type > div > button:first-of-type')).click();
-     expect(lastSong.getText()).not.toContain('lkjhgfdsa');
+    expect(lastSong.getText()).not.toContain('lkjhgfdsa');
     done();
   });
 });

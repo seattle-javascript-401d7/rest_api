@@ -1,8 +1,10 @@
 var angular = require('angular');
+
 require('angular-mocks');
 
 describe('dzResource', function() {
   var dzResource;
+
   beforeEach(angular.mock.module('moviesApp'));
 
   it('should return a function', angular.mock.inject(function(dzResource) {
@@ -16,10 +18,12 @@ describe('dzResource', function() {
     var message = {
       message: {create: 'test error create'}
     };
-    var testRemote = new dzResource(testArray, errorTest, baseUrl, message);
+    var testRemote = new dzResource(testArray, errorTest, baseUrl, message); // eslint-disable-line
+
     testRemote.create({name: 'test'});
     $httpBackend.flush();
     var baseUrl = 'localhost:8888';
+
     expect(typeof testRemote).toBe('object');
     expect(testArray.length).toBe(1);
     expect(errorTest.length).toBe(0);

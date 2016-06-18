@@ -1,4 +1,4 @@
 module.exports = function(err, res) {
   console.log(err);
-  res.status(500).json({msg: 'your server had an ERROR'})
+  res.status(500).json({msg: 'your server had an ERROR'});
 };
