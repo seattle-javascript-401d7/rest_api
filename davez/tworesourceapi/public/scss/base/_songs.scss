@@ -1,0 +1,30 @@
+#songwrapper {
+  song-form {
+    label {
+      @include basictext(invert(black), 16px - 2, bold, $font);
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+    #createsong {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  #songlist {
+    ul {
+      margin-top: 10px;
+      padding: 5px;
+      display: block;
+      clear: both;
+    }
+    li {
+      // the below is being inherited from .basictext_extend selector in _mixins.scss
+      @extend .basictext_extend;
+      // below is my function that triples pixel size for any property
+      padding: beefy(5);
+      border: $border;
+    }
+  }
+}

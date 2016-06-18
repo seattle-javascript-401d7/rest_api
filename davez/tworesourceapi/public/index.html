@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <meta charset="UTF-8">
+  <title>...tHe JuiCe...</title>
+</head>
+<body data-ng-app="moviesApp">
+  <div data-ng-controller="AuthController as globalAuth" data-ng-init="globalAuth.getUsername()">
+    <p data-ng-if="globalAuth.username">Hello: {{globalAuth.username}} <a href data-ng-click="globalAuth.logout()">Logout</a></p>
+  </div>
+  <main data-ng-view>
+  </main>
+  <script src="./bundle.js"></script>
+</body>
+</html>
