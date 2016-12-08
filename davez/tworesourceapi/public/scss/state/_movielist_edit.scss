@@ -1,0 +1,23 @@
+#moviewrapper {
+  #movielist {
+    .edit {
+      display: block;
+      clear: both;
+      float:right;
+    }
+    .edit[type="text"] {
+      @include basictext(white, 12px, lighter, $font);
+      font-style: normal;
+    }
+    .inputEdit {
+      display: block;
+      margin-bottom: 15px;
+    }
+    .inputEdit[type="text"] {
+      font-size: 16px;
+    }
+    .labeledit {
+      font-size: 12px;
+    }
+  }
+}

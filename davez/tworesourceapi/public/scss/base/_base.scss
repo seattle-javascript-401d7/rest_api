@@ -1,0 +1,8 @@
+body {
+  @include linear-gradient(green, black);
+}
+h1 {
+  color: orange;
+  display: block;
+  font-family: sans-serif;
+}
