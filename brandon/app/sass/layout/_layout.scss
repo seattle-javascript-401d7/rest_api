@@ -1,0 +1,53 @@
+h1 {
+  @include gradient-two-color;
+  padding: $padding;
+  font-family: $h1;
+  font-size: 48px;
+  width: 100%;
+}
+
+section {
+  width: 45%;
+
+  ul {
+    margin: 0;
+    padding: $gutter;
+  }
+
+  li {
+    width: calc(100% - #{$gutter});
+    display: inline-block;
+  }
+}
+
+input {
+  width: 100%;
+  padding: $padding;
+}
+
+p {
+  font-size: 20px;
+  color: $fontcolor;
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+}
+
+img {
+  width: 100%;
+}
+
+button {
+  @include border-radius(5px);
+  background: $buttoncolor;
+}
+
+button:hover {
+  background: lighten($buttoncolor, 15%);
+}
+
+form {
+  padding: $padding;
+}
