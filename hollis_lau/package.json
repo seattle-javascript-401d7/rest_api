@@ -1,0 +1,35 @@
+{
+  "name": "rest_api",
+  "version": "0.1.0",
+  "description": "A simple, two-resource REST API",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
+    "start": "node server.js"
+  },
+  "author": {
+    "name": "Hollis Lau",
+    "email": "hollislau@hotmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "dirty-chai": "^1.2.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.0.6",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "bcrypt": "latest",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^6.1.1",
+    "mongoose": "^4.4.12"
+  }
+}
